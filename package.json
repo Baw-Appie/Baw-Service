@@ -1,0 +1,16 @@
+{
+  "name": "bawservicepanel",
+  "version": "1.0.0",
+  "description": "Baw Service's Node.js DashBoard(Admin Panel)",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.16.3",
+    "jade": "^1.11.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Baw_Appie",
+  "license": "ISC"
+}
