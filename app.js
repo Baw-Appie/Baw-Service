@@ -4,7 +4,7 @@ var app = express();
 var server = http.createServer(app);
 
 app.all('/', function (req, res) {
-  res.send('Welcome Baw Service DashBoard');
+  res.send('Baw Service DashBoard Beta 4');
 });
 
 server.listen(8000, function() {
