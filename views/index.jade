@@ -2,10 +2,11 @@ doctype html
 head
   include ./includes/header.jade
 body
+  include ./includes/nav.jade
   p 안녕
   .uk-offcanvas-content
   button.uk-button.uk-button-default.uk-margin-small-right(type='button', uk-toggle='target: #offcanvas-slide') 로그인
-  #offcanvas-slide(uk-offcanvas='overlay: true')
+  #login-slide(uk-offcanvas='overlay: true')
     .uk-offcanvas-bar
       button.uk-offcanvas-close(type='button', uk-close='')
       h3 로그인
