@@ -1,41 +1,44 @@
-nav.uk-navbar-container.uk-margin(uk-navbar='')
-  .uk-navbar-left
-    a.uk-navbar-item.uk-logo(href='#')
-      img(src="https://#{hostname}/public/img/logo.jpg")
-    ul.uk-navbar-nav(class="uk-visible@s")
-      li
-        a(href='#')
-          span.uk-icon.uk-margin-small-right(uk-icon='icon: star')
-          |                     Features
-      .uk-navbar-item
-        div
-          | Some 
-          a(href='#') Link
-      .uk-navbar-item
-        form(action='javascript:void(0)')
-          input.uk-input.uk-form-width-small(type='text', placeholder='Input')
-          button.uk-button.uk-button-default Button
-  .uk-navbar-right
-    ul.uk-navbar-nav(class='uk-visible@s')
-      button.uk-button.uk-button-default.uk-margin-small-right(type='button', uk-toggle='target: #login-slide') 로그인
-    a.uk-navbar-toggle(uk-navbar-toggle-icon='', href='#offcanvas-slide', class='uk-hidden@s', uk-toggle='')
-    
-    
-    
-    #login-slide(uk-offcanvas='overlay: true')
-      .uk-offcanvas-bar
-        button.uk-offcanvas-close(type='button', uk-close='')
-        h3 로그인
-        form
-          p Baw Service에 로그인하려면 아래 정보를 입력하세요.
-          .uk-margin
-              input.uk-input(type="text" placeholder="ID")
-          .uk-margin
-              input.uk-input(type="password" placeholder="Password")
-          p
-            button.uk-button.uk-button-default.uk-width-1-1 로그인
-          p 아직 계정이 없으신가요?
-          p
-            button.uk-button.uk-button-primary.uk-width-1-1 회원가입
-          a(href="https://baws.kr/auth/login")
-            p 이런! "Google 계정으로 로그인" 사용자이신가요?
+.uk-section-primary.uk-preserve-color
+  div(uk-sticky='animation: uk-animation-slide-top; sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky; cls-inactive: uk-navbar-transparent uk-light; top: 200')
+    nav.uk-navbar-container.uk-margin(uk-navbar='')
+      .uk-navbar-left
+        a.uk-navbar-item.uk-logo(href='#')
+          //img(src="https://#{hostname}/public/img/logo.jpg")
+          | Baw Service Beta 4
+        ul.uk-navbar-nav(class="uk-visible@s")
+          li
+            a(href='#')
+              span.uk-icon.uk-margin-small-right(uk-icon='icon: star')
+              |                     Features
+          .uk-navbar-item
+            div
+              | Some 
+              a(href='#') Link
+          .uk-navbar-item
+            form(action='javascript:void(0)')
+              input.uk-input.uk-form-width-small(type='text', placeholder='Input')
+              button.uk-button.uk-button-default Button
+      .uk-navbar-right
+        ul.uk-navbar-nav(class='uk-visible@s')
+          button.uk-button.uk-button-default.uk-margin-small-right(type='button', uk-toggle='target: #login-slide') Sign In
+        a.uk-navbar-toggle(uk-navbar-toggle-icon='', href='#offcanvas-slide', class='uk-hidden@s', uk-toggle='')
+        
+        
+        
+        #login-slide(uk-offcanvas='overlay: true')
+          .uk-offcanvas-bar
+            button.uk-offcanvas-close(type='button', uk-close='')
+            h3 로그인
+            form
+              p Baw Service에 로그인하려면 아래 정보를 입력하세요.
+              .uk-margin
+                  input.uk-input(type="text" placeholder="ID")
+              .uk-margin
+                  input.uk-input(type="password" placeholder="Password")
+              p
+                button.uk-button.uk-button-default.uk-width-1-1 로그인
+              p 아직 계정이 없으신가요?
+              p
+                button.uk-button.uk-button-primary.uk-width-1-1 회원가입
+              a(href="https://baws.kr/auth/login")
+                p 이런! "Google 계정으로 로그인" 사용자이신가요?

@@ -3,24 +3,8 @@ head
   include ./includes/header.jade
 body
   include ./includes/nav.jade
+  include ./includes/sidebar.jade
   p 안녕
-  .uk-offcanvas-content
-  button.uk-button.uk-button-default.uk-margin-small-right(type='button', uk-toggle='target: #offcanvas-slide') 로그인
-  #login-slide(uk-offcanvas='overlay: true')
-    .uk-offcanvas-bar
-      button.uk-offcanvas-close(type='button', uk-close='')
-      h3 로그인
-      form
-        p Baw Service에 로그인하려면 아래 정보를 입력하세요.
-        .uk-margin
-            input.uk-input(type="text" placeholder="ID")
-        .uk-margin
-            input.uk-input(type="password" placeholder="Password")
-        p
-          button.uk-button.uk-button-default.uk-width-1-1 로그인
-        p 아직 계정이 없으신가요?
-        p
-          button.uk-button.uk-button-primary.uk-width-1-1 회원가입
-        a(href="https://baws.kr/auth/login")
-          p 이런! "Google 계정으로 로그인" 사용자이신가요?
+  p 누가 옆에 
+  p 사이드바를 만들어주면 좋겠는걸?
 include ./includes/footer.jade
