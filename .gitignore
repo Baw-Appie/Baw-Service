@@ -59,6 +59,3 @@ typings/
 
 # ssl file
 *.pem
-
-# zip file
-*.zip
