@@ -4,13 +4,12 @@ var app = express();
 var server = http.createServer(app);
 app.set('view engine', 'jade');
 app.set('views', './views');
-app.locals.pretty = true;
+//app.locals.pretty = true;
 
 app.use('/public', express.static('public'));
 
-
 app.all('/', function (req, res) {
-  res.render('index');
+  res.render('index', {hostname: req.hostname});
 });
 
 app.use(function(req, res, next) {
