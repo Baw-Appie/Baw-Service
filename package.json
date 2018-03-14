@@ -5,8 +5,17 @@
   "main": "app.js",
   "dependencies": {
     "body-parser": "^1.18.2",
+    "bootstrap": "^4.0.0",
+    "chart.js": "^2.7.2",
     "express": "^4.16.3",
-    "jade": "^1.11.0"
+    "flag-icon-css": "^3.0.0",
+    "font-awesome": "^4.7.0",
+    "gulp-sourcemaps": "^2.6.4",
+    "jade": "^1.11.0",
+    "jquery": "^3.3.1",
+    "mdi": "^2.1.99",
+    "popper.js": "^1.14.1",
+    "simple-line-icons": "^2.4.1"
   },
   "devDependencies": {},
   "scripts": {
