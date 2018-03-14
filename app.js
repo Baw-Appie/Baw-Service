@@ -5,7 +5,7 @@ var fs = require('fs');
 var app = express();
 app.set('view engine', 'jade');
 app.set('views', './views');
-//app.locals.pretty = true;
+app.locals.pretty = true;
 
 app.use('/public', express.static('public'));
 
