@@ -1,7 +1,7 @@
 var express = require('express')
 var http = require('http');
+var fs = require('fs');
 var app = express();
-var server = http.createServer(app);
 app.set('view engine', 'jade');
 app.set('views', './views');
 //app.locals.pretty = true;
@@ -24,7 +24,14 @@ app.use(function(err, req, res, next) {
 });
 
 
+var options = {
+    key: fs.readFileSync('key.pem'),
+    cert: fs.readFileSync('cert.pem')
+};
 
-server.listen(8000, function() {
+http.createServer(app).listen(8000, function() {
   console.log('Baw Service DashBoard(Admin Panel) server listening on port ' + server.address().port);
+});
+https.createServer({key: fs.readFileSync('ssl/key.pem'), cert: fs.readFileSync('ssl/cert.pem')}, app).listen(port2, function(){
+  console.log("Baw Service DashBoard(Admin Panel) SSL server listening on port " + server.address().port);
 });
