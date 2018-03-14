@@ -1,7 +1,8 @@
-include ./includes/header.jade
+doctype html
+head
+  include ./includes/header.jade
 body
   p 안녕
-  
   .uk-offcanvas-content
   button.uk-button.uk-button-default.uk-margin-small-right(type='button', uk-toggle='target: #offcanvas-slide') 로그인
   #offcanvas-slide(uk-offcanvas='overlay: true')
