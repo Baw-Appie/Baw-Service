@@ -13,15 +13,19 @@ app.all('/', function (req, res) {
   res.render('index');
 });
 
-server.listen(8000, function() {
-  console.log('Baw Service DashBoard(Admin Panel) server listening on port ' + server.address().port);
-});
-
 app.use(function(req, res, next) {
-  res.status(404).send('이런! 찾고 계신 파일이 없습니다.');
+  res.status(404);
+  res.render('error/404');
 });
 
 app.use(function(err, req, res, next) {
   console.error(err.stack);
-  res.status(500).send('이런! 서버 오류입니다.');
+  res.status(500);
+  res.render('error/500')
+});
+
+
+
+server.listen(8000, function() {
+  console.log('Baw Service DashBoard(Admin Panel) server listening on port ' + server.address().port);
 });
