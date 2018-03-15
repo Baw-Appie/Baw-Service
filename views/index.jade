@@ -1,14 +1,3 @@
-doctype html
-head
-  include ./includes/header.jade
-body
-  include ./includes/nav.jade
-  .uk-text-center(uk-grid)
-    div(class='uk-width-1-3@m')
-      include ./includes/sidebar.jade
-    div(class='uk-width-xxlarge@m')
-      p 짜잔!
-      p Grid와 Nav를 이용해서
-      p 사이드바 완성!
-      p 근데 자동 가운데 정렬은 누가 그런거지?
-include ./includes/footer.jade
+extends ./includes/layout
+block contents
+  p 안녕!!
