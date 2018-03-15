@@ -58,7 +58,8 @@ typings/
 .env
 
 # ssl file
-*.pem
+config/ssl/cert.pem
+config/ssl/key.pem
 
-# Config file
+# db file
 config/dbinfo.js

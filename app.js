@@ -28,7 +28,7 @@ app.use(function(err, req, res, next) {
 });
 
 var http_server = http.createServer(app);
-var https_server = https.createServer({key: fs.readFileSync('ssl/key.pem'), cert: fs.readFileSync('ssl/cert.pem')}, app);
+var https_server = https.createServer({key: fs.readFileSync('config/ssl/key.pem'), cert: fs.readFileSync('config/ssl/cert.pem')}, app);
 
 http_server.listen(8000, function() {
   console.log('[Baw Service Error Report] server listening on port ' + http_server.address().port);
