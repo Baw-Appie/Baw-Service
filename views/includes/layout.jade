@@ -1,11 +1,16 @@
-doctype html
-head
-  include ./header.jade
-body
-  include ./nav.jade
-  .uk-text-center(uk-grid)
-    div(class='uk-width-1-3@m')
-      include ./sidebar.jade
-    div(class='uk-width-xxlarge@m')
-      block contents
-include ./footer.jade
+if pjax
+    #contents
+        block contents
+else
+  doctype html
+  head
+    include ./header.jade
+  body
+    include ./nav.jade
+    .uk-text-center(uk-grid)
+      div(class='uk-width-1-3@m')
+        include ./sidebar.jade
+      div(class='uk-width-xxlarge@m')
+        #contents
+          block contents
+  include ./footer.jade

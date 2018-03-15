@@ -3,17 +3,22 @@ var http = require('http');
 var https = require('https');
 var fs = require('fs');
 var sql = require('./config/dbtool');
+var pjax = require('./libs/pjax');
 var app = express();
 app.set('view engine', 'jade');
 app.set('views', './views');
 app.locals.pretty = true;
 
-console.log(sql('SELECT * FORM `BawService`'));
+//console.log(sql('SELECT * FORM `BawService`'));
 
+app.use( pjax() );
 app.use('/public', express.static('public'));
 
 app.all('/', function (req, res) {
   res.render('index', {hostname: req.hostname});
+});
+app.all('/index2', function (req, res) {
+  res.render('error/404', {hostname: req.hostname});
 });
 
 app.use(function(req, res, next) {
