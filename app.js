@@ -2,10 +2,13 @@ var express = require('express')
 var http = require('http');
 var https = require('https');
 var fs = require('fs');
+var sql = require('./config/dbtool');
 var app = express();
 app.set('view engine', 'jade');
 app.set('views', './views');
 app.locals.pretty = true;
+
+console.log(sql('SELECT * FORM `BawService`'));
 
 app.use('/public', express.static('public'));
 
@@ -28,8 +31,8 @@ var http_server = http.createServer(app);
 var https_server = https.createServer({key: fs.readFileSync('ssl/key.pem'), cert: fs.readFileSync('ssl/cert.pem')}, app);
 
 http_server.listen(8000, function() {
-  console.log('Baw Service DashBoard(Admin Panel) server listening on port ' + http_server.address().port);
+  console.log('[Baw Service Error Report] server listening on port ' + http_server.address().port);
 });
 https_server.listen(443, function(){
-  console.log("Baw Service DashBoard(Admin Panel) SSL server listening on port " + https_server.address().port);
+  console.log("[Baw Service Error Report] SSL server listening on port " + https_server.address().port);
 });

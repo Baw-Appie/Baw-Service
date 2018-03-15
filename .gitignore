@@ -61,4 +61,4 @@ typings/
 *.pem
 
 # Config file
-config/*.js
+config/dbinfo.js
