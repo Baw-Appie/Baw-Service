@@ -3,7 +3,6 @@ module.exports = function() {
         if( req.header( 'X-PJAX' ) ) {
             req.pjax = true;
             res.locals.pjax = true;
-            console.log("Success!!");
         }
         next();
     };
