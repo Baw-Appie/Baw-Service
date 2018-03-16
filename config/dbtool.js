@@ -1,5 +1,6 @@
 var config = require('./dbinfo');
-module.exports = function(sql) {
+module.exports = function(sql, callback) {
+  var data;
   var mysql      = require('mysql');
   var connection = mysql.createConnection({
     host: config.host,
@@ -9,11 +10,6 @@ module.exports = function(sql) {
     database: config.database
   });
   connection.connect();
-  connection.query(sql, function(err, rows, fields) {
-    if (!err)
-      return rows;
-    else
-      console.log('[Baw Service Error Report] Error while performing Query.', err);
-  });
+  connection.query(sql, callback);
   connection.end();
 }

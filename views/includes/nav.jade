@@ -32,9 +32,9 @@
             form(action="https://#{hostname}/login/process" method="post")
               p Baw Service에 로그인하려면 아래 정보를 입력하세요.
               .uk-margin
-                  input.uk-input(type="text" placeholder="ID")
+                  input.uk-input(name="id" type="text" placeholder="ID")
               .uk-margin
-                  input.uk-input(type="password" placeholder="Password")
+                  input.uk-input(name="pass" type="password" placeholder="Password")
               p
                 button.uk-button.uk-button-default.uk-width-1-1 로그인
               p 아직 계정이 없으신가요?

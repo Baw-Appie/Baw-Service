@@ -11,7 +11,6 @@ app.set('view engine', 'jade');
 app.set('views', './views');
 app.locals.pretty = true;
 
-
 app.use( pjax() );
 app.use( hostname() );
 app.use(bodyParser.urlencoded({extended: false}));
@@ -27,10 +26,13 @@ app.all('/index2', function (req, res) {
 app.post('/login/process', function (req, res) {
   var id = req.body.id;
   var pw = req.body.pass;
-  if (id.length === 0 || pw.length === 0){
+  if (id === undefined || pw === undefined || id === "" || pw === ""){
     res.render('error/500')
+    console.log('아이디 & 패스워드 없음')
   } else {
-    var login_req = sql('select * from id where id="' + id + '" and password=password("' + pw + '")');
+    var login_req = sql('select * from id where id="' + id + '" and password=password("' + pw + '")', function(err, rows){
+      console.log(rows[0].id);
+    });
   }
 });
 
