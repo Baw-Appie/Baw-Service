@@ -9,7 +9,8 @@ else
     include ./nav.jade
     .uk-text-center(uk-grid)
       div(class='uk-width-1-3@m')
-        include ./sidebar.jade
+        div(class='uk-width-1-2@s uk-width-2-5@m uk-visible@m')
+          include ./sidebar.jade
       div(class='uk-width-xxlarge@m')
         #contents
           block contents
