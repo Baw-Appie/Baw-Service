@@ -4,21 +4,34 @@ var https = require('https');
 var fs = require('fs');
 var sql = require('./config/dbtool');
 var pjax = require('./libs/pjax');
+var hostname = require('./libs/hostname');
+var bodyParser = require('body-parser');
 var app = express();
 app.set('view engine', 'jade');
 app.set('views', './views');
 app.locals.pretty = true;
 
-//console.log(sql('SELECT * FORM `BawService`'));
 
 app.use( pjax() );
+app.use( hostname() );
+app.use(bodyParser.urlencoded({extended: false}));
 app.use('/public', express.static('public'));
 
 app.all('/', function (req, res) {
-  res.render('index', {hostname: req.hostname});
+  res.render('index');
 });
 app.all('/index2', function (req, res) {
-  res.render('error/404', {hostname: req.hostname});
+  res.render('error/404');
+});
+
+app.post('/login/process', function (req, res) {
+  var id = req.body.id;
+  var pw = req.body.pass;
+  if (id.length === 0 || pw.length === 0){
+    res.render('error/500')
+  } else {
+    var login_req = sql('select * from id where id="' + id + '" and password=password("' + pw + '")');
+  }
 });
 
 app.use(function(req, res, next) {

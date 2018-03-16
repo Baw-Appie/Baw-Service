@@ -29,7 +29,7 @@
           .uk-offcanvas-bar
             button.uk-offcanvas-close(type='button', uk-close='')
             h3 로그인
-            form
+            form(action="https://#{hostname}/login/process" method="post")
               p Baw Service에 로그인하려면 아래 정보를 입력하세요.
               .uk-margin
                   input.uk-input(type="text" placeholder="ID")
