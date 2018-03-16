@@ -7,10 +7,21 @@ var pjax = require('./libs/pjax');
 var hostname = require('./libs/hostname');
 var bodyParser = require('body-parser');
 var app = express();
+var session = require('express-session');
+var session_config = require('./config/session');
 app.set('view engine', 'jade');
 app.set('views', './views');
 app.locals.pretty = true;
 
+app.use(session({
+ secret: session_config.secret,
+ resave: session_config.resave,
+ saveUninitialized: session_config.saveUninitialized
+}));
+app.use(function(req,res,next){
+    res.locals.session = req.session;
+    next();
+});
 app.use( pjax() );
 app.use( hostname() );
 app.use(bodyParser.urlencoded({extended: false}));
@@ -31,7 +42,13 @@ app.post('/login/process', function (req, res) {
     console.log('아이디 & 패스워드 없음')
   } else {
     var login_req = sql('select * from id where id="' + id + '" and password=password("' + pw + '")', function(err, rows){
-      console.log(rows[0].id);
+      if (rows.length === 0) {
+        console.log('존재하지 않는 유저')
+        req.session.error = '존재하지 않는 유저';
+        res.redirect('https://localhost')
+      } else {
+        console.log(rows[0].id);
+      }
     });
   }
 });

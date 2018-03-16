@@ -63,3 +63,6 @@ config/ssl/key.pem
 
 # db file
 config/dbinfo.js
+
+# Session file
+config/session.js
