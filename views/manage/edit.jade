@@ -1,6 +1,6 @@
 extends ../includes/layout
 block contents
-  form
+  form(method="post")
     fieldset.uk-fieldset
       legend.uk-legend #{data.name} 설정
       // SELECT INPUT
@@ -44,3 +44,8 @@ block contents
               textarea.uk-textarea(name='#{name}', placeholder='#{textarea}', rows=5) #{value}
             else
               textarea.uk-textarea(name='#{name}', placeholder='#{textarea}', rows=5)
+              
+      
+      button.uk-button.uk-button-primary 설정 적용
+      a(onclick="$.pjax.reload('#contents')")
+        button.uk-button.uk-button-default 적용 안함
