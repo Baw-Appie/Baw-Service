@@ -1,0 +1,16 @@
+extends ../includes/layout
+block contents
+  .uk-card.uk-card-default.uk-card-body(class='uk-width-1-2@m')
+    h3.uk-card-title 후원 목록
+    each row, i in rows
+      p 닉네임: #{rows[i]['nick']}
+      p 후원 금액: #{rows[i]['bal']}
+      p 후원 방법: #{rows[i]['method']}
+      p 핀번호: #{rows[i]['pin']}
+      p 원하는 보상: #{rows[i]['bouns']}
+      p IP: #{rows[i]['ip']}
+      p 날짜: #{rows[i]['date']}
+      hr.uk-divider-icon
+    p 곧 후원 처리 기능이 추가됩니다.
+  br
+  br
