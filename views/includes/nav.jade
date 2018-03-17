@@ -43,4 +43,8 @@
           .uk-offcanvas-bar
             button.uk-offcanvas-close(type='button', uk-close='')
             include sidebar
-            button.uk-button.uk-button-default.uk-margin-small-right(type='button', uk-toggle='target: #login-slide') Sign In
+            if(!session.user)
+              button.uk-button.uk-button-default.uk-margin-small-right(type='button', uk-toggle='target: #login-slide') Sign In
+            else
+              a(onclick="location.href='https://#{hostname}/auth/logout'")
+                button.uk-button.uk-button-default.uk-margin-small-right(type='button') #{session.user} Sign Out
