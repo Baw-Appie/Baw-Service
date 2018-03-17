@@ -1,6 +1,10 @@
 if pjax
     #contents
-        block contents
+      if session.error
+        .uk-alert-warning(uk-alert)
+          a.uk-alert-close(uk-close)
+          p= session.error
+      block contents
 else
   doctype html
   head
@@ -17,6 +21,5 @@ else
             .uk-alert-warning(uk-alert)
               a.uk-alert-close(uk-close)
               p= session.error
-              -delete session.delete
           block contents
   include ./footer.jade

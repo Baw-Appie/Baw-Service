@@ -29,25 +29,30 @@ app.use( hostname() );
 app.use(bodyParser.urlencoded({extended: false}));
 app.use('/public', express.static('public'));
 
+
 app.all('/', function (req, res) {
   res.render('index');
 });
-app.all('/index2', function (req, res) {
-  res.render('error/404');
-});
 
-app.get('/getid', function (req, res) {
-  res.send(req.session.user)
-})
+app.get('/edit', function (req, res) {
+  if(req.session.user) {
+    res.render('edit/index');
+  } else {
+    res.redirect('/auth/login')
+  }
+});
 
 app.get('/auth/logout', function(req, res){
   req.session.destroy(function(err){
       if(err){
-          console.log(err);
+          console.log('[Baw Service Error Report] 세션 삭제 도중 오류 발생: ' + err);
       }else{
           res.redirect('/');
       }
   })
+})
+app.get('/auth/login', function(req, res){
+  res.render('login');
 })
 app.post('/auth/login', function (req, res) {
   var id = req.body.id;
