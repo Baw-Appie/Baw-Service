@@ -10,18 +10,18 @@ block contents
           - var name = select_option[i];
           label
             if rows[0][name] == 0
-              input.uk-radio(type='radio', name='#{name}', checked)
+              input.uk-radio(type='radio', name='#{name}', value=0, checked)
               |  차단
             else
-              input.uk-radio(type='radio', name='#{name}')
+              input.uk-radio(type='radio', name='#{name}', value=0)
               |  차단
               
           label
             if rows[0][name] == 1
-              input.uk-radio(type='radio', name='#{name}', checked)
+              input.uk-radio(type='radio', name='#{name}', value=1, checked)
               |  허용
             else
-              input.uk-radio(type='radio', name='#{name}')
+              input.uk-radio(type='radio', name='#{name}', value=1)
               |  허용
       // TEXT INPUT
       each text, i in text_option_korean

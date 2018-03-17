@@ -42,6 +42,29 @@ app.get('/manage', function (req, res) {
   }
 });
 
+app.post('/manage/:service/edit', function(req, res) {
+  if(req.session.user) {
+    if(req.params.service == 1){
+      var mail_ok = req.body.mail_ok
+      var sms_ok = req.body.sms_ok
+      var kakao_ok = req.body.kakao_ok
+      var tg_ok = req.body.tg_ok
+      var slack_ok = req.body.slack_ok
+      var disabled = req.body.disabled
+      var bouns = req.body.bouns
+      var api_cmd = req.body.api_cmd
+      var youtube = req.body.youtube
+      var notice = req.body.notice
+      var theme = "uikit"
+      var sql_req = sql('UPDATE `page` SET `mail_ok` = ' + SqlString.escape(mail_ok) + ', `bouns` = ' + SqlString.escape(bouns) + ', `sms_ok` = ' + SqlString.escape(sms_ok) + ', `slack_ok` = ' + SqlString.escape(slack_ok) + ', `kakao_ok` = ' + SqlString.escape(kakao_ok) + ', `tg_ok` = ' + SqlString.escape(tg_ok) + ', `api_cmd` = ' + SqlString.escape(api_cmd) + ', `disabled`=' + SqlString.escape(disabled) + ', `notice` =  ' + SqlString.escape(notice) +', `theme`=' + SqlString.escape(theme) + ', `youtube`=' + SqlString.escape(youtube) + ' WHERE service=1 and owner=' + SqlString.escape(req.session.user), function (req, res) { })
+      req.session.error = '적용되었습니다!'
+      res.redirect('/')
+    }
+  } else {
+    res.render('error/403')
+  }
+})
+
 app.get('/manage/:service/edit', function (req, res) {
     if(req.session.user) {
       if(req.params.service == 1) {
@@ -51,8 +74,8 @@ app.get('/manage/:service/edit', function (req, res) {
         }
         var select_option = ["mail_ok", "sms_ok", "kakao_ok", "tg_ok", "slack_ok"]
         var select_option_korean = ["후원 Mail 알림", "후원 SMS 알림", "후원 KakaoTalk 알림", "후원 Telegram 알림", "후원 Slack 알림"]
-        var text_option = ["bouns","api_cmd","youtube"]
-        var text_option_korean = ["후원 보너스 설정", "API 플러그인 명령어 설정", "Youtube Video ID 설정"]
+        var text_option = ["disabled", "bouns","api_cmd","youtube"]
+        var text_option_korean = ["사용하지 않을 후원 방법", "후원 보너스 설정", "API 플러그인 명령어 설정", "Youtube Video ID 설정"]
         var textarea_option = ["notice"]
         var textarea_option_korean = ["공지사항"]
 
@@ -107,7 +130,7 @@ app.get('/manage/:service/edit', function (req, res) {
         });
 
       } else {
-        res.render('error/404')
+        res.render('error/403')
       }
     } else {
       res.redirect('/auth/login')
