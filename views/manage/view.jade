@@ -1,6 +1,6 @@
 extends ../includes/layout
 block contents
-  .uk-card.uk-card-default.uk-card-body(class='uk-width-1-2@m')
+  .uk-card.uk-card-default.uk-card-body(class='uk-width-auto')
     h3.uk-card-title 후원 목록
     each row, i in rows
       p 닉네임: #{rows[i]['nick']}
@@ -10,7 +10,15 @@ block contents
       p 원하는 보상: #{rows[i]['bouns']}
       p IP: #{rows[i]['ip']}
       p 날짜: #{rows[i]['date']}
+      button.uk-button.uk-button-primary 
+        i(class="fas fa-check-circle")
+        |  처리 완료
+      button.uk-button.uk-button-default API 요청 없이 처리 완료
+      button.uk-button.uk-button-danger
+        i(class="fas fa-times-circle")
+        |  처리 거절
       hr.uk-divider-icon
-    p 곧 후원 처리 기능이 추가됩니다.
+
+    p Powered by Baw Service
   br
   br
