@@ -20,7 +20,11 @@
               button.uk-button.uk-button-default Button
       .uk-navbar-right
         ul.uk-navbar-nav(class='uk-visible@s')
-          button.uk-button.uk-button-default.uk-margin-small-right(type='button', uk-toggle='target: #login-slide') Sign In
+          if(!session.user)
+            button.uk-button.uk-button-default.uk-margin-small-right(type='button', uk-toggle='target: #login-slide') Sign In
+          else
+            a(onclick="location.href='https://#{hostname}/auth/logout'")
+              button.uk-button.uk-button-default.uk-margin-small-right(type='button') #{session.user} Sign Out
         a.uk-navbar-toggle(uk-navbar-toggle-icon='', href='#navbar', class='uk-hidden@s', uk-toggle='')
         
         
@@ -29,7 +33,7 @@
           .uk-offcanvas-bar
             button.uk-offcanvas-close(type='button', uk-close='')
             h3 로그인
-            form(action="https://#{hostname}/login/process" method="post")
+            form(action="https://#{hostname}/auth/login" method="post")
               p Baw Service에 로그인하려면 아래 정보를 입력하세요.
               .uk-margin
                   input.uk-input(name="id" type="text" placeholder="ID")

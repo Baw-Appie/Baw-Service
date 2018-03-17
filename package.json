@@ -9,8 +9,7 @@
     "express-session": "^1.15.6",
     "jade": "^1.11.0",
     "mysql": "^2.15.0",
-    "npm": "^5.7.1",
-    "sql-injection": "0.0.6"
+    "npm": "^5.7.1"
   },
   "devDependencies": {},
   "scripts": {
