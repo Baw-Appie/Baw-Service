@@ -41,6 +41,6 @@ block contents
           - var name = textarea_option[i];
           - var value = rows[0][name]
             if value != ""
-              textarea.uk-textarea(name='#{name}', placeholder='#{textarea}') #{value}
+              textarea.uk-textarea(name='#{name}', placeholder='#{textarea}', rows=5) #{value}
             else
-              textarea.uk-textarea(name='#{name}', placeholder='#{textarea}')
+              textarea.uk-textarea(name='#{name}', placeholder='#{textarea}', rows=5)
