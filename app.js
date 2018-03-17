@@ -9,6 +9,7 @@ var bodyParser = require('body-parser');
 var app = express();
 var session = require('express-session');
 var session_config = require('./config/session');
+var SqlString = require('sqlstring');
 app.set('view engine', 'jade');
 app.set('views', './views');
 app.locals.pretty = true;
@@ -48,7 +49,6 @@ app.get('/auth/logout', function(req, res){
       }
   })
 })
-
 app.post('/auth/login', function (req, res) {
   var id = req.body.id;
   var pw = req.body.pass;
@@ -57,7 +57,7 @@ app.post('/auth/login', function (req, res) {
     req.session.error = '아이디와 비밀번호를 입력해주세요.';
     res.redirect('/')
   } else {
-    var login_req = sql('select * from id where id="' + id + '" and password=password("' + pw + '")', function(err, rows){
+    var login_req = sql('select * from id where id=' + SqlString.escape(id) + ' and password=password(' + SqlString.escape(pw) + ')', function(err, rows){
       if (rows.length === 0) {
         req.session.error = '존재하지 않는 ID거나 비밀번호를 잘못 입력하셨습니다.';
         res.redirect('/')
