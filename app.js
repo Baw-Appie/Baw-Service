@@ -43,17 +43,21 @@ app.get('/manage', function (req, res) {
 });
 
 app.get('/manage/:service/edit', function (req, res) {
-  var data = {
-    "name": "후원 사이트",
-    "service": 1
+  if(req.params.service == 1) {
+    var data = {
+      "name": "후원 사이트",
+      "service": 1
+    }
+    var select_option = ["mail_ok", "SMS_ok", "kakao_ok", "telegram_ok", "slack_ok"]
+    var select_option_korean = ["후원 Mail 알림", "후원 SMS 알림", "후원 KakaoTalk 알림", "후원 Telegram 알림", "후원 Slack 알림"]
+    var text_option = ["bouns","api_cmd","youtube"]
+    var text_option_korean = ["후원 보너스 설정", "API 플러그인 명령어 설정", "Youtube Video ID 설정"]
+    var textarea_option = ["notice"]
+    var textarea_option_korean = ["공지사항"]
   }
-  var select_option = ["mail_ok", "SMS_ok", "kakao_ok", "telegram_ok", "slack_ok"]
-  var select_option_korean = ["후원 Mail 알림", "후원 SMS 알림", "후원 KakaoTalk 알림", "후원 Telegram 알림", "후원 Slack 알림"]
-  var text_option = ["bouns","api_cmd","youtube"]
-  var text_option_korean = ["후원 보너스 설정", "API 플러그인 명령어 설정", "Youtube Video ID 설정"]
-  var textarea_option = ["notice"]
-  var textarea_option_korean = ["공지사항"]
-  res.render('manage/edit', {data: data, select_option: select_option,select_option_korean: select_option_korean,text_option: text_option,text_option_korean: text_option_korean,textarea_option: textarea_option,textarea_option_korean: textarea_option_korean})
+  if (data){
+    res.render('manage/edit', {data: data, select_option: select_option,select_option_korean: select_option_korean,text_option: text_option,text_option_korean: text_option_korean,textarea_option: textarea_option,textarea_option_korean: textarea_option_korean})
+  }
 });
 
 app.get('/auth/logout', function(req, res){
