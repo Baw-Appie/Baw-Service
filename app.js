@@ -9,10 +9,13 @@ var bodyParser = require('body-parser');
 var app = express();
 var session = require('express-session');
 var session_config = require('./config/session');
+var sqlinjection = require('sql-injection');
 app.set('view engine', 'jade');
 app.set('views', './views');
 app.locals.pretty = true;
 
+
+app.use(sqlinjection);  // add sql-injection middleware here
 app.use(session({
  secret: session_config.secret,
  resave: session_config.resave,
@@ -34,20 +37,26 @@ app.all('/index2', function (req, res) {
   res.render('error/404');
 });
 
+app.get('/getid', function (req, res) {
+  res.send(req.session.user)
+})
+
 app.post('/login/process', function (req, res) {
   var id = req.body.id;
   var pw = req.body.pass;
   if (id === undefined || pw === undefined || id === "" || pw === ""){
     res.render('error/500')
-    console.log('아이디 & 패스워드 없음')
+    req.session.error = '아이디와 비밀번호를 입력해주세요.';
+    res.redirect('https://localhost')
   } else {
     var login_req = sql('select * from id where id="' + id + '" and password=password("' + pw + '")', function(err, rows){
       if (rows.length === 0) {
-        console.log('존재하지 않는 유저')
-        req.session.error = '존재하지 않는 유저';
+        req.session.error = '존재하지 않는 ID거나 비밀번호를 잘못 입력하셨습니다.';
         res.redirect('https://localhost')
       } else {
-        console.log(rows[0].id);
+        req.session.user = rows[0].id;
+        req.session.error = rows[0].id + '로 로그인했습니다.';
+        res.redirect('https://localhost')
       }
     });
   }
