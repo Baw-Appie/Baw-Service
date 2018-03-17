@@ -1,4 +1,25 @@
 extends ./includes/layout
 block contents
-  a(href="manage")
-    p 수정 페이지로 한방에 이동하자!
+  if session.user
+    a(href="manage")
+      p 수정 페이지로 한방에 이동하자!
+  else
+    .uk-grid-small.uk-text-center(class='uk-child-width-expand@s', uk-grid='')
+      div
+        .uk-card.uk-card-default.uk-card-body
+          font(size='100')
+            i(class="fas fa-tachometer-alt")
+          h2.mt-0.mb-1 빠른 반응 속도
+          | 			후원, 정품 인증을 위하여 더 이상 기다리지 마세요!
+      div
+        .uk-card.uk-card-default.uk-card-body
+          font(size='100')
+            i(class="fab fa-adversal")
+          h2.mt-0.mb-1 광고 없음
+          | 			생성한 페이지에 광고가 존재하지 않습니다!
+      div
+        .uk-card.uk-card-default.uk-card-body
+          font(size='100')
+            i(class="fa fa-gratipay")
+          h2.mt-0.mb-1 좋은 API 플러그인
+          | 			처리 완료만 누르면 나머지는 API 플러그인이 자동으로!
