@@ -4,6 +4,7 @@ if pjax
         .uk-alert-warning(uk-alert)
           a.uk-alert-close(uk-close)
           p= session.error
+          - delete session.error;
       block contents
 else
   doctype html
@@ -21,5 +22,6 @@ else
             .uk-alert-warning(uk-alert)
               a.uk-alert-close(uk-close)
               p= session.error
+              - delete session.error;
           block contents
   include ./footer.jade
