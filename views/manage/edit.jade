@@ -2,28 +2,28 @@ extends ../includes/layout
 block contents
   form
     fieldset.uk-fieldset
-      legend.uk-legend Legend
-      .uk-margin
-        input.uk-input(type='text', placeholder='Input')
-      .uk-margin
-        select.uk-select
-          option Option 01
-          option Option 02
-      .uk-margin
-        textarea.uk-textarea(rows='5', placeholder='Textarea')
-      .uk-margin.uk-grid-small.uk-child-width-auto.uk-grid
-        label
-          input.uk-radio(type='radio', name='radio2', checked='')
-          |  A
-        label
-          input.uk-radio(type='radio', name='radio2')
-          |  B
-      .uk-margin.uk-grid-small.uk-child-width-auto.uk-grid
-        label
-          input.uk-checkbox(type='checkbox', checked='')
-          |  A
-        label
-          input.uk-checkbox(type='checkbox')
-          |  B
-      .uk-margin
-        input.uk-range(type='range', value='2', min='0', max='10', step='0.1')
+      legend.uk-legend #{data.name} 설정
+      // SELECT INPUT
+      each select, i in select_option_korean
+        .uk-margin.uk-grid-small.uk-child-width-auto.uk-grid
+          label #{select}
+          - var name = select_option[i];
+          label
+            input.uk-radio(type='radio', name='#{name}', checked='')
+            |  차단
+          label
+            input.uk-radio(type='radio', name='#{name}')
+            |  허용
+      // TEXT INPUT
+      each text, i in text_option_korean
+        .uk-margin
+          label #{text}
+          - var name = text_option[i];
+            input.uk-input(type='text', name='#{name}', placeholder='#{text}')
+            
+      // TEXT INPUT
+      each textarea, i in textarea_option_korean
+        .uk-margin
+          label #{textarea}
+          - var name = textarea_option[i];
+            textarea.uk-textarea(name='#{name}', placeholder='#{textarea}')
