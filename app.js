@@ -75,6 +75,16 @@ app.get('/manage/:service/edit', function (req, res) {
         var text_option_korean = ["API 플러그인 명령어 설정"]
         var textarea_option = ["notice"]
         var textarea_option_korean = ["공지사항"]
+
+        var sql_req = sql('select * from page where service=2 and owner=' + SqlString.escape(req.session.user), function(err, rows){
+          if (rows.length === 0) {
+            req.session.error = '정품 인증 페이지가 존재하지 않습니다.';
+            res.redirect('/')
+          } else {
+            res.render('manage/edit', {rows: rows,data: data,select_option: select_option,select_option_korean: select_option_korean,text_option: text_option,text_option_korean: text_option_korean,textarea_option: textarea_option,textarea_option_korean: textarea_option_korean})
+          }
+        });
+
       } else if(req.params.service == 3) {
         var data = {
           "name": "서버 상태 위젯",
@@ -86,6 +96,16 @@ app.get('/manage/:service/edit', function (req, res) {
         var text_option_korean = ["서버 IP", "서버 PORT"]
         var textarea_option = ["notice"]
         var textarea_option_korean = ["공지사항"]
+
+        var sql_req = sql('select * from page where service=3 and owner=' + SqlString.escape(req.session.user), function(err, rows){
+          if (rows.length === 0) {
+            req.session.error = '정품 인증 페이지가 존재하지 않습니다.';
+            res.redirect('/')
+          } else {
+            res.render('manage/edit', {rows: rows,data: data,select_option: select_option,select_option_korean: select_option_korean,text_option: text_option,text_option_korean: text_option_korean,textarea_option: textarea_option,textarea_option_korean: textarea_option_korean})
+          }
+        });
+
       } else {
         res.render('error/404')
       }
