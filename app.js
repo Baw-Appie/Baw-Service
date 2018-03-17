@@ -42,6 +42,10 @@ app.get('/edit', function (req, res) {
   }
 });
 
+app.get('/edit/:service/edit', function (req, res) {
+  res.send(req.params.service)
+});
+
 app.get('/auth/logout', function(req, res){
   req.session.destroy(function(err){
       if(err){
