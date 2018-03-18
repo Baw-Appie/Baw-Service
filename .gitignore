@@ -66,3 +66,6 @@ config/dbinfo.js
 
 # Session file
 config/session.js
+
+# Allow IP file
+config/allow_ips.js
