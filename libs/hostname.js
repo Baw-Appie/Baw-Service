@@ -10,7 +10,7 @@ module.exports = function() {
             res.locals.hostname = req.hostname;
           }
         } else {
-          if (config.http_port == 443) {
+          if (config.https_port == 443) {
             req.hostname = req.hostname;
             res.locals.hostname = req.hostname;
           } else {
