@@ -1,10 +1,6 @@
 # Baw Service Panel
 ## Baw Service의 더 엄청난 성장
 
-Baw Service Beta 4 Source
-
-With Developers
-
 이 프로젝트에는 Baw Service Beta 4의 대부분의 소스와 이미지, 콘피그가 포함되어 있습니다.
 
 당신도 다운로드하고 SQL 구조만 잘 알아낸다면, 이 프로젝트를 이용하여 다른 후원 사이트 제공 플랫폼을 개발할 수 있을것입니다.
