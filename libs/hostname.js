@@ -10,12 +10,12 @@ module.exports = function() {
             res.locals.hostname = req.hostname;
           }
         } else {
-          if (config.http_port != 443) {
-            req.hostname = req.hostname+':'+config.https_port;
-            res.locals.hostname = req.hostname+':'+config.https_port;
-          } else {
+          if (config.http_port == 443) {
             req.hostname = req.hostname;
             res.locals.hostname = req.hostname;
+          } else {
+            req.hostname = req.hostname+':'+config.https_port;
+            res.locals.hostname = req.hostname+':'+config.https_port;
           }
         }
         next();

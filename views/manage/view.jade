@@ -5,18 +5,20 @@ block contents
     each row, i in rows
       each li, ii in list
         p #{korean[ii]}: #{rows[i][li]}
-      button.uk-button.uk-button-primary 
-        i(class="fas fa-check-circle")
-        |  처리 완료
-      button.uk-button.uk-button-default API 요청 없이 처리 완료
-      button.uk-button.uk-button-danger
-        i(class="fas fa-times-circle")
-        |  처리 거절
+      a(href='https://#{hostname}/manage/#{data.service}/complete/#{rows[i]["num"]}/1')
+        button.uk-button.uk-button-primary 
+          i(class="fas fa-check-circle")
+          |  처리 완료
+      a(href='https://#{hostname}/manage/#{data.service}/complete/#{rows[i]["num"]}/1?noapi')
+        button.uk-button.uk-button-default API 요청 없이 처리 완료
+      a(href='https://#{hostname}/manage/#{data.service}/complete/#{rows[i]["num"]}/2')
+        button.uk-button.uk-button-danger
+          i(class="fas fa-times-circle")
+          |  처리 거절
       hr.uk-divider-icon
     - if (rows.length == 0)
       p 처리되지 않은 #{data.name}이 없습니다.
       hr.uk-divider-icon
-    p #{realdata}
     p Powered by Baw Service
   br
   br

@@ -16,6 +16,7 @@ app.set('view engine', 'jade');
 app.set('views', './views');
 app.locals.pretty = true;
 
+function isNumber(n) { return /^-?[\d.]+(?:e-?\d+)?$/.test(n); }
 
 app.use(session({
  secret: session_config.secret,
@@ -88,8 +89,27 @@ app.get('/manage/:service/view', function (req, res) {
   }
 });
 
-app.get('/manage/:service/complete', function(req, res) {
-  res.redirect('https://baws.kr/edit/view?service=' + req.params.service);
+app.all('/manage/:service/complete/:id/:status', function(req, res) {
+  if(req.session.user) {
+    if(isNumber(req.params.id) && isNumber(req.params.service) && isNumber(req.params.status))
+      if(req.params.service == "1" || req.params.service == "2"){
+        var sql_req = sql('select * from  `service'+req.params.service+'` WHERE owner='+SqlString.escape(req.session.user)+' and num=' + SqlString.escape(req.params.id), function(err, rows){
+          if(err) { throw err };
+          if(rows.length == 0) {
+            res.render('error/403')
+          }
+          var sql_req2 = sql('UPDATE  `service'+req.params.service+'` SET status='+SqlString.escape(req.params.status)+' WHERE num=' + SqlString.escape(req.params.id), function(err, rows){
+            if(err) { throw err };
+            req.session.error = "적용되었습니다.";
+            res.redirect('/');
+          });
+        });
+      } else {
+        res.render('error/403')
+      }
+    } else {
+      res.render('error/403')
+    }
 })
 
 app.post('/manage/:service/edit', function(req, res) {
@@ -305,7 +325,7 @@ app.use(function(req, res, next) {
 });
 
 app.use(function(err, req, res, next) {
-  console.error(err.stack);
+  console.error('[Baw Service Error Report] 처리할 수 없는 문제로 500 에러가 사용자에게 출력되고 있습니다.' + err.stack);
   res.status(500);
   res.render('error/500')
 });
