@@ -7,6 +7,7 @@ var sql = require('./config/dbtool');
 var pjax = require('./libs/pjax');
 var hostname = require('./libs/hostname');
 var allow_ip = require('./libs/allow_ip');
+var socket_api = require('./libs/socket_api');
 var bodyParser = require('body-parser');
 var app = express();
 var session = require('express-session');
@@ -15,6 +16,10 @@ var SqlString = require('sqlstring');
 app.set('view engine', 'jade');
 app.set('views', './views');
 app.locals.pretty = true;
+
+socket_api(3203, 'localhost', 'connect;pp121324;say hello', function(text){
+  console.log(text)
+})
 
 function isNumber(n) { return /^-?[\d.]+(?:e-?\d+)?$/.test(n); }
 
