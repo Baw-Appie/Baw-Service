@@ -2,6 +2,7 @@ var express = require('express')
 var http = require('http');
 var https = require('https');
 var fs = require('fs');
+var server_settings = require('./config/server_settings');
 var sql = require('./config/dbtool');
 var pjax = require('./libs/pjax');
 var hostname = require('./libs/hostname');
@@ -312,9 +313,9 @@ app.use(function(err, req, res, next) {
 var http_server = http.createServer(app);
 var https_server = https.createServer({key: fs.readFileSync('config/ssl/key.pem'), cert: fs.readFileSync('config/ssl/cert.pem')}, app);
 
-http_server.listen(8000, function() {
+http_server.listen(server_settings.http_port, function() {
   console.log('[Baw Service Error Report] server listening on port ' + http_server.address().port);
 });
-https_server.listen(443, function(){
+https_server.listen(server_settings.https_port, function(){
   console.log("[Baw Service Error Report] SSL server listening on port " + https_server.address().port);
 });

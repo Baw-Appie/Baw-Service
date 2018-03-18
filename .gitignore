@@ -69,3 +69,6 @@ config/session.js
 
 # Allow IP file
 config/allow_ips.js
+
+# Server config file
+config/server_settings.js
