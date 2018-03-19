@@ -1,6 +1,5 @@
 module.exports = function connectsocket(port,ip,text,callback) {
   var net = require('net');
-
   var client = new net.Socket();
   client.connect(port, ip, function() {
   	client.write('connect;pp121324;say Hello!');
@@ -8,4 +7,5 @@ module.exports = function connectsocket(port,ip,text,callback) {
   });
 
   client.on('data', callback);
+  client.on('error', function(){});
 }
