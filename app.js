@@ -17,9 +17,9 @@ app.set('view engine', 'jade');
 app.set('views', './views');
 app.locals.pretty = true;
 
-socket_api(3203, 'localhost', 'connect;pp121324;say hello', function(text){
-  console.log(text)
-})
+socket_api(3203, 'localhost', 'connect;pp121324;say hello', function(data){
+  console.log(data.toString())
+});
 
 function isNumber(n) { return /^-?[\d.]+(?:e-?\d+)?$/.test(n); }
 
