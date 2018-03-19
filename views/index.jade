@@ -1,9 +1,9 @@
 extends ./includes/layout
 block contents
-  if session.user
+  if user
     a(href="manage")
       p 수정 페이지로 한방에 이동하자!
-    p 앗! 이 페이지를 보고 계신다면 #{session.user}님이 Baw  Service Beta 4 Closed Beta Tester이신가 보군요!
+    p 앗! 이 페이지를 보고 계신다면 #{user}님이 Baw  Service Beta 4 Closed Beta Tester이신가 보군요!
     p 아직 Baw Service Beta 4는 제대로된 사용이 거의 불가능해요.
     p 아래 정상적으로 작동하는 작업만이라도 Beta 4를 사용해주시고, 작동하지 않는것으로 알려진 작업은 Beta 3를 사용해주세요.
     p 참고로 현재 Beta 4에서 심각한 오류가 발생하면 아예 서버가 뻗어버립니다. 만약 이 문제가 발생한다면 개발자에게 이 사실을 알려주세요.

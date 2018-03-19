@@ -10,9 +10,12 @@ var allow_ip = require('./libs/allow_ip');
 var socket_api = require('./libs/socket_api');
 var bodyParser = require('body-parser');
 var app = express();
-var session = require('express-session');
+// var session = require('express-session');
+var cookieSession = require('cookie-session')
 var session_config = require('./config/session');
 var SqlString = require('sqlstring');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 app.set('view engine', 'jade');
 app.set('views', './views');
 app.locals.pretty = true;
@@ -23,13 +26,26 @@ app.locals.pretty = true;
 
 function isNumber(n) { return /^-?[\d.]+(?:e-?\d+)?$/.test(n); }
 
-app.use(session({
- secret: session_config.secret,
- resave: session_config.resave,
- saveUninitialized: session_config.saveUninitialized
-}));
+// app.use(session({
+//  secret: session_config.secret,
+//  resave: session_config.resave,
+//  saveUninitialized: session_config.saveUninitialized
+// }));
+app.use(cookieSession({
+  name: 'session',
+  keys: [session_config.secret],
+
+  // Cookie Options
+  maxAge: 24 * 60 * 60 * 1000 // 24 hours
+}))
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(function(req,res,next){
     res.locals.session = req.session;
+    next();
+});
+app.use(function(req,res,next){
+    res.locals.user = req.user;
     next();
 });
 app.use( pjax() );
@@ -44,7 +60,7 @@ app.all('/', function (req, res) {
 });
 
 app.get('/manage', function (req, res) {
-  if(req.session.user) {
+  if(req.user.id) {
     res.render('manage/index');
   } else {
     res.redirect('/auth/login')
@@ -54,10 +70,10 @@ app.get('/manage', function (req, res) {
 app.get('/manage/:service/view', require('./routes/manage/view'));
 
 app.all('/manage/:service/complete/:id/:status', function(req, res) {
-  if(req.session.user) {
+  if(req.user.id) {
     if(isNumber(req.params.id) && isNumber(req.params.service) && isNumber(req.params.status))
       if(req.params.service == "1" || req.params.service == "2"){
-        var sql_req = sql('select * from  `service'+req.params.service+'` WHERE owner='+SqlString.escape(req.session.user)+' and num=' + SqlString.escape(req.params.id), function(err, rows){
+        var sql_req = sql('select * from  `service'+req.params.service+'` WHERE owner='+SqlString.escape(req.user.id)+' and num=' + SqlString.escape(req.params.id), function(err, rows){
           if(err) { throw err };
           if(rows.length == 0) {
             res.render('error/403')
@@ -82,37 +98,43 @@ app.get('/manage/:service/edit', require('./routes/manage/edit_view'))
 
 
 app.get('/auth/logout', function(req, res){
-  req.session.destroy(function(err){
-      if(err){
-          console.log('[Baw Service Error Report] 세션 삭제 도중 오류 발생: ' + err);
-      }else{
-          res.redirect('/');
-      }
-  })
+  req.logout();
+  res.redirect('/');
 });
 app.get('/auth/login', function(req, res){
   res.render('login');
 })
-app.post('/auth/login', function (req, res) {
-  var id = req.body.id;
-  var pw = req.body.pass;
-  if (id === undefined || pw === undefined || id === "" || pw === ""){
-    res.render('error/500')
-    req.session.error = '아이디와 비밀번호를 입력해주세요.';
-    res.redirect('/')
-  } else {
-    var login_req = sql('select * from id where id=' + SqlString.escape(id) + ' and password=password(' + SqlString.escape(pw) + ')', function(err, rows){
+app.post('/auth/login', passport.authenticate('local', {failureRedirect: '/auth/login', failureFlash: false}), function (req, res) {
+    res.redirect('/');
+  });
+
+passport.serializeUser(function (user, done) {
+  return done(null, user);
+});
+
+passport.deserializeUser(function (user, done) {
+  done(null, user);
+});
+passport.use(new LocalStrategy({
+  usernameField: 'id',
+  passwordField: 'pass',
+  session: true,
+  passReqToCallback: true //인증을 수행하는 인증 함수로 HTTP request를 그대로  전달할지 여부를 결정한다
+}, function (req, username, password, done) {
+    var login_req = sql('select * from id where id=' + SqlString.escape(username) + ' and password=password(' + SqlString.escape(password) + ')', function(err, rows){
+      if(err) { done(err) };
       if (rows.length === 0) {
         req.session.error = '존재하지 않는 ID거나 비밀번호를 잘못 입력하셨습니다.';
-        res.redirect('/')
+        return done(null, false, { message: '존재하지 않는 ID거나 비밀번호를 잘못 입력하셨습니다.' })
       } else {
-        req.session.user = rows[0].id;
         req.session.error = rows[0].id + '로 로그인했습니다.';
-        res.redirect('/')
+        return done(null, {
+          'id': username,
+        });
       }
     });
-  }
-});
+}));
+
 
 app.use(function(req, res, next) {
   res.status(404);

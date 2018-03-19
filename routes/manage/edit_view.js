@@ -1,7 +1,7 @@
 var sql = require('../../config/dbtool');
 var SqlString = require('sqlstring');
 module.exports = function (req, res) {
-    if(req.session.user) {
+    if(req.user.id) {
       if(req.params.service == 1) {
         var data = {
           "name": "후원 사이트",
@@ -14,7 +14,7 @@ module.exports = function (req, res) {
         var textarea_option = ["notice"]
         var textarea_option_korean = ["공지사항"]
 
-        var sql_req = sql('select * from page where service=1 and owner=' + SqlString.escape(req.session.user), function(err, rows){
+        var sql_req = sql('select * from page where service=1 and owner=' + SqlString.escape(req.user.id), function(err, rows){
           if (rows.length === 0) {
             req.session.error = '후원 홈페이지가 존재하지 않습니다.';
             res.redirect('/')
@@ -34,7 +34,7 @@ module.exports = function (req, res) {
         var textarea_option = ["notice"]
         var textarea_option_korean = ["공지사항"]
 
-        var sql_req = sql('select * from page where service=2 and owner=' + SqlString.escape(req.session.user), function(err, rows){
+        var sql_req = sql('select * from page where service=2 and owner=' + SqlString.escape(req.user.id), function(err, rows){
           if (rows.length === 0) {
             req.session.error = '정품 인증 페이지가 존재하지 않습니다.';
             res.redirect('/')
@@ -55,7 +55,7 @@ module.exports = function (req, res) {
         var textarea_option = ["notice"]
         var textarea_option_korean = ["공지사항"]
 
-        var sql_req = sql('select * from page where service=3 and owner=' + SqlString.escape(req.session.user), function(err, rows){
+        var sql_req = sql('select * from page where service=3 and owner=' + SqlString.escape(req.user.id), function(err, rows){
           if (rows.length === 0) {
             req.session.error = '정품 인증 페이지가 존재하지 않습니다.';
             res.redirect('/')
