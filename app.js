@@ -26,11 +26,6 @@ app.locals.pretty = true;
 
 function isNumber(n) { return /^-?[\d.]+(?:e-?\d+)?$/.test(n); }
 
-// app.use(session({
-//  secret: session_config.secret,
-//  resave: session_config.resave,
-//  saveUninitialized: session_config.saveUninitialized
-// }));
 app.use(cookieSession({
   name: 'session',
   keys: [session_config.secret],
