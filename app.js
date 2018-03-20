@@ -75,14 +75,14 @@ app.all('/manage/:service/complete/:id/:status', function(req, res) {
           }
           var sql_req2 = sql('select * from `id` WHERE id='+SqlString.escape(req.user.id), function(err, rows2){
             if(err) { throw err };
-            if(req.params.service == "1" || req.params.service == "2"){
+            if(!req.query.noapi && req.params.status == "1"){
               if(rows2[0]['api_ok'] == 1) {
                 var sql_req3 = sql('select * from `page` WHERE owner='+SqlString.escape(req.user.id), function(err, rows3) {
                   if(err) { throw err };
                   var api_cmd = rows3[0]['api_cmd'];
                   api_cmd.replace("<player>", rows3[0]['nick']);
                   api_cmd.replace("<money>", rows3[0]['bal']);
-                  api_cmd.replace("<package>", rows3[0]['bouns']); 
+                  api_cmd.replace("<package>", rows3[0]['bouns']);
                   api_cmd.replace("원", "");
                   api_cmd.replace(",", "");
                   if(rows2[0]['api'] == "socket"){
