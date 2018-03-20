@@ -1,0 +1,170 @@
+doctype html
+html
+  head
+    title #{userdata['svname']}서버 후원 홈페이지
+    meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no')
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css')
+    link(rel="stylesheet" href="https://#{hostname}/public/fontawesome/css/fa-svg-with-js.css")
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+    script(src='https://www.google.com/recaptcha/api.js', async, defer)
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js')
+    script(src='https://#{hostname}/public/user_page/js/donation.js')
+    script(src="https://#{hostname}/public/fontawesome/js/fontawesome-all.min.js")
+    script(src="https://#{hostname}/public/fontawesome/js/fa-v4-shims.min.js")
+    style.
+      @import url(https://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+      @import url(https://fonts.googleapis.com/earlyaccess/nanumpenscript.css);
+      body {
+      margin-top:-0px;
+      font-family:나눔고딕, NanumGothic, 'Nanum Gothic', Nanumbarungothic, arial, verdana, sans-serif;
+      }
+      h1, h2, h5, h4, h5, h6 {
+      font-family:나눔고딕, NanumGothic, 'Nanum Gothic', Nanumbarungothic, arial, verdana, sans-serif;
+      }
+      .navbar-static-top {
+      margin-bottom: 20px;
+      }
+      .grecaptcha-badge {
+      display: none;
+      }
+
+  body
+    nav.navbar.navbar-default
+      .container
+        .navbar-header
+          button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1')
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand(href='#') #{userdata['svname']}서버
+        #bs-example-navbar-collapse-1.collapse.navbar-collapse
+          ul.nav.navbar-nav
+            li
+              a(href='https://#{hostname}/bawsv') #{userdata['svname']}서버 정품 인증
+            li
+              a(href='https://#{hostname}/bawapi') #{userdata['svname']}서버 상태 확인
+    if pagedata['youtube']
+      #player.player
+      style.
+        .player {
+          display: none;
+        }
+      script.
+        var tag = document.createElement("script");
+        tag.src = "https://www.youtube.com/player_api";
+        var firstScriptTag = document.getElementsByTagName("script")[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        var player;
+        function onYouTubePlayerAPIReady() {
+            player = new YT.Player("player", {
+            height: "390",
+            width: "640",
+            videoId: "#{pagedata['youtube']}",
+            events: {
+            "onReady": onPlayerReady
+            }
+          });
+        }
+        function onPlayerReady(event) {
+          player.playVideo();
+        }
+        function pv() {
+          if (player.getPlayerState() == 1)
+          player.stopVideo();
+          else
+          player.playVideo();
+        }
+
+    .container(style='text-align: center;')
+      .row
+        .col-md-8
+          form#TRM(name='TRM', method='post', action='https://#{hostname}/user/donation')
+            .panel.panel-default
+              .panel-heading
+                h4 #{userdata['svname']}서버 후원
+              ul.list-group
+                .row
+                  .col-md-6
+                    li.list-group-item
+                      label 후원 종류
+                      select#Combo.form-control(name='Combo')
+                        - console.log(pagedata['disabled'].indexOf('도서문화상품권'))
+                        - if (pagedata['disabled'].indexOf('문화상품권1') == -1)
+                          option(value='문화상품권') 컬쳐랜드 - 문화상품권
+                        - if (pagedata['disabled'].indexOf('/도서문화상품권') == -1)
+                          option(value='도서문화상품권') 북앤라이프 - 도서문화상품권
+                        - if (pagedata['disabled'].indexOf('해피머니') == -1)
+                          option(value='해피머니') 해피머니
+                        - if (pagedata['disabled'].indexOf('틴캐시') == -1)
+                          option(value='틴캐시') 틴캐시
+                        - if (pagedata['disabled'].indexOf('계좌이체') == -1)
+                          option(value='계좌이체') 계좌이체
+                  .col-md-6
+                    li.list-group-item
+                      label 보상 선택
+                      select.form-control(name='Radio')
+                        - var bouns = pagedata.bouns.split('||')
+                        each boun in bouns
+                          option(value='#{boun}') #{boun}
+                li.list-group-item
+                  label 닉네임
+                  input.form-control(type='text', name='nick', size='20', placeholder='닉네임', required='')
+                li.list-group-item
+                  label 후원 금액
+                  input.form-control(type='text', name='bal', size='20', onkeyup='getNumber(this);', placeholder='후원 금액', required='')
+                .code
+                  li.list-group-item
+                    label#code_text 발행일 또는 인증번호
+                    input#code.form-control(type='text', size='16', name='code', placeholder='발행일 또는 인증코드')
+                .nn
+                  li.list-group-item
+                    label 의뢰자
+                    input#nname.form-control(type='text', name='nname', size='20', placeholder='입금자명')
+                .ncombo
+                  li.list-group-item
+                    label 상품권 핀번호
+                    table.normal
+                      td(width='25%')
+                        input#pin1.form-control.pin(type='text', name='pin1[]', maxlength='4', onkeydown='return onlyNumber(event)', onkeyup='removeChar(event)', placeholder='4자리')
+                      td  - 
+                      td(width='25%')
+                        input#pin2.form-control.pin(type='text', name='pin2[]', maxlength='4', onkeydown='return onlyNumber(event)', onkeyup='removeChar(event)', placeholder='4자리')
+                      td  - 
+                      td(width='25%')
+                        input#pin3.form-control.pin(type='text', name='pin3[]', maxlength='4', onkeydown='return onlyNumber(event)', onkeyup='removeChar(event)', placeholder='4자리')
+                      td  - 
+                      td(width='25%')
+                        input#pin4.form-control.pin(type='text', name='pin4[]', maxlength='6', onkeydown='return onlyNumber(event)', onkeyup='removeChar(event)', placeholder='4/6자리')
+                    table.teen
+                      td(width='34%')
+                        input#pin1teen.form-control.pin(type='text', name='pin1[]', maxlength='4', placeholder='4자리')
+                      td  - 
+                      td(width='34%')
+                        input#pin2teen.form-control.pin(type='text', name='pin2[]', maxlength='4', placeholder='4자리')
+                      td  - 
+                      td(width='34%')
+                        input#pin3teen.form-control.pin(type='text', name='pin3[]', maxlength='4', placeholder='4자리')
+                br
+                button.btn.btn.btn-info.g-recaptcha(type='submit', data-sitekey='6LeKTiwUAAAAANOYA7r37sTyquy_R0ljzSTVS6Bp', data-callback='captchaSubmit')
+                  i.fa.fa-chevron-circle-right(aria-hidden='true')
+                  |  제출
+                button.btn.btn.btn-danger(type='reset')
+                  i.fa.fa-trash(aria-hidden='true')
+                  |  재입력
+                if pagedata['youtube']
+                  button.btn.btn.btn-success(onclick='pv()', type='button')
+                    i.fa.fa-youtube-play(aria-hidden='true')
+                    |  BGM 재생 / 중지
+                input(type='hidden', value='#{pagedata["name"]}', name='page')
+                br
+                br
+        .col-md-4
+          .panel.panel-default
+            .panel-heading
+              h4
+                | 공지 사항
+                h4
+            .panel-body
+              | !{pagedata['notice']}
+        br

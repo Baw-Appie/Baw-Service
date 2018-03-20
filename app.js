@@ -176,8 +176,37 @@ passport.use(new KakaoStrategy({
 ));
 
 app.use(function(req, res, next) {
-  res.status(404);
-  res.render('error/404');
+  var path = req.path.split('/')
+  var sql_req = sql('select * from page where name=' + SqlString.escape(path[1]), function(err, rows){
+    if(err) { throw err }
+    if(rows.length === 0) {
+      res.status(404);
+      res.render('error/404')
+    } else {
+      var servicename;
+      if(rows[0]['service'] == '1') {
+        var servicename = "donation";
+      } else if(rows[0]['service'] == '2') {
+        var servicename = "id_check";
+      } else if(rows[0]['service'] == '3') {
+        var servicename = "server_status"
+      } else {
+        res.render('error/500')
+      }
+      if(servicename){
+        if(fs.existsSync('./views/user_page/'+servicename+'-'+rows[0]['theme']+'.jade')) {
+          var sql_req2 = sql('select * from `id` where `id`='+SqlString.escape(rows[0]['owner']), function(err, rows2) {
+            if(err){ throw err }
+            res.render('./user_page/'+servicename+'-'+rows[0]['theme'], {pagedata: rows[0], userdata: rows2[0]})
+          })
+        } else {
+          res.render('error/500')
+        }
+      } else {
+        res.render('error/500')
+      }
+    }
+  });
 });
 
 app.use(function(err, req, res, next) {
