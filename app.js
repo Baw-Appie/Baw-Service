@@ -10,7 +10,6 @@ var allow_ip = require('./libs/allow_ip');
 var socket_api = require('./libs/socket_api');
 var bodyParser = require('body-parser');
 var app = express();
-// var session = require('express-session');
 var cookieSession = require('cookie-session')
 var session_config = require('./config/session');
 var SqlString = require('sqlstring');
