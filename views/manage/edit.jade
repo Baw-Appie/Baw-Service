@@ -23,6 +23,18 @@ block contents
             else
               input.uk-radio(type='radio', name='#{name}', value=1)
               |  허용
+      // CUSTOM_SELECT INPUT
+      if custom_select_option
+        each custom_select, i in custom_select_option
+          .uk-margin.uk-grid-small.uk-child-width-auto.uk-grid
+            label #{custom_select['korean']}
+            - var name = custom_select['name'];
+            label
+              each custom_list, oo in custom_select['options']
+                input.uk-radio(type='radio', name='#{name}', value='#{custom_select["option_data"][oo]}', checked)
+                |  #{custom_select["option_korean"][oo]}
+                
+              
       // TEXT INPUT
       each text, i in text_option_korean
         .uk-margin
@@ -44,6 +56,12 @@ block contents
               textarea.uk-textarea(name='#{name}', placeholder='#{textarea}', rows=5) #{value}
             else
               textarea.uk-textarea(name='#{name}', placeholder='#{textarea}', rows=5)
+              
+      // CUSTOM INPUT
+      
+      if custom_text
+        | #{custom_text}
+      
               
       
       button.uk-button.uk-button-primary(type="submit")
