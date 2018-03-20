@@ -15,6 +15,7 @@ var session_config = require('./config/session');
 var SqlString = require('sqlstring');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
 app.set('view engine', 'jade');
 app.set('views', './views');
 app.locals.pretty = true;
@@ -71,6 +72,17 @@ app.post('/auth/login', passport.authenticate('local', {failureRedirect: '/auth/
     res.redirect('/');
   });
 
+  app.get('/auth/google',
+    passport.authenticate('google', { scope:
+    	[ 'https://www.googleapis.com/auth/plus.login',
+    	  'https://www.googleapis.com/auth/plus.profile.emails.read' ] }
+  ));
+
+  app.get( '/auth/google/callback',
+  	passport.authenticate( 'google', {
+  		successRedirect: '/',
+  		failureRedirect: '/auth/login'
+  }));
 passport.serializeUser(function (user, done) {
   return done(null, user);
 });
@@ -97,6 +109,31 @@ passport.use(new LocalStrategy({
       }
     });
 }));
+
+var googleconfig = require('./config/google');
+passport.use(new GoogleStrategy({
+    clientID: googleconfig.id,
+    clientSecret: googleconfig.secret,
+    callbackURL: "https://localhost/auth/google/callback",
+    passReqToCallback: true
+  },
+  function(request, accessToken, refreshToken, profile, done) {
+    process.nextTick(function () {
+      var login_req = sql('select * from id where id=' + SqlString.escape(profile.emails[0]['value']) + ' and password="Google Login"', function(err, rows){
+        if(err) { done(err) };
+        if (rows.length === 0) {
+          request.session.error = '존재하지 않는 ID거나 비밀번호를 잘못 입력하셨습니다.';
+          return done(null, false, { message: '존재하지 않는 ID거나 비밀번호를 잘못 입력하셨습니다.' })
+        } else {
+          request.session.error = rows[0].id + '로 로그인했습니다.';
+          return done(null, {
+            'id': rows[0]['id'],
+          });
+        }
+      });
+    });
+  }
+));
 
 
 app.use(function(req, res, next) {
