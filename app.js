@@ -57,6 +57,8 @@ app.all('/manage/:service/complete/:id/:status', require('./routes/manage/comple
 app.post('/manage/:service/edit', require('./routes/manage/edit_complete'))
 app.get('/manage/:service/edit', require('./routes/manage/edit_view'))
 
+app.post('/api/:service/edit', require('./routes/api/edit_complete'))
+app.get('/api/:service/edit', require('./routes/api/edit_view'))
 
 app.get('/auth/logout', function(req, res){
   req.logout();

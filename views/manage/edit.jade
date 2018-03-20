@@ -31,8 +31,12 @@ block contents
             - var name = custom_select['name'];
             label
               each custom_list, oo in custom_select['options']
-                input.uk-radio(type='radio', name='#{name}', value='#{custom_select["option_data"][oo]}', checked)
-                |  #{custom_select["option_korean"][oo]}
+                if rows[0][name] == custom_select['option_data'][oo]
+                  input.uk-radio(type='radio', name='#{name}', value='#{custom_select["option_data"][oo]}', checked)
+                  |  #{custom_select["option_korean"][oo]}
+                else
+                  input.uk-radio(type='radio', name='#{name}', value='#{custom_select["option_data"][oo]}')
+                  |  #{custom_select["option_korean"][oo]}
                 
               
       // TEXT INPUT
