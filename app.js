@@ -154,7 +154,6 @@ passport.use(new KakaoStrategy({
   },
   function(request, accessToken, refreshToken, profile, done) {
     process.nextTick(function () {
-      console.log(profile['_json']['kaccount_email'])
       if(profile['_json']['kaccount_email_verified'] == true) {
         var login_req = sql('select * from id where id=' + SqlString.escape(profile['_json']['kaccount_email']), function(err, rows){
           if(err) { done(err) };
