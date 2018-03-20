@@ -74,4 +74,4 @@ config/allow_ips.js
 config/server_settings.js
 
 # oauth config file
-config/google.js
+config/oauth_info.js

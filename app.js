@@ -16,6 +16,7 @@ var SqlString = require('sqlstring');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
+var KakaoStrategy = require('passport-kakao').Strategy;
 app.set('view engine', 'jade');
 app.set('views', './views');
 app.locals.pretty = true;
@@ -83,6 +84,17 @@ app.post('/auth/login', passport.authenticate('local', {failureRedirect: '/auth/
   		successRedirect: '/',
   		failureRedirect: '/auth/login'
   }));
+
+app.get('/auth/kakao', passport.authenticate('kakao',{
+    failureRedirect: '/auth/login'
+}));
+
+app.get( '/auth/kakao/callback',
+  	passport.authenticate( 'kakao', {
+  		successRedirect: '/',
+  		failureRedirect: '/auth/login'
+  }));
+
 passport.serializeUser(function (user, done) {
   return done(null, user);
 });
@@ -110,16 +122,16 @@ passport.use(new LocalStrategy({
     });
 }));
 
-var googleconfig = require('./config/google');
+var oauth_info = require('./config/oauth_info');
 passport.use(new GoogleStrategy({
-    clientID: googleconfig.id,
-    clientSecret: googleconfig.secret,
+    clientID: oauth_info.googleid,
+    clientSecret: oauth_info.googlesecret,
     callbackURL: "https://"+server_settings.hostname+"/auth/google/callback",
     passReqToCallback: true
   },
   function(request, accessToken, refreshToken, profile, done) {
     process.nextTick(function () {
-      var login_req = sql('select * from id where id=' + SqlString.escape(profile.emails[0]['value']) + ' and password="Google Login"', function(err, rows){
+      var login_req = sql('select * from id where id=' + SqlString.escape(profile.emails[0]['value']), function(err, rows){
         if(err) { done(err) };
         if (rows.length === 0) {
           request.session.error = '존재하지 않는 ID거나 비밀번호를 잘못 입력하셨습니다.';
@@ -134,7 +146,35 @@ passport.use(new GoogleStrategy({
     });
   }
 ));
-
+passport.use(new KakaoStrategy({
+    clientID: oauth_info.kakaoid,
+    clientSecret: oauth_info.kakaosecret,
+    callbackURL: "https://"+server_settings.hostname+"/auth/kakao/callback",
+    passReqToCallback: true
+  },
+  function(request, accessToken, refreshToken, profile, done) {
+    process.nextTick(function () {
+      console.log(profile['_json']['kaccount_email'])
+      if(profile['_json']['kaccount_email_verified'] == true) {
+        var login_req = sql('select * from id where id=' + SqlString.escape(profile['_json']['kaccount_email']), function(err, rows){
+          if(err) { done(err) };
+          if (rows.length === 0) {
+            request.session.error = '존재하지 않는 ID거나 비밀번호를 잘못 입력하셨습니다.';
+            return done(null, false, { message: '존재하지 않는 ID거나 비밀번호를 잘못 입력하셨습니다.' })
+          } else {
+            request.session.error = rows[0].id + '로 로그인했습니다.';
+            return done(null, {
+              'id': rows[0]['id'],
+            });
+          }
+        });
+      } else {
+        request.session.error = '이메일 인증을 먼저 완료하세요.';
+        return done(null, false, { message: '이메일 인증을 먼저 완료하세요.' })
+      }
+    });
+  }
+));
 
 app.use(function(req, res, next) {
   res.status(404);
