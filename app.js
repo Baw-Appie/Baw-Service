@@ -114,7 +114,7 @@ var googleconfig = require('./config/google');
 passport.use(new GoogleStrategy({
     clientID: googleconfig.id,
     clientSecret: googleconfig.secret,
-    callbackURL: "https://localhost/auth/google/callback",
+    callbackURL: "https://"+server_settings.hostname+"/auth/google/callback",
     passReqToCallback: true
   },
   function(request, accessToken, refreshToken, profile, done) {
