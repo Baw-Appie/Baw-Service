@@ -35,7 +35,7 @@ module.exports = function(req, res) {
             var sql_req5 = sql('UPDATE  `service'+req.params.service+'` SET status='+SqlString.escape(req.params.status)+' WHERE num=' + SqlString.escape(req.params.id), function(err, rows){
               if(err) { throw err };
               req.session.error = "적용되었습니다.";
-              res.send('<script>location.href=("https://#{hostname}/")</script>');
+              res.redirect('/')
             });
           });
         });
