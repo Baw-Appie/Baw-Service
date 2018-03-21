@@ -62,6 +62,8 @@ app.get('/manage/:service/edit', require('./routes/manage/edit_view'))
 app.post('/api/:service/edit', require('./routes/api/edit_complete'))
 app.get('/api/:service/edit', require('./routes/api/edit_view'))
 
+app.post('/user/donation', require('./routes/user/donation_complete'))
+
 app.get('/auth/logout', function(req, res){
   req.logout();
   res.redirect('/');
