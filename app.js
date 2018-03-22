@@ -8,6 +8,7 @@ var pjax = require('./libs/pjax');
 var hostname = require('./libs/hostname');
 var allow_ip = require('./libs/allow_ip');
 var socket_api = require('./libs/socket_api');
+var custom_domains = require('./libs/custom_domains');
 var bodyParser = require('body-parser');
 var app = express();
 var cookieSession = require('cookie-session')
@@ -39,6 +40,7 @@ app.use(function(req,res,next){
 app.use( pjax() );
 app.use( hostname() );
 app.use( allow_ip() );
+app.use( custom_domains() );
 app.use(bodyParser.urlencoded({extended: false}));
 app.use('/public', express.static('public'));
 
