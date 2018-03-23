@@ -33,6 +33,11 @@ app.use(function(req,res,next){
     res.locals.session = req.session;
     next();
 });
+app.use(passport.session());
+app.use(function(req,res,next){
+    res.set("Access-Control-Allow-Origin", '*');
+    next();
+});
 app.use(function(req,res,next){
     res.locals.user = req.user;
     next();

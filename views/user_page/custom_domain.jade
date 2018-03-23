@@ -1,8 +1,16 @@
+doctype html
 html
   head
-    title 안녕
+    title 후원 홈페이지
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js')
+    script.
+      function settitle() {
+        $.get('https://#{hostname}/#{url}').then(function(responseData) {
+          var title =  $(responseData).filter('title').text();
+          document.title = title;
+        })
+      }
     meta(http-equiv='Content-Type', content='text/html; charset=utf-8')
     meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no')
     link(rel='shortcut icon', href="https://#{hostname}/favicon.ico")
-  frameset(border='0', framespacing='0', rows='100%,*', frameborder='0')
-    frame(name='mainpage', src="https://#{hostname}/#{url}")
+  iframe(src='https://#{hostname}/#{url}', id='contents', onload='settitle()', style='position:fixed; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;')
