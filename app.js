@@ -231,7 +231,40 @@ app.use(function(err, req, res, next) {
 });
 
 var http_server = http.createServer(app);
-var https_server = https.createServer({key: fs.readFileSync('config/ssl/key.pem'), cert: fs.readFileSync('config/ssl/cert.pem')}, app);
+
+var tls = require('tls');
+var ssloptions = {
+    SNICallback: function (domain, cb) {
+        if (false) { // TO-DO: 만약 등록된 도메인이라면
+            if (cb) {
+                cb(null, tls.createSecureContext({
+                  key: fs.readFileSync('./config/ssl/'+domain+'/key.pem', 'utf8'),
+                  cert: fs.readFileSync('./config/ssl/'+domain+'/cert.pem', 'utf8')
+                }));
+            } else {
+              return tls.createSecureContext({
+                key: fs.readFileSync('./config/ssl/'+domain+'/key.pem', 'utf8'),
+                cert: fs.readFileSync('./config/ssl/'+domain+'/cert.pem', 'utf8')
+              })
+            }
+        } else {
+          if (cb) {
+            cb(null, tls.createSecureContext({
+              key: fs.readFileSync('./config/ssl/key.pem', 'utf8'),
+              cert: fs.readFileSync('./config/ssl/cert.pem', 'utf8')
+            }));
+          } else {
+            return tls.createSecureContext({
+              key: fs.readFileSync('./config/ssl/key.pem', 'utf8'),
+              cert: fs.readFileSync('./config/ssl/cert.pem', 'utf8')
+            })
+          }
+        }
+    },
+   key: fs.readFileSync('./config/ssl/key.pem', 'utf8'),
+   cert: fs.readFileSync('./config/ssl/cert.pem', 'utf8')
+}
+var https_server = https.createServer(ssloptions, app);
 
 http_server.listen(server_settings.http_port, function() {
   console.log('[Baw Service Error Report] server listening on port ' + http_server.address().port);
