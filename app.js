@@ -71,6 +71,10 @@ app.get('/api/:service/edit', require('./routes/api/edit_view'))
 
 app.post('/user/donation', require('./routes/user/donation_complete'))
 
+app.get('/favicon.ico', function(req, res){
+  res.download('./public/img/favicon.ico'); // Set disposition and send it.
+});
+
 app.get('/auth/logout', function(req, res){
   req.logout();
   res.redirect('/');
@@ -82,11 +86,11 @@ app.post('/auth/login', passport.authenticate('local', {failureRedirect: '/auth/
     res.redirect('/');
   });
 
-  app.get('/auth/google',
-    passport.authenticate('google', { scope:
-    	[ 'https://www.googleapis.com/auth/plus.login',
-    	  'https://www.googleapis.com/auth/plus.profile.emails.read' ] }
-  ));
+app.get('/auth/google',
+  passport.authenticate('google', { scope:
+  	[ 'https://www.googleapis.com/auth/plus.login',
+  	  'https://www.googleapis.com/auth/plus.profile.emails.read' ] }
+));
 
   app.get( '/auth/google/callback',
   	passport.authenticate( 'google', {
