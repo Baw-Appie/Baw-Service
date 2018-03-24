@@ -74,7 +74,7 @@ app.get('/api/:service/edit', require('./routes/api/edit_view'))
 app.post('/user/donation', require('./routes/user/donation_complete'))
 
 app.get('/favicon.ico', function(req, res){
-  res.download('./public/img/favicon.ico'); // Set disposition and send it.
+  res.download('./public/img/favicon.ico');
 });
 
 app.get('/auth/logout', function(req, res){
@@ -121,7 +121,7 @@ passport.use(new LocalStrategy({
   usernameField: 'id',
   passwordField: 'pass',
   session: true,
-  passReqToCallback: true //인증을 수행하는 인증 함수로 HTTP request를 그대로  전달할지 여부를 결정한다
+  passReqToCallback: true
 }, function (req, username, password, done) {
     var login_req = sql('select * from id where id=' + SqlString.escape(username) + ' and password=password(' + SqlString.escape(password) + ')', function(err, rows){
       if(err) { done(err) };
@@ -235,7 +235,7 @@ var http_server = http.createServer(app);
 var tls = require('tls');
 var ssloptions = {
     SNICallback: function (domain, cb) {
-        if (false) { // TO-DO: 만약 등록된 도메인이라면
+        if (fs.existsSync('./config/ssl/'+domain+'/key.pem')) {
             if (cb) {
                 cb(null, tls.createSecureContext({
                   key: fs.readFileSync('./config/ssl/'+domain+'/key.pem', 'utf8'),
