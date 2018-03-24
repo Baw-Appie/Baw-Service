@@ -1,6 +1,7 @@
 var express = require('express')
 var http = require('http');
 var https = require('https');
+var forceSSL = require('express-force-ssl');
 var fs = require('fs');
 var server_settings = require('./config/server_settings');
 var sql = require('./config/dbtool');
@@ -22,6 +23,7 @@ app.set('view engine', 'jade');
 app.set('views', './views');
 app.locals.pretty = true;
 
+app.use(forceSSL);
 app.use(cookieSession({
   name: 'session',
   keys: [session_config.secret],
