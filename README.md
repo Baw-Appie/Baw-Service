@@ -1,5 +1,5 @@
-# Baw Service Panel
-## Baw Service의 더 엄청난 성장
+# Baw Service Panel Beta 4
+## 작지만, 큰 Baw Service의 한걸음
 
 이 프로젝트에는 Baw Service Beta 4의 대부분의 소스와 이미지, 콘피그가 포함되어 있습니다.
 
