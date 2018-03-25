@@ -1,4 +1,5 @@
 var sql = require('../../config/dbtool');
+var server_settings = require('../../config/server_settings');
 var SqlString = require('sqlstring');
 var vali = require('validator');
 function isset(text) {
@@ -12,6 +13,18 @@ function isset(text) {
 
 module.exports = function(req, res) {
   try {
+
+    if(req.body['g-recaptcha-response'] === undefined || req.body['g-recaptcha-response'] === '' || req.body['g-recaptcha-response'] === null) {
+      throw new Error('Recaptcha 인증에 필요한 데이터가 부족합니다.')
+    }
+    var verificationUrl = "https://www.google.com/recaptcha/api/siteverify?secret=" + server_settings.g_captcha_secret_key + "&response=" + req.body['g-recaptcha-response'] + "&remoteip=" + req.connection.remoteAddress;
+    request(verificationUrl,function(error,response,body) {
+      body = JSON.parse(body);
+      if(body.success !== undefined && !body.success) {
+        throw new Error('Recaptcha 인증에 실패하였습니다.')
+      }
+    });
+
     var nick = req.body.nick
     var bal = req.body.bal
     var nname = req.body.nname
