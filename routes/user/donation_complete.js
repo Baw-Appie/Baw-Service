@@ -1,6 +1,7 @@
 var sql = require('../../config/dbtool');
 var server_settings = require('../../config/server_settings');
 var SqlString = require('sqlstring');
+var request = require('request');
 var vali = require('validator');
 function isset(text) {
   if(vali.isEmpty(text) == false) {
