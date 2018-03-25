@@ -1,7 +1,7 @@
 doctype html
 html
   head
-    title #{userdata['svname']}서버 후원 홈페이지
+    title #{userdata['svname']}서버 상태 확인
     meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no')
     link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css')
     link(rel="stylesheet" href="https://#{hostname}/public/fontawesome/css/fa-svg-with-js.css")
@@ -34,10 +34,13 @@ html
           a.navbar-brand(href='#') #{userdata['svname']}서버
         #bs-example-navbar-collapse-1.collapse.navbar-collapse
           ul.nav.navbar-nav
-            li
-              a(href='https://#{hostname}/bawsv') #{userdata['svname']}서버 정품 인증
-            li
-              a(href='https://#{hostname}/bawapi') #{userdata['svname']}서버 상태 확인
+            each da, i in otherpage
+              if da.service == 2
+                li
+                  a(href='https://#{hostname}/#{da["name"]}') 정품 인증
+              if da['service'] == 1
+                li
+                  a(href='https://#{hostname}/#{da["name"]}') 후원
 
 
     .container(style='text-align: center;')
@@ -46,20 +49,20 @@ html
       table.table.table-bordered(style='margin:0 auto; margin-top:3%;max-width: 80%;')
         tr
           td 서버 MOTD
-          td [흑백서버] 서버에서 [/접속보상] 입력시 아이템 무조건 즉시 지급! (~22시까지)
+          td #{data.motd}
       .row.container(style='text-align: center; margin:0 auto; margin-top:3%;max-width: 80%;')
         .col-md-4
           h4 서버 접속자
           p
             canvas#foo(width='300', height='150')
           p
-            #foo-textfield 5명 접속중. 최대300명 접속 가능
+            #foo-textfield #{data.currentPlayers}명 접속중. 최대 #{data.maxPlayers}명 접속 가능
         .col-md-4
           h4 작업 소요 시간
-          p 254.3ms
+          p 알 수 없음
         .col-md-4
           h4 서버버전
-          p Spigot 1.12.2
+          p #{data.version}
         if pagedata['notice'] != ""
           | </div>
           | <div class='col-md-4'>

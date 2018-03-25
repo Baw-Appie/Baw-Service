@@ -44,10 +44,13 @@ html
           a.navbar-brand(href='#') #{userdata['svname']}서버
         #bs-example-navbar-collapse-1.collapse.navbar-collapse
           ul.nav.navbar-nav
-            li
-              a(href='https://#{hostname}/bawsv') #{userdata['svname']}서버 정품 인증
-            li
-              a(href='https://#{hostname}/bawapi') #{userdata['svname']}서버 상태 확인
+            each da, i in otherpage
+              if da.service == 2
+                li
+                  a(href='https://#{hostname}/#{da["name"]}') 정품 인증
+              if da['service'] == 3
+                li
+                  a(href='https://#{hostname}/#{da["name"]}') 서버 상태 확인
     if pagedata['youtube']
       #player.player
       style.
