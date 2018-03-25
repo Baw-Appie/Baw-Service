@@ -24,7 +24,12 @@ app.set('view engine', 'jade');
 app.set('views', './views');
 app.locals.pretty = true;
 
-app.use(forceSSL);
+app.use(function(req,res,next){
+    if (req.hostname == server_settings.hostname) {
+      forceSSL
+    }
+    next();
+});
 app.use(cookieSession({
   name: 'session',
   keys: [session_config.secret],
