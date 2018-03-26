@@ -78,6 +78,7 @@ app.post('/api/:service/edit', require('./routes/api/edit_complete'))
 app.get('/api/:service/edit', require('./routes/api/edit_view'))
 
 app.post('/user/donation', require('./routes/user/donation_complete'))
+app.post('/user/id_check', require('./routes/user/id_check_complete'))
 
 app.get('/favicon.ico', function(req, res){
   res.download('./public/img/favicon.ico');
