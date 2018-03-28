@@ -1,6 +1,7 @@
 extends ../includes/layout
 block contents
-  form(method="post")
+
+  form(method="post", id="edit")
     fieldset.uk-fieldset
       legend.uk-legend #{data.name} 설정
       // SELECT INPUT
@@ -57,7 +58,7 @@ block contents
           - var name = textarea_option[i];
           - var value = rows[0][name]
             if value != ""
-              textarea.uk-textarea(name='#{name}', placeholder='#{textarea}', rows=5) #{value}
+              textarea.uk-textarea(name='#{name}', placeholder='#{textarea}', rows=5) !{value}
             else
               textarea.uk-textarea(name='#{name}', placeholder='#{textarea}', rows=5)
               
@@ -75,3 +76,24 @@ block contents
         a(onclick="$.pjax.reload('#contents')")
           i(class="fas fa-undo")
           | 적용 안함
+          
+    script.
+      $(function(){
+        $("#edit").submit(function(){
+          NProgress.start();
+          $.ajax({
+            type: "post",
+            url : "#",
+            data : $("#edit").serialize(),
+            success : function s(a){
+              if(a.success == true) {
+                toastr.success(a.message, a.title); console.log(a); NProgress.done();
+              } else {
+                toastr.warning(a.message, a.title); console.log(a); NProgress.done();
+              }
+            },
+            error : function error(){ toastr.warning("Baw Service 빠른 설정 적용이 설정을 적용하는 도중 문제가 발생했습니다.", "죄송합니다!");  NProgress.done(); }
+          });
+          return false;
+        });
+      });
