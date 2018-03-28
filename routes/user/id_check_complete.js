@@ -62,8 +62,7 @@ function complete(req, res){
                     counter -= 1;
                     if ( counter === 0){
                       var no = item.num + 1
-                      var sql_Request = SqlString.format('INSERT INTO service1 values (?, ?, ?, ?, ?, ?, 0)', [no, rows[0]['owner'], page, nick, date, ip]);
-                      console.log(sql_Request)
+                      var sql_Request = SqlString.format('INSERT INTO service2 values (?, ?, ?, ?, ?, ?, 0)', [no, rows[0]['owner'], page, nick, date, ip]);
                       var sql_req4  = sql(sql_Request, function(err, rows4) {
                         if (err) { reject('4번 질의 오류'); }
                         resolve("<script>alert('등록되었습니다.');location.replace('https://"+req.hostname+"/"+page+"');</script>")
@@ -85,7 +84,7 @@ function complete(req, res){
 
 module.exports = function(req, res) {
   complete(req, res).then(function (text) {
-  	console.log(text);
+  	res.send(text);
   }).catch(function (error) {
   	res.send('<script>alert("' + error +'");history.go(-1);</script>')
   });

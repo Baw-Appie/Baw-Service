@@ -95,9 +95,8 @@ module.exports = function(req, res) {
         if(req.params.service == 3) {
         	var sql_req = sql("UPDATE `page` SET `sv_ip` = " + SqlString.escape(sv_ip) + ", `sv_port` = " + SqlString.escape(sv_port) + ", `notice`=" + SqlString.escape(notice) + ", `youtube`=" + SqlString.escape(youtube) + " WHERE service=3 and owner=" + SqlString.escape(req.user.id))
         }
-        req.session.error = '적용되었습니다!'
-        res.redirect('/')
+        res.json({ success: true, title: "완료했습니다!",  message: "정상적으로 해당 페이지에 적용되었습니다." });
     } else {
-      res.render('error/403')
+      res.json({ success: false, title: "권한이 없습니다.",  message: "페이지 수정 권한이 없습니다." });
     }
 };
