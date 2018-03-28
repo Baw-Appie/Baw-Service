@@ -6,6 +6,7 @@ if pjax
           p= session.error
           - delete session.error;
       block contents
+      block extscript
 else
   doctype html
   head
@@ -25,3 +26,4 @@ else
               - delete session.error;
           block contents
   include ./footer.jade
+  block extscript
