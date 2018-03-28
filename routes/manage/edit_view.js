@@ -1,7 +1,7 @@
 var sql = require('../../config/dbtool');
 var SqlString = require('sqlstring');
 module.exports = function (req, res) {
-    if(req.user.id) {
+    if(req.user) {
       if(req.params.service == 1) {
         var data = {
           "name": "후원 사이트",
