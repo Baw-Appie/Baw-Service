@@ -58,7 +58,7 @@ app.all('/', function (req, res) {
 });
 
 app.get('/manage', function (req, res) {
-  if(req.user.id) {
+  if(req.user) {
     res.render('manage/index');
   } else {
     res.redirect('/auth/login')

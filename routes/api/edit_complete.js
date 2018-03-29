@@ -1,7 +1,7 @@
 var sql = require('../../config/dbtool');
 var SqlString = require('sqlstring');
 module.exports = function(req, res) {
-    if(req.user.id) {
+    if(req.user) {
         if(req.params.service){
           if(req.params.service == "API") {
           	var sql_req = sql('UPDATE `id` SET `api_ok` = '+SqlString.escape(req.body.api_ok)+', `api_key`='+SqlString.escape(req.body.api_key)+', `api_ip`='+SqlString.escape(req.body.api_ip)+', `api_port`='+SqlString.escape(req.body.api_port)+', `api`='+SqlString.escape(req.body.api)+' WHERE `id`.`id` = '+ SqlString.escape(req.user.id))

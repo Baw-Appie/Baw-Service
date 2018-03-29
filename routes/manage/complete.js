@@ -2,7 +2,7 @@ var sql = require('../../config/dbtool');
 var SqlString = require('sqlstring');
 function isNumber(n) { return /^-?[\d.]+(?:e-?\d+)?$/.test(n); }
 module.exports = function(req, res) {
-  if(req.user.id) {
+  if(req.user) {
     if(isNumber(req.params.id) && isNumber(req.params.service) && isNumber(req.params.status))
       if(req.params.service == "1" || req.params.service == "2"){
         var sql_req = sql('select * from  `service'+req.params.service+'` WHERE owner='+SqlString.escape(req.user.id)+' and num=' + SqlString.escape(req.params.id), function(err, rows){
