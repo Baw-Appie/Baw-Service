@@ -27,6 +27,8 @@ app.locals.pretty = true;
 app.use(function(req,res,next){
     if (req.hostname == server_settings.hostname) {
       forceSSL
+    } else if (fs.existsSync('./config/ssl/'+req.hostname+'/key.pem')) {
+        forceSSL
     }
     next();
 });
@@ -39,14 +41,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(function(req,res,next){
     res.locals.session = req.session;
-    next();
-});
-app.use(passport.session());
-app.use(function(req,res,next){
     res.set("Access-Control-Allow-Origin", '*');
-    next();
-});
-app.use(function(req,res,next){
     res.locals.user = req.user;
     next();
 });
