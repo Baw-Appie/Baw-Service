@@ -196,8 +196,7 @@ app.use(function(req, res, next) {
   var sql_req = sql('select * from page where name=' + SqlString.escape(path[1]), function(err, rows){
     if(err) { throw err }
     if(rows.length === 0) {
-      res.status(404);
-      res.render('error/404')
+      res.status(404).render('error/404')
     } else {
       var servicename;
       if(rows[0]['service'] == '1') {
@@ -245,9 +244,8 @@ app.use(function(req, res, next) {
 });
 
 app.use(function(err, req, res, next) {
-  console.error('[Baw Service Error Report] 처리할 수 없는 문제로 500 에러가 사용자에게 출력되고 있습니다.' + err.stack);
-  res.status(500);
-  res.render('error/500')
+  console.error('[Baw Service Error Report] 처리할 수 없는 문제로 500 에러가 사용자에게 출력되고 있습니다.', err.stack);
+  res.status(500).render('error/500')
 });
 
 var http_server = http.createServer(app);
