@@ -226,9 +226,9 @@ app.use(function(req, res, next) {
                 res.render('./user_page/'+servicename+'-'+rows[0]['theme'], {pagedata: rows[0], otherpage: rows3, userdata: rows2[0]})
               } else if(rows[0]['service'] == '3') {
                 var mineping = require("mineping");
-                mineping(1, "farmingrpg.rpgfarm.com", 25565, function(err, data) {
+                mineping(1, rows[0]['sv_ip'], rows[0]['sv_port'], function(err, data) {
                 if(err)
-                    console.log("오류가 있습니다.");
+                    res.render('./user_page/'+servicename+'-'+rows[0]['theme'], {pagedata: rows[0], userdata: rows2[0], otherpage: rows3, data: false})
                 else
                   res.render('./user_page/'+servicename+'-'+rows[0]['theme'], {pagedata: rows[0], userdata: rows2[0], otherpage: rows3, data: data})
                 });

@@ -46,57 +46,61 @@ html
     .container(style='text-align: center;')
       if pagedata['notice'] != ""
         | <div class='row'><div class='col-md-8'>
-      table.table.table-bordered(style='margin:0 auto; margin-top:3%;max-width: 80%;')
-        tr
-          td 서버 MOTD
-          td #{data.motd}
-      .row.container(style='text-align: center; margin:0 auto; margin-top:3%;max-width: 80%;')
-        .col-md-4
-          h4 서버 접속자
-          p
-            canvas#foo(width='300', height='150')
-          p
-            #foo-textfield #{data.currentPlayers}명 접속중. 최대 #{data.maxPlayers}명 접속 가능
-        .col-md-4
-          h4 작업 소요 시간
-          p 알 수 없음
-        .col-md-4
-          h4 서버버전
-          p #{data.version}
-        if pagedata['notice'] != ""
-          | </div>
-          | <div class='col-md-4'>
-          | 	<div class='panel panel-default'>
-          | 	  <div class='panel-heading'><h4>공지 사항<h4></div>
-          | 	  <div class='panel-body'>
-          |		 !{pagedata['notice']}
-          | 	  </div>
-          | 	</div>
-          | </div>
-        br
+      if data != false
+        table.table.table-bordered(style='margin:0 auto; margin-top:3%;max-width: 80%;')
+          tr
+            td 서버 MOTD
+            td #{data.motd}
+        .row.container(style='text-align: center; margin:0 auto; margin-top:3%;max-width: 80%;')
+          .col-md-4
+            h4 서버 접속자
+            p
+              canvas#foo(width='300', height='150')
+            p
+              #foo-textfield #{data.currentPlayers}명 접속중. 최대 #{data.maxPlayers}명 접속 가능
+          .col-md-4
+            h4 작업 소요 시간
+            p 알 수 없음
+          .col-md-4
+            h4 서버버전
+            p #{data.version}
+      else
+        p 서버에 연결할 수 없습니다.
+      if pagedata['notice'] != ""
+        | </div>
+        | <div class='col-md-4'>
+        | 	<div class='panel panel-default'>
+        | 	  <div class='panel-heading'><h4>공지 사항<h4></div>
+        | 	  <div class='panel-body'>
+        |		 !{pagedata['notice']}
+        | 	  </div>
+        | 	</div>
+        | </div>
+      
+      br
         
-        script.
-          var opts = {
-          angle: 0.15, // The span of the gauge arc
-          lineWidth: 0.21, // The line thickness
-          radiusScale: 1, // Relative radius
-          pointer: {
-            length: 0.6, // // Relative to gauge radius
-            strokeWidth: 0.044, // The thickness
-            color: '#000000' // Fill color
-          },
-          limitMax: false,     // If false, max value increases automatically if value > maxValue
-          limitMin: false,     // If true, the min value of the gauge will be fixed
-          colorStart: '#47F3FF',   // Colors
-          colorStop: '#E8511A',    // just experiment with them
-          strokeColor: '#E0E0E0',  // to see which ones work best for you
-          generateGradient: true,
-          highDpiSupport: true,     // High resolution support
+      script.
+        var opts = {
+        angle: 0.15, // The span of the gauge arc
+        lineWidth: 0.21, // The line thickness
+        radiusScale: 1, // Relative radius
+        pointer: {
+          length: 0.6, // // Relative to gauge radius
+          strokeWidth: 0.044, // The thickness
+          color: '#000000' // Fill color
+        },
+        limitMax: false,     // If false, max value increases automatically if value > maxValue
+        limitMin: false,     // If true, the min value of the gauge will be fixed
+        colorStart: '#47F3FF',   // Colors
+        colorStop: '#E8511A',    // just experiment with them
+        strokeColor: '#E0E0E0',  // to see which ones work best for you
+        generateGradient: true,
+        highDpiSupport: true,     // High resolution support
 
-          };
-          var target = document.getElementById('foo'); // your canvas element
-          var gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
-          gauge.maxValue = 300; // set max gauge value
-          gauge.setMinValue(0);  // Prefer setter over gauge.minValue = 0
-          gauge.animationSpeed = 70; // set animation speed (32 is default value)
-          gauge.set(5); // set actual value
+        };
+        var target = document.getElementById('foo'); // your canvas element
+        var gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
+        gauge.maxValue = 300; // set max gauge value
+        gauge.setMinValue(0);  // Prefer setter over gauge.minValue = 0
+        gauge.animationSpeed = 70; // set animation speed (32 is default value)
+        gauge.set(5); // set actual value
