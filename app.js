@@ -22,7 +22,9 @@ var GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
 var KakaoStrategy = require('passport-kakao').Strategy;
 app.set('view engine', 'jade');
 app.set('views', './views');
-app.locals.pretty = true;
+if(server_settings.pretty_html == true) {
+  app.locals.pretty = true;
+}
 
 app.use(function(req,res,next){
     if (req.hostname == server_settings.hostname) {
