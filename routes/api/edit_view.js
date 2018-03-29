@@ -34,14 +34,13 @@ module.exports = function (req, res) {
         var textarea_option = []
         var textarea_option_korean = []
         var custom_select_option = []
-        var custom_text = []
 
         var sql_req = sql('select * from sms where id=' + SqlString.escape(req.user.id), function(err, rows){
           if (rows.length === 0) {
             req.session.error = data.name+'가 비활성화되어 있습니다.';
             res.redirect('/')
           } else {
-            res.render('manage/edit', {rows: rows,data: data,select_option: select_option,select_option_korean: select_option_korean,text_option: text_option,text_option_korean: text_option_korean,textarea_option: textarea_option,textarea_option_korean: textarea_option_korean, custom_select_option: custom_select_option, custom_text: custom_text})
+            res.render('manage/edit', {rows: rows,data: data,select_option: select_option,select_option_korean: select_option_korean,text_option: text_option,text_option_korean: text_option_korean,textarea_option: textarea_option,textarea_option_korean: textarea_option_korean, custom_select_option: custom_select_option})
           }
         });
 
@@ -56,14 +55,13 @@ module.exports = function (req, res) {
         var textarea_option = []
         var textarea_option_korean = []
         var custom_select_option = []
-        var custom_text = []
 
         var sql_req = sql('select * from telegram where id=' + SqlString.escape(req.user.id), function(err, rows){
           if (rows.length === 0) {
             req.session.error = data.name+'가 비활성화되어 있습니다.';
             res.redirect('/')
           } else {
-            res.render('manage/edit', {rows: rows,data: data,select_option: select_option,select_option_korean: select_option_korean,text_option: text_option,text_option_korean: text_option_korean,textarea_option: textarea_option,textarea_option_korean: textarea_option_korean, custom_select_option: custom_select_option, custom_text: custom_text})
+            res.render('manage/edit', {rows: rows,data: data,select_option: select_option,select_option_korean: select_option_korean,text_option: text_option,text_option_korean: text_option_korean,textarea_option: textarea_option,textarea_option_korean: textarea_option_korean, custom_select_option: custom_select_option})
           }
         });
 
