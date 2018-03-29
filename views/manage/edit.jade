@@ -87,16 +87,17 @@ block contents
       // CUSTOM INPUT
       
       if custom_text
-        | #{custom_text}
+        | !{custom_text}
+        br
       
               
       
       button.uk-button.uk-button-primary(type="submit")
         i(class="fas fa-save")
-        | 설정 적용
+        |  설정 적용
       button.uk-button.uk-button-default(type="button")
         a(onclick="$.pjax.reload('#contents')")
           i(class="fas fa-undo")
-          | 적용 안함
+          |  적용 안함
           
           
