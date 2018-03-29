@@ -9,11 +9,12 @@ module.exports = function(req, res) {
             var sql_req = sql('UPDATE `sms` SET `phone` = '+SqlString.escape(req.body.phone)+' WHERE `sms`.`id` = '+ SqlString.escape(req.user.id))
           } else if (req.params.service == "Telegram") {
             var sql_req = sql('UPDATE `telegram` SET `chat_id` = '+SqlString.escape(req.body.chat_id)+' WHERE `telegram`.`id` =  '+ SqlString.escape(req.user.id))
+          } else if (req.params.service == "Custom") {
+            var sql_req = sql('UPDATE `custom_domain` SET `domain` = '+SqlString.escape(req.body.domain)+' WHERE `custom_domain`.`owner` =  '+ SqlString.escape(req.user.id))
           }
-          req.session.error = '적용되었습니다!'
-          res.redirect('/')
+          res.json({ success: true, title: "완료했습니다!",  message: "부가 서비스 설정 요청이 전달되었습니다." });
       } else {
-        res.render('error/403')
+        res.json({ success: false, title: "권한이 없습니다.",  message: "부가 서비스 수정 권한이 없습니다." });
       }
   };
 }
