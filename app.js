@@ -228,13 +228,13 @@ app.use(function(req, res, next) {
                   const dns = require('dns');
                   dns.resolve('_minecraft._tcp.'+rows[0]['sv_ip'], 'SRV', (err, records) => {
                     if (err) {
-                      var ip = rows[0]['sv_ip']
-                      var port = rows[0]['sv_port']
+                      var sv_ip = rows[0]['sv_ip']
+                      var sv_port = rows[0]['sv_port']
                     } else {
-                      var ip = records[0]['sv_ip']
-                      var port = records[0]['sv_port']
+                      var sv_ip = records[0]['name']
+                      var sv_port = records[0]['port']
                     }
-                    mineping(1, ip, port, function(err, data) {
+                    mineping(1, sv_ip, sv_port, function(err, data) {
                       if(err) {
                           res.render('./user_page/'+servicename+'-'+rows[0]['theme'], {pagedata: rows[0], userdata: rows2[0], otherpage: rows3, data: false})
                       } else {
