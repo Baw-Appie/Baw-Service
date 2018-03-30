@@ -225,11 +225,25 @@ app.use(function(req, res, next) {
                 if(rows[0]['sv_ip'] == '' || rows[0]['sv_port'] == '') {
                   res.render('./user_page/'+servicename+'-'+rows[0]['theme'], {pagedata: rows[0], userdata: rows2[0], otherpage: rows3, data: false})
                 } else {
-                  mineping(1, rows[0]['sv_ip'], rows[0]['sv_port'], function(err, data) {
-                  if(err)
-                      res.render('./user_page/'+servicename+'-'+rows[0]['theme'], {pagedata: rows[0], userdata: rows2[0], otherpage: rows3, data: false})
-                  else
-                    res.render('./user_page/'+servicename+'-'+rows[0]['theme'], {pagedata: rows[0], userdata: rows2[0], otherpage: rows3, data: data})
+                  const dns = require('dns');
+                  dns.resolve('_minecraft._tcp.'+rows[0]['sv_ip'], 'SRV', (err, records) => {
+                    if (err) {
+                      mineping(1, rows[0]['sv_ip'], rows[0]['sv_port'], function(err, data) {
+                        if(err) {
+                            res.render('./user_page/'+servicename+'-'+rows[0]['theme'], {pagedata: rows[0], userdata: rows2[0], otherpage: rows3, data: false})
+                        } else {
+                          res.render('./user_page/'+servicename+'-'+rows[0]['theme'], {pagedata: rows[0], userdata: rows2[0], otherpage: rows3, data: data})
+                        }
+                      });
+                    } else {
+                      mineping(1, records[0]['name'], records[0]['port'], function(err, data) {
+                        if(err) {
+                            res.render('./user_page/'+servicename+'-'+rows[0]['theme'], {pagedata: rows[0], userdata: rows2[0], otherpage: rows3, data: false})
+                        } else {
+                          res.render('./user_page/'+servicename+'-'+rows[0]['theme'], {pagedata: rows[0], userdata: rows2[0], otherpage: rows3, data: data})
+                        }
+                      })
+                    }
                   });
                 }
               }
