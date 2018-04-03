@@ -37,8 +37,10 @@ module.exports = function (req, res) {
 
         var sql_req = sql('select * from sms where id=' + SqlString.escape(req.user.id), function(err, rows){
           if (rows.length === 0) {
-            req.session.error = data.name+'가 비활성화되어 있습니다.';
-            res.redirect('/')
+            var sql_req = sql(SqlString.format('insert into sms values (?, "010-0000-0000", 0, 0)', [req.user.id]), function(err, rows2){
+              req.session.error = data.name+' 서비스가 등록되어 있지 않아 서비스를 등록시켰습니다.';
+              res.send('<script>$.pjax({url: location.href, container: "#contents"})</script>')
+            })
           } else {
             res.render('manage/edit', {rows: rows,data: data,select_option: select_option,select_option_korean: select_option_korean,text_option: text_option,text_option_korean: text_option_korean,textarea_option: textarea_option,textarea_option_korean: textarea_option_korean, custom_select_option: custom_select_option})
           }
@@ -58,8 +60,10 @@ module.exports = function (req, res) {
 
         var sql_req = sql('select * from telegram where id=' + SqlString.escape(req.user.id), function(err, rows){
           if (rows.length === 0) {
-            req.session.error = data.name+'가 비활성화되어 있습니다.';
-            res.redirect('/')
+            var sql_req = sql(SqlString.format('insert into telegram values (?, "")', [req.user.id]), function(err, rows2){
+              req.session.error = data.name+' 서비스가 등록되어 있지 않아 서비스를 등록시켰습니다.';
+              res.send('<script>$.pjax({url: location.href, container: "#contents"})</script>')
+            })
           } else {
             res.render('manage/edit', {rows: rows,data: data,select_option: select_option,select_option_korean: select_option_korean,text_option: text_option,text_option_korean: text_option_korean,textarea_option: textarea_option,textarea_option_korean: textarea_option_korean, custom_select_option: custom_select_option})
           }
@@ -76,13 +80,23 @@ module.exports = function (req, res) {
         var textarea_option = []
         var textarea_option_korean = []
         var custom_select_option = []
-        var custom_text = "연결 후 해당 도메인을 CNAME 레코드로 dev.rpgfarm.com에 연결하세요."
 
         var sql_req = sql('select * from custom_domain where owner=' + SqlString.escape(req.user.id), function(err, rows){
           if (rows.length === 0) {
-            req.session.error = data.name+'가 비활성화되어 있습니다.';
-            res.redirect('/')
+            var date = new Date().toLocaleDateString()
+            var sql_req = sql('select * from page where service=1 and owner=' + SqlString.escape(req.user.id), function(err, rows2){
+              if(rows2.length === 1){
+                var sql_req = sql(SqlString.format('INSERT INTO `custom_domain` VALUES (NULL, ?, ?, "example.com", ?, 1);', [req.user.id, date, rows2[0]['name']]), function(err, rows3){
+                  req.session.error = data.name+' 서비스가 등록되어 있지 않아 서비스를 등록시켰습니다.';
+                  res.send('<script>$.pjax({url: location.href, container: "#contents"})</script>')
+                })
+              } else {
+                req.session.error = "후원 홈페이지 이용자만 사용이 가능합니다."
+                res.redirect('/')
+              }
+            })
           } else {
+            var custom_text = "연결 후 해당 도메인을 CNAME 레코드로 dev.rpgfarm.com에 연결하세요.<br>현재 연결 대상 사이트: https://baws.kr/" + rows[0]['go']
             res.render('manage/edit', {rows: rows,data: data,select_option: select_option,select_option_korean: select_option_korean,text_option: text_option,text_option_korean: text_option_korean,textarea_option: textarea_option,textarea_option_korean: textarea_option_korean, custom_select_option: custom_select_option, custom_text: custom_text})
           }
         });
