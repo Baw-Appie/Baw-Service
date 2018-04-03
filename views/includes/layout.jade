@@ -1,12 +1,11 @@
 if pjax
-    #contents
-      if session.error
-        .uk-alert-warning(uk-alert)
-          a.uk-alert-close(uk-close)
-          p= session.error
-          - delete session.error;
-      block contents
-      block extscript
+    if session.error
+      .uk-alert-warning(uk-alert)
+        a.uk-alert-close(uk-close)
+        p= session.error
+        - delete session.error;
+    block contents
+    block extscript
 else
   doctype html
   head
