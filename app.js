@@ -1,3 +1,4 @@
+// 모듈 로드
 var express = require('express')
 var http = require('http');
 var https = require('https');
@@ -25,7 +26,7 @@ app.set('views', './views');
 if(server_settings.pretty_html == true) {
   app.locals.pretty = true;
 }
-
+// 서버 초기화
 app.use(function(req,res,next){
     if (req.hostname == server_settings.hostname) {
       forceSSL
@@ -54,11 +55,13 @@ app.use( custom_domains() );
 app.use(bodyParser.urlencoded({extended: false}));
 app.use('/public', express.static('public'));
 
-
+// *페이지 라우터* //
+// 메인
 app.all('/', function (req, res) {
   res.render('index');
 });
 
+// 페이지 관리
 app.get('/manage', function (req, res) {
   if(req.user) {
     res.render('manage/index');
@@ -71,16 +74,20 @@ app.all('/manage/:service/complete/:id/:status', require('./routes/manage/comple
 app.post('/manage/:service/edit', require('./routes/manage/edit_complete'))
 app.get('/manage/:service/edit', require('./routes/manage/edit_view'))
 
+// API 관리
 app.post('/api/:service/edit', require('./routes/api/edit_complete'))
 app.get('/api/:service/edit', require('./routes/api/edit_view'))
 
+// 유저 활동 처리
 app.post('/user/donation', require('./routes/user/donation_complete'))
 app.post('/user/id_check', require('./routes/user/id_check_complete'))
 
+// 서버 아이콘 셋팅
 app.get('/favicon.ico', function(req, res){
   res.download('./public/img/favicon.ico');
 });
 
+// 인증 With PassportJS
 app.get('/auth/logout', function(req, res){
   req.logout();
   res.redirect('/');
@@ -90,30 +97,31 @@ app.get('/auth/login', function(req, res){
 })
 app.post('/auth/login', passport.authenticate('local', {failureRedirect: '/auth/login', failureFlash: false}), function (req, res) {
     res.redirect('/');
-  });
-
+});
 app.get('/auth/google',
   passport.authenticate('google', { scope:
   	[ 'https://www.googleapis.com/auth/plus.login',
   	  'https://www.googleapis.com/auth/plus.profile.emails.read' ] }
 ));
-
-  app.get( '/auth/google/callback',
-  	passport.authenticate( 'google', {
-  		successRedirect: '/',
-  		failureRedirect: '/auth/login'
-  }));
-
+app.get( '/auth/google/callback',
+	passport.authenticate( 'google', {
+		successRedirect: '/',
+		failureRedirect: '/auth/login'
+}));
 app.get('/auth/kakao', passport.authenticate('kakao',{
     failureRedirect: '/auth/login'
 }));
-
 app.get( '/auth/kakao/callback',
   	passport.authenticate( 'kakao', {
   		successRedirect: '/',
   		failureRedirect: '/auth/login'
-  }));
+}));
+// *페이지 라우터* //
 
+
+// *PassportJS* //
+
+// 유저 정보 설정
 passport.serializeUser(function (user, done) {
   return done(null, user);
 });
@@ -121,6 +129,8 @@ passport.serializeUser(function (user, done) {
 passport.deserializeUser(function (user, done) {
   done(null, user);
 });
+
+// 로컬 로그인
 passport.use(new LocalStrategy({
   usernameField: 'id',
   passwordField: 'pass',
@@ -141,6 +151,8 @@ passport.use(new LocalStrategy({
     });
 }));
 
+// *소셜 로그인 //
+// Google 로그인
 var oauth_info = require('./config/oauth_info');
 passport.use(new GoogleStrategy({
     clientID: oauth_info.googleid,
@@ -165,6 +177,7 @@ passport.use(new GoogleStrategy({
     });
   }
 ));
+// Kakao 로그인
 passport.use(new KakaoStrategy({
     clientID: oauth_info.kakaoid,
     clientSecret: oauth_info.kakaosecret,
@@ -193,11 +206,15 @@ passport.use(new KakaoStrategy({
     });
   }
 ));
+// *PassportJS* //
+
+// 유저 페이지 로드
 app.use(function(req, res, next) {
   var path = req.path.split('/')
   var sql_req = sql('select * from page where name=' + SqlString.escape(path[1]), function(err, rows){
     if(err) { throw err }
     if(rows.length === 0) {
+      // 404 에러 처리
       res.status(404).render('error/404')
     } else {
       var servicename;
@@ -256,14 +273,17 @@ app.use(function(req, res, next) {
   });
 });
 
+// 500 서버 에러 처리
 app.use(function(err, req, res, next) {
   console.error('[Baw Service Error Report] 처리할 수 없는 문제로 500 에러가 사용자에게 출력되고 있습니다.', err.stack);
   res.status(500).render('error/500')
 });
 
+// *서버 초기화* //
 var http_server = http.createServer(app);
 
 var tls = require('tls');
+// Baw Service 인증을 위한 SSL 자동 적용
 var ssloptions = {
     SNICallback: function (domain, cb) {
         if (fs.existsSync('./config/ssl/'+domain+'/key.pem')) {
@@ -296,7 +316,9 @@ var ssloptions = {
    cert: fs.readFileSync('./config/ssl/cert.pem', 'utf8')
 }
 var https_server = https.createServer(ssloptions, app);
+// *서버 초기화* //
 
+// 서버 실행
 http_server.listen(server_settings.http_port, function() {
   console.log('[Baw Service Error Report] server listening on port ' + http_server.address().port);
 });
