@@ -31,7 +31,7 @@ app.use(function(req,res,next){
     if (req.hostname == server_settings.hostname) {
       forceSSL
     } else if (fs.existsSync('./config/ssl/'+req.hostname+'/key.pem')) {
-        forceSSL
+      forceSSL
     }
     next();
 });
@@ -87,35 +87,43 @@ app.get('/favicon.ico', function(req, res){
   res.download('./public/img/favicon.ico');
 });
 
-// 인증 With PassportJS
+// *인증 With PassportJS* //
+// 로그아웃
 app.get('/auth/logout', function(req, res){
   req.logout();
   res.redirect('/');
 });
+// 로컬 로그인
 app.get('/auth/login', function(req, res){
   res.render('login');
 })
+// 로컬 로그인 시도
 app.post('/auth/login', passport.authenticate('local', {failureRedirect: '/auth/login', failureFlash: false}), function (req, res) {
     res.redirect('/');
 });
+// Google 로그인
 app.get('/auth/google',
   passport.authenticate('google', { scope:
   	[ 'https://www.googleapis.com/auth/plus.login',
   	  'https://www.googleapis.com/auth/plus.profile.emails.read' ] }
 ));
+// Google 로그인 시도
 app.get( '/auth/google/callback',
 	passport.authenticate( 'google', {
 		successRedirect: '/',
 		failureRedirect: '/auth/login'
 }));
+// Kakao 로그인
 app.get('/auth/kakao', passport.authenticate('kakao',{
     failureRedirect: '/auth/login'
 }));
+// Kakao 로그인 시도
 app.get( '/auth/kakao/callback',
   	passport.authenticate( 'kakao', {
   		successRedirect: '/',
   		failureRedirect: '/auth/login'
 }));
+// *인증 With PassportJS* //
 // *페이지 라우터* //
 
 
