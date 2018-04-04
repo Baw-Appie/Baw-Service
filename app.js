@@ -2,7 +2,6 @@
 var express = require('express')
 var http = require('http');
 var https = require('https');
-var forceSSL = require('express-force-ssl');
 var encoding = require("encoding");
 var fs = require('fs');
 var server_settings = require('./config/server_settings');
@@ -28,12 +27,12 @@ if(server_settings.pretty_html == true) {
 }
 // 서버 초기화
 app.use(function(req,res,next){
-    if (req.hostname == server_settings.hostname) {
-      forceSSL
-    } else if (fs.existsSync('./config/ssl/'+req.hostname+'/key.pem')) {
-      forceSSL
+  if (req.hostname == server_settings.hostname || fs.existsSync('./config/ssl/'+req.hostname+'/key.pem')) {
+    if (!req.secure) {
+      return res.redirect('https://' + req.get('host') + req.url);
     }
-    next();
+  }
+  next();
 });
 app.use(cookieSession({
   name: 'session',
@@ -101,6 +100,9 @@ app.get('/auth/login', function(req, res){
 app.post('/auth/login', passport.authenticate('local', {failureRedirect: '/auth/login', failureFlash: false}), function (req, res) {
     res.redirect('/');
 });
+app.get('/auth/register', function(req, res){
+  res.render('auth/register')
+})
 // Google 로그인
 app.get('/auth/google',
   passport.authenticate('google', { scope:
