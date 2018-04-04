@@ -12,6 +12,7 @@ var allow_ip = require('./libs/allow_ip');
 var socket_api = require('./libs/socket_api');
 var custom_domains = require('./libs/custom_domains');
 var bodyParser = require('body-parser');
+var validator = require('validator');
 var app = express();
 var cookieSession = require('cookie-session')
 var session_config = require('./config/session');
@@ -102,6 +103,33 @@ app.post('/auth/login', passport.authenticate('local', {failureRedirect: '/auth/
 });
 app.get('/auth/register', function(req, res){
   res.render('auth/register')
+})
+app.post('auth/exist/:type', function(req, res){
+  if(req.params.type){
+    var type = req.params.type
+    if(type == "id"){
+      var sql_Request = SqlString.format('SELECT * FROM id WHERE id=?', [req.post.data])
+    }
+    if(type == "mail"){
+      var sql_Request = SqlString.format('SELECT * FROM id WHERE mail=?', [req.post.data])
+    }
+    var sql_req = sql(sql_Request, function(err, rows){
+      if(err){ throw new Error('1번 질의 오류') }
+      if(rows.length == 0){
+        if(type == "mail"){
+          if(validator.isEmail(req.post.data) == true){
+            res.json({ success: true, message: "사용 가능합니다." })
+          } else {
+            res.json({ success: false, message: "잘못된 이메일 형식입니다." })
+          }
+        } else {
+          res.json({ success: true, message: "사용 가능합니다." })
+        }
+      } else {
+        res.json({ success: false, message: "이미 사용중입니다." })
+      }
+    })
+  }
 })
 // Google 로그인
 app.get('/auth/google',
