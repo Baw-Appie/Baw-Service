@@ -141,20 +141,7 @@ passport.use(new LocalStrategy({
   passwordField: 'pass',
   session: true,
   passReqToCallback: true
-}, function (req, username, password, done) {
-    var login_req = sql('select * from id where id=' + SqlString.escape(username) + ' and password=password(' + SqlString.escape(password) + ')', function(err, rows){
-      if(err) { done(err) };
-      if (rows.length === 0) {
-        req.session.error = '존재하지 않는 ID거나 비밀번호를 잘못 입력하셨습니다.';
-        return done(null, false, { message: '존재하지 않는 ID거나 비밀번호를 잘못 입력하셨습니다.' })
-      } else {
-        req.session.error = rows[0].id + '로 로그인했습니다.';
-        return done(null, {
-          'id': username,
-        });
-      }
-    });
-}));
+}, require('./libs/passport/local')));
 
 // *소셜 로그인 //
 // Google 로그인
@@ -165,22 +152,7 @@ passport.use(new GoogleStrategy({
     callbackURL: "https://"+server_settings.hostname+"/auth/google/callback",
     passReqToCallback: true
   },
-  function(request, accessToken, refreshToken, profile, done) {
-    process.nextTick(function () {
-      var login_req = sql('select * from id where id=' + SqlString.escape(profile.emails[0]['value']), function(err, rows){
-        if(err) { done(err) };
-        if (rows.length === 0) {
-          request.session.error = '존재하지 않는 ID거나 비밀번호를 잘못 입력하셨습니다.';
-          return done(null, false, { message: '존재하지 않는 ID거나 비밀번호를 잘못 입력하셨습니다.' })
-        } else {
-          request.session.error = rows[0].id + '로 로그인했습니다.';
-          return done(null, {
-            'id': rows[0]['id'],
-          });
-        }
-      });
-    });
-  }
+  require('./libs/passport/google')
 ));
 // Kakao 로그인
 passport.use(new KakaoStrategy({
@@ -189,27 +161,7 @@ passport.use(new KakaoStrategy({
     callbackURL: "https://"+server_settings.hostname+"/auth/kakao/callback",
     passReqToCallback: true
   },
-  function(request, accessToken, refreshToken, profile, done) {
-    process.nextTick(function () {
-      if(profile['_json']['kaccount_email_verified'] == true) {
-        var login_req = sql('select * from id where id=' + SqlString.escape(profile['_json']['kaccount_email']), function(err, rows){
-          if(err) { done(err) };
-          if (rows.length === 0) {
-            request.session.error = '존재하지 않는 ID거나 비밀번호를 잘못 입력하셨습니다.';
-            return done(null, false, { message: '존재하지 않는 ID거나 비밀번호를 잘못 입력하셨습니다.' })
-          } else {
-            request.session.error = rows[0].id + '로 로그인했습니다.';
-            return done(null, {
-              'id': rows[0]['id'],
-            });
-          }
-        });
-      } else {
-        request.session.error = '이메일 인증을 먼저 완료하세요.';
-        return done(null, false, { message: '이메일 인증을 먼저 완료하세요.' })
-      }
-    });
-  }
+  require('./libs/passport/kakao')
 ));
 // *PassportJS* //
 
