@@ -84,14 +84,11 @@ block contents
             else
               textarea.uk-textarea(name='#{name}', placeholder='#{textarea}', rows=5)
               
-      // CUSTOM INPUT
-      
+      // CUSTOM TEXT INPUT
       if custom_text
         | !{custom_text}
-        br
       
-              
-      
+      br
       button.uk-button.uk-button-primary(type="submit")
         i(class="fas fa-save")
         |  설정 적용
