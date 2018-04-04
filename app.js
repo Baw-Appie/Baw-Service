@@ -94,10 +94,14 @@ app.get('/auth/login', function(req, res){
 app.post('/auth/login', passport.authenticate('local', {failureRedirect: '/auth/login', failureFlash: false}), function (req, res) {
     res.redirect('/');
 });
+// 로컬 회원가입
 app.get('/auth/register', function(req, res){
   res.render('auth/register')
 })
+// 로컬 회원가입을 위한 ID / Mail 중복 검사
 app.post('/auth/exist/:type', require('./routes/auth/exist'))
+// 로컬 회원가입 시도
+app.post('/auth/register', require('./routes/auth/register'))
 // Google 로그인
 app.get('/auth/google',
   passport.authenticate('google', { scope:
