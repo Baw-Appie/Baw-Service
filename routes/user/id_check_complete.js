@@ -38,7 +38,6 @@ function complete(req, res){
           if(rdata.error) {
             var translate = require('node-google-translate-skidz');
             translate({text: rdata.errorMessage, source: 'en', target: 'ko'}, function(result) {
-              // reject('메롱')
               reject(result.translation)
             });
           } else if(rdata.selectedProfile.name){
@@ -65,14 +64,31 @@ function complete(req, res){
                       var sql_Request = SqlString.format('INSERT INTO service2 values (?, ?, ?, ?, ?, ?, 0)', [no, rows[0]['owner'], page, nick, date, ip]);
                       var sql_req4  = sql(sql_Request, function(err, rows4) {
                         if (err) { reject('4번 질의 오류'); }
-                        resolve("<script>alert('등록되었습니다.');location.replace('https://"+req.hostname+"/"+page+"');</script>")
+
+                        if(rows[0]['mail_ok'] == 1) {
+                          var nodemailer = require('nodemailer');
+                          var transporter = require('../../libs/mail_init');
+                          var mailOptions = {
+                            from: 'Baw Service <A-Mail-Sender@rpgfarm.com>',
+                            to: rows2[0]['mail'],
+                            subject: '[Baw Service] 새로운 정품 인증 요청이 있습니다!',
+                            html: "<p>Baw Service에서 새로운 정품 인증 요청이 있습니다!</p><p>정품 인증 관리 사이트를 확인해주세요!</p><p><a href=\"https://"+req.hostname+"/manage/2/view\">[Baw Service 관리 사이트]</a></p><p>Powered by <a href='https://baws.kr/'>Baw Service</a></p>"
+                          };
+                          transporter.sendMail(mailOptions, function(error, info) {
+                            transporter.close();
+                            if(error) {
+                              reject('인증에 성공하였으나 알림 메일 발송 오류입니다. 정품 인증 완료 사실을 서버 관리자에게 직접 알려주세요.')
+                            }
+                          });
+                        }
+
+                        resolve("<script>alert('정품인증에 성공했습니다!');location.replace('https://"+req.hostname+"/"+page+"');</script>")
                       })
                     }
                   });
                 })
               })
             })
-            /* */
           } else {
             reject('구입이 완료된 마인크래프트 닉네임을 찾을 수 없습니다.')
           }
