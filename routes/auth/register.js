@@ -1,7 +1,9 @@
 var sql = require('../../config/dbtool');
+var server_settings = require('../../config/server_settings');
+var session_config = require('../../config/session');
 var SqlString = require('sqlstring');
+var request = require('request');
 var vali = require('validator');
-
 
 
 function complete(req, res){
@@ -49,13 +51,37 @@ function complete(req, res){
       if(rows.length != 0){
         reject('이미 존재하는 ID입니다.')
       } else {
-        var sql_Request = SqlString.format('SELECT * FROM id WHERE mail=?', [mail])
-        var sql_req = sql(sql_Request, function(err, rows2){
+        var sql_Request2 = SqlString.format('SELECT * FROM id WHERE mail=?', [mail])
+        var sql_req2 = sql(sql_Request2, function(err, rows2){
           if(err){ reject('2번 질의 오류') }
           if(rows2.length != 0){
             reject('이미 등록된 이메일입니다.')
           } else {
-            // TODO: SQL을 이용하여 유저 데이터 추가 및 이메일 인증 + 이메일 인증을 통해서 SMS 서비스 자동 가입
+            var enc_mail = require('md5')('mail + session_config.secret')
+            var sql_Request3 = SqlString.format('insert into id values (?, password(?), ?, ?, ?, 0, ?, \'\', 0, \'\', 3203, \'socket\', \'\', \'0000-00-00\')', [id, pass, mail, svname, date, enc_mail])
+            console.log(sql_Request3)
+            var sql_req3 = sql(sql_Request3, function(err, rows3){
+              if(err){ reject('3번 질의 오류') }
+
+              var nodemailer = require('nodemailer');
+              var transporter = require('../../libs/mail_init');
+              var mailOptions = {
+                from: 'Baw Service <A-Mail-Sender@rpgfarm.com>',
+                to: mail,
+                subject: '[Baw Service] 가입 확인 이메일입니다.',
+                html: '유저님이 Baw Service에서 요청하신 링크는 다음과 같습니다.<br><br><a href=\"https://'+req.hostname+'/auth/check-email?key='+enc_mail+'">[인증하기]</a><br>또는 아래 링크를 직접 복사해서 접속하세요.<br><br>https://'+req.hostname+'/auth/check-email?key='+enc_mail+'<br><br>감사합니다.'
+              };
+              transporter.sendMail(mailOptions, function(error, info) {
+                transporter.close();
+                if(error) {
+                  reject('인증 메일 발송 오류입니다. 관리자(카카오톡 pp121324)에게 문의하세요.')
+                }
+              });
+
+
+              req.session.error = "Baw Service에서 인증 메일을 보냈습니다. 인증 메일을 확인해주세요."
+              res.redirect('/')
+            })
           }
         })
       }
