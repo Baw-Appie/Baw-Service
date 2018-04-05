@@ -1,6 +1,10 @@
 extends ../includes/layout
 block extscript
   script.
+    loadScript('https://www.google.com/recaptcha/api.js')
+    function captchaSubmit() {
+    	$("#reg").submit();
+    }
     $('#id').blur(function(){
       if($('#id').val() != "") {
         $.ajax({
@@ -49,7 +53,7 @@ block extscript
     });
 
 block contents
-  form(method='post')
+  form(method='post', id="reg")
     fieldset.uk-fieldset
       legend.uk-legend Baw Service 회원가입
       .uk-margin
@@ -74,7 +78,7 @@ block contents
         label 전화번호
         input.uk-input(type='number', id="phone", name="phone", placeholder='전화번호 ("-"은 제외)')
         
-      button.uk-button.uk-button-primary(type="submit")
+      button.uk-button.uk-button-primary.g-recaptcha(type='submit', data-sitekey='6LeKTiwUAAAAANOYA7r37sTyquy_R0ljzSTVS6Bp', data-callback='captchaSubmit')
         i(class="fas fa-user-plus")
         |  회원 가입
       button.uk-button.uk-button-default(type="reset")
