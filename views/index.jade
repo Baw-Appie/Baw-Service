@@ -9,6 +9,8 @@ block contents
     p 카카오톡: pp121324, 이메일: pp121324@gmail.com
     p 아예 작동하지 않는 작업: 회원가입, (후원, 정품인증)알림, 정품인증 자동 처리, API 플러그인 지원 (현재 릴리즈에서는 Beta 3로 작동중으로 사용 가능)
   else
+    a(href="auth/register")
+      p 수정 페이지로 한방에 이동하자!
     .uk-grid-small.uk-text-center(class='uk-child-width-expand@s', uk-grid='')
       div
         .uk-card.uk-card-default.uk-card-body
@@ -30,7 +32,7 @@ block contents
           | 			처리 완료만 누르면 나머지는 API 플러그인이 자동으로!
     br
     div(class="uk-flex uk-flex-center")
-      a(href="https://baws.kr/auth/register")
+      a(href="https://#{hostname}/auth/register")
         button(class="uk-button uk-button-primary") 지금 시작하기
       button(class="uk-button uk-button-default" type='button', uk-toggle='target: #login-slide') 나는 이미 쓰고 있는데
     br
