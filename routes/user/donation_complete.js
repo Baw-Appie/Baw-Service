@@ -100,7 +100,25 @@ function complete(req, res){
                }
               var sql_req4  = sql(sql_Request, function(err, rows4) {
                 if (err) { reject('4번 질의 오류'); }
-                res.send("<script>alert('등록되었습니다.');location.replace('https://"+req.hostname+"/"+page+"');</script>")
+
+                if(rows[0]['mail_ok'] == 1) {
+                  var nodemailer = require('nodemailer');
+                  var transporter = require('../../libs/mail_init');
+                  var mailOptions = {
+                    from: 'Baw Service <A-Mail-Sender@rpgfarm.com>',
+                    to: rows2[0]['mail'],
+                    subject: '[Baw Service] 새로운 후원 요청이 있습니다!',
+                    html: "<p>Baw Service에서 새로운 정품 인증 요청이 있습니다!</p><p>후원 관리 사이트를 확인해주세요!</p><p><a href=\"https://"+req.hostname+"/manage/2/view\">[Baw Service 관리 사이트]</a></p><p>Powered by <a href='https://baws.kr/'>Baw Service</a></p>"
+                  };
+                  transporter.sendMail(mailOptions, function(error, info) {
+                    transporter.close();
+                    if(error) {
+                      reject('후원 등록에는 성공하였으나 알림 메일 발송 오류입니다. 후원 사실을 서버 관리자에게 직접 알려주세요.')
+                    }
+                  });
+                }
+
+                resolve("<script>alert('등록되었습니다.');location.replace('https://"+req.hostname+"/"+page+"');</script>")
               })
             }
           });
@@ -113,7 +131,7 @@ function complete(req, res){
 
 module.exports = function(req, res) {
   complete(req, res).then(function (text) {
-  	console.log(text);
+  	res.send(text);
   }).catch(function (error) {
   	res.send('<script>alert("' + error +'");history.go(-1);</script>')
   });
