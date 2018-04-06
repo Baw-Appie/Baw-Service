@@ -6,6 +6,9 @@ module.exports = (function () {
     hostname: "localhost",
     g_captcha_site_key: "6LeKTiwUAAAAANOYA7r37sTyquy_R0ljzSTVS6Bp",
     g_captcha_secret_key: "SECRET!",
-    pretty_html: true
+    pretty_html: true,
+    mail_sv: "smtp.worksmobile.com",
+    mail_id: "a-mail-sender@rpgfarm.com",
+    mail_pw: "SECRET"
   }
 })();
