@@ -25,17 +25,17 @@ module.exports = function(req, res) {
     if(req.user) {
         if(req.params.service){
           if(req.params.service == "API") {
-            var req_field = [api_ok, api_key, api]
-            var opt_field = [api_ip, api_port]
+            var req_field = ["api_ok", "api_key", "api"]
+            var opt_field = ["api_ip", "api_port"]
           } else if (req.params.service == "SMS") {
             var req_field = []
-            var opt_field = [phone]
+            var opt_field = ["phone"]
           } else if (req.params.service == "Telegram") {
             var req_field = []
-            var opt_field = [chat_id]
+            var opt_field = ["chat_id"]
           } else if (req.params.service == "Custom") {
             var req_field = []
-            var opt_field = [domain]
+            var opt_field = ["domain"]
           }
           req_check(req_field, req).then(function (text) {
             opt_check(opt_field, req).then(function (text) {
