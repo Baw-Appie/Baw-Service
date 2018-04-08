@@ -35,7 +35,7 @@ module.exports = function(req, res) {
           opt_field.push("youtube", "disabled")
       		var youtube = req.body.youtube;
       		var disabled = req.body.disabled.toString();
-      		var theme = "bootstrap3";
+      		var theme = req.body.theme;
       		var bouns = req.body.bouns;
       		var sms_ok = req.body.sms_ok;
       		var slack_ok = req.body.slack_ok;
