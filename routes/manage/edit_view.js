@@ -9,17 +9,18 @@ module.exports = function (req, res) {
         }
         var select_option = ["mail_ok", "sms_ok", "kakao_ok", "tg_ok", "slack_ok"]
         var select_option_korean = ["후원 Mail 알림", "후원 SMS 알림", "후원 KakaoTalk 알림", "후원 Telegram 알림", "후원 Slack 알림"]
-        var text_option = ["disabled", "bouns","api_cmd","youtube"]
-        var text_option_korean = ["사용하지 않을 후원 방법", "후원 보너스 설정", "API 플러그인 명령어 설정", "Youtube Video ID 설정"]
+        var text_option = ["bouns","api_cmd","youtube","theme"]
+        var text_option_korean = ["후원 보너스 설정", "API 플러그인 명령어 설정", "Youtube Video ID 설정", "테마(베타)"]
         var textarea_option = ["notice"]
         var textarea_option_korean = ["공지사항"]
+        var custom_checkbox_option = [{name: "disabled", korean: "사용하지 않을 후원 방법", options: ["문화상품권", "도서 문화상품권", "해피머니", "틴캐시", "계좌이체"], option_data: ["1문화상품권", "도서문화상품권", "해피머니", "틴캐시", "계좌이체"], option_korean: ["문화상품권", "도서 문화상품권", "해피머니", "틴캐시", "계좌이체"]}]
 
         var sql_req = sql('select * from page where service=1 and owner=' + SqlString.escape(req.user.id), function(err, rows){
           if (rows.length === 0) {
             req.session.error = '후원 홈페이지가 존재하지 않습니다.';
             res.redirect('/')
           } else {
-            res.render('manage/edit', {rows: rows,data: data,select_option: select_option,select_option_korean: select_option_korean,text_option: text_option,text_option_korean: text_option_korean,textarea_option: textarea_option,textarea_option_korean: textarea_option_korean})
+            res.render('manage/edit', {rows: rows,data: data,select_option: select_option,select_option_korean: select_option_korean,text_option: text_option,text_option_korean: text_option_korean,textarea_option: textarea_option,textarea_option_korean: textarea_option_korean, custom_checkbox_option: custom_checkbox_option})
           }
         });
       } else if(req.params.service == 2) {
