@@ -64,7 +64,7 @@ function complete(req, res){
         reject('핀번호3를 입력해주세요.')
       }
       if(Combo != "틴캐시") {
-        if(vali.isEmpty(pin4) || pin1.length > 6 || pin4.length < 3 || pin4.length = 5){
+        if(vali.isEmpty(pin4) || pin1.length > 6 || pin4.length < 3 || pin4.length == 5){
           reject('핀번호4를 입력해주세요.')
         }
       }
