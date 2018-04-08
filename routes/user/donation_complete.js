@@ -44,27 +44,27 @@ function complete(req, res){
     var code = req.body.code
     var date = new Date().toLocaleDateString()
     var ip = req.connection.remoteAddress
-    if(vali.isEmpty(nick)){
+    if(vali.isEmpty(nick) || nick.length > 18){
       reject('닉네임을 입력해주세요.')
     }
-    if(vali.isEmpty(bal)){
+    if(vali.isEmpty(bal) || bal.length > 18){
       reject('후원금액을 입력해주세요.')
     }
-    if(vali.isEmpty(Combo)){
+    if(vali.isEmpty(Combo) || Combo.length > 18){
       reject('후원방법을 선택해주세요.')
     }
     if(Combo != "계좌이체") {
-      if(vali.isEmpty(pin1)){
+      if(vali.isEmpty(pin1) || pin1.length != 4){
         reject('핀번호1를 입력해주세요.')
       }
-      if(vali.isEmpty(pin2)){
+      if(vali.isEmpty(pin2) || pin2.length != 4){
         reject('핀번호2를 입력해주세요.')
       }
-      if(vali.isEmpty(pin3)){
+      if(vali.isEmpty(pin3) || pin3.length != 4){
         reject('핀번호3를 입력해주세요.')
       }
       if(Combo != "틴캐시") {
-        if(vali.isEmpty(pin4)){
+        if(vali.isEmpty(pin4) || pin1.length > 6 || pin4.length < 3 || pin4.length = 5){
           reject('핀번호4를 입력해주세요.')
         }
       }
@@ -74,7 +74,7 @@ function complete(req, res){
       }
     }
     if(Combo == "틴캐시" || Combo == "도서문화상품권") {
-      if(vali.isEmpty(code)){
+      if(vali.isEmpty(code) || code.length > 18){
         reject('인증 번호(발행일)을 입력해주세요.')
       }
     }
