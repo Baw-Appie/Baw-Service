@@ -71,6 +71,18 @@ app.get('/manage/:service/edit', require('./routes/manage/edit_view'))
 app.post('/api/:service/edit', require('./routes/api/edit_complete'))
 app.get('/api/:service/edit', require('./routes/api/edit_view'))
 
+// API 요청 처리
+app.all('/api/serveripcheck.php', function(req,res) {
+  res.send(server_settings.server_ip)
+})
+app.all('/api/versionchecker.php', function(req,res) {
+  res.send("0.11-Alpha")
+})
+app.all('/api/versioncheckerHTTP.php', function(req,res) {
+  res.send("0.2")
+})
+app.all('/api/getlist.php', require('./routes/api/getlist'))
+
 // 유저 활동 처리
 app.post('/user/donation', require('./routes/user/donation_complete'))
 app.post('/user/id_check', require('./routes/user/id_check_complete'))
