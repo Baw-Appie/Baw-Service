@@ -1,5 +1,6 @@
 var sql = require('../../config/dbtool');
 var SqlString = require('sqlstring');
+var vali = require('validator');
 
 function req_check(variable, req){
   return new Promise(function (resolve, reject) {
@@ -40,10 +41,19 @@ module.exports = function(req, res) {
           req_check(req_field, req).then(function (text) {
             opt_check(opt_field, req).then(function (text) {
               if(req.params.service == "API") {
+                if(!vali.isPort(req.body.api_port)){
+                  res.json({ success: false, title: "잘못된 데이터 감지됨",  message: "전달된 일부 데이터를 설정에 적용할 수 없습니다." });
+                }
                 var sql_Request = SqlString.format('UPDATE `id` SET `api_ok` = ?, `api_key`=?, `api_ip`=?, `api_port`=?, `api`=? WHERE `id`.`id` =?', [req.body.api_ok, req.body.api_key, req.body.api_ip, req.body.api_port, req.body.api, req.user.id])
               } else if (req.params.service == "SMS") {
+                if(req.body.phone.length > 13){
+                  res.json({ success: false, title: "잘못된 데이터 감지됨",  message: "전달된 일부 데이터를 설정에 적용할 수 없습니다." });
+                }
                 var sql_Request = SqlString.format('UPDATE `sms` SET `phone`=? WHERE `sms`.`id` = ?', [req.body.phone, req.user.id])
               } else if (req.params.service == "Telegram") {
+                if(req.body.chat_id.length > 45){
+                  res.json({ success: false, title: "잘못된 데이터 감지됨",  message: "전달된 일부 데이터를 설정에 적용할 수 없습니다." });
+                }
                 var sql_Request = SqlString.format('UPDATE `telegram` SET `chat_id` = ? WHERE `telegram`.`id` = ?', [req.body.chat_id, req.user.id])
               } else if (req.params.service == "Custom") {
                 var sql_Request = SqlString.format('UPDATE `custom_domain` SET `domain` = ? WHERE `custom_domain`.`id` = ?', [req.body.domain, req.user.id])
