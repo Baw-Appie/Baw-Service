@@ -60,6 +60,20 @@ block contents
                 else
                   input.uk-radio(type='radio', name='#{name}', value='#{custom_select["option_data"][oo]}')
                   |  #{custom_select["option_korean"][oo]}
+      // CUSTOM_COMBO INPUT
+      if custom_checkbox_option
+        each custom_checkbox, i in custom_checkbox_option
+          .uk-margin.uk-grid-small.uk-child-width-auto.uk-grid
+            label #{custom_checkbox['korean']}
+            - var name = custom_checkbox['name'];
+            label
+              each custom_list, oo in custom_checkbox['options']
+                -if(rows[0][name].indexOf(custom_checkbox['option_data'][oo]) != -1)
+                  input.uk-checkbox(type='checkbox', name='#{name}', value='#{custom_checkbox["option_data"][oo]}', checked)
+                  |  #{custom_checkbox["option_korean"][oo]}
+                -else
+                  input.uk-checkbox(type='checkbox', name='#{name}', value='#{custom_checkbox["option_data"][oo]}')
+                  |  #{custom_checkbox["option_korean"][oo]}
                 
               
       // TEXT INPUT
