@@ -1,0 +1,43 @@
+extends ../includes/layout
+
+block extscript
+  script.
+    $(function(){
+      $("#edit").submit(function(){
+        NProgress.start();
+        $.ajax({
+          type: "post",
+          url : "#",
+          data : $("#create").serialize(),
+          success : function s(a){
+            if(a.success == true) {
+              toastr.success(a.message, a.title); console.log(a); NProgress.done();
+              
+            } else {
+              toastr.warning(a.message, a.title); console.log(a); NProgress.done();
+            }
+          },
+          error : function error(){ toastr.warning("Baw Service 빠른 설정 적용이 설정을 적용하는 도중 문제가 발생했습니다.", "죄송합니다!");  NProgress.done(); }
+        });
+        return false;
+      });
+    });
+
+block contents
+  form(method="post", id="create")
+    fieldset.uk-fieldset
+      legend.uk-legend #{data.name} 생성
+      .uk-margin
+        label 페이지 이름
+          input.uk-input(type='text', name='name', placeholder='페이지 이름')
+      
+      br
+      button.uk-button.uk-button-primary(type="submit")
+        a(onclick="$.pjax({url: 'https://#{hostname}', container: '#content'})")
+          i(class="fas fa-plus")
+          |  페이지 생성
+      button.uk-button.uk-button-default(type="reset")
+        i(class="fas fa-undo")
+        |  재입력
+          
+          
