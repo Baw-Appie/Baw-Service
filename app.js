@@ -55,13 +55,7 @@ app.all('/', function (req, res) {
 });
 
 // 페이지 관리
-app.get('/manage', function (req, res) {
-  if(req.user) {
-    res.render('manage/index');
-  } else {
-    res.redirect('/auth/login')
-  }
-});
+app.get('/manage', require('./routes/manage/list_view'));
 app.get('/manage/:service/view', require('./routes/manage/view'));
 app.all('/manage/:service/complete/:id/:status', require('./routes/manage/complete'))
 app.post('/manage/:service/edit', require('./routes/manage/edit_complete'))
