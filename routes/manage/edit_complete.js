@@ -32,9 +32,14 @@ module.exports = function(req, res) {
       	var notice = req.body.notice;
         if(service == 1){
           req_field.push("theme", "bouns", "sms_ok", "slack_ok", "tg_ok", "kakao_ok")
-          opt_field.push("youtube", "disabled")
+          opt_field.push("youtube")
       		var youtube = req.body.youtube;
-      		var disabled = req.body.disabled.toString();
+          if(req.body.disabled == undefined) {
+            var disabled = ""
+          } else {
+            opt_field.push("disabled")
+            var disabled = req.body.disabled.toString()
+          }
       		var theme = req.body.theme;
       		var bouns = req.body.bouns;
       		var sms_ok = req.body.sms_ok;
