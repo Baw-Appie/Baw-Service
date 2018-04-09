@@ -114,7 +114,7 @@ function complete(req, res){
                   transporter.sendMail(mailOptions, function(error, info) {
                     transporter.close();
                     if(error) {
-                      return return reject('후원 등록에는 성공하였으나 알림 메일 발송 오류입니다. 후원 사실을 서버 관리자에게 직접 알려주세요.')
+                      return reject('후원 등록에는 성공하였으나 알림 메일 발송 오류입니다. 후원 사실을 서버 관리자에게 직접 알려주세요.')
                     }
                   });
                 }
