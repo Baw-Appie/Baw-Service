@@ -15,13 +15,13 @@ function isset(text) {
 function complete(req, res){
   return new Promise(function (resolve, reject) {
     if(req.body['g-recaptcha-response'] === undefined || req.body['g-recaptcha-response'] === '' || req.body['g-recaptcha-response'] === null) {
-      reject('Recaptcha 인증에 필요한 데이터가 부족합니다.')
+      return reject('Recaptcha 인증에 필요한 데이터가 부족합니다.')
     }
     var verificationUrl = "https://www.google.com/recaptcha/api/siteverify?secret=" + server_settings.g_captcha_secret_key + "&response=" + req.body['g-recaptcha-response'] + "&remoteip=" + req.connection.remoteAddress;
     request(verificationUrl, function(error,response,body) {
       body = JSON.parse(body);
       if(body.success !== undefined && !body.success) {
-        reject('Recaptcha 인증에 실패하였습니다.')
+        return reject('Recaptcha 인증에 실패하였습니다.')
       }
     });
 
@@ -45,47 +45,48 @@ function complete(req, res){
     var date = new Date().toLocaleDateString()
     var ip = req.connection.remoteAddress
     if(vali.isEmpty(nick) || nick.length > 18){
-      reject('닉네임을 입력해주세요.')
+      return reject('닉네임을 입력해주세요.')
     }
     if(vali.isEmpty(bal) || bal.length > 18){
-      reject('후원금액을 입력해주세요.')
+      return reject('후원금액을 입력해주세요.')
     }
     if(vali.isEmpty(Combo) || Combo.length > 18){
-      reject('후원방법을 선택해주세요.')
+      return reject('후원방법을 선택해주세요.')
     }
     if(Combo != "계좌이체") {
       if(vali.isEmpty(pin1) || pin1.length != 4){
-        reject('핀번호1를 입력해주세요.')
+        return reject('핀번호1를 입력해주세요.')
       }
       if(vali.isEmpty(pin2) || pin2.length != 4){
-        reject('핀번호2를 입력해주세요.')
+        return reject('핀번호2를 입력해주세요.')
       }
       if(vali.isEmpty(pin3) || pin3.length != 4){
-        reject('핀번호3를 입력해주세요.')
+        return reject('핀번호3를 입력해주세요.')
       }
       if(Combo != "틴캐시") {
         if(vali.isEmpty(pin4) || pin1.length > 6 || pin4.length < 3 || pin4.length == 5){
-          reject('핀번호4를 입력해주세요.')
+          return reject('핀번호4를 입력해주세요.')
         }
       }
     } else {
       if(vali.isEmpty(nname)) {
-        reject('입금자를 입력해주세요.')
+        return reject('입금자를 입력해주세요.')
       }
     }
     if(Combo == "틴캐시" || Combo == "도서문화상품권") {
       if(vali.isEmpty(code) || code.length > 18){
-        reject('인증 번호(발행일)을 입력해주세요.')
+        return reject('인증 번호(발행일)을 입력해주세요.')
       }
     }
+    console.log("HD")
 
     var sql_req = sql('SELECT * FROM page WHERE name='+ SqlString.escape(page)+' and service=1', function(err, rows) {
-      if (err) { reject('1번 질의 오류') }
-      if (rows.length == 0) { reject('후원 홈페이지가 존재하지 않습니다.') }
+      if (err) { return reject('1번 질의 오류') }
+      if (rows.length == 0) { return reject('후원 홈페이지가 존재하지 않습니다.') }
       var sql_req2 = sql('SELECT * FROM id WHERE id='+ SqlString.escape(rows[0]['owner']), function(err, rows2) {
-        if (err) { reject('2번 질의 오류') }
+        if (err) { return reject('2번 질의 오류') }
         var sql_req3 = sql('SELECT * FROM service1 ORDER BY `num` ASC', function(err, rows3) {
-          if (err) { reject('3번 질의 오류') }
+          if (err) { return reject('3번 질의 오류') }
           var counter = rows3.length;
           rows3.forEach(function(item) {
             counter -= 1;
@@ -99,7 +100,7 @@ function complete(req, res){
        	         var sql_Request = SqlString.format('INSERT INTO service1 values (?, ?, ?, ?, ?, ?-?-?-?, ?, ?, "없음", ?, ?, ?, 0)', [no, page, rows[0]['owner'], nick, bal, pin1, pin2, pin3, pin4, Combo, code, Radio, ip, date]);
                }
               var sql_req4  = sql(sql_Request, function(err, rows4) {
-                if (err) { reject('4번 질의 오류'); }
+                if (err) { return reject('4번 질의 오류'); }
 
                 if(rows[0]['mail_ok'] == 1) {
                   var nodemailer = require('nodemailer');
@@ -113,7 +114,7 @@ function complete(req, res){
                   transporter.sendMail(mailOptions, function(error, info) {
                     transporter.close();
                     if(error) {
-                      reject('후원 등록에는 성공하였으나 알림 메일 발송 오류입니다. 후원 사실을 서버 관리자에게 직접 알려주세요.')
+                      return return reject('후원 등록에는 성공하였으나 알림 메일 발송 오류입니다. 후원 사실을 서버 관리자에게 직접 알려주세요.')
                     }
                   });
                 }

@@ -14,13 +14,13 @@ function isset(text) {
 function complete(req, res){
   return new Promise(function (resolve, reject) {
     if(req.body['g-recaptcha-response'] === undefined || req.body['g-recaptcha-response'] === '' || req.body['g-recaptcha-response'] === null) {
-      reject('Recaptcha 인증에 필요한 데이터가 부족합니다.')
+      return reject('Recaptcha 인증에 필요한 데이터가 부족합니다.')
     }
     var verificationUrl = "https://www.google.com/recaptcha/api/siteverify?secret=" + server_settings.g_captcha_secret_key + "&response=" + req.body['g-recaptcha-response'] + "&remoteip=" + req.connection.remoteAddress;
     request(verificationUrl,function(error,response,body) {
       body = JSON.parse(body);
       if(body.success !== undefined && !body.success) {
-        reject('Recaptcha 인증에 실패하였습니다.')
+        return reject('Recaptcha 인증에 실패하였습니다.')
       } else {
         var id = req.body.id
         var password = req.body.password
@@ -28,34 +28,34 @@ function complete(req, res){
         var date = new Date().toLocaleDateString()
         var ip = req.connection.remoteAddress
         if(id == undefined || id == ''){
-          reject('ID를 입력해주세요.')
+          return reject('ID를 입력해주세요.')
         }
         if(password == undefined || password == ''){
-          reject('비밀번호를 입력해주세요.')
+          return reject('비밀번호를 입력해주세요.')
         }
         request.post({url: 'https://authserver.mojang.com/authenticate', json: {agent: {name: "Minecraft",version: 1}, username: id, password: password}}, function(error, response, body){
           var rdata = body
           if(rdata.error) {
             var translate = require('node-google-translate-skidz');
             translate({text: rdata.errorMessage, source: 'en', target: 'ko'}, function(result) {
-              reject(result.translation)
+              return reject(result.translation)
             });
           } else if(rdata.selectedProfile.name){
             var nick = rdata['selectedProfile']['name']
             /* */
             var sql_req = sql('SELECT * FROM page WHERE name='+ SqlString.escape(page)+' and service=2', function(err, rows) {
-              if (err) { reject('1번 질의 오류') }
-              if (rows.length == 0) { reject('정품인증 페이지가 존재하지 않습니다.') }
+              if (err) { return reject('1번 질의 오류') }
+              if (rows.length == 0) { return reject('정품인증 페이지가 존재하지 않습니다.') }
               var sql_req2 = sql('SELECT * FROM id WHERE id='+ SqlString.escape(rows[0]['owner']), function(err, rows2) {
-                if (err) { reject('2번 질의 오류') }
+                if (err) { return reject('2번 질의 오류') }
                 var sql_req5 = sql('SELECT * FROM service2 WHERE nick='+SqlString.escape(nick)+' and page='+ SqlString.escape(page), function (err, rows5) {
-                  if(err){ reject('5번 질의 오류') }
+                  if(err){ return reject('5번 질의 오류') }
                   if(rows5.length != 0){
-                    reject('이미 인증되었습니다.')
+                    return reject('이미 인증되었습니다.')
                   }
                 })
                 var sql_req3 = sql('SELECT * FROM service2 ORDER BY `num` ASC', function(err, rows3) {
-                  if (err) { reject('3번 질의 오류') }
+                  if (err) { return reject('3번 질의 오류') }
                   var counter = rows3.length;
                   rows3.forEach(function(item) {
                     counter -= 1;
@@ -63,7 +63,7 @@ function complete(req, res){
                       var no = item.num + 1
                       var sql_Request = SqlString.format('INSERT INTO service2 values (?, ?, ?, ?, ?, ?, 0)', [no, rows[0]['owner'], page, nick, date, ip]);
                       var sql_req4  = sql(sql_Request, function(err, rows4) {
-                        if (err) { reject('4번 질의 오류'); }
+                        if (err) { return reject('4번 질의 오류'); }
 
                         if(rows[0]['mail_ok'] == 1) {
                           var nodemailer = require('nodemailer');
@@ -77,7 +77,7 @@ function complete(req, res){
                           transporter.sendMail(mailOptions, function(error, info) {
                             transporter.close();
                             if(error) {
-                              reject('인증에 성공하였으나 알림 메일 발송 오류입니다. 정품 인증 완료 사실을 서버 관리자에게 직접 알려주세요.')
+                              return reject('인증에 성공하였으나 알림 메일 발송 오류입니다. 정품 인증 완료 사실을 서버 관리자에게 직접 알려주세요.')
                             }
                           });
                         }
@@ -90,7 +90,7 @@ function complete(req, res){
               })
             })
           } else {
-            reject('구입이 완료된 마인크래프트 닉네임을 찾을 수 없습니다.')
+            return reject('구입이 완료된 마인크래프트 닉네임을 찾을 수 없습니다.')
           }
         });
       }
