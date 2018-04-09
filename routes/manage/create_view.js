@@ -8,7 +8,7 @@ module.exports = function (req, res) {
           "service": 1
         }
         var sql_req = sql('select * from page where service=1 and owner=' + SqlString.escape(req.user.id), function(err, rows){
-          if (rows.length 1= 0) {
+          if (rows.length != 0) {
             req.session.error = '후원 홈페이지가 이미 존재합니다.';
             res.redirect('/')
           } else {
@@ -28,7 +28,6 @@ module.exports = function (req, res) {
             res.render('manage/create', {rows: rows, data: data})
           }
         });
-
       } else if(req.params.service == 3) {
         var data = {
           "name": "서버 상태 위젯",
@@ -42,7 +41,6 @@ module.exports = function (req, res) {
             res.render('manage/create', {rows: rows, data: data})
           }
         });
-
       } else {
         res.render('error/403')
       }
