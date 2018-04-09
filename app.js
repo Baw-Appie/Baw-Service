@@ -60,6 +60,8 @@ app.get('/manage/:service/view', require('./routes/manage/view'));
 app.all('/manage/:service/complete/:id/:status', require('./routes/manage/complete'))
 app.post('/manage/:service/edit', require('./routes/manage/edit_complete'))
 app.get('/manage/:service/edit', require('./routes/manage/edit_view'))
+// app.post('/manage/:service/create', require('./routes/manage/create_complete'))
+app.get('/manage/:service/create', require('./routes/manage/create_view'))
 
 // API 관리
 app.post('/api/:service/edit', require('./routes/api/edit_complete'))
