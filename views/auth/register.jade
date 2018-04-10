@@ -15,10 +15,12 @@ block extscript
             },
             success : function s(a){ 
               if(a.success == true){
+                $("#name").removeClass('uk-form-danger uk-form-success');
                 $("#id").addClass('uk-form-success');
                 toastr.info(a.message)
               } else {
                 toastr.warning(a.message)
+                $("#name").removeClass('uk-form-danger uk-form-success');
                 $("#id").addClass('uk-form-danger');
               }
             },
@@ -39,9 +41,11 @@ block extscript
             success : function s(a){ 
               if(a.success == true){
                 toastr.info(a.message)
+                $("#name").removeClass('uk-form-danger uk-form-success');
                 $("#mail").addClass('uk-form-success');
               } else {
                 toastr.warning(a.message)
+                $("#name").removeClass('uk-form-danger uk-form-success');
                 $("#mail").addClass('uk-form-danger');
               }
             },

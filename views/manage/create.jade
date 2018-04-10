@@ -2,40 +2,57 @@ extends ../includes/layout
 
 block extscript
   script.
-    $(function(){
-      $("#edit").submit(function(){
-        NProgress.start();
-        $.ajax({
-          type: "post",
-          url : "#",
-          data : $("#create").serialize(),
-          success : function s(a){
-            if(a.success == true) {
-              toastr.success(a.message, a.title); console.log(a); NProgress.done();
-              
-            } else {
-              toastr.warning(a.message, a.title); console.log(a); NProgress.done();
-            }
-          },
-          error : function error(){ toastr.warning("Baw Service 빠른 설정 적용이 설정을 적용하는 도중 문제가 발생했습니다.", "죄송합니다!");  NProgress.done(); }
+    $(function() {
+        $("#name").keyup(function () {
+          var val = document.create.name.value
+          if(val != ""){
+            document.getElementById("preview").innerHTML="<p>생성될 페이지 주소: https://baws.kr/" + val + "</p>"
+          } else {
+            document.getElementById("preview").innerHTML="<p>원하는 사이트 이름을 입력하세요. 입력하면 생성되는 페이지 주소를 미리 볼 수 있습니다.</p>"
+          }
         });
-        return false;
-      });
+    });
+    $('#name').blur(function(){
+      if($('#name').val() != "") {
+        $.ajax({
+            type: 'post',
+            url : 'https://#{hostname}/auth/exist/page',
+            data : {
+                data : $('#name').val()
+            },
+            success : function s(a){ 
+              if(a.success == true){
+                $("#name").removeClass('uk-form-danger uk-form-success');
+                $("#name").addClass('uk-form-success');
+                toastr.info(a.message)
+              } else {
+                $("#name").removeClass('uk-form-danger uk-form-success');
+                $("#name").addClass('uk-form-danger');
+                toastr.warning(a.message)
+                document.getElementById("preview").innerHTML="<p>"+a.message+"</p>"
+              }
+            },
+            error : function error(){ toastr.warning("Baw Service 빠른 설정 적용이 설정을 적용하는 도중 문제가 발생했습니다.", "죄송합니다!"); }
+        });
+      } else {
+        $("#name").removeClass('uk-form-danger uk-form-success');
+      }
     });
 
 block contents
-  form(method="post", id="create")
+  form(method="post", id="create", name="create")
     fieldset.uk-fieldset
       legend.uk-legend #{data.name} 생성
       .uk-margin
-        label 페이지 이름
-          input.uk-input(type='text', name='name', placeholder='페이지 이름')
-      
+        label 사이트 주소 선택
+          input.uk-input(type='text', name='name', id='name', placeholder='사이트 주소 선택')
+        div.preview(id='preview')
+          p 원하는 사이트 이름을 입력하세요. 입력하면 생성되는 페이지 주소를 미리 볼 수 있습니다.
+      p 페이지 생성이 완료되면 페이지 수정에서 서버의 정보를 입력하여 사이트를 완성하세요!
       br
       button.uk-button.uk-button-primary(type="submit")
-        a(onclick="$.pjax({url: 'https://#{hostname}', container: '#content'})")
-          i(class="fas fa-plus")
-          |  페이지 생성
+        i(class="fas fa-plus")
+        |  페이지 생성
       button.uk-button.uk-button-default(type="reset")
         i(class="fas fa-undo")
         |  재입력
