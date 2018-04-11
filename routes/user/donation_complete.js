@@ -3,6 +3,7 @@ var server_settings = require('../../config/server_settings');
 var SqlString = require('sqlstring');
 var request = require('request');
 var vali = require('validator');
+var crypto = require('crypto');
 function isset(text) {
   if(vali.isEmpty(text) == false) {
     return true;
@@ -78,7 +79,6 @@ function complete(req, res){
         return reject('인증 번호(발행일)을 입력해주세요.')
       }
     }
-    console.log("HD")
 
     var sql_req = sql('SELECT * FROM page WHERE name='+ SqlString.escape(page)+' and service=1', function(err, rows) {
       if (err) { return reject('1번 질의 오류') }
@@ -117,6 +117,21 @@ function complete(req, res){
                       return reject('후원 등록에는 성공하였으나 알림 메일 발송 오류입니다. 후원 사실을 서버 관리자에게 직접 알려주세요.')
                     }
                   });
+                }
+
+                if(rows[0]['sms_ok'] == 1) {
+                  sql(SqlString.format('SELECT * FROM sms WHERE id=?', [rows[0]['owner']]), function(err, rows5){
+                    if (err) { return reject('5번 질의 오류'); }
+                    if(rows5.length == 1){
+                      var formdata = {data: JSON.stringify({id: 'pp121324', pw: crypto.createHash('sha256').update('qqpp3203').digest('hex'), code: '5325', type: 'A', caller: '01065540029', toll: '01065540029', html: '1'}), msg: '새로운 후원이 있습니다! https://baws.kr'}
+                      request.post({url: 'http://smsapi.dotname.co.kr/index.php', form: formdata}, function(error, response, body){
+                        sql(SqlString.format('update sms set send = send+1 where id = ?', [rows[0]['owner']]))
+                        if(body != "@1"){
+                          return reject('후원 등록에는 성공하였으니 알림 문자 전송 오류입니다. 후원 사실을 서버 관리자에게 직접 알려주세요.')
+                        }
+                      })
+                    }
+                  })
                 }
 
                 resolve("<script>alert('등록되었습니다.');location.replace('https://"+req.hostname+"/"+page+"');</script>")
