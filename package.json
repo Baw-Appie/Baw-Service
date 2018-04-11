@@ -9,6 +9,7 @@
     "express": "^4.16.3",
     "jade": "^1.11.0",
     "md5": "^2.2.1",
+    "messaging-api-telegram": "^0.7.0-rc.1",
     "mineping": "^0.1.0",
     "mysql": "^2.15.0",
     "node-google-translate-skidz": "^1.1.1",
