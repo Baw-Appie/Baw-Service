@@ -78,6 +78,8 @@ function complete(req, res){
       if(vali.isEmpty(code) || code.length > 18){
         return reject('인증 번호(발행일)을 입력해주세요.')
       }
+    } else {
+      var code = "없음"
     }
 
     var sql_req = sql('SELECT * FROM page WHERE name='+ SqlString.escape(page)+' and service=1', function(err, rows) {
@@ -93,11 +95,13 @@ function complete(req, res){
             if ( counter === 0){
               var no = item.num + 1
               if(Combo == "틴캐시"){
-      	         var sql_Request = SqlString.format('INSERT INTO service1 values (?, ?, ?, ?, ?, ?-?-?, ?, ?, "없음", ?, ?, ?, 0)', [no, page, rows[0]['owner'], nick, bal, pin1, pin2, pin3, Combo, code, Radio, ip, date]);
+                 var pincode = pin1+'-'+pin2+'-'+pin3
+      	         var sql_Request = SqlString.format('INSERT INTO service1 values (?, ?, ?, ?, ?, ?, ?, ?, "없음", ?, ?, ?, 0)', [no, page, rows[0]['owner'], nick, bal, pincode, Combo, code, Radio, ip, date]);
                } else if (Combo == "계좌이체") {
          	       var sql_Request = SqlString.format('INSERT INTO service1 values (?, ?, ?, ?, ?, "없음", ?, ?, ?, ?, ?, ?, 0)', [no, page, rows[0]['owner'], nick, bal, Combo, code, nname, Radio, ip, date]);
                } else {
-       	         var sql_Request = SqlString.format('INSERT INTO service1 values (?, ?, ?, ?, ?, ?-?-?-?, ?, ?, "없음", ?, ?, ?, 0)', [no, page, rows[0]['owner'], nick, bal, pin1, pin2, pin3, pin4, Combo, code, Radio, ip, date]);
+                  var pincode = pin1+'-'+pin2+'-'+pin3+'-'+pin4
+       	         var sql_Request = SqlString.format('INSERT INTO service1 values (?, ?, ?, ?, ?, ?, ?, ?, "없음", ?, ?, ?, 0)', [no, page, rows[0]['owner'], nick, bal, pincode, Combo, code, Radio, ip, date]);
                }
               var sql_req4  = sql(sql_Request, function(err, rows4) {
                 if (err) { return reject('4번 질의 오류'); }
@@ -128,6 +132,20 @@ function complete(req, res){
                         sql(SqlString.format('update sms set send = send+1 where id = ?', [rows[0]['owner']]))
                         if(body != "@1"){
                           return reject('후원 등록에는 성공하였으니 알림 문자 전송 오류입니다. 후원 사실을 서버 관리자에게 직접 알려주세요.')
+                        }
+                      })
+                    }
+                  })
+                }
+                if(rows[0]['tg_ok'] == 1) {
+                  sql(SqlString.format('SELECT * FROM telegram WHERE id=?', [rows[0]['owner']]), function(err, rows6){
+                    if (err) { return reject('6번 질의 오류'); }
+                    if(rows6.length == 1){
+                      request('https://api.telegram.org/bot'+server_settings.tg_bot_key+'/getChat?chat_id='+rows6[0]['chat_id'], function(err, res, body) {
+                        if(body.ok == true){
+                          const { TelegramClient } = require('messaging-api-telegram');
+                          const client = TelegramClient.connect(server_settings.tg_bot_key);
+                          client.sendMessage(rows6[0]['chat_id'], 'hi');
                         }
                       })
                     }
