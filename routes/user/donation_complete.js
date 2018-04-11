@@ -145,7 +145,7 @@ function complete(req, res){
                         if(body.ok == true){
                           const { TelegramClient } = require('messaging-api-telegram');
                           const client = TelegramClient.connect(server_settings.tg_bot_key);
-                          client.sendMessage(rows6[0]['chat_id'], 'hi');
+                          client.sendMessage(rows6[0]['chat_id'], '새로운 후원이 있습니다! https://baws.kr');
                         }
                       })
                     }
