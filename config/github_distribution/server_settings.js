@@ -10,6 +10,10 @@ module.exports = (function () {
     mail_sv: "smtp.worksmobile.com",
     mail_id: "a-mail-sender@rpgfarm.com",
     mail_pw: "SECRET",
-    server_ip: "127.0.0.1"
+    server_ip: "127.0.0.1",
+    sms_id: "SECRET",
+    sms_pw: "SECRET",
+    sms_caller: "SECRET",
+    tg_bot_key: "SECRET:SECRET"
   }
 })();
