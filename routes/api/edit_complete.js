@@ -29,8 +29,11 @@ module.exports = function(req, res) {
             var req_field = ["api_ok", "api_key", "api"]
             var opt_field = ["api_ip", "api_port"]
           } else if (req.params.service == "SMS") {
-            var req_field = []
-            var opt_field = ["phone"]
+            var req_field = ["phone"]
+            var opt_field = []
+          } else if (req.params.service == "Kakao") {
+            var req_field = ["phone"]
+            var opt_field = []
           } else if (req.params.service == "Telegram") {
             var req_field = []
             var opt_field = ["chat_id"]
@@ -50,6 +53,11 @@ module.exports = function(req, res) {
                   res.json({ success: false, title: "잘못된 데이터 감지됨",  message: "전달된 일부 데이터를 설정에 적용할 수 없습니다." });
                 }
                 var sql_Request = SqlString.format('UPDATE `sms` SET `phone`=? WHERE `sms`.`id` = ?', [req.body.phone, req.user.id])
+              } else if (req.params.service == "Kakao") {
+                if(req.body.phone.length > 15){
+                  res.json({ success: false, title: "잘못된 데이터 감지됨",  message: "전달된 일부 데이터를 설정에 적용할 수 없습니다." });
+                }
+                var sql_Request = SqlString.format('UPDATE `katalk` SET `phone`=? WHERE `katalk`.`id` = ?', [req.body.phone, req.user.id])
               } else if (req.params.service == "Telegram") {
                 if(req.body.chat_id.length > 45){
                   res.json({ success: false, title: "잘못된 데이터 감지됨",  message: "전달된 일부 데이터를 설정에 적용할 수 없습니다." });

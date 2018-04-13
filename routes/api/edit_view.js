@@ -13,7 +13,7 @@ module.exports = function (req, res) {
         var textarea_option = []
         var textarea_option_korean = []
         var custom_select_option = [{name: "api", korean: "API 타입", options: ["HTTP", "socket"], option_data: ["http", "socket"], option_korean: ["HTTP", "socket"]}]
-        var custom_text = ['<script>function randomString(){for(var n="0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz",t="",r=0;r<15;r++){var e=Math.floor(Math.random()*n.length);t+=n.substring(e,e+1)}return t}function input_Text(){document.getElementById("key").value=randomString()}</script><button class="uk-button uk-button-danger uk-width-1-1"><i class="fas fa-redo-alt"></i> API 키  재설정</button><br>']
+        var custom_text = ['<script>function randomString(){for(var n="0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz",t="",r=0;r<15;r++){var e=Math.floor(Math.random()*n.length);t+=n.substring(e,e+1)}return t}function input_Text(){document.getElementsByName("api_key")[0].value=randomString()}</script><button class="uk-button uk-button-danger uk-width-1-1" type="button" onclick="input_Text()"><i class="fas fa-redo-alt"></i> API 키  재설정</button><br>']
 
         var sql_req = sql('select * from id where id=' + SqlString.escape(req.user.id), function(err, rows){
           if (rows.length === 0) {
@@ -34,6 +34,7 @@ module.exports = function (req, res) {
         var textarea_option = []
         var textarea_option_korean = []
         var custom_select_option = []
+        var custom_text = ['<p>SMS 부가 서비스를 이용하면 카카오톡 알림은 전송되지 않습니다.</p><p>카카오톡 알림 서비스를 사용하려면 후원 사이트 수정에서 SMS 알림이 켜져있다면 꺼주세요.</p>']
 
         var sql_req = sql('select * from sms where id=' + SqlString.escape(req.user.id), function(err, rows){
           if (rows.length === 0) {
@@ -42,7 +43,7 @@ module.exports = function (req, res) {
               res.send('<script>$.pjax({url: location.href, container: "#contents"})</script>')
             })
           } else {
-            res.render('manage/edit', {rows: rows,data: data,select_option: select_option,select_option_korean: select_option_korean,text_option: text_option,text_option_korean: text_option_korean,textarea_option: textarea_option,textarea_option_korean: textarea_option_korean, custom_select_option: custom_select_option})
+            res.render('manage/edit', {rows: rows,data: data,select_option: select_option,select_option_korean: select_option_korean,text_option: text_option,text_option_korean: text_option_korean,textarea_option: textarea_option,textarea_option_korean: textarea_option_korean, custom_select_option: custom_select_option, custom_text: custom_text})
           }
         });
       } else if(req.params.service == "Kakao") {
@@ -56,6 +57,7 @@ module.exports = function (req, res) {
         var textarea_option = []
         var textarea_option_korean = []
         var custom_select_option = []
+        var custom_text = ['<p>만약 SMS 알림 서비스를 이용하면 카카오톡 알림은 전송되지 않습니다.</p><p>카카오톡 알림 서비스를 이용하려면 후원 사이트에서 SMS 알림이 켜져있다면 꺼주세요.</p>']
 
         var sql_req = sql('select * from katalk where id=' + SqlString.escape(req.user.id), function(err, rows){
           if (rows.length === 0) {
@@ -65,7 +67,7 @@ module.exports = function (req, res) {
             //   res.send('<script>$.pjax({url: location.href, container: "#contents"})</script>')
             // })
           } else {
-            res.render('manage/edit', {rows: rows,data: data,select_option: select_option,select_option_korean: select_option_korean,text_option: text_option,text_option_korean: text_option_korean,textarea_option: textarea_option,textarea_option_korean: textarea_option_korean, custom_select_option: custom_select_option})
+            res.render('manage/edit', {rows: rows,data: data,select_option: select_option,select_option_korean: select_option_korean,text_option: text_option,text_option_korean: text_option_korean,textarea_option: textarea_option,textarea_option_korean: textarea_option_korean, custom_select_option: custom_select_option, custom_text: custom_text})
           }
         });
       } else if(req.params.service == "Telegram") {
