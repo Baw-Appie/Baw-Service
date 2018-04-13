@@ -5,7 +5,6 @@ var SqlString = require('sqlstring');
 var request = require('request');
 var vali = require('validator');
 
- // TODO: 가입 됬는지 확인하세용
 function complete(req, res){
   return new Promise(function (resolve, reject) {
     if(req.user) {
