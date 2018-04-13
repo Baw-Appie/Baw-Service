@@ -45,7 +45,29 @@ module.exports = function (req, res) {
             res.render('manage/edit', {rows: rows,data: data,select_option: select_option,select_option_korean: select_option_korean,text_option: text_option,text_option_korean: text_option_korean,textarea_option: textarea_option,textarea_option_korean: textarea_option_korean, custom_select_option: custom_select_option})
           }
         });
+      } else if(req.params.service == "Kakao") {
+        var data = {
+          "name": "카카오톡 알림"
+        }
+        var select_option = []
+        var select_option_korean = []
+        var text_option = ["phone"]
+        var text_option_korean = ["전화번호"]
+        var textarea_option = []
+        var textarea_option_korean = []
+        var custom_select_option = []
 
+        var sql_req = sql('select * from katalk where id=' + SqlString.escape(req.user.id), function(err, rows){
+          if (rows.length === 0) {
+            // TODO: 수신동의절차, 번호인증 필요
+            // var sql_req = sql(SqlString.format('insert into katalk values (?, "010-0000-0000", 0, 0)', [req.user.id]), function(err, rows2){
+            //   req.session.error = data.name+' 서비스가 등록되어 있지 않아 서비스를 등록시켰습니다.';
+            //   res.send('<script>$.pjax({url: location.href, container: "#contents"})</script>')
+            // })
+          } else {
+            res.render('manage/edit', {rows: rows,data: data,select_option: select_option,select_option_korean: select_option_korean,text_option: text_option,text_option_korean: text_option_korean,textarea_option: textarea_option,textarea_option_korean: textarea_option_korean, custom_select_option: custom_select_option})
+          }
+        });
       } else if(req.params.service == "Telegram") {
         var data = {
           "name": "Telegram 알림"
