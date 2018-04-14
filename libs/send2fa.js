@@ -23,17 +23,17 @@ module.exports = function(id, phone, ip){
           "to": "01065540029",
           "from": phone,
           "text": `[Baw Notication] 요청하신 인증 번호입니다.
-  아래 인증번호를 잘 확인 후 Baw Service에 입력하세요.
-  인증 번호는 하루에 최대 3회까지 받을 수 있습니다.
+아래 인증번호를 잘 확인 후 Baw Service에 입력하세요.
+인증 번호는 하루에 최대 3회까지 받을 수 있습니다.
 
-  인증번호: `+code+`
-  IP: `+ip+`
-  브라우저: 알 수 없음
+인증번호: `+code+`
+IP: `+ip+`
+브라우저: 알 수 없음
 
-  만약 이 인증번호를 본인이 요청한 것이 아니라면 아래 채팅창으로 신고해주세요.
-  본인이 요청한것이 맞더라도 절대로 이 인증번호를 다른사람에게 알려주지 마세요.
+만약 이 인증번호를 본인이 요청한 것이 아니라면 아래 채팅창으로 신고해주세요.
+본인이 요청한것이 맞더라도 절대로 이 인증번호를 다른사람에게 알려주지 마세요.
 
-  감사합니다.`,
+감사합니다.`,
           "type": "ATA",
           "template_code": "2fa",
           "sender_key": server_settings.katalk_senderkey,
@@ -48,7 +48,9 @@ module.exports = function(id, phone, ip){
             sql(SqlString.format('update `2fa` set try=?+1, code=? where id=?', [rows2[0]['try'],code,id]))
           }
         })
-        request.post({url: 'https://api.coolsms.co.kr/sms/2/send', form: formdata});
+        request.post({url: 'https://api.coolsms.co.kr/sms/2/send', form: formdata}, function(e,r,b){
+          console.log(b)
+        });
         return resolve({ success: true, title: "인증번호 발송 요청됨",  message: "인증번호 발송 요청을 카카오톡으로 전송했습니다." })
       }
     })

@@ -1,12 +1,36 @@
 extends ../includes/layout
+block extscript
+  script.
+    $('button.send').click(() => {
+      if($('#phone').val() != "") {
+        $.ajax({
+            type: 'post',
+            url : 'https://#{hostname}/secuity/req_code',
+            data : {
+                phone : $('#phone').val()
+            },
+            success : function s(a){ 
+              if(a.success == true){
+                toastr.info(a.message)
+              } else {
+                toastr.warning(a.message)
+              }
+            },
+            error : function error(){ toastr.warning("Baw Service 빠른 설정 적용이 설정을 적용하는 도중 문제가 발생했습니다.", "죄송합니다!"); }
+        });
+      } else {
+        toastr.warning('전화번호를 먼저 입력하세요.', '엥? 뭐라고요?')
+      }
+    });
+
 block contents
   form(method="post", id="edit")
     fieldset.uk-fieldset
       legend.uk-legend 카카오톡 알림톡 수신 설정
       .uk-margin
         label 카카오톡이 설치된 전화번호
-          input.uk-input(type='text', name='phone', placeholder='전화번호')
-      button.uk-button.uk-button-secondary
+          input.uk-input(type='text', name='phone', id='phone', placeholder='"-"를 제외한 전화번호')
+      button.uk-button.uk-button-secondary.send(type="button")
         i(class="fas fa-plane")
         |  인증번호 발송
       |  (인증번호는 하루에 3회만 수신할 수 있습니다)

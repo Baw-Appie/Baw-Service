@@ -63,7 +63,7 @@ app.get('/secuity/allow_katalk', function (req, res) {
   }
 })
 app.post('/secuity/allow_katalk', require('./routes/secuity/allow_katalk'))
-app.all('/secuity/req_code', require('./routes/secuity/req_code'))
+app.post('/secuity/req_code', require('./routes/secuity/req_code'))
 
 // 페이지 관리
 app.get('/manage', require('./routes/manage/list_view'));
