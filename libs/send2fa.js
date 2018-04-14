@@ -10,6 +10,9 @@ module.exports = function(id, phone, ip){
       if(rows.length != 0){
         return reject({ success: false, title: "발송제한 초과",  message: "인증번호 최대 발송 가능 횟수를 초과했습니다." })
       } else {
+        if(phone.length != 11){
+          return reject({ success: false, title: "발송 실패",  message: "전화번호는 11자를 입력해야 합니다." })
+        }
         var date = Date.now();
         var date = Math.round(date/1000)
         var hmac = crypto.createHmac('md5', server_settings.katalk_ssec)

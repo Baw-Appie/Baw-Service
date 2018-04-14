@@ -57,15 +57,11 @@ module.exports = function (req, res) {
         var textarea_option = []
         var textarea_option_korean = []
         var custom_select_option = []
-        var custom_text = ['<p>만약 SMS 알림 서비스를 이용하면 카카오톡 알림은 전송되지 않습니다.</p><p>카카오톡 알림 서비스를 이용하려면 후원 사이트에서 SMS 알림이 켜져있다면 꺼주세요.</p>']
+        var custom_text = ['<p>카카오톡 알림 서비스의 전화번호는 수정할 수 없습니다. 수정하려면 카카오톡 고객센터 @b_noti로 알려주세요.</p><p>만약 SMS 알림 서비스를 이용하면 카카오톡 알림은 전송되지 않습니다.</p><p>카카오톡 알림 서비스를 이용하려면 후원 사이트에서 SMS 알림이 켜져있다면 꺼주세요.</p>']
 
         var sql_req = sql('select * from katalk where id=' + SqlString.escape(req.user.id), function(err, rows){
           if (rows.length === 0) {
-            // TODO: 수신동의절차, 번호인증 필요
-            // var sql_req = sql(SqlString.format('insert into katalk values (?, "010-0000-0000", 0, 0)', [req.user.id]), function(err, rows2){
-            //   req.session.error = data.name+' 서비스가 등록되어 있지 않아 서비스를 등록시켰습니다.';
-            //   res.send('<script>$.pjax({url: location.href, container: "#contents"})</script>')
-            // })
+            res.send('<script>location.replace("/secuity/allow_katalk")</script>')
           } else {
             res.render('manage/edit', {rows: rows,data: data,select_option: select_option,select_option_korean: select_option_korean,text_option: text_option,text_option_korean: text_option_korean,textarea_option: textarea_option,textarea_option_korean: textarea_option_korean, custom_select_option: custom_select_option, custom_text: custom_text})
           }

@@ -32,7 +32,7 @@ module.exports = function(req, res) {
             var req_field = ["phone"]
             var opt_field = []
           } else if (req.params.service == "Kakao") {
-            var req_field = ["phone"]
+            var req_field = ["phone", "stop"]
             var opt_field = []
           } else if (req.params.service == "Telegram") {
             var req_field = []

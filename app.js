@@ -62,7 +62,7 @@ app.get('/secuity/allow_katalk', function (req, res) {
     res.redirect('/auth/login')
   }
 })
-app.post('/secuity/allow_katalk', require('./routes/secuity/allow_katalk'))
+app.post('/secuity/allow_katalk', require('./routes/secuity/complete_allow_katalk'))
 app.post('/secuity/req_code', require('./routes/secuity/req_code'))
 
 // 페이지 관리
