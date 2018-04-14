@@ -1,0 +1,24 @@
+extends ../includes/layout
+block contents
+  form(method="post", id="edit")
+    fieldset.uk-fieldset
+      legend.uk-legend 카카오톡 알림톡 수신 설정
+      .uk-margin
+        label 카카오톡이 설치된 전화번호
+          input.uk-input(type='text', name='phone', placeholder='전화번호')
+      button.uk-button.uk-button-secondary
+        i(class="fas fa-plane")
+        |  인증번호 발송
+      |  (인증번호는 하루에 3회만 수신할 수 있습니다)
+      .uk-margin
+        label 카카오톡으로 수신한 인증번호
+          input.uk-input(type='text', name='code', placeholder='인증번호')
+      .uk-margin.uk-grid-small.uk-child-width-auto.uk-grid
+        label
+          input.uk-checkbox(type='checkbox', name='okay')
+          |  알림톡(정보성 메시지) 수신에 동의(신청)합니다
+            
+      br
+      button.uk-button.uk-button-primary(type="submit")
+        i(class="fas fa-save")
+        |  설정 적용

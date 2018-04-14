@@ -54,6 +54,17 @@ app.all('/', function (req, res) {
   res.render('index');
 });
 
+// 보안
+app.get('/secuity/allow_katalk', function (req, res) {
+  if(req.user) {
+    res.render('secuity/allow_katalk')
+  } else {
+    res.redirect('/auth/login')
+  }
+})
+app.post('/secuity/allow_katalk', require('./routes/secuity/allow_katalk'))
+app.all('/secuity/req_code', require('./routes/secuity/req_code'))
+
 // 페이지 관리
 app.get('/manage', require('./routes/manage/list_view'));
 app.get('/manage/:service/view', require('./routes/manage/view'));
