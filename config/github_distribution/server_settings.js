@@ -14,6 +14,10 @@ module.exports = (function () {
     sms_id: "SECRET",
     sms_pw: "SECRET",
     sms_caller: "SECRET",
-    tg_bot_key: "SECRET:SECRET"
+    tg_bot_key: "SECRET:SECRET",
+    katalk_skey: "SECRET",
+    katalk_ssec: "SECRET",
+    katalk_salt: "SECRET",
+    katalk_senderkey: "SECRET"
   }
 })();
