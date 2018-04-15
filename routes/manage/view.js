@@ -14,11 +14,12 @@ module.exports = function (req, res) {
           if (rows.length === 0) {
             req.session.error = '후원 홈페이지가 존재하지 않습니다.';
             res.redirect('/')
-    		  }
+    		  } else {
+            var sql_req2 = sql('select * from service1 where status=0 and owner=' + SqlString.escape(req.user.id), function(err, rows){
+              res.render('manage/view', {rows: rows, data: data, list: list, korean: korean})
+            });
+          }
     		});
-        var sql_req2 = sql('select * from service1 where status=0 and owner=' + SqlString.escape(req.user.id), function(err, rows){
-          res.render('manage/view', {rows: rows, data: data, list: list, korean: korean})
-        });
       }
       if(req.params.service == 2) {
         var data = {
@@ -32,11 +33,12 @@ module.exports = function (req, res) {
           if (rows.length === 0) {
             req.session.error = '정품인증 페이지가 존재하지 않습니다.';
             res.redirect('/')
-    		  }
+    		  } else {
+            var sql_req2 = sql('select * from service2 where status=0 and owner=' + SqlString.escape(req.user.id), function(err, rows){
+              res.render('manage/view', {rows: rows, data: data, list: list, korean: korean})
+            });
+          }
     		});
-        var sql_req2 = sql('select * from service2 where status=0 and owner=' + SqlString.escape(req.user.id), function(err, rows){
-          res.render('manage/view', {rows: rows, data: data, list: list, korean: korean})
-        });
       }
   } else {
     res.redirect('/auth/login')
