@@ -40,7 +40,7 @@ function complete(req, res){
 
           sql(sql_Request, function(err, rows3){
             if(err) { return reject("3번 질의 오류") }
-            req.session.error("페이지가 생성되었습니다! 페이지 설정에서 설정을 수정하여 페이지를 완성시키세요!")
+            req.session.error = "페이지가 생성되었습니다! 페이지 설정에서 설정을 수정하여 페이지를 완성시키세요!"
             resolve("페이지 생성에 성공했습니다.")
           })
 
