@@ -29,13 +29,13 @@ function complete(req, res){
           }
 
           if(service == 1) {
-            var sql_Request = SqlString.format("insert into page values (?, 1, ?, ?, 0, 1, 0, 0, 1, 0, '없음', '', '', '', 0, '아래 정보를 입력해주시면 최대한 빠르게 처리해 드리겠습니다.', 'bootstrap3', NULL, 0)", [name, req.user.id, date])
+            var sql_Request = SqlString.format("insert into page values (?, 1, ?, ?, 0, 1, 0, 0, 1, 0, '없음', '', '', '', 0, '아래 정보를 입력해주시면 최대한 빠르게 처리해 드리겠습니다.', 'bootstrap3', '', 0)", [name, req.user.id, date])
           }
           if(service == 2) {
-            var sql_Request = SqlString.format("insert into page values (?, 2, ?, ?, 0, 1, 0, 0, 0, 0, '없음', '', '', '', 0, '아래 정보 입력 후 전송시 전송된 데이터는 정품 인증 사이트에 전송되며 이때 저장되지 않고 바로 Mojang에 연결하여 정품 아이디가 맞는지 확인 후 아이디와 IP주소만 저장됩니다.', 'bootstrap3', NULL, 1)", [name, req.user.id, date])
+            var sql_Request = SqlString.format("insert into page values (?, 2, ?, ?, 0, 1, 0, 0, 0, 0, '없음', '', '', '', 0, '아래 정보 입력 후 전송시 전송된 데이터는 정품 인증 사이트에 전송되며 이때 저장되지 않고 바로 Mojang에 연결하여 정품 아이디가 맞는지 확인 후 아이디와 IP주소만 저장됩니다.', 'bootstrap3', '', 1)", [name, req.user.id, date])
           }
           if(service == 3) {
-            var sql_Request = SqlString.format("insert into page values (?, 3, ?, ?, 0, 0, 0, 0, 0, 0, '없음', '', '', '', 25565, '이 정보는 부정확할 수 있으니 직접 접속하여 확인해보시기 바랍니다.', 'bootstrap3', NULL, 0)", [name, req.user.id, date])
+            var sql_Request = SqlString.format("insert into page values (?, 3, ?, ?, 0, 0, 0, 0, 0, 0, '없음', '', '', '', 25565, '이 정보는 부정확할 수 있으니 직접 접속하여 확인해보시기 바랍니다.', 'bootstrap3', '', 0)", [name, req.user.id, date])
           }
 
           sql(sql_Request, function(err, rows3){
