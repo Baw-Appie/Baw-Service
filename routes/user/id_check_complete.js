@@ -3,6 +3,7 @@ var server_settings = require('../../config/server_settings');
 var SqlString = require('sqlstring');
 var request = require('request');
 var vali = require('validator');
+var socket_api = require('../../libs/socket_api')
 function isset(text) {
   if(vali.isEmpty(text) == false) {
     return true;
@@ -80,6 +81,24 @@ function complete(req, res){
                               return reject('인증에 성공하였으나 알림 메일 발송 오류입니다. 정품 인증 완료 사실을 서버 관리자에게 직접 알려주세요.')
                             }
                           });
+                        }
+                        if(rows[0]['auto_process'] == 1){
+                          console.log('자동처리활성화')
+                          if(rows2[0]['api_ok'] == 1) {
+                            console.log('API 활성화')
+                            var api_cmd = rows[0]['api_cmd'];
+                            api_cmd = api_cmd.replace("<player>", nick);
+                            if(rows2[0]['api'] == "socket"){
+                              console.log('소켓활성화')
+                              socket_api(rows2[0]['api_port'], rows2[0]['api_ip'], rows2[0]['api_key']+';'+rows2[0]['id']+';'+api_cmd, function(data){});
+                            }
+                            if(rows2[0]['api'] == "HTTP") {
+                              console.log('HTTP활성화')
+                              var sql_Request = SqlString.format('insert into api2 values (?, ?, ?, ?, ?)', [req.user.id, rows2[0]['api_key'], page, nick, api_cmd])
+                              var sql_req4 = sql(sql_Request)
+                            }
+                          }
+                          sql('UPDATE `service2` SET status=1 WHERE num=' + SqlString.escape(no))
                         }
 
                         resolve("<script>alert('정품인증에 성공했습니다!');location.replace('https://"+req.hostname+"/"+page+"');</script>")

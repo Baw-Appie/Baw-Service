@@ -1,4 +1,5 @@
 var sql = require('../../config/dbtool');
+var socket_api = require('../../libs/socket_api')
 var SqlString = require('sqlstring');
 function isNumber(n) { return /^-?[\d.]+(?:e-?\d+)?$/.test(n); }
 module.exports = function(req, res) {
@@ -18,11 +19,11 @@ module.exports = function(req, res) {
                   var sql_req3 = sql('select * from `page` WHERE service=1 and owner='+SqlString.escape(req.user.id), function(err, rows3) {
                     if(err) { throw err };
                     var api_cmd = rows3[0]['api_cmd'];
-                    api_cmd.replace("<player>", rows3[0]['nick']);
-                    api_cmd.replace("<money>", rows3[0]['bal']);
-                    api_cmd.replace("<package>", rows3[0]['bouns']);
-                    api_cmd.replace("원", "");
-                    api_cmd.replace(",", "");
+                    api_cmd = api_cmd.replace("<player>", rows3[0]['nick']);
+                    api_cmd = api_cmd.replace("<money>", rows3[0]['bal']);
+                    api_cmd = api_cmd.replace("<package>", rows3[0]['bouns']);
+                    api_cmd = api_cmd.replace("원", "");
+                    api_cmd = api_cmd.replace(",", "");
                     if(rows2[0]['api'] == "socket"){
                       socket_api(rows2[0]['api_port'], rows2[0]['api_ip'], rows2[0]['api_key']+';'+rows2[0]['id']+';'+api_cmd, function(data){});
                     }
@@ -36,7 +37,7 @@ module.exports = function(req, res) {
                   var sql_req3 = sql('select * from `page` WHERE service=2 and owner='+SqlString.escape(req.user.id), function(err, rows3) {
                     if(err) { throw err };
                     var api_cmd = rows3[0]['api_cmd'];
-                    api_cmd.replace("<player>", rows3[0]['nick']);
+                    api_cmd = api_cmd.replace("<player>", rows3[0]['nick']);
                     if(rows2[0]['api'] == "socket"){
                       socket_api(rows2[0]['api_port'], rows2[0]['api_ip'], rows2[0]['api_key']+';'+rows2[0]['id']+';'+api_cmd, function(data){});
                     }

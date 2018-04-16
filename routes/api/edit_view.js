@@ -12,7 +12,7 @@ module.exports = function (req, res) {
         var text_option_korean = ["API 플러그인 IP(Socket 전용)", "API 플러그인 포트(Socket 전용)", "API 키"]
         var textarea_option = []
         var textarea_option_korean = []
-        var custom_select_option = [{name: "api", korean: "API 타입", options: ["HTTP", "socket"], option_data: ["http", "socket"], option_korean: ["HTTP", "socket"]}]
+        var custom_select_option = [{name: "api", korean: "API 타입", options: ["HTTP", "socket"], option_data: ["HTTP", "socket"], option_korean: ["HTTP", "socket"]}]
         var custom_text = ['<script>function randomString(){for(var n="0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz",t="",r=0;r<15;r++){var e=Math.floor(Math.random()*n.length);t+=n.substring(e,e+1)}return t}function input_Text(){document.getElementsByName("api_key")[0].value=randomString()}</script><button class="uk-button uk-button-danger uk-width-1-1" type="button" onclick="input_Text()"><i class="fas fa-redo-alt"></i> API 키  재설정</button><br>']
 
         var sql_req = sql('select * from id where id=' + SqlString.escape(req.user.id), function(err, rows){
