@@ -13,7 +13,10 @@ module.exports = function(req, res) {
           }
           var sql_req2 = sql('select * from `id` WHERE id='+SqlString.escape(req.user.id), function(err, rows2){
             if(err) { throw err };
-            if(!req.query.noapi && req.params.status == "1"){
+            if(req.query.noapi == true){
+              var noapi = true
+            }
+            if(!noapi && req.params.status == "1"){
               if(req.params.service == "1"){
                 if(rows2[0]['api_ok'] == 1) {
                   var sql_req3 = sql('select * from `page` WHERE service=1 and owner='+SqlString.escape(req.user.id), function(err, rows3) {
