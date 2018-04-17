@@ -54,7 +54,8 @@ app.all('/', function (req, res) {
   res.render('index');
 });
 
-// 보안
+// *보안* //
+// 카카오톡 활성화 요청
 app.get('/secuity/allow_katalk', function (req, res) {
   if(req.user) {
     res.render('secuity/allow_katalk')
@@ -62,8 +63,17 @@ app.get('/secuity/allow_katalk', function (req, res) {
     res.redirect('/auth/login')
   }
 })
+// 카카오톡 활성화 요청 처리
 app.post('/secuity/allow_katalk', require('./routes/secuity/complete_allow_katalk'))
+// 이중인증 카톡 메시지 발송
 app.post('/secuity/req_code', require('./routes/secuity/req_code'))
+// *보안* //
+
+// *개인설정* //
+app.get('/my', require('./routes/my/edit_view'))
+app.post('/my', require('./routes/my/edit_complete'))
+app.post('/my/pass', require('./routes/my/pass_complete'))
+// *개인설정* //
 
 // 페이지 관리
 app.get('/manage', require('./routes/manage/list_view'));
