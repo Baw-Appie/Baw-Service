@@ -11,9 +11,9 @@ block extscript
           data : $("#edit").serialize(),
           success : function s(a){
             if(a.success == true) {
-              toastr.success(a.message, a.title); console.log(a); NProgress.done();
+              toastr.success(a.message, a.title); NProgress.done();
             } else {
-              toastr.warning(a.message, a.title); console.log(a); NProgress.done();
+              toastr.warning(a.message, a.title); NProgress.done();
             }
           },
           error : function error(){ toastr.warning("Baw Service 빠른 설정 적용이 설정을 적용하는 도중 문제가 발생했습니다.", "죄송합니다!");  NProgress.done(); }

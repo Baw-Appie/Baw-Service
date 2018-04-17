@@ -13,10 +13,7 @@ module.exports = function(req, res) {
           }
           var sql_req2 = sql('select * from `id` WHERE id='+SqlString.escape(req.user.id), function(err, rows2){
             if(err) { throw err };
-            if(req.query.noapi == true){
-              var noapi = true
-            }
-            if(!noapi && req.params.status == "1"){
+            if(!req.query.noapi && req.params.status == "1"){
               if(req.params.service == "1"){
                 if(rows2[0]['api_ok'] == 1) {
                   var sql_req3 = sql('select * from `page` WHERE service=1 and owner='+SqlString.escape(req.user.id), function(err, rows3) {
@@ -54,15 +51,14 @@ module.exports = function(req, res) {
             }
             var sql_req5 = sql('UPDATE  `service'+req.params.service+'` SET status='+SqlString.escape(req.params.status)+' WHERE num=' + SqlString.escape(req.params.id), function(err, rows){
               if(err) { throw err };
-              req.session.error = "적용되었습니다.";
-              res.redirect('/')
+              res.json({ success: true, title: "완료했습니다!",  message: req.params.id+"번의 상태 변경 요청이 정상적으로 처리되었습니다!" });
             });
           });
         });
       } else {
-        res.render('error/403')
+        res.json({ success: false, title: "권한이 없습니다.",  message: "페이지 수정 권한이 없습니다." });
       }
     } else {
-      res.render('error/403')
+      res.json({ success: false, title: "권한이 없습니다.",  message: "페이지 수정 권한이 없습니다." });
     }
 }
