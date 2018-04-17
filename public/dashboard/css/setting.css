@@ -1,0 +1,3 @@
+@media screen and (max-width: 400px) {
+    div.sitedata { margin:0 auto;max-width: 95%; height: auto; }
+}

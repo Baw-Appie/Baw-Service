@@ -13,9 +13,9 @@ else
   body
     include ./nav.jade
     div(uk-grid)
-      div(class='uk-width-1-5@m uk-grid-small uk-text-center uk-visible@m')
+      div(class='uk-width-1-5@m uk-text-center uk-visible@m')
         include ./sidebar.jade
-      div(class='uk-width-2-3@m')
+      div.sitedata(class='uk-width-2-3@m')
         #contents
           if session.error
             .uk-alert-warning(uk-alert)
