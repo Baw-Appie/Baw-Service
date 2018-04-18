@@ -1,81 +1,30 @@
 extends ./includes/layout
 block contents
-  if user
-    p 앗! 이 페이지를 보고 계신다면 #{user.id}님이 Baw  Service Beta 4 Open Beta Tester이신가 보군요!
-    p 지금 Baw Service Beta 4는 모든 기능이 완성되었어요!
-    p 하지만 지금은 Beta 4만의 새로운 기능 추가와 버그 수정을 진행하고 있어 역시 불안정하답니다.
-    p 5월 1일부터 Beta 4가 기본으로 적용되니 참고해주세요!
-    p 그런데 만약 Baw Service Beta 4 체험 도중 접속이 갑자기 중단되는 발생한다면 개발자에게 이 사실을 알려주세요.
-    p 카카오톡: pp121324, 이메일: pp121324@gmail.com
-  else
-    .uk-grid-small.uk-text-center.uk-flex.uk-flex-center(class='uk-child-width-expand@s', uk-grid='')
-      .uk-card.uk-card-default.uk-card-body
-        font(size='100')
-          i(class="fas fa-tachometer-alt")
-        h2.mt-0.mb-1 빠른 반응 속도
-        | 			후원, 정품 인증을 위하여 더 이상 기다리지 마세요!
-      .uk-card.uk-card-default.uk-card-body.uk-margin-left
-        font(size='100')
-          i(class="fab fa-adversal")
-        h2.mt-0.mb-1 광고 없음
-        | 			생성한 페이지에 광고가 존재하지 않습니다
-      .uk-card.uk-card-default.uk-card-body.uk-margin-left
-        font(size='100')
-          i(class="fa fa-gratipay")
-        h2.mt-0.mb-1 좋은 API 플러그인
-        | 			처리 완료만 누르면 나머지는 API 플러그인이 자동으로!
-    br
-    div(class="uk-flex uk-flex-center")
-      a(href="https://#{hostname}/auth/register")
-        button(class="uk-button uk-button-primary") 지금 시작하기
-      button(class="uk-button uk-button-default" type='button', uk-toggle='target: #login-slide') 나는 이미 쓰고 있는데
-    br
-    .uk-card.uk-card-default
-      .uk-card-header
-        .uk-grid-small.uk-flex-middle(uk-grid='')
-          .uk-width-auto
-            img.uk-border-circle(width='40', height='40', src='../public/img/favicon.ico')
-          .uk-width-expand
-            h3.uk-card-title.uk-margin-remove-bottom Upgrade to Baw Service !
-            p.uk-text-meta.uk-margin-remove-top
-              | Baw Service로 업그레이드하세요!
-      .uk-card-body
-        h2 Baw Service와 함께라면..
-        h3 빠른 속도!
-        p Baw Service는 다른 후원 사이트에 비해서 깔끔하고 적은 데이터로 운영됩니다.
-        p
-          | 그 예로 Baw Service 페이지 로드 가속이 있습니다. Baw Service 페이지 로드 가속은 처음 페이지를 로드할때 자동으로 스크립트 몇개만 다운로드 받으며, 다른 페이지로 이동시 해당 스크립트 다운로드 요청을 전송하지 않고 해당 스크립트를 계속 사용합니다.
-        p 덕분에 페이지 사이즈가 작아져 적은 리소스로 후원 사이트 관리가 가능하도록 도와주죠.
-        h3 광고 없음!
-        p A사와 C사는 생성한 페이지 내부에 사이트 가입을 유도합니다. 하지만 Baw Service만이 유일하게 사이트 가입을 유도하지 않습니다.
-        h3 유저도 좋아함!
-        p
-          | A사와 Baw Service는 Captcha를 이용합니다. 하지만 Captcha는 컴퓨터가 자동으로 후원하지 못하게 하려는 좋은 의도가 있지만, 잘 보이지 않아 사람을 짜증나게 할 수도 있습니다. 하지만 Baw Service는 자동으로 Captcha가 진행되는 Google Invisible reCAPTCHA를 적용하여 의심되는 작업이 감지되지 않는 한 CAPTCHA를 진행할 필요가 없죠.
-        h3 세계최강 API 플러그인!
-        p
-          | A사 역시 API 플러그인을 제공하지만 소스를 제공하지 않으며, 플러그인 안 광고를 포함합니다. 하지만 Baw Service의 API 플러그인은 플러그인 안 광고 따위 심지 않습니다. 그리고 즉시 처리가 가능한 버전과 안정적인 버전 두개를 동시에 제공하죠.
-        h3 겁나 빠른 업데이트!
-        p
-          | Baw Service에 필요한게 있나요? 언제든지 pp121324@gmail.com 또는 카카오톡 pp121324로 알려주세요. 최대한 빠르게 업데이트하겠습니다.
-        h3 자체 도메인 사용 가능!
-        p
-          | A사와 C사는 오로지 해당 사이트의 도메인 s*h*s.com 이나 m*m*.kr 도메인만을 제공합니다. 하지만 Baw Service만이 store.rpgfarm.kr과 같은 서버 도메인 연결을 지원합니다.
-        p
-          br
-        h2 그럼 이제 Baw Service로 옮겨올 준비가 되셨나요?
-        a(href='https://baws.kr/auth/register')
-          button(class="uk-button uk-button-primary") 헐 나 Baw Service 쓸래!
-    br
-    br
-    p Baw Service는 마인크래프트 흑백서버와 크롱 클라우드의 지원을 받습니다.
-    p
-      | Crong Cloud 사업자 등록번호: 4595000226, 대표: 홍윤석, 고객지원: 카카오톡 @CrongCloud
-      br
-      a(href='https://crong.cloud')
-        button(class="uk-button uk-button-secondary") Crong Cloud
-    p
-      | Baw Service는 크롱 클라우드에 소속되어 있으며, 마인크래프트 흑백서버에 소속되어 있는 Baw Developers의 Baw_Appie가 개발하였습니다.
-    img(src='https://#{hostname}/public/img/crong2.jpg', style='max-width: 100%; height: auto;')
-    br
-    br
-    br
+  .uk-grid-small.uk-child-width-1-2.uk-text-center(class='uk-child-width-1-4@s', uk-grid)
+    div
+      .uk-panel
+        .uk-alert.uk-margin-remove
+          | 총 후원 금액
+          h4 30만원
+    div
+      .uk-panel
+        .uk-alert.uk-margin-remove
+          | 30일 이내 후원 금액
+          h4 30만원
+    div
+      .uk-panel
+        .uk-alert.uk-margin-remove
+          | 총 거절된 후원 횟수
+          h4 30만원
+    div
+      .uk-panel
+        .uk-alert.uk-margin-remove
+          | 총 정품 인증 처리 횟수
+          h4 30만원
+  br
+  p 앗! 이 페이지를 보고 계신다면 #{user.id}님이 Baw  Service Beta 4 Open Beta Tester이신가 보군요!
+  p 지금 Baw Service Beta 4는 모든 기능이 완성되었어요!
+  p 하지만 지금은 Beta 4만의 새로운 기능 추가와 버그 수정을 진행하고 있어 역시 불안정하답니다.
+  p 5월 1일부터 Beta 4가 기본으로 적용되니 참고해주세요!
+  p 그런데 만약 Baw Service Beta 4 체험 도중 접속이 갑자기 중단되는 발생한다면 개발자에게 이 사실을 알려주세요.
+  p 카카오톡: pp121324, 이메일: pp121324@gmail.com
