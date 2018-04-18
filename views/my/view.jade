@@ -72,11 +72,14 @@ block contents
     fieldset.uk-fieldset
       legend.uk-legend Baw Service 비밀번호 수정
       .uk-margin
-        label 비밀번호
-        input.uk-input(type='password', id="pass1", name="pass1", placeholder="비밀번호")
+        label 기존 비밀번호
+        input.uk-input(type='password', id="oldpass", name="oldpass", placeholder="기존 비밀번호")
       .uk-margin
-        label 비밀번호 확인
-        input.uk-input(type='password', id="pass2", name="pass2", placeholder="비밀번호 확인")
+        label 새 비밀번호
+        input.uk-input(type='password', id="pass1", name="pass1", placeholder="새 비밀번호")
+      .uk-margin
+        label 새 비밀번호 확인
+        input.uk-input(type='password', id="pass2", name="pass2", placeholder="새 비밀번호 확인")
       button.uk-button.uk-button-primary(type="submit")
         i(class="fas fa-save")
         |  비밀번호 변경
