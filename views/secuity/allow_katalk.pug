@@ -5,7 +5,7 @@ block extscript
       if($('#phone').val() != "") {
         $.ajax({
             type: 'post',
-            url : 'https://#{hostname}/secuity/req_code',
+            url : `https://${hostname}/secuity/req_code`,
             data : {
                 phone : $('#phone').val()
             },
@@ -32,7 +32,7 @@ block extscript
           success : function s(a){
             if(a.success == true) {
               toastr.success(a.message, a.title); NProgress.done();
-              $.pjax({url: "https://#{hostname}", container: "#contents"})
+              $.pjax({url: `https://${hostname}/`, container: "#contents"})
             } else {
               toastr.warning(a.message, a.title); NProgress.done();
             }

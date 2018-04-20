@@ -18,7 +18,7 @@ block contents
       | 			처리 완료만 누르면 나머지는 API 플러그인이 자동으로!
   br
   div(class="uk-flex uk-flex-center")
-    a(href="https://#{hostname}/auth/register")
+    a(href=`https://${hostname}/auth/register`)
       button(class="uk-button uk-button-primary") 지금 시작하기
     button(class="uk-button uk-button-default" type='button', uk-toggle='target: #login-slide') 나는 이미 쓰고 있는데
   br
@@ -67,7 +67,7 @@ block contents
       button(class="uk-button uk-button-secondary") Crong Cloud
     p
       | Baw Service는 크롱 클라우드에 소속되어 있으며, 마인크래프트 흑백서버에 소속되어 있는 Baw Developers의 Baw_Appie가 개발하였습니다.
-    img(src='https://#{hostname}/public/img/crong2.jpg', style='max-width: 100%; height: auto;')
+    img(src=`https://${hostname}/public/img/crong2.jpg`, style='max-width: 100%; height: auto;')
     br
     br
     br

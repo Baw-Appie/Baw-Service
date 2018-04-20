@@ -4,13 +4,13 @@ html
     title #{userdata['svname']}서버 후원 홈페이지
     meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no')
     link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css')
-    link(rel="stylesheet" href="https://#{hostname}/public/fontawesome/css/fa-svg-with-js.css")
+    link(rel="stylesheet" href=`https://${hostname}/public/fontawesome/css/fa-svg-with-js.css`)
     script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js')
     script(src='https://www.google.com/recaptcha/api.js', async, defer)
     script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js')
-    script(src='https://#{hostname}/public/user_page/js/donation.js')
-    script(src="https://#{hostname}/public/fontawesome/js/fontawesome-all.min.js")
-    script(src="https://#{hostname}/public/fontawesome/js/fa-v4-shims.min.js")
+    script(src=`https://${hostname}/public/user_page/js/donation.js`)
+    script(src=`https://${hostname}/public/fontawesome/js/fontawesome-all.min.js`)
+    script(src=`https://${hostname}/public/fontawesome/js/fa-v4-shims.min.js`)
     style.
       @import url(https://fonts.googleapis.com/earlyaccess/nanumgothic.css);
       @import url(https://fonts.googleapis.com/earlyaccess/nanumpenscript.css);
@@ -47,10 +47,10 @@ html
             each da, i in otherpage
               if da.service == 2
                 li
-                  a(href='https://#{hostname}/#{da["name"]}') 정품 인증
+                  a(href=`https://${hostname}/${da["name"]}`) 정품 인증
               if da['service'] == 3
                 li
-                  a(href='https://#{hostname}/#{da["name"]}') 서버 상태 확인
+                  a(href=`https://${hostname}/${da["name"]}`) 서버 상태 확인
     if pagedata['youtube']
       #player.player
       style.
@@ -90,7 +90,7 @@ html
     .container(style='text-align: center;')
       if pagedata['notice'] != ""
         | <div class='row'><div class='col-md-8'>
-      form#TRM(name='TRM', method='post', action='https://#{hostname}/user/donation')
+      form#TRM(name='TRM', method='post', action=`https://${hostname}/user/donation`)
         .panel.panel-default
           .panel-heading
             h4 <a style="color:DodgerBlue;" href="#" data-toggle="tooltip" title="이 후원 사이트는 Baw Service에 의하여 인증되었습니다."><i class="fas fa-check-circle"></i></a> #{userdata['svname']}서버 후원
@@ -124,7 +124,7 @@ html
                   select.form-control(name='Radio')
                     - var bouns = pagedata.bouns.split('||')
                     each boun in bouns
-                      option(value='#{boun}') #{boun}
+                      option(value=boun) #{boun}
             li.list-group-item
               label 닉네임
               input.form-control(type='text', name='nick', size='20', placeholder='닉네임', required='')
@@ -174,7 +174,7 @@ html
               button.btn.btn.btn-success(onclick='pv()', type='button')
                 i.fa.fa-youtube-play(aria-hidden='true')
                 |  BGM 재생 / 중지
-            input(type='hidden', value='#{pagedata["name"]}', name='page')
+            input(type='hidden', value=pagedata["name"], name='page')
             br
             br
                 

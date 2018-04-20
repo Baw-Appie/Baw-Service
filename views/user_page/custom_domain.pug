@@ -5,7 +5,7 @@ html
     script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js')
     script.
       function settitle() {
-        $.get('https://#{hostname}/#{url}').then(function(responseData) {
+        $.get(`https://${hostname}/${url}`).then(function(responseData) {
           var title =  $(responseData).filter('title').text();
           document.title = title;
         })
@@ -20,5 +20,5 @@ html
       }
     meta(http-equiv='Content-Type', content='text/html; charset=utf-8')
     meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no')
-    link(rel='shortcut icon', href="https://#{hostname}/favicon.ico")
-  iframe(src='https://#{hostname}/#{url}', class="fullScreen", frameborder="0" id='contents', onload='settitle()', scrolling="no")
+    link(rel='shortcut icon', href=`https://${hostname}/favicon.ico`)
+  iframe(src=`https://${hostname}/${url}`, class="fullScreen", frameborder="0" id='contents', onload='settitle()', scrolling="no")

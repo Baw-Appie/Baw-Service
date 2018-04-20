@@ -7,15 +7,15 @@ block extscript
       $(element).hide()
       var id = $(element).attr("id")
       if($(target).hasClass("okay1") === true){
-        var url = "https://#{hostname}/manage/#{data.service}/complete/"+id+"/1"
+        var url = "https://" + hostname + "/manage/#{data.service}/complete/"+id+"/1"
         var realnoapi = false
       }
       if($(target).hasClass("okay1noapi") === true){
-        var url = "https://#{hostname}/manage/#{data.service}/complete/"+id+"/1?noapi=true"
+        var url = "https://" + hostname + "/manage/#{data.service}/complete/"+id+"/1?noapi=true"
         var realnoapi = true
       }
       if($(target).hasClass("okay2") === true){
-        var url = "https://#{hostname}/manage/#{data.service}/complete/"+id+"/2"
+        var url = "https://" + hostname + "/manage/#{data.service}/complete/"+id+"/2"
         var realnoapi = false
       }
       $.ajax({
@@ -36,7 +36,7 @@ block contents
   .uk-card.uk-card-default.uk-card-body(class='uk-width-auto')
     h3.uk-card-title #{data.name} 목록
     each row, i in rows
-      div(id='#{rows[i]["num"]}')
+      div(id=rows[i]["num"])
         each li, ii in list
           | #{korean[ii]}: #{rows[i][li]}
           br

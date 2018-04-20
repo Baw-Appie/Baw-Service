@@ -2,8 +2,8 @@
   div(uk-sticky='animation: uk-animation-slide-top; sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky; cls-inactive: uk-navbar-transparent uk-light; top: 200')
     nav.uk-navbar-container.uk-margin(uk-navbar='')
       .uk-navbar-left
-        a.uk-navbar-item.uk-logo(href='https://#{hostname}/')
-          img(src="https://#{hostname}/public/img/logo.png" width="180")
+        a.uk-navbar-item.uk-logo(href=`https://${hostname}/`)
+          img(src=`https://${hostname}/public/img/logo.png` width="180")
           //| Baw Service Beta 4
         ul.uk-navbar-nav(class="uk-visible@s")
           li
@@ -14,7 +14,7 @@
           if(!user)
             button.uk-button.uk-button-default.uk-margin-small-right(type='button', uk-toggle='target: #login-slide') Sign In
           else
-            a(onclick="location.href='https://#{hostname}/auth/logout'")
+            a(onclick=`location.href='https://${hostname}/auth/logout'`)
               button.uk-button.uk-button-default.uk-margin-small-right(type='button') #{user.id} Sign Out
         a.uk-navbar-toggle(uk-navbar-toggle-icon='', href='#navbar', class='uk-hidden@s', uk-toggle='')
         
@@ -24,7 +24,7 @@
           .uk-offcanvas-bar
             button.uk-offcanvas-close(type='button', uk-close='')
             h3 로그인
-            form(action="https://#{hostname}/auth/login" method="post")
+            form(action=`https://${hostname}/auth/login` method="post")
               p Baw Service에 로그인하려면 아래 정보를 입력하세요.
               .uk-margin
                   input.uk-input(name="id" type="text" placeholder="ID")
@@ -35,14 +35,14 @@
               font(style='text-align: center;')
                 p OR Sign in with
               .uk-button-group(style="width: 100%;")
-                a(onclick="location.href=('https://#{hostname}/auth/google')", style="width: 100%;")
+                a(onclick=`location.href=('https://${hostname}/auth/google')`, style="width: 100%;")
                   button.uk-button.uk-button-secondary(type="button", style="width: 100%;") Google
-                a(onclick="location.href=('https://#{hostname}/auth/kakao')", style="width: 100%;")
+                a(onclick=`location.href=('https://${hostname}/auth/kakao')`, style="width: 100%;")
                   button.uk-button.uk-button-secondary(type="button", style="width: 100%;") Kakao
               hr.uk-divider-icon
               p 아직 계정이 없으신가요?
               p
-                a(href="https://#{hostname}/auth/register")
+                a(href=`https://${hostname}/auth/register`)
                   button.uk-button.uk-button-primary.uk-width-1-1(type="button") 회원가입
 
 
@@ -55,5 +55,5 @@
             if(!user)
               button.uk-button.uk-button-default.uk-margin-small-right(type='button', uk-toggle='target: #login-slide') Sign In
             else
-              a(onclick="location.href='https://#{hostname}/auth/logout'")
+              a(onclick=`location.href='https://${hostname}/auth/logout'`)
                 button.uk-button.uk-button-default.uk-margin-small-right(type='button') #{user.id} Sign Out

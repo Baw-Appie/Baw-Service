@@ -16,7 +16,7 @@ block extscript
       if($('#name').val() != "") {
         $.ajax({
             type: 'post',
-            url : 'https://#{hostname}/auth/exist/page',
+            url : `https://${hostname}/auth/exist/page`,
             data : {
                 data : $('#name').val()
             },

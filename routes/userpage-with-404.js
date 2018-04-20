@@ -21,7 +21,7 @@ module.exports = function(req, res, next) {
         res.render('error/500')
       }
       if(servicename){
-        if(fs.existsSync('./views/user_page/'+servicename+'-'+rows[0]['theme']+'.jade')) {
+        if(fs.existsSync('./views/user_page/'+servicename+'-'+rows[0]['theme']+'.pug')) {
           var sql_req2 = sql('select * from `id` where `id`='+SqlString.escape(rows[0]['owner']), function(err, rows2) {
             if(err){ throw err }
             var sql_req3 = sql('select * from `page` where `owner`='+SqlString.escape(rows[0]['owner']), function(err, rows3){

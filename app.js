@@ -14,7 +14,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
 var KakaoStrategy = require('passport-kakao').Strategy;
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 app.set('views', './views');
 if(server_settings.pretty_html == true) {
   app.locals.pretty = true;

@@ -1,7 +1,7 @@
 extends ./includes/layout
 block contents
   h3 로그인
-  form(action="https://#{hostname}/auth/login" method="post")
+  form(action="https://" + hostname + "/auth/login" method="post")
     p Baw Service에 로그인하려면 아래 정보를 입력하세요.
     .uk-margin
         input.uk-input(name="id" type="text" placeholder="ID / Mail")
@@ -12,12 +12,12 @@ block contents
     font(style='text-align: center;')
       p OR Sign in with
     .uk-button-group(style="width: 100%;")
-      a(onclick="location.href=('https://#{hostname}/auth/google')", style="width: 100%;")
+      a(onclick="location.href=('https://" + hostname + "/auth/google')", style="width: 100%;")
         button.uk-button.uk-button-secondary(type="button", style="width: 100%;") Google
-      a(onclick="location.href=('https://#{hostname}/auth/kakao')", style="width: 100%;")
+      a(onclick="location.href=('https://" + hostname + "/auth/kakao')", style="width: 100%;")
         button.uk-button.uk-button-secondary(type="button", style="width: 100%;") Kakao
     hr.uk-divider-icon
     p 아직 계정이 없으신가요?
     p
-      a(href="https://#{hostname}/auth/register")
+      a(href="https://" + hostname + "/auth/register")
         button.uk-button.uk-button-primary.uk-width-1-1(type="button") 회원가입

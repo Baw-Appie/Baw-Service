@@ -33,18 +33,18 @@ block contents
           - var name = select_option[i];
           label
             if rows[0][name] == 0
-              input.uk-radio(type='radio', name='#{name}', value=0, checked)
+              input.uk-radio(type='radio', name=name, value=0, checked)
               |  차단
             else
-              input.uk-radio(type='radio', name='#{name}', value=0)
+              input.uk-radio(type='radio', name=name, value=0)
               |  차단
               
           label
             if rows[0][name] == 1
-              input.uk-radio(type='radio', name='#{name}', value=1, checked)
+              input.uk-radio(type='radio', name=name, value=1, checked)
               |  허용
             else
-              input.uk-radio(type='radio', name='#{name}', value=1)
+              input.uk-radio(type='radio', name=name, value=1)
               |  허용
       // CUSTOM_SELECT INPUT
       if custom_select_option
@@ -55,10 +55,10 @@ block contents
             label
               each custom_list, oo in custom_select['options']
                 if rows[0][name] == custom_select['option_data'][oo]
-                  input.uk-radio(type='radio', name='#{name}', value='#{custom_select["option_data"][oo]}', checked)
+                  input.uk-radio(type='radio', name=name, value=custom_select["option_data"][oo], checked)
                   |  #{custom_select["option_korean"][oo]}
                 else
-                  input.uk-radio(type='radio', name='#{name}', value='#{custom_select["option_data"][oo]}')
+                  input.uk-radio(type='radio', name=name, value=custom_select["option_data"][oo])
                   |  #{custom_select["option_korean"][oo]}
       // CUSTOM_COMBO INPUT
       if custom_checkbox_option
@@ -69,10 +69,10 @@ block contents
             each custom_list, oo in custom_checkbox['options']
               label
                 -if(rows[0][name].indexOf(custom_checkbox['option_data'][oo]) != -1)
-                  input.uk-checkbox(type='checkbox', name='#{name}', value='#{custom_checkbox["option_data"][oo]}', checked)
+                  input.uk-checkbox(type='checkbox', name=name, value=custom_checkbox["option_data"][oo], checked)
                   |  #{custom_checkbox["option_korean"][oo]}
                 -else
-                  input.uk-checkbox(type='checkbox', name='#{name}', value='#{custom_checkbox["option_data"][oo]}')
+                  input.uk-checkbox(type='checkbox', name=name, value=custom_checkbox["option_data"][oo])
                   |  #{custom_checkbox["option_korean"][oo]}
                 
               
@@ -83,9 +83,9 @@ block contents
           - var name = text_option[i];
           - var value = rows[0][name]
             if value != ""
-              input.uk-input(type='text', name='#{name}', placeholder='#{text}', value="#{value}")
+              input.uk-input(type='text', name=name, placeholder=text, value=value)
             else 
-              input.uk-input(type='text', name='#{name}', placeholder='#{text}')
+              input.uk-input(type='text', name=name, placeholder=text)
             
       // TEXTAREA INPUT
       each textarea, i in textarea_option_korean
@@ -94,9 +94,9 @@ block contents
           - var name = textarea_option[i];
           - var value = rows[0][name]
             if value != ""
-              textarea.uk-textarea(name='#{name}', placeholder='#{textarea}', rows=5) !{value}
+              textarea.uk-textarea(name=name, placeholder=textarea, rows=5) !{value}
             else
-              textarea.uk-textarea(name='#{name}', placeholder='#{textarea}', rows=5)
+              textarea.uk-textarea(name=name, placeholder=textarea, rows=5)
               
       // CUSTOM TEXT INPUT
       if custom_text
@@ -110,5 +110,3 @@ block contents
         a(onclick="$.pjax.reload('#contents')")
           i(class="fas fa-undo")
           |  적용 안함
-          
-          
