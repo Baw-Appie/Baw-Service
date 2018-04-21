@@ -4,7 +4,7 @@ var SqlString = require('sqlstring');
 module.exports = function() {
     return function custom_domains( req, res, next ) {
       if(req.path == "/") {
-        var sql_req = sql('SELECT * FROM custom_domain WHERE domain='+SqlString.escape(req.hostname), function(err, rows){
+        var sql_req = sql.query('SELECT * FROM custom_domain WHERE domain='+SqlString.escape(req.hostname), function(err, rows){
           if(err) { throw new Error('1번 질의 오류') }
           if(rows.length == 1){
             var url = rows[0]['go']

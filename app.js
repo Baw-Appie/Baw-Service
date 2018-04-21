@@ -51,7 +51,7 @@ app.use('/public', express.static('public'));
 // *페이지 라우터* //
 // 메인
 app.all('/', require('./routes/index'));
-// app.get('/getdata/:data', require('./routes/getdata'));
+app.get('/test', require('./routes/test'));
 
 // *보안* //
 // 카카오톡 활성화 요청

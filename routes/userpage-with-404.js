@@ -4,7 +4,7 @@ var validator = require('validator');
 var fs = require('fs');
 module.exports = function(req, res, next) {
   var path = req.path.split('/')
-  var sql_req = sql('select * from page where name=' + SqlString.escape(path[1]), function(err, rows){
+  var sql_req = sql.query('select * from page where name=' + SqlString.escape(path[1]), function(err, rows){
     if(err) { throw err }
     if(rows.length === 0) {
       // 404 에러 처리
@@ -22,9 +22,9 @@ module.exports = function(req, res, next) {
       }
       if(servicename){
         if(fs.existsSync('./views/user_page/'+servicename+'-'+rows[0]['theme']+'.pug')) {
-          var sql_req2 = sql('select * from `id` where `id`='+SqlString.escape(rows[0]['owner']), function(err, rows2) {
+          var sql_req2 = sql.query('select * from `id` where `id`='+SqlString.escape(rows[0]['owner']), function(err, rows2) {
             if(err){ throw err }
-            var sql_req3 = sql('select * from `page` where `owner`='+SqlString.escape(rows[0]['owner']), function(err, rows3){
+            var sql_req3 = sql.query('select * from `page` where `owner`='+SqlString.escape(rows[0]['owner']), function(err, rows3){
               if(err){ throw err }
               if(rows[0]['service'] == '1') {
                 res.render('./user_page/'+servicename+'-'+rows[0]['theme'], {pagedata: rows[0], otherpage: rows3, userdata: rows2[0]})

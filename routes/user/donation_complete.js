@@ -82,12 +82,12 @@ function complete(req, res){
       var code = "없음"
     }
 
-    var sql_req = sql('SELECT * FROM page WHERE name='+ SqlString.escape(page)+' and service=1', function(err, rows) {
+    var sql_req = sql.query('SELECT * FROM page WHERE name='+ SqlString.escape(page)+' and service=1', function(err, rows) {
       if (err) { return reject('1번 질의 오류') }
       if (rows.length == 0) { return reject('후원 홈페이지가 존재하지 않습니다.') }
-      var sql_req2 = sql('SELECT * FROM id WHERE id='+ SqlString.escape(rows[0]['owner']), function(err, rows2) {
+      var sql_req2 = sql.query('SELECT * FROM id WHERE id='+ SqlString.escape(rows[0]['owner']), function(err, rows2) {
         if (err) { return reject('2번 질의 오류') }
-        var sql_req3 = sql('SELECT * FROM service1 ORDER BY `num` ASC', function(err, rows3) {
+        var sql_req3 = sql.query('SELECT * FROM service1 ORDER BY `num` ASC', function(err, rows3) {
           if (err) { return reject('3번 질의 오류') }
           var counter = rows3.length;
           rows3.forEach(function(item) {
@@ -103,7 +103,7 @@ function complete(req, res){
                   var pincode = pin1+'-'+pin2+'-'+pin3+'-'+pin4
        	         var sql_Request = SqlString.format('INSERT INTO service1 values (?, ?, ?, ?, ?, ?, ?, ?, "없음", ?, ?, ?, 0)', [no, page, rows[0]['owner'], nick, bal, pincode, Combo, code, Radio, ip, date]);
                }
-              var sql_req4  = sql(sql_Request, function(err, rows4) {
+              var sql_req4  = sql.query(sql_Request, function(err, rows4) {
                 if (err) { return reject('4번 질의 오류'); }
 
                 if(rows[0]['mail_ok'] == 1) {
@@ -124,12 +124,12 @@ function complete(req, res){
                 }
 
                 if(rows[0]['sms_ok'] == 1) {
-                  sql(SqlString.format('SELECT * FROM sms WHERE id=?', [rows[0]['owner']]), function(err, rows5){
+                  sql.query(SqlString.format('SELECT * FROM sms WHERE id=?', [rows[0]['owner']]), function(err, rows5){
                     if (err) { return reject('5번 질의 오류'); }
                     if(rows5.length == 1){
                       var formdata = {data: JSON.stringify({id: 'pp121324', pw: crypto.createHash('sha256').update('qqpp3203').digest('hex'), code: '5325', type: 'A', caller: '01065540029', toll: '01065540029', html: '1'}), msg: '새로운 후원이 있습니다! https://baws.kr'}
                       request.post({url: 'http://smsapi.dotname.co.kr/index.php', form: formdata}, function(error, response, body){
-                        sql(SqlString.format('update sms set send = send+1 where id = ?', [rows[0]['owner']]))
+                        sql.query(SqlString.format('update sms set send = send+1 where id = ?', [rows[0]['owner']]))
                         if(body != "@1"){
                           return reject('후원 등록에는 성공하였으니 알림 문자 전송 오류입니다. 후원 사실을 서버 관리자에게 직접 알려주세요.')
                         }
@@ -138,7 +138,7 @@ function complete(req, res){
                   })
                 }
                 if(rows[0]['tg_ok'] == 1) {
-                  sql(SqlString.format('SELECT * FROM telegram WHERE id=?', [rows[0]['owner']]), function(err, rows6){
+                  sql.query(SqlString.format('SELECT * FROM telegram WHERE id=?', [rows[0]['owner']]), function(err, rows6){
                     if (err) { return reject('6번 질의 오류'); }
                     if(rows6.length == 1){
                       request('https://api.telegram.org/bot'+server_settings.tg_bot_key+'/getChat?chat_id='+rows6[0]['chat_id'], function(err, res, body) {

@@ -5,7 +5,7 @@ var crypto = require('crypto');
 var request = require('request');
 module.exports = function(id, phone, ip){
   return new Promise(function (resolve, reject) {
-    sql(SqlString.format('SELECT * FROM `2fa` WHERE phone=? AND try=3', [phone]), function(err, rows){
+    sql.query(SqlString.format('SELECT * FROM `2fa` WHERE phone=? AND try=3', [phone]), function(err, rows){
       if(err){ throw new Error("1번 질의 오류") }
       if(rows.length != 0){
         return reject({ success: false, title: "발송제한 초과",  message: "인증번호 최대 발송 가능 횟수를 초과했습니다." })
@@ -43,12 +43,12 @@ IP: `+ip+`
           "country": "82",
           "only_ata": true
         }
-        sql(SqlString.format('SELECT * FROM 2fa WHERE phone = ?', [phone]), function(err, rows2){
+        sql.query(SqlString.format('SELECT * FROM 2fa WHERE phone = ?', [phone]), function(err, rows2){
           if(err){ throw new Error("2번 질의 오류") }
           if(rows2.length == 0){
-            sql(SqlString.format('insert into `2fa` value (?, ?, 1, ?, ?)', [id,ip,phone,code]))
+            sql.query(SqlString.format('insert into `2fa` value (?, ?, 1, ?, ?)', [id,ip,phone,code]))
           } else {
-            sql(SqlString.format('update `2fa` set try=?+1, code=? where id=?', [rows2[0]['try'],code,id]))
+            sql.query(SqlString.format('update `2fa` set try=?+1, code=? where id=?', [rows2[0]['try'],code,id]))
           }
         })
         request.post({url: 'https://api.coolsms.co.kr/sms/2/send', form: formdata}, function(e,r,b){

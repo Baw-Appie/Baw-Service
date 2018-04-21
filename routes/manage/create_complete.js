@@ -17,12 +17,12 @@ function complete(req, res){
       if(vali.isEmpty(name)){
         return reject('ID를 입력해주세요.')
       }
-      sql(SqlString.format("SELECT * FROM page WHERE owner=? and service=?", [req.user.id, service]), function(err,rows){
+      sql.query(SqlString.format("SELECT * FROM page WHERE owner=? and service=?", [req.user.id, service]), function(err,rows){
         if(err) { return reject("1번 질의 오류") }
         if(rows.length != 0){
           return reject("이미 페이지를 소유하고 있습니다.")
         }
-        sql(SqlString.format("SELECT * FROM page WHERE name=?", [name]), function(err,rows2){
+        sql.query(SqlString.format("SELECT * FROM page WHERE name=?", [name]), function(err,rows2){
           if(err) { return reject("2번 질의 오류") }
           if(rows2.length != 0){
             return reject("이미 존재하는 페이지입니다.")
@@ -38,7 +38,7 @@ function complete(req, res){
             var sql_Request = SqlString.format("insert into page values (?, 3, ?, ?, 0, 0, 0, 0, 0, 0, '없음', '', '', '', 25565, '이 정보는 부정확할 수 있으니 직접 접속하여 확인해보시기 바랍니다.', 'bootstrap3', '', 0)", [name, req.user.id, date])
           }
 
-          sql(sql_Request, function(err, rows3){
+          sql.query(sql_Request, function(err, rows3){
             if(err) { return reject("3번 질의 오류") }
             req.session.error = "페이지가 생성되었습니다! 페이지 설정에서 설정을 수정하여 페이지를 완성시키세요!"
             resolve("페이지 생성에 성공했습니다.")

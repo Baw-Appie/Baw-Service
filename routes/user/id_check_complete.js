@@ -44,18 +44,18 @@ function complete(req, res){
           } else if(rdata.selectedProfile.name){
             var nick = rdata['selectedProfile']['name']
             /* */
-            var sql_req = sql('SELECT * FROM page WHERE name='+ SqlString.escape(page)+' and service=2', function(err, rows) {
+            var sql_req = sql.query('SELECT * FROM page WHERE name='+ SqlString.escape(page)+' and service=2', function(err, rows) {
               if (err) { return reject('1번 질의 오류') }
               if (rows.length == 0) { return reject('정품인증 페이지가 존재하지 않습니다.') }
-              var sql_req2 = sql('SELECT * FROM id WHERE id='+ SqlString.escape(rows[0]['owner']), function(err, rows2) {
+              var sql_req2 = sql.query('SELECT * FROM id WHERE id='+ SqlString.escape(rows[0]['owner']), function(err, rows2) {
                 if (err) { return reject('2번 질의 오류') }
-                var sql_req5 = sql('SELECT * FROM service2 WHERE nick='+SqlString.escape(nick)+' and page='+ SqlString.escape(page), function (err, rows5) {
+                var sql_req5 = sql.query('SELECT * FROM service2 WHERE nick='+SqlString.escape(nick)+' and page='+ SqlString.escape(page), function (err, rows5) {
                   if(err){ return reject('5번 질의 오류') }
                   if(rows5.length != 0){
                     return reject('이미 인증되었습니다.')
                   }
                 })
-                var sql_req3 = sql('SELECT * FROM service2 ORDER BY `num` ASC', function(err, rows3) {
+                var sql_req3 = sql.query('SELECT * FROM service2 ORDER BY `num` ASC', function(err, rows3) {
                   if (err) { return reject('3번 질의 오류') }
                   var counter = rows3.length;
                   rows3.forEach(function(item) {
@@ -63,7 +63,7 @@ function complete(req, res){
                     if ( counter === 0){
                       var no = item.num + 1
                       var sql_Request = SqlString.format('INSERT INTO service2 values (?, ?, ?, ?, ?, ?, 0)', [no, rows[0]['owner'], page, nick, date, ip]);
-                      var sql_req4  = sql(sql_Request, function(err, rows4) {
+                      var sql_req4  = sql.query(sql_Request, function(err, rows4) {
                         if (err) { return reject('4번 질의 오류'); }
 
                         if(rows[0]['mail_ok'] == 1) {
@@ -95,10 +95,10 @@ function complete(req, res){
                             if(rows2[0]['api'] == "HTTP") {
                               console.log('HTTP활성화')
                               var sql_Request = SqlString.format('insert into api2 values (?, ?, ?, ?, ?)', [req.user.id, rows2[0]['api_key'], page, nick, api_cmd])
-                              var sql_req4 = sql(sql_Request)
+                              var sql_req4 = sql.query(sql_Request)
                             }
                           }
-                          sql('UPDATE `service2` SET status=1 WHERE num=' + SqlString.escape(no))
+                          sql.query('UPDATE `service2` SET status=1 WHERE num=' + SqlString.escape(no))
                         }
 
                         resolve("<script>alert('정품인증에 성공했습니다!');location.replace('https://"+req.hostname+"/"+page+"');</script>")

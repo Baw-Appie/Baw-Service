@@ -4,9 +4,9 @@ module.exports = function (req, res) {
   if(req.body.api_key && req.body.id){
     var api_key = req.body.api_key
     var id = req.body.id
-    sql(SqlString.format('SELECT * FROM api1 WHERE owner=? and api_key=?', [id, api_key]), function(err, rows){
+    sql.query(SqlString.format('SELECT * FROM api1 WHERE owner=? and api_key=?', [id, api_key]), function(err, rows){
       if(err){ throw new Error('1번 질의 오류') }
-      sql(SqlString.format('SELECT * FROM api2 WHERE owner=? and api_key=?', [id, api_key]), function(err, rows2){
+      sql.query(SqlString.format('SELECT * FROM api2 WHERE owner=? and api_key=?', [id, api_key]), function(err, rows2){
         if(err){ throw new Error('2번 질의 오류') }
         var rcount = rows.length + rows2.length
 
@@ -27,8 +27,8 @@ module.exports = function (req, res) {
           }
         })
 
-        sql(SqlString.format('delete from api1 WHERE owner=? and api_key=?', [id, api_key]))
-        sql(SqlString.format('delete from api2 WHERE owner=? and api_key=?', [id, api_key]))
+        sql.query(SqlString.format('delete from api1 WHERE owner=? and api_key=?', [id, api_key]))
+        sql.query(SqlString.format('delete from api2 WHERE owner=? and api_key=?', [id, api_key]))
 
       })
     })

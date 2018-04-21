@@ -15,7 +15,7 @@ module.exports = function (req, res) {
         var textarea_option_korean = ["공지사항"]
         var custom_checkbox_option = [{name: "disabled", korean: "사용하지 않을 후원 방법", options: ["문화상품권", "도서 문화상품권", "해피머니", "틴캐시", "계좌이체"], option_data: ["문화상품권1", "도서문화상품권", "해피머니", "틴캐시", "계좌이체"], option_korean: ["문화상품권", "도서 문화상품권", "해피머니", "틴캐시", "계좌이체"]}]
 
-        var sql_req = sql('select * from page where service=1 and owner=' + SqlString.escape(req.user.id), function(err, rows){
+        var sql_req = sql.query('select * from page where service=1 and owner=' + SqlString.escape(req.user.id), function(err, rows){
           if (rows.length === 0) {
             req.session.error = '후원 홈페이지가 존재하지 않습니다.';
             res.redirect('/')
@@ -35,7 +35,7 @@ module.exports = function (req, res) {
         var textarea_option = ["notice"]
         var textarea_option_korean = ["공지사항"]
 
-        var sql_req = sql('select * from page where service=2 and owner=' + SqlString.escape(req.user.id), function(err, rows){
+        var sql_req = sql.query('select * from page where service=2 and owner=' + SqlString.escape(req.user.id), function(err, rows){
           if (rows.length === 0) {
             req.session.error = '정품 인증 페이지가 존재하지 않습니다.';
             res.redirect('/')
@@ -56,7 +56,7 @@ module.exports = function (req, res) {
         var textarea_option = ["notice"]
         var textarea_option_korean = ["공지사항"]
 
-        var sql_req = sql('select * from page where service=3 and owner=' + SqlString.escape(req.user.id), function(err, rows){
+        var sql_req = sql.query('select * from page where service=3 and owner=' + SqlString.escape(req.user.id), function(err, rows){
           if (rows.length === 0) {
             req.session.error = '서버 상태 위젯이 존재하지 않습니다.';
             res.redirect('/')

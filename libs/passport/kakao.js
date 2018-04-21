@@ -4,7 +4,7 @@ var passport = require('passport');
 module.exports = function(request, accessToken, refreshToken, profile, done) {
   process.nextTick(function () {
     if(profile['_json']['kaccount_email_verified'] == true) {
-      var login_req = sql('select * from id where id=' + SqlString.escape(profile['_json']['kaccount_email']), function(err, rows){
+      var login_req = sql.query('select * from id where id=' + SqlString.escape(profile['_json']['kaccount_email']), function(err, rows){
         if(err) { done(err) };
         if (rows.length === 0) {
           request.session.error = '존재하지 않는 ID거나 비밀번호를 잘못 입력하셨습니다.';

@@ -66,7 +66,7 @@ module.exports = function(req, res) {
               } else if (req.params.service == "Custom") {
                 var sql_Request = SqlString.format('UPDATE `custom_domain` SET `domain` = ? WHERE `custom_domain`.`owner` = ?', [req.body.domain, req.user.id])
               }
-              var sql_req = sql(sql_Request)
+              var sql_req = sql.query(sql_Request)
               res.json({ success: true, title: "완료했습니다!",  message: "부가 서비스 설정 요청이 전달되었습니다." });
             }).catch(function (error) {
               res.json({ success: false, title: "필요 데이터 미전달됨",  message: "설정에 필요한 데이터가 전달되지 않았습니다." });

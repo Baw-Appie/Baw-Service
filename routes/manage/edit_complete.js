@@ -74,7 +74,7 @@ module.exports = function(req, res) {
             if(req.params.service == 3) {
             	var sql_Request = SqlString.format("UPDATE `page` SET `sv_ip` = ?, `sv_port` = ?, `notice`=?, `youtube`=? WHERE service=3 and owner=?", [sv_ip, sv_port, notice, youtube, req.user.id])
             }
-            var sql_req = sql(sql_Request)
+            var sql_req = sql.query(sql_Request)
             res.json({ success: true, title: "완료했습니다!",  message: "정상적으로 해당 페이지에 적용되었습니다." });
           }).catch(function (error) {
             res.json({ success: false, title: "필요 데이터 미전달됨",  message: "설정에 필요한 데이터가 전달되지 않았습니다." });
