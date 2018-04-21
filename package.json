@@ -9,7 +9,7 @@
     "cookie-session": "^2.0.0-beta.3",
     "express": "^4.16.3",
     "md5": "^2.2.1",
-    "messaging-api-telegram": "^0.7.0-rc.1",
+    "messaging-api-telegram": "^0.7.0-rc.2",
     "mineping": "^0.1.0",
     "mysql": "^2.15.0",
     "node-google-translate-skidz": "^1.1.1",
@@ -27,9 +27,13 @@
     "tls": "0.0.1",
     "validator": "^9.4.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "snyk": "^1.73.0"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js",
+    "superstart": "supervisor app.js",
+    "secuitytest": "snyk test"
   },
   "author": "Baw_Appie",
   "license": "ISC"
