@@ -36,6 +36,7 @@ app.use(cookieSession({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(function(req,res,next){
+    res.removeHeader("x-powered-by");
     res.locals.session = req.session;
     res.set("Access-Control-Allow-Origin", '*');
     res.locals.user = req.user;
