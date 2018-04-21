@@ -10,6 +10,7 @@ var app = express();
 var cookieSession = require('cookie-session')
 var session_config = require('./config/session');
 var SqlString = require('sqlstring');
+var compression = require('compression')
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
@@ -20,6 +21,7 @@ if(server_settings.pretty_html == true) {
   app.locals.pretty = true;
 }
 // 서버 초기화
+app.use(compression())
 app.use(function(req,res,next){
   if (req.hostname == server_settings.hostname || fs.existsSync('./config/ssl/'+req.hostname+'/key.pem')) {
     if (!req.secure) {
