@@ -37,10 +37,10 @@ html
             each da, i in otherpage
               if da.service == 2
                 li
-                  a(href=`https://${hostname}/#{da["name"]}`) 정품 인증
+                  a(href=`https://${hostname}/${da["name"]}`) 정품 인증
               if da['service'] == 1
                 li
-                  a(href=`https://${hostname}/#{da["name"]}`) 후원
+                  a(href=`https://${hostname}/${da["name"]}`) 후원
 
 
     .container(style='text-align: center;')
