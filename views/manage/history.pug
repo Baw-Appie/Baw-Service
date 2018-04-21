@@ -34,11 +34,31 @@ block extscript
     })
 block contents
   .uk-card.uk-card-default.uk-card-body(class='uk-width-auto')
-    h3.uk-card-title #{data.name} 목록
-    each row, i in rows
-      div(id=rows[i]["num"])
+    h3.uk-card-title #{data.name} 최근 처리 완료 후원 정보 [10개]
+    each row, i in data1
+      div(id=data1[i]["num"])
         each li, ii in list
-          | #{korean[ii]}: #{rows[i][li]}
+          | #{korean[ii]}: #{data1[i][li]}
+          br
+        br
+        div(class="okay")
+          button.uk-button.uk-button-danger.okay2
+            i(class="fas fa-times-circle")
+            |  처리 거절으로 수정
+        hr.uk-divider-icon
+      
+    - if (rows.length == 0)
+      p 처리 성공된 #{data.name}이 없습니다.
+      hr.uk-divider-icon
+    p Powered by Baw Service
+  br
+  br
+  .uk-card.uk-card-default.uk-card-body(class='uk-width-auto')
+    h3.uk-card-title #{data.name} 최근 처리 거절 후원 정보 [5개]
+    each row, i in data2
+      div(id=data2[i]["num"])
+        each li, ii in list
+          | #{korean[ii]}: #{data2[i][li]}
           br
         br
         div(class="okay")
@@ -46,13 +66,10 @@ block contents
             i(class="fas fa-check-circle")
             |  처리 완료
           button.uk-button.uk-button-default.okay1noapi API 요청 없이 처리 완료
-          button.uk-button.uk-button-danger.okay2
-            i(class="fas fa-times-circle")
-            |  처리 거절
         hr.uk-divider-icon
       
     - if (rows.length == 0)
-      p 처리되지 않은 #{data.name}이 없습니다.
+      p 처리 거절된 #{data.name}이 없습니다.
       hr.uk-divider-icon
     p Powered by Baw Service
   br
