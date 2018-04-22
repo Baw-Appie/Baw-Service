@@ -25,7 +25,7 @@ block extscript
         NProgress.start();
         $.ajax({
           type: "post",
-          url : "https://" + hostname + "/my/pass",
+          url : "https://#{hostname}/my/pass",
           data : $("#pass").serialize(),
           success : function s(a){
             if(a.success == true) {
