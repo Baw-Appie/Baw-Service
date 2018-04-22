@@ -26,34 +26,39 @@ module.exports = function(req, res, next) {
             if(err){ throw err }
             var sql_req3 = sql.query('select * from `page` where `owner`='+SqlString.escape(rows[0]['owner']), function(err, rows3){
               if(err){ throw err }
-              if(rows[0]['service'] == '1') {
-                res.render('./user_page/'+servicename+'-'+rows[0]['theme'], {pagedata: rows[0], otherpage: rows3, userdata: rows2[0]})
-              } else if(rows[0]['service'] == '2') {
-                res.render('./user_page/'+servicename+'-'+rows[0]['theme'], {pagedata: rows[0], otherpage: rows3, userdata: rows2[0]})
-              } else if(rows[0]['service'] == '3') {
-                var mineping = require("mineping");
-                if(rows[0]['sv_ip'] == '' || rows[0]['sv_port'] == '') {
-                  res.render('./user_page/'+servicename+'-'+rows[0]['theme'], {pagedata: rows[0], userdata: rows2[0], otherpage: rows3, data: false})
-                } else {
-                  const dns = require('dns');
-                  dns.resolve('_minecraft._tcp.'+rows[0]['sv_ip'], 'SRV', (err, records) => {
-                    if (err) {
-                      var sv_ip = rows[0]['sv_ip']
-                      var sv_port = rows[0]['sv_port']
-                    } else {
-                      var sv_ip = records[0]['name']
-                      var sv_port = records[0]['port']
-                    }
-                    mineping(1, sv_ip, sv_port, function(err, data) {
-                      if(err) {
-                          res.render('./user_page/'+servicename+'-'+rows[0]['theme'], {pagedata: rows[0], userdata: rows2[0], otherpage: rows3, data: false})
-                      } else {
-                        res.render('./user_page/'+servicename+'-'+rows[0]['theme'], {pagedata: rows[0], userdata: rows2[0], otherpage: rows3, data: data})
-                      }
-                    });
-                  });
+              sql.query('select * from `auth` where `page`=' + SqlString.escape(path[1]), function(err, rows4){
+                if(rows4.length == 0){
+                  var rows4 = false
                 }
-              }
+                if(rows[0]['service'] == '1') {
+                  res.render('./user_page/'+servicename+'-'+rows[0]['theme'], {pagedata: rows[0], otherpage: rows3, userdata: rows2[0], authdata: rows4})
+                } else if(rows[0]['service'] == '2') {
+                  res.render('./user_page/'+servicename+'-'+rows[0]['theme'], {pagedata: rows[0], otherpage: rows3, userdata: rows2[0], authdata: rows4})
+                } else if(rows[0]['service'] == '3') {
+                  var mineping = require("mineping");
+                  if(rows[0]['sv_ip'] == '' || rows[0]['sv_port'] == '') {
+                    res.render('./user_page/'+servicename+'-'+rows[0]['theme'], {pagedata: rows[0], userdata: rows2[0], otherpage: rows3, data: false, authdata: rows4})
+                  } else {
+                    const dns = require('dns');
+                    dns.resolve('_minecraft._tcp.'+rows[0]['sv_ip'], 'SRV', (err, records) => {
+                      if (err) {
+                        var sv_ip = rows[0]['sv_ip']
+                        var sv_port = rows[0]['sv_port']
+                      } else {
+                        var sv_ip = records[0]['name']
+                        var sv_port = records[0]['port']
+                      }
+                      mineping(1, sv_ip, sv_port, function(err, data) {
+                        if(err) {
+                            res.render('./user_page/'+servicename+'-'+rows[0]['theme'], {pagedata: rows[0], userdata: rows2[0], otherpage: rows3, data: false, authdata: rows4})
+                        } else {
+                          res.render('./user_page/'+servicename+'-'+rows[0]['theme'], {pagedata: rows[0], userdata: rows2[0], otherpage: rows3, data: data, authdata: rows4})
+                        }
+                      });
+                    });
+                  }
+                }
+              })
             })
           })
         } else {
