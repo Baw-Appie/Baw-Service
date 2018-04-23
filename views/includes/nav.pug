@@ -12,12 +12,12 @@
       .uk-navbar-right
         ul.uk-navbar-nav(class='uk-visible@s')
           if(!user)
-            button.uk-button.uk-button-default.uk-margin-small-right(type='button', uk-toggle='target: #login-slide') Sign In
+            button.uk-button.uk-button-default.uk-margin-small-right(type='button', uk-toggle='target: #login-slide') 로그인
           else
             a(onclick=`location.href='https://${hostname}/auth/logout'`)
-              button.uk-button.uk-button-default.uk-margin-small-right(type='button') Sign Out
+              button.uk-button.uk-button-default.uk-margin-small-right(type='button') 로그아웃
             a(href=`https://${hostname}/my`)
-              button.uk-button.uk-button-default.uk-margin-small-right(type='button') My Info
+              button.uk-button.uk-button-default.uk-margin-small-right(type='button') 내 정보
         a.uk-navbar-toggle(uk-navbar-toggle-icon='', href='#navbar', class='uk-hidden@s', uk-toggle='')
         
         
@@ -57,7 +57,7 @@
               include sidebar
               br
               if(!user)
-                button.uk-button.uk-button-default.uk-margin-small-right(type='button', uk-toggle='target: #login-slide') Sign In
+                button.uk-button.uk-button-default.uk-margin-small-right(type='button', uk-toggle='target: #login-slide') 로그인
               else
                 .uk-button-group(style="width: 100%;")
                   a(onclick=`location.href='https://${hostname}/auth/logout'`)

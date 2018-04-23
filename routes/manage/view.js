@@ -7,8 +7,8 @@ module.exports = function (req, res) {
           "name": "후원",
           "service": 1
         }
-        var list = ["nick", "bal", "method", "pin", "bouns", "ip", "date"];
-        var korean = ["닉네임", "후원 금액", "후원 방법", "핀번호", "원하는 보상", "IP", "날짜"]
+        var list = ["nick", "bal", "method", "pin", "bouns", "nname", "code", "ip", "date"];
+        var korean = ["닉네임", "후원 금액", "후원 방법", "핀번호", "원하는 보상", "입금자명", "발행일(인증코드)", "IP", "날짜"]
 
         var sql_req = sql.query('select * from page where service=1 and owner=' + SqlString.escape(req.user.id), function(err, rows){
           if (rows.length === 0) {
@@ -16,7 +16,14 @@ module.exports = function (req, res) {
             res.redirect('/')
     		  } else {
             var sql_req2 = sql.query('select * from service1 where status=0 and owner=' + SqlString.escape(req.user.id), function(err, rows){
-              res.render('manage/view', {rows: rows, data: data, list: list, korean: korean})
+              var sql_req3 = sql.query('select * from auth where owner=' + SqlString.escape(req.user.id), function(err, rows2){
+                if(rows2.length == 1){
+                  var authed = true
+                } else {
+                  var authed = false
+                }
+                res.render('manage/view', {rows: rows, data: data, list: list, korean: korean, authed: authed})
+              });
             });
           }
     		});
