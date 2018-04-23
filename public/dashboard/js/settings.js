@@ -27,7 +27,7 @@ toastr.options = {
 		  "hideMethod": "fadeOut"
 		}
 
-$('.uk-offcanvas .link a').click(() => { UIkit.offcanvas('#navbar').hide(); })
+$('.uk-offcanvas .link').click(() => { UIkit.offcanvas('#navbar').hide(); })
 $('.link a').click(() => {
   $(".link a").removeClass('uk-active');
   $(this).addClass('uk-active');
