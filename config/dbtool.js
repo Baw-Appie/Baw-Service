@@ -6,7 +6,8 @@ host: config.host,
 port: config.port,
 user: config.user,
 password: config.password,
-database: config.database
+database: config.database,
+dateStrings: 'date'
 });
 connection.connect()
 module.exports = connection
