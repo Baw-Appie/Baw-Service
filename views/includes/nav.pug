@@ -52,10 +52,10 @@
 
         #navbar(uk-offcanvas='overlay: true')
           .uk-offcanvas-bar
-            ul.uk-nav.uk-nav-default
+            p
               button.uk-offcanvas-close(type='button', uk-close='')
               include sidebar
-              br
+            p
               if(!user)
                 button.uk-button.uk-button-default.uk-margin-small-right(type='button', uk-toggle='target: #login-slide') 로그인
               else
