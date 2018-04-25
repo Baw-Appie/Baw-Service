@@ -55,7 +55,7 @@ html
           .col-md-4
             h4 서버 접속자
             p
-              canvas#foo(width='300', height='150')
+              canvas#foo(width='150', height='75')
             p
               #foo-textfield #{data.currentPlayers}명 접속중. 최대 #{data.maxPlayers}명 접속 가능
           .col-md-4
@@ -100,7 +100,7 @@ html
         };
         var target = document.getElementById('foo'); // your canvas element
         var gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
-        gauge.maxValue = 300; // set max gauge value
+        gauge.maxValue = #{data.maxPlayers}; // set max gauge value
         gauge.setMinValue(0);  // Prefer setter over gauge.minValue = 0
         gauge.animationSpeed = 70; // set animation speed (32 is default value)
-        gauge.set(5); // set actual value
+        gauge.set(#{data.currentPlayers}); // set actual value
