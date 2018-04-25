@@ -11,6 +11,7 @@ html
     script(src='https://cdnjs.cloudflare.com/ajax/libs/gauge.js/1.3.5/gauge.min.js')
     script(src=`https://${hostname}/public/fontawesome/js/fontawesome-all.min.js`)
     script(src=`https://${hostname}/public/fontawesome/js/fa-v4-shims.min.js`)
+    script(src=`https://${hostname}/public/MinecraftColorCodes.min.3.7.js`)
     style.
       @import url(https://fonts.googleapis.com/earlyaccess/nanumgothic.css);
       @import url(https://fonts.googleapis.com/earlyaccess/nanumpenscript.css);
@@ -50,7 +51,8 @@ html
         table.table.table-bordered(style='margin:0 auto; margin-top:3%;max-width: 80%;')
           tr
             td 서버 MOTD
-            td #{data.motd}
+            td
+              div#motd
         .row.container(style='text-align: center; margin:0 auto; margin-top:3%;max-width: 80%;')
           .col-md-4
             h4 서버 접속자
@@ -104,3 +106,4 @@ html
         gauge.setMinValue(0);  // Prefer setter over gauge.minValue = 0
         gauge.animationSpeed = 70; // set animation speed (32 is default value)
         gauge.set(#{data.currentPlayers}); // set actual value
+        $('#motd').append("#{data.motd}".replaceColorCodes())
