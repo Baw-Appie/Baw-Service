@@ -1,5 +1,11 @@
 extends ../includes/layout
 block extscript
+  if(data.service == 1)
+    script.
+      loadScript('https://www.google.com/recaptcha/api.js')
+      function captchaSubmit2() {
+      	$("#data_export").submit();
+      }
   if(authed)
     script.
       loadScript('https://www.google.com/recaptcha/api.js')
@@ -105,5 +111,16 @@ block contents
         hr.uk-divider-icon
         p 본 기능은 Baw Service 인증 사이트만 사용할 수 있습니다.
         p 만약 이 기능의 사용법을 제대로 이해하지 못한다면 사용하지 마세요.
+    br
+    br
+  if(data.service == 1)
+    .uk-card.uk-card-default.uk-card-body(class='uk-width-auto')
+      h3.uk-card-title #{data.name} 데이터 내보내기
+      form(id="data_export", action=`https://${hostname}/manage/${data.service}/data_export`)
+        button.uk-button.uk-button-primary.g-recaptcha(type='submit', data-sitekey='6LeKTiwUAAAAANOYA7r37sTyquy_R0ljzSTVS6Bp', data-callback='captchaSubmit2')
+          i(class="fas fa-plus-circle")
+          |  Excel로 내보내기
+        hr.uk-divider-icon
+        p 지정된 형식으로 #{data.name} 데이터를 내보냅니다.
     br
     br
