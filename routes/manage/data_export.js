@@ -13,9 +13,10 @@ function captcha(req){
       body = JSON.parse(body);
       if(body.success !== undefined && !body.success) {
         return reject('Recaptcha 인증에 실패하였습니다.')
+      } else {
+        resolve(true)
       }
     })
-    resolve(true)
   })
 }
 
