@@ -13,7 +13,7 @@ module.exports = function (req, res) {
         var textarea_option = []
         var textarea_option_korean = []
         var custom_select_option = [{name: "api", korean: "API 타입", options: ["HTTP", "socket"], option_data: ["HTTP", "socket"], option_korean: ["HTTP", "socket"]}]
-        var custom_text = ['<script>function randomString(){for(var n="0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz",t="",r=0;r<15;r++){var e=Math.floor(Math.random()*n.length);t+=n.substring(e,e+1)}return t}function input_Text(){document.getElementsByName("api_key")[0].value=randomString()}</script><button class="uk-button uk-button-danger uk-width-1-1" type="button" onclick="input_Text()"><i class="fas fa-redo-alt"></i> API 키  재설정</button><br>']
+        var custom_text = ['<script>function randomString(){for(var n="0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz",t="",r=0;r<15;r++){var e=Math.floor(Math.random()*n.length);t+=n.substring(e,e+1)}return t}function input_Text(){document.getElementsByName("api_key")[0].value=randomString()}</script><button class="uk-button uk-button-danger uk-width-1-1" type="button" onclick="input_Text()"><i class="fas fa-redo-alt"></i> API 키  재설정</button><br><a target="_blank" href="https://www.icloud.com/iclouddrive/0OpjbOyDBDcYwf5GoYsKxAbYQ#BawService_0.11-Alpha.jar"><button type="button" class="uk-button uk-button-default uk-width-1-1">API 소켓 플러그인 다운로드 (v0.11-Alpha)</button></a><br><a target="_blank" href="https://www.icloud.com/iclouddrive/0qpKrW2fB4aaQopdP_nTp4dUQ#BawServiceHTTP_0.2.jar"><button type="button" class="uk-button uk-button-default uk-width-1-1">API HTTP 플러그인 다운로드 (v0.2)</button></a><br>']
 
         var sql_req = sql.query('select * from id where id=' + SqlString.escape(req.user.id), function(err, rows){
           if (rows.length === 0) {
@@ -57,7 +57,7 @@ module.exports = function (req, res) {
         var textarea_option = []
         var textarea_option_korean = []
         var custom_select_option = []
-        var custom_text = ['<p>카카오톡 알림 서비스의 전화번호는 수정할 수 없습니다. 수정하려면 카카오톡 고객센터 @b_noti로 알려주세요.</p><p>만약 SMS 알림 서비스를 이용하면 카카오톡 알림은 전송되지 않습니다.</p><p>카카오톡 알림 서비스를 이용하려면 후원 사이트에서 SMS 알림이 켜져있다면 꺼주세요.</p>']
+        var custom_text = ['<p>카카오톡 알림 서비스의 전화번호는 수정할 수 없습니다. 수정하려면 카카오톡 고객센터 @b_noti로 알려주세요.</p><p>만약 SMS 알림 서비스를 이용하면 카카오톡 알림은 전송되지 않습니다.</p><p>카카오톡 알림 서비스를 이용하려면 후원 사이트에서 SMS 알림이 켜져있다면 꺼주세요.</p><p> [제일 중요] 카카오측의 검수로 인하여 카카오톡 알림 서비스는 현재 지원되지 않습니다. 서비스가 복구되면 다시 알려드리겠습니다.</p>']
 
         var sql_req = sql.query('select * from katalk where id=' + SqlString.escape(req.user.id), function(err, rows){
           if (rows.length === 0) {
