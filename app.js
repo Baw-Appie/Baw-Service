@@ -249,6 +249,7 @@ var ssloptions = {
           }
         }
     },
+   ca: fs.readFileSync('./config/ssl/ca.pem', 'utf8'),
    key: fs.readFileSync('./config/ssl/key.pem', 'utf8'),
    cert: fs.readFileSync('./config/ssl/cert.pem', 'utf8')
 }
