@@ -9,7 +9,6 @@ password: config.password,
 database: config.database,
 dateStrings: 'date'
 });
-connection.connect()
 module.exports = connection
   // connection.connect();
   // connection.query(sql, callback);
