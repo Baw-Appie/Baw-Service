@@ -223,22 +223,26 @@ var ssloptions = {
             if (cb) {
                 cb(null, tls.createSecureContext({
                   key: fs.readFileSync('./config/ssl/'+domain+'/key.pem', 'utf8'),
-                  cert: fs.readFileSync('./config/ssl/'+domain+'/cert.pem', 'utf8')
+                  cert: fs.readFileSync('./config/ssl/'+domain+'/cert.pem', 'utf8'),
+                  ca: fs.readFileSync('./config/ssl/'+domain+'/ca.pem', 'utf8')
                 }));
             } else {
               return tls.createSecureContext({
                 key: fs.readFileSync('./config/ssl/'+domain+'/key.pem', 'utf8'),
-                cert: fs.readFileSync('./config/ssl/'+domain+'/cert.pem', 'utf8')
+                cert: fs.readFileSync('./config/ssl/'+domain+'/cert.pem', 'utf8'),
+                ca: fs.readFileSync('./config/ssl/'+domain+'/ca.pem', 'utf8')
               })
             }
         } else {
           if (cb) {
             cb(null, tls.createSecureContext({
+              ca: fs.readFileSync('./config/ssl/ca.pem', 'utf8'),
               key: fs.readFileSync('./config/ssl/key.pem', 'utf8'),
               cert: fs.readFileSync('./config/ssl/cert.pem', 'utf8')
             }));
           } else {
             return tls.createSecureContext({
+              ca: fs.readFileSync('./config/ssl/ca.pem', 'utf8'),
               key: fs.readFileSync('./config/ssl/key.pem', 'utf8'),
               cert: fs.readFileSync('./config/ssl/cert.pem', 'utf8')
             })
