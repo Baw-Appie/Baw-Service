@@ -12,20 +12,21 @@ module.exports = function (req, res) {
 
         var no = 0
         var text = ""
-        rows.forEach(function(item) {
-          no++
-          var text = text+api_key+";"+id+";"+item['cmd']
+        while ( no < rows.length ) {
+          var text = text+api_key+";"+id+";"+rows[no]['cmd']
           if(no != rcount){
             var text = text+"'/"
           }
-        })
-        rows2.forEach(function(item) {
           no++
-          var text = text+api_key+";"+id+";"+item['cmd']
+        }
+        var no2 = 0
+        while ( no < rows.length ) {
+          var text = text+api_key+";"+id+";"+rows2[no2]['cmd']
           if(no != rcount){
             var text = text+"'/"
           }
-        })
+          no2++
+        }
         res.send(text)
         sql.query(SqlString.format('delete from api1 WHERE owner=? and api_key=?', [id, api_key]))
         sql.query(SqlString.format('delete from api2 WHERE owner=? and api_key=?', [id, api_key]))
