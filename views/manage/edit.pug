@@ -93,26 +93,12 @@ block contents
       each textarea, i in textarea_option_korean
         .uk-margin
           label #{textarea}
-          link(href="https://cdn.quilljs.com/1.3.6/quill.snow.css", rel="stylesheet")
-          script(src="https://cdn.quilljs.com/1.3.6/quill.js")
           - var name = textarea_option[i];
           - var value = rows[0][name]
             if value != ""
-              div(id=name) !{value}
-              input.uk-input(type='hidden', name=name, value=value)
+              textarea.uk-textarea(name=name, placeholder=textarea, rows=5) !{value}
             else
-              div(id=name)
-              input.uk-input(type='hidden', name=name)
-          script.
-            var quill = new Quill('##{name}', {
-              placeholder: '공지사항',
-              theme: 'snow'
-            });
-            quill.on('text-change', function(delta) {
-              var about = document.querySelector('input[name=#{name}]');
-              console.log(quill.getContents().ops[0]['insert'])
-              about.value = JSON.stringify(quill.getContents().ops[0]['insert']);
-            });
+              textarea.uk-textarea(name=name, placeholder=textarea, rows=5)
               
       // CUSTOM TEXT INPUT
       if custom_text
