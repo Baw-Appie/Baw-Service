@@ -52,7 +52,6 @@ IP: `+ip+`
           }
         })
         request.post({url: 'https://api.coolsms.co.kr/sms/2/send', form: formdata}, function(e,r,b){
-          console.log(b)
         });
         return resolve({ success: true, title: "인증번호 발송 요청됨",  message: "인증번호 발송 요청을 카카오톡으로 전송했습니다." })
       }

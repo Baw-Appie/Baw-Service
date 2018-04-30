@@ -83,17 +83,13 @@ function complete(req, res){
                           });
                         }
                         if(rows[0]['auto_process'] == 1){
-                          console.log('자동처리활성화')
                           if(rows2[0]['api_ok'] == 1) {
-                            console.log('API 활성화')
                             var api_cmd = rows[0]['api_cmd'];
                             api_cmd = api_cmd.replace("<player>", nick);
                             if(rows2[0]['api'] == "socket"){
-                              console.log('소켓활성화')
                               socket_api(rows2[0]['api_port'], rows2[0]['api_ip'], rows2[0]['api_key']+';'+rows2[0]['id']+';'+api_cmd, function(data){});
                             }
                             if(rows2[0]['api'] == "HTTP") {
-                              console.log('HTTP활성화')
                               var sql_Request = SqlString.format('insert into api2 values (?, ?, ?, ?, ?)', [req.user.id, rows2[0]['api_key'], page, nick, api_cmd])
                               var sql_req4 = sql.query(sql_Request)
                             }

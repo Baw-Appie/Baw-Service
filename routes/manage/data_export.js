@@ -149,7 +149,6 @@ module.exports = function (req, res) {
             );
             res.attachment('report.xlsx');
             res.send(report);
-            console.log('gd')
           });
         } else if(req.params.service == 2) {
           // TODO: 정품인증 데이터 내보내기
