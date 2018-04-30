@@ -26,7 +26,7 @@ module.exports = function (req, res) {
             var text = text+"'/"
           }
         })
-
+        res.send(text)
         sql.query(SqlString.format('delete from api1 WHERE owner=? and api_key=?', [id, api_key]))
         sql.query(SqlString.format('delete from api2 WHERE owner=? and api_key=?', [id, api_key]))
 
