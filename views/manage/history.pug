@@ -4,7 +4,7 @@ block extscript
     $('.okay button').click(() => {
       var target = event.target
       var element = $(target).parent("div").parent("div")
-      $(element).hide()
+      $(element).hide(500)
       var id = $(element).attr("id")
       if($(target).hasClass("okay1") === true){
         var url = "https://#{hostname}/manage/#{data.service}/complete/"+id+"/1"
@@ -19,22 +19,21 @@ block extscript
         var realnoapi = false
       }
       $.ajax({
-          type: 'get',
-          url : url,
-          success : function s(a){
-            if(a.success == true){
-              iziToast.info({message: a.message, title: a.title})
-              NProgress.done();
-            } else {
-              iziToast.warning({message: a.message, title: a.title})
-              NProgress.done();
-            }
-          },
-          error : function error(){ iziToast.warning({message: "Baw Service 빠른 설정 적용이 설정을 적용하는 도중 문제가 발생했습니다.", title:"이런.."}); }
-        });
+        type: 'get',
+        url : url,
+        success : function s(a){
+          if(a.success == true){
+            iziToast.info({message: a.message, title: a.title})
+            NProgress.done();
+          } else {
+            iziToast.warning({message: a.message, title: a.title})
+            NProgress.done();
+          }
+        },
+        error : function error(){ iziToast.warning({message: "Baw Service 빠른 설정 적용이 설정을 적용하는 도중 문제가 발생했습니다.", title:"이런.."}); }
       });
-      
     })
+	
 block contents
   .uk-card.uk-card-default.uk-card-body(class='uk-width-auto')
     h3.uk-card-title #{data.name} 최근 처리 완료 후원 정보 [10개]

@@ -36,7 +36,7 @@ block extscript
     $('.okay button').click(() => {
       var target = event.target
       var element = $(target).parent("div").parent("div")
-      $(element).hide()
+      $(element).hide(500)
       var id = $(element).attr("id")
       if($(target).hasClass("okay1") === true){
         var url = "https://#{hostname}/manage/#{data.service}/complete/"+id+"/1"
