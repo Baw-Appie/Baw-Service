@@ -21,14 +21,17 @@ block extscript
       $.ajax({
           type: 'get',
           url : url,
-          success : function s(a){ 
+          success : function s(a){
             if(a.success == true){
-              toastr.info(a.message, a.title)
+              iziToast.info({message: a.message, title: a.title})
+              NProgress.done();
             } else {
-              toastr.warning(a.message, a.title)
+              iziToast.warning({message: a.message, title: a.title})
+              NProgress.done();
             }
           },
-          error : function error(request,status,error){ toastr.warning("Baw Service 빠른 설정 적용이 설정을 적용하는 도중 문제가 발생했습니다."+error, "죄송합니다!"); }
+          error : function error(){ iziToast.warning({message: "Baw Service 빠른 설정 적용이 설정을 적용하는 도중 문제가 발생했습니다.", title:"이런.."}); }
+        });
       });
       
     })

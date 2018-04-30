@@ -24,15 +24,15 @@ block extscript
               if(a.success == true){
                 $("#name").removeClass('uk-form-danger uk-form-success');
                 $("#name").addClass('uk-form-success');
-                toastr.info(a.message)
+                iziToast.info({message: a.message})
               } else {
                 $("#name").removeClass('uk-form-danger uk-form-success');
                 $("#name").addClass('uk-form-danger');
-                toastr.warning(a.message)
+                iziToast.warning({message: a.message})
                 document.getElementById("preview").innerHTML="<p>"+a.message+"</p>"
               }
             },
-            error : function error(){ toastr.warning("Baw Service 빠른 설정 적용이 설정을 적용하는 도중 문제가 발생했습니다.", "죄송합니다!"); }
+            error : function error(){ iziToast.warning({message: "Baw Service 빠른 설정 적용이 설정을 적용하는 도중 문제가 발생했습니다.", title:"이런.."}); }
         });
       } else {
         $("#name").removeClass('uk-form-danger uk-form-success');
