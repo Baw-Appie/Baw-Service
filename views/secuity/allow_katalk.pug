@@ -5,7 +5,7 @@ block extscript
       if($('#phone').val() != "") {
         $.ajax({
             type: 'post',
-            url : `https://${hostname}/secuity/req_code`,
+            url : 'https://#{hostname}/secuity/req_code',
             data : {
                 phone : $('#phone').val()
             },
@@ -32,7 +32,7 @@ block extscript
           success : function s(a){
             if(a.success == true) {
               iziToast.success({message: a.message, title: a.title}); NProgress.done();
-              $.pjax({url: `https://${hostname}/`, container: "#contents"})
+              $.pjax({url: 'https://#{hostname}/', container: "#contents"})
             } else {
               iziToast.warning({message: a.message, title: a.title}); NProgress.done();
             }
