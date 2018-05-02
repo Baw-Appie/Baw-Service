@@ -5,7 +5,7 @@ var crypto = require('crypto');
 var request = require('request');
 module.exports = function(id, phone, ip){
   return new Promise(function (resolve, reject) {
-    sql.query(SqlString.format('SELECT * FROM `2fa` WHERE phone=? AND try=3', [phone]), function(err, rows){
+    sql.query(SqlString.format('SELECT * FROM `2fa` WHERE (phone=? OR ip=?) AND try=3', [phone, ip]), function(err, rows){
       if(err){ throw new Error("1번 질의 오류") }
       if(rows.length != 0){
         return reject({ success: false, title: "발송제한 초과",  message: "인증번호 최대 발송 가능 횟수를 초과했습니다." })
