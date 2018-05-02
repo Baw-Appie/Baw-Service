@@ -6,7 +6,6 @@ function req_check(variable, req){
   return new Promise(function (resolve, reject) {
     variable.forEach(function(item) {
       if(req.body[item] == undefined || req.body[item] == ""){
-        console.log(item)
         reject(true)
       }
     })
