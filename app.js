@@ -257,9 +257,9 @@ var https_server = https.createServer(ssloptions, app);
 // *서버 초기화* //
 
 // 서버 실행
-http_server.listen(server_settings.http_port, function() {
+http_server.listen(server_settings.http_port, '0.0.0.0', function() {
   console.log('[Baw Service Error Report] server listening on port ' + http_server.address().port);
 });
-https_server.listen(server_settings.https_port, function(){
+https_server.listen(server_settings.https_port, '0.0.0.0', function(){
   console.log("[Baw Service Error Report] SSL server listening on port " + https_server.address().port);
 });
