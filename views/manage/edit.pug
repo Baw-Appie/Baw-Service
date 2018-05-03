@@ -27,7 +27,11 @@ block extscript
 block contents
   form(method="post", id="edit")
     fieldset.uk-fieldset
-      legend.uk-legend #{data.name} 설정
+      legend.uk-legend 
+        | #{data.name} 설정
+        if(help)
+          button(class="uk-button uk-button-default uk-margin-small-right", uk-toggle='target: #help-modal', type='button')
+            i(class="far fa-question-circle")
       // SELECT INPUT
       each select, i in select_option_korean
         .uk-margin.uk-grid-small.uk-child-width-auto.uk-grid
@@ -113,3 +117,13 @@ block contents
           a(onclick="$.pjax.reload('#contents')")
             i(class="fas fa-undo")
             |  적용 안함
+      br
+      br
+      if(help)
+        #help-modal(uk-modal='')
+          .uk-modal-dialog.uk-modal-body
+            h2.uk-modal-title 도움말
+            p
+              | !{help}
+            p.uk-text-right
+              button.uk-button.uk-button-default.uk-modal-close(type='button') 닫기
