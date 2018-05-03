@@ -81,6 +81,12 @@ module.exports = function (req, res) {
               },
               width: 40
             },
+            nick: {
+              displayName: '닉네임',
+              headerStyle: styles.headerDark,
+              cellStyle: styles.cellPink,
+              width: 80
+            },
             pin: {
               displayName: '핀번호',
               headerStyle: styles.headerDark,
@@ -131,7 +137,7 @@ module.exports = function (req, res) {
             }
           }
           const merges = [
-            { start: { row: 1, column: 1 }, end: { row: 1, column: 10 } }
+            { start: { row: 1, column: 1 }, end: { row: 1, column: 11 } }
           ]
 
           var query=sql.query("select * from service1 where owner="+SqlString.escape(req.user.id), function(err,rows){
