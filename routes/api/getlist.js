@@ -20,9 +20,9 @@ module.exports = function (req, res) {
           no++
         }
         var no2 = 0
-        while ( no < rows.length ) {
+        while ( no2 < rows2.length ) {
           var text = text+api_key+";"+id+";"+rows2[no2]['cmd']
-          if(no != rcount){
+          if(no+no2 != rcount){
             var text = text+"'/"
           }
           no2++
