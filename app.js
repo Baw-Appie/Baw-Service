@@ -16,7 +16,9 @@ var LocalStrategy = require('passport-local').Strategy;
 var GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
 var KakaoStrategy = require('passport-kakao').Strategy;
 var Raven = require('raven');
-Raven.config(server_settings.sentry).install();
+if(server_settings.sentry){
+  Raven.config(server_settings.sentry).install();
+}
 
 app.set('view engine', 'pug');
 app.set('views', './views');
@@ -61,9 +63,6 @@ app.use('/public', express.static('public'));
 // *페이지 라우터* //
 // 메인
 app.all('/', require('./routes/index'));
-app.get('/1', function mainHandler(req, res) {
-    throw new Error('Broke!');
-});
 
 // *보안* //
 // 카카오톡 활성화 요청
