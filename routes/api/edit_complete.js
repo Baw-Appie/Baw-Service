@@ -56,10 +56,20 @@ module.exports = function(req, res) {
                 }
                 var sql_Request = SqlString.format('UPDATE `telegram` SET `chat_id` = ? WHERE `telegram`.`id` = ?', [req.body.chat_id, req.user.id])
               } else if (req.params.service == "Custom") {
-                var sql_Request = SqlString.format('UPDATE `custom_domain` SET `domain` = ? WHERE `custom_domain`.`owner` = ?', [req.body.domain, req.user.id])
+                sql.query(SqlString.format('SELECT * FROM custom_domain WHERE `domain`=?', [req.body.domain]), function(err, rows){
+                  if(err) { throw new Error('1번 질의 오류') }
+                  if(rows.length == 1){
+                    res.json({ success: false, title: "설정할 수 없습니다.",  message: "이미 동일한 도메인이 등록되어 있습니다." });
+                  } else {
+                    sql.query(SqlString.format('UPDATE `custom_domain` SET `domain` = ? WHERE `custom_domain`.`owner` = ?', [req.body.domain, req.user.id]))
+                    res.json({ success: true, title: "완료했습니다!",  message: "부가 서비스 설정 요청이 전달되었습니다." });
+                  }
+                })
               }
-              var sql_req = sql.query(sql_Request)
-              res.json({ success: true, title: "완료했습니다!",  message: "부가 서비스 설정 요청이 전달되었습니다." });
+              if(sql_Request) {
+                var sql_req = sql.query(sql_Request)
+                res.json({ success: true, title: "완료했습니다!",  message: "부가 서비스 설정 요청이 전달되었습니다." });
+              }
             }).catch(function (error) {
               res.json({ success: false, title: "필요 데이터 미전달됨",  message: "설정에 필요한 데이터가 전달되지 않았습니다." });
             });
