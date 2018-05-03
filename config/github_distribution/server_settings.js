@@ -20,6 +20,7 @@ module.exports = (function () {
     katalk_salt: "SECRET",
     katalk_senderkey: "SECRET",
     ad: false,
-    sentry: 'sentry url'
+    sentry: 'sentry url',
+    port_autobind: true
   }
 })();
