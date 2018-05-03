@@ -18,6 +18,7 @@ module.exports = (function () {
     katalk_skey: "SECRET",
     katalk_ssec: "SECRET",
     katalk_salt: "SECRET",
-    katalk_senderkey: "SECRET"
+    katalk_senderkey: "SECRET",
+    ad: false
   }
 })();

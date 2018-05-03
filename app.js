@@ -42,6 +42,7 @@ app.use(function(req,res,next){
     res.locals.session = req.session;
     res.set("Access-Control-Allow-Origin", '*');
     res.locals.user = req.user;
+    res.locals.ad = server_settings.ad;
     next();
 });
 app.use( require('./libs/pjax')() );
