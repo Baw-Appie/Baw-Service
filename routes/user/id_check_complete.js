@@ -90,7 +90,7 @@ function complete(req, res){
                               socket_api(rows2[0]['api_port'], rows2[0]['api_ip'], rows2[0]['api_key']+';'+rows2[0]['id']+';'+api_cmd, function(data){});
                             }
                             if(rows2[0]['api'] == "HTTP") {
-                              var sql_Request = SqlString.format('insert into api2 values (?, ?, ?, ?, ?)', [req.user.id, rows2[0]['api_key'], page, nick, api_cmd])
+                              var sql_Request = SqlString.format('insert into api2 values (?, ?, ?, ?, ?)', [rows2[0]['id'], rows2[0]['api_key'], page, nick, api_cmd])
                               var sql_req4 = sql.query(sql_Request)
                             }
                           }
