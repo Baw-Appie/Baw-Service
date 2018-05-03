@@ -22,6 +22,7 @@
     "passport-kakao": "0.0.5",
     "passport-local": "^1.0.0",
     "pug": "^2.0.3",
+    "raven": "^2.6.0",
     "request": "^2.85.0",
     "spdy": "^3.4.7",
     "sqlstring": "^2.3.1",

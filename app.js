@@ -15,12 +15,17 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
 var KakaoStrategy = require('passport-kakao').Strategy;
+var Raven = require('raven');
+Raven.config(server_settings.sentry).install();
+
 app.set('view engine', 'pug');
 app.set('views', './views');
+
+// 서버 초기화
 if(server_settings.pretty_html == true) {
   app.locals.pretty = true;
 }
-// 서버 초기화
+app.use(Raven.requestHandler());
 app.use(compression())
 app.use(function(req,res,next){
   if (req.hostname == server_settings.hostname || fs.existsSync('./config/ssl/'+req.hostname+'/key.pem')) {
@@ -56,7 +61,9 @@ app.use('/public', express.static('public'));
 // *페이지 라우터* //
 // 메인
 app.all('/', require('./routes/index'));
-// app.get('/test', require('./routes/test'));
+app.get('/1', function mainHandler(req, res) {
+    throw new Error('Broke!');
+});
 
 // *보안* //
 // 카카오톡 활성화 요청
@@ -209,8 +216,9 @@ passport.use(new KakaoStrategy({
 app.use(require('./routes/userpage-with-404'));
 
 // 500 서버 에러 처리
+app.use(Raven.errorHandler());
 app.use(function(err, req, res, next) {
-  console.error('[Baw Service Error Report] 처리할 수 없는 문제로 500 에러가 사용자에게 출력되고 있습니다.', err.stack);
+  console.error('[Error] 처리할 수 없는 문제로 500 에러가 사용자에게 출력되고 있습니다. ' + err.message);
   res.status(500).render('error/500')
 });
 
@@ -260,8 +268,8 @@ var https_server = https.createServer(ssloptions, app);
 
 // 서버 실행
 http_server.listen(server_settings.http_port, '0.0.0.0', function() {
-  console.log('[Baw Service Error Report] server listening on port ' + http_server.address().port);
+  console.log('[Baw Service Server] HTTP server listening on port ' + http_server.address().port);
 });
 https_server.listen(server_settings.https_port, '0.0.0.0', function(){
-  console.log("[Baw Service Error Report] SSL server listening on port " + https_server.address().port);
+  console.log("[Baw Service Server] HTTPS server listening on port " + https_server.address().port);
 });

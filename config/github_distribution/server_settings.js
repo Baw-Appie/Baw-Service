@@ -19,6 +19,7 @@ module.exports = (function () {
     katalk_ssec: "SECRET",
     katalk_salt: "SECRET",
     katalk_senderkey: "SECRET",
-    ad: false
+    ad: false,
+    sentry: 'sentry url'
   }
 })();
