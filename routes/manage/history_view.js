@@ -14,8 +14,8 @@ module.exports = function (req, res) {
             req.session.error = '후원 홈페이지가 존재하지 않습니다.';
             res.redirect('/')
           } else {
-            sql.query('select * from service1 where status=1 and owner=' + SqlString.escape(req.user.id) + 'ORDER BY date DESC limit 10', function(err, data1){
-              sql.query('select * from service1 where status=2 and owner=' + SqlString.escape(req.user.id) + 'ORDER BY date DESC limit 5', function(err, data2){
+            sql.query('select * from service1 where status=1 and owner=' + SqlString.escape(req.user.id) + 'ORDER BY num ASC limit 10', function(err, data1){
+              sql.query('select * from service1 where status=2 and owner=' + SqlString.escape(req.user.id) + 'ORDER BY num ASC limit 5', function(err, data2){
                 res.render('manage/history', {rows: rows, data: data, data1: data1, data2: data2, list: list, korean: korean})
               })
             })
@@ -33,8 +33,8 @@ module.exports = function (req, res) {
             req.session.error = '정품 인증 페이지가 존재하지 않습니다.';
             res.redirect('/')
           } else {
-            sql.query('select * from service2 where status=1 and owner=' + SqlString.escape(req.user.id) + 'ORDER BY date DESC limit 10', function(err, data1){
-              sql.query('select * from service2 where status=2 and owner=' + SqlString.escape(req.user.id) + 'ORDER BY date DESC limit 5', function(err, data2){
+            sql.query('select * from service2 where status=1 and owner=' + SqlString.escape(req.user.id) + 'ORDER BY num ASC limit 10', function(err, data1){
+              sql.query('select * from service2 where status=2 and owner=' + SqlString.escape(req.user.id) + 'ORDER BY num ASC limit 5', function(err, data2){
                 res.render('manage/history', {rows: rows, data: data, data1: data1, data2: data2, list: list, korean: korean})
               })
             })
