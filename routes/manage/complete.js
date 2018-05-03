@@ -9,7 +9,7 @@ module.exports = function(req, res) {
         var sql_req = sql.query('select * from  `service'+req.params.service+'` WHERE owner='+SqlString.escape(req.user.id)+' and num=' + SqlString.escape(req.params.id), function(err, rows){
           if(err) { throw err };
           if(rows.length == 0) {
-            res.render('error/403')
+            res.json({ success: false, title: "권한이 없습니다.",  message: "해당 기록 수정 권한이 없습니다." });
           }
           var sql_req2 = sql.query('select * from `id` WHERE id='+SqlString.escape(req.user.id), function(err, rows2){
             if(err) { throw err };
@@ -19,9 +19,9 @@ module.exports = function(req, res) {
                   var sql_req3 = sql.query('select * from `page` WHERE service=1 and owner='+SqlString.escape(req.user.id), function(err, rows3) {
                     if(err) { throw err };
                     var api_cmd = rows3[0]['api_cmd'];
-                    api_cmd = api_cmd.replace("<player>", rows3[0]['nick']);
-                    api_cmd = api_cmd.replace("<money>", rows3[0]['bal']);
-                    api_cmd = api_cmd.replace("<package>", rows3[0]['bouns']);
+                    api_cmd = api_cmd.replace("<player>", rows[0]['nick']);
+                    api_cmd = api_cmd.replace("<money>", rows[0]['bal']);
+                    api_cmd = api_cmd.replace("<package>", rows[0]['bouns']);
                     api_cmd = api_cmd.replace("원", "");
                     api_cmd = api_cmd.replace(",", "");
                     if(rows2[0]['api'] == "socket"){
@@ -37,7 +37,7 @@ module.exports = function(req, res) {
                   var sql_req3 = sql.query('select * from `page` WHERE service=2 and owner='+SqlString.escape(req.user.id), function(err, rows3) {
                     if(err) { throw err };
                     var api_cmd = rows3[0]['api_cmd'];
-                    api_cmd = api_cmd.replace("<player>", rows3[0]['nick']);
+                    api_cmd = api_cmd.replace("<player>", rows[0]['nick']);
                     if(rows2[0]['api'] == "socket"){
                       socket_api(rows2[0]['api_port'], rows2[0]['api_ip'], rows2[0]['api_key']+';'+rows2[0]['id']+';'+api_cmd, function(data){});
                     }
