@@ -8,7 +8,7 @@ function captcha(req){
     if(req.query['g-recaptcha-response'] === undefined || req.query['g-recaptcha-response'] === '' || req.query['g-recaptcha-response'] === null) {
       return reject('Recaptcha 인증에 필요한 데이터가 부족합니다.')
     }
-    var verificationUrl = "https://www.google.com/recaptcha/api/siteverify?secret=" + server_settings.g_captcha_secret_key + "&response=" + req.query['g-recaptcha-response'] + "&remoteip=" + req.connection.remoteAddress;
+    var verificationUrl = "https://www.google.com/recaptcha/api/siteverify?secret=" + server_settings.g_captcha_secret_key + "&response=" + req.query['g-recaptcha-response'] + "&remoteip=" + req.ip;
     request(verificationUrl, function(error,response,body) {
       body = JSON.parse(body);
       if(body.success !== undefined && !body.success) {

@@ -18,7 +18,7 @@ function complete(req, res){
     if(req.body['g-recaptcha-response'] === undefined || req.body['g-recaptcha-response'] === '' || req.body['g-recaptcha-response'] === null) {
       return reject('Recaptcha 인증에 필요한 데이터가 부족합니다.')
     }
-    var verificationUrl = "https://www.google.com/recaptcha/api/siteverify?secret=" + server_settings.g_captcha_secret_key + "&response=" + req.body['g-recaptcha-response'] + "&remoteip=" + req.connection.remoteAddress;
+    var verificationUrl = "https://www.google.com/recaptcha/api/siteverify?secret=" + server_settings.g_captcha_secret_key + "&response=" + req.body['g-recaptcha-response'] + "&remoteip=" + req.ip;
     request(verificationUrl, function(error,response,body) {
       body = JSON.parse(body);
       if(body.success !== undefined && !body.success) {
@@ -44,7 +44,7 @@ function complete(req, res){
     var page = req.body.page
     var code = req.body.code
     var date = new Date().toLocaleDateString()
-    var ip = req.connection.remoteAddress
+    var ip = req.ip
     if(vali.isEmpty(nick) || nick.length > 18){
       return reject('닉네임을 입력해주세요.')
     }
