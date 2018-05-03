@@ -22,6 +22,11 @@ if(server_settings.sentry){
 
 app.set('view engine', 'pug');
 app.set('views', './views');
+app.set('trust proxy', function (ip) {
+  if (ip === '127.0.0.1')
+  return true;
+  else return false;
+});
 
 // 서버 초기화
 if(server_settings.pretty_html == true) {
