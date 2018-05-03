@@ -63,7 +63,7 @@ module.exports = function (req, res) {
           if (rows.length === 0) {
             res.send('<script>location.replace("/secuity/allow_katalk")</script>')
           } else {
-            res.render('manage/edit', {rows: rows,data: data,select_option: select_option,select_option_korean: select_option_korean,text_option: text_option,text_option_korean: text_option_korean,textarea_option: textarea_option,textarea_option_korean: textarea_option_korean, custom_select_option: custom_select_option, custom_text: custom_text})
+            res.render('manage/edit', {rows: rows,data: data,select_option: select_option,select_option_korean: select_option_korean,text_option: text_option,text_option_korean: text_option_korean,textarea_option: textarea_option,textarea_option_korean: textarea_option_korean, custom_select_option: custom_select_option, custom_text: custom_text, do_not_save: true})
           }
         });
       } else if(req.params.service == "Telegram") {
