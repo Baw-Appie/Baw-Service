@@ -45,6 +45,7 @@ app.use(function(req,res,next){
     res.locals.ad = server_settings.ad;
     next();
 });
+app.use( require('./libs/logging') );
 app.use( require('./libs/pjax')() );
 app.use( require('./libs/hostname')() );
 app.use( require('./libs/allow_ip')() );
