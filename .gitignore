@@ -75,3 +75,6 @@ config/server_settings.js
 
 # oauth config file
 config/oauth_info.js
+
+# Custom SSL
+.well-known/*
