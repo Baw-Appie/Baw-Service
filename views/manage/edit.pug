@@ -60,7 +60,7 @@ block contents
             - var name = custom_select['name'];
             label
               each custom_list, oo in custom_select['options']
-                if rows[0][name] == custom_select['option_data'][oo]
+                if rows[0][name].toLowerCase() == custom_select['option_data'][oo].toLowerCase()
                   input.uk-radio(type='radio', name=name, value=custom_select["option_data"][oo], checked)
                   |  #{custom_select["option_korean"][oo]}
                 else

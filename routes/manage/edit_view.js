@@ -9,10 +9,11 @@ module.exports = function (req, res) {
         }
         var select_option = ["mail_ok", "sms_ok", "kakao_ok", "tg_ok", "slack_ok"]
         var select_option_korean = ["후원 Mail 알림", "후원 SMS 알림", "후원 KakaoTalk 알림", "후원 Telegram 알림", "후원 Slack 알림"]
-        var text_option = ["bouns","api_cmd","youtube","theme"]
-        var text_option_korean = ["후원 보너스 설정", "API 플러그인 명령어 설정", "Youtube Video ID 설정", "테마(베타)"]
+        var text_option = ["bouns","api_cmd","youtube"]
+        var text_option_korean = ["후원 보너스 설정", "API 플러그인 명령어 설정", "Youtube Video ID 설정"]
         var textarea_option = ["notice"]
         var textarea_option_korean = ["공지사항"]
+        var custom_select_option = [{name: "theme", korean: "테마(베타)", options: ["Bootstrap3", "UiKit"], option_data: ["bootstrap3", "uikit"], option_korean: ["Bootstrap3", "UiKit"]}]
         var custom_checkbox_option = [{name: "disabled", korean: "사용하지 않을 후원 방법", options: ["문화상품권", "도서 문화상품권", "해피머니", "틴캐시", "계좌이체"], option_data: ["문화상품권1", "도서문화상품권", "해피머니", "틴캐시", "계좌이체"], option_korean: ["문화상품권", "도서 문화상품권", "해피머니", "틴캐시", "계좌이체"]}]
         var help = `<p>후원 보너스 설정의 다음줄은 || 으로 구분합니다.</p>
 			<p>후원 보너스 설정 예제: 캐시||칭호||Baw Service 최고</p>
@@ -28,7 +29,7 @@ module.exports = function (req, res) {
             req.session.error = '후원 홈페이지가 존재하지 않습니다.';
             res.redirect('/')
           } else {
-            res.render('manage/edit', {rows: rows,data: data,select_option: select_option,select_option_korean: select_option_korean,text_option: text_option,text_option_korean: text_option_korean,textarea_option: textarea_option,textarea_option_korean: textarea_option_korean, custom_checkbox_option: custom_checkbox_option, help: help})
+            res.render('manage/edit', {rows: rows,data: data,select_option: select_option,select_option_korean: select_option_korean,text_option: text_option,text_option_korean: text_option_korean,textarea_option: textarea_option,textarea_option_korean: textarea_option_korean, custom_checkbox_option: custom_checkbox_option, help: help, custom_select_option: custom_select_option})
           }
         });
       } else if(req.params.service == 2) {
