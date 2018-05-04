@@ -41,7 +41,8 @@ IP: `+ip+`
           "template_code": "2fa",
           "sender_key": server_settings.katalk_senderkey,
           "country": "82",
-          "only_ata": true
+          "only_ata": true,
+          "srk": "K0001142457"
         }
         sql.query(SqlString.format('SELECT * FROM 2fa WHERE phone = ?', [phone]), function(err, rows2){
           if(err){ throw new Error("2번 질의 오류") }
