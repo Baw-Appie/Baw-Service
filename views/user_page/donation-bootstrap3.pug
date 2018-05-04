@@ -85,7 +85,7 @@ html
     if(userdata['ninfo'] != "")
       .alert.alert-success.alert-dismissible(role='alert', style='text-align: center;margin:0 auto;max-width: 80%; height: auto;')
         span.fa.fa-info-circle
-        strong 입금 계좌 정보: #{userdata['ninfo']}
+        |  입금 계좌 정보: #{userdata['ninfo']}
       br
     .container(style='text-align: center;')
       if pagedata['notice'] != ""
