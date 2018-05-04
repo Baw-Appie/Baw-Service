@@ -87,80 +87,84 @@ html
             h4.uk-card-title <a style="color:DodgerBlue;" uk-tooltip="이 후원 사이트는 Baw Service에서 #{authdata[0]['date']}에 #{authdata[0]['sv_ip']}으로 접속할 수 있는 #{authdata[0]['sv_name']}임을 확인하였습니다."><i class="fas fa-check-circle"></i></a> #{userdata['svname']}서버 후원
           else
             h4.uk-card-title #{userdata['svname']}서버 후원
-          .uk-margin
-            label 후원 종류
-            select#Combo.uk-select(name='Combo')
-              - if (pagedata['disabled'].indexOf('문화상품권1') == -1)
-                - var okdata = true
-                option(value='문화상품권') 컬쳐랜드 - 문화상품권
-              - if (pagedata['disabled'].indexOf('도서문화상품권') == -1)
-                - var okdata = true
-                option(value='도서문화상품권') 북앤라이프 - 도서문화상품권
-              - if (pagedata['disabled'].indexOf('해피머니') == -1)
-                - var okdata = true
-                option(value='해피머니') 해피머니
-              - if (pagedata['disabled'].indexOf('틴캐시') == -1)
-                - var okdata = true
-                option(value='틴캐시') 틴캐시
-              - if (pagedata['disabled'].indexOf('계좌이체') == -1)
-                - var okdata = true
-                option(value='계좌이체') 계좌이체
-              if(!okdata)
-                option(value='후원수단없음', disabled) 후원 수단 선택 불가
-                option(value='후원수단없음', disabled) 관리자에게 문의하세요.
-            .uk-margin
-              label 보상 선택
-              select.uk-select(name='Radio')
-                - var bouns = pagedata.bouns.split('||')
-                each boun in bouns
-                  option(value=boun) #{boun}
-            label 닉네임
-            input.uk-input(type='text', name='nick', size='20', placeholder='닉네임', required='')
-            label 후원 금액
-            input.uk-input(type='text', name='bal', size='20', onkeyup='getNumber(this);', placeholder='후원 금액', required='')
-            .code
-              label#code_text 발행일 또는 인증번호
-              input#code.uk-input(type='text', size='16', name='code', placeholder='발행일 또는 인증코드')
-            .nn
-              label 의뢰자
-              input#nname.uk-input(type='text', name='nname', size='20', placeholder='입금자명')
-            .ncombo
-              label 상품권 핀번호
-              table.normal
-                td(width='25%')
-                  input#pin1.uk-input.pin(type='text', name='pin1[]', maxlength='4', onkeydown='return onlyNumber(event)', onkeyup='removeChar(event)', placeholder='4자리')
-                td  - 
-                td(width='25%')
-                  input#pin2.uk-input.pin(type='text', name='pin2[]', maxlength='4', onkeydown='return onlyNumber(event)', onkeyup='removeChar(event)', placeholder='4자리')
-                td  - 
-                td(width='25%')
-                  input#pin3.uk-input.pin(type='text', name='pin3[]', maxlength='4', onkeydown='return onlyNumber(event)', onkeyup='removeChar(event)', placeholder='4자리')
-                td  - 
-                td(width='25%')
-                  input#pin4.uk-input.pin(type='text', name='pin4[]', maxlength='6', onkeydown='return onlyNumber(event)', onkeyup='removeChar(event)', placeholder='4/6자리')
-              table.teen
-                td(width='34%')
-                  input#pin1teen.uk-input.pin(type='text', name='pin1[]', maxlength='4', placeholder='4자리')
-                td  - 
-                td(width='34%')
-                  input#pin2teen.uk-input.pin(type='text', name='pin2[]', maxlength='4', placeholder='4자리')
-                td  - 
-                td(width='34%')
-                  input#pin3teen.uk-input.pin(type='text', name='pin3[]', maxlength='4', placeholder='4자리')
-            br
-            button.uk-button.uk-button-primary.g-recaptcha(type='submit', data-sitekey='6LeKTiwUAAAAANOYA7r37sTyquy_R0ljzSTVS6Bp', data-callback='captchaSubmit')
-              i.fa.fa-chevron-circle-right(aria-hidden='true')
-              |  제출
-            button.uk-button.uk-button-danger(type='reset')
-              i.fa.fa-trash(aria-hidden='true')
-              |  재입력
-            if pagedata['youtube']
-              button.uk-button.uk-button-default(onclick='pv()', type='button')
-                i.fa.fa-youtube-play(aria-hidden='true')
-                |  BGM 재생 / 중지
-            input(type='hidden', value=pagedata["name"], name='page')
-            br
-            br
+          .uk-grid-small(uk-grid='')
+            div(class='uk-width-1-2@s')
+              .uk-margin
+                label 후원 종류
+                .uk-form-controls
+                  select#Combo.uk-select(name='Combo')
+                    - if (pagedata['disabled'].indexOf('문화상품권1') == -1)
+                      - var okdata = true
+                      option(value='문화상품권') 컬쳐랜드 - 문화상품권
+                    - if (pagedata['disabled'].indexOf('도서문화상품권') == -1)
+                      - var okdata = true
+                      option(value='도서문화상품권') 북앤라이프 - 도서문화상품권
+                    - if (pagedata['disabled'].indexOf('해피머니') == -1)
+                      - var okdata = true
+                      option(value='해피머니') 해피머니
+                    - if (pagedata['disabled'].indexOf('틴캐시') == -1)
+                      - var okdata = true
+                      option(value='틴캐시') 틴캐시
+                    - if (pagedata['disabled'].indexOf('계좌이체') == -1)
+                      - var okdata = true
+                      option(value='계좌이체') 계좌이체
+                    if(!okdata)
+                      option(value='후원수단없음', disabled) 후원 수단 선택 불가
+                      option(value='후원수단없음', disabled) 관리자에게 문의하세요.
+            div(class='uk-width-1-2@s')
+              .uk-margin
+                label 보상 선택
+                .uk-form-controls
+                  select.uk-select(name='Radio')
+                    - var bouns = pagedata.bouns.split('||')
+                    each boun in bouns
+                      option(value=boun) #{boun}
+          label 닉네임
+          input.uk-input(type='text', name='nick', size='20', placeholder='닉네임', required='')
+          label 후원 금액
+          input.uk-input(type='text', name='bal', size='20', onkeyup='getNumber(this);', placeholder='후원 금액', required='')
+          .code
+            label#code_text 발행일 또는 인증번호
+            input#code.uk-input(type='text', size='16', name='code', placeholder='발행일 또는 인증코드')
+          .nn
+            label 의뢰자
+            input#nname.uk-input(type='text', name='nname', size='20', placeholder='입금자명')
+          .ncombo
+            label 상품권 핀번호
+            table.normal
+              td(width='25%')
+                input#pin1.uk-input.pin(type='text', name='pin1[]', maxlength='4', onkeydown='return onlyNumber(event)', onkeyup='removeChar(event)', placeholder='4자리')
+              td  - 
+              td(width='25%')
+                input#pin2.uk-input.pin(type='text', name='pin2[]', maxlength='4', onkeydown='return onlyNumber(event)', onkeyup='removeChar(event)', placeholder='4자리')
+              td  - 
+              td(width='25%')
+                input#pin3.uk-input.pin(type='text', name='pin3[]', maxlength='4', onkeydown='return onlyNumber(event)', onkeyup='removeChar(event)', placeholder='4자리')
+              td  - 
+              td(width='25%')
+                input#pin4.uk-input.pin(type='text', name='pin4[]', maxlength='6', onkeydown='return onlyNumber(event)', onkeyup='removeChar(event)', placeholder='4/6자리')
+            table.teen
+              td(width='34%')
+                input#pin1teen.uk-input.pin(type='text', name='pin1[]', maxlength='4', placeholder='4자리')
+              td  - 
+              td(width='34%')
+                input#pin2teen.uk-input.pin(type='text', name='pin2[]', maxlength='4', placeholder='4자리')
+              td  - 
+              td(width='34%')
+                input#pin3teen.uk-input.pin(type='text', name='pin3[]', maxlength='4', placeholder='4자리')
+          br
+          button.uk-button.uk-button-primary.g-recaptcha(type='submit', data-sitekey='6LeKTiwUAAAAANOYA7r37sTyquy_R0ljzSTVS6Bp', data-callback='captchaSubmit')
+            i.fa.fa-chevron-circle-right(aria-hidden='true')
+            |  제출
+          button.uk-button.uk-button-danger(type='reset')
+            i.fa.fa-trash(aria-hidden='true')
+            |  재입력
+          if pagedata['youtube']
+            button.uk-button.uk-button-default(onclick='pv()', type='button')
+              i.fa.fa-youtube-play(aria-hidden='true')
+              |  BGM 재생 / 중지
+          input(type='hidden', value=pagedata["name"], name='page')
+          br
                 
         if pagedata['notice'] != ""
           | </div>
@@ -170,4 +174,4 @@ html
           |		  !{pagedata['notice']}
           | 	</div>
           | </div>
-        br
+    br
