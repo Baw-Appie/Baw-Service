@@ -21,6 +21,7 @@ module.exports = (function () {
     katalk_senderkey: "SECRET",
     ad: false,
     sentry: 'sentry url',
+    sentry_error: true,
     port_autobind: true
   }
 })();

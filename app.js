@@ -16,7 +16,7 @@ var LocalStrategy = require('passport-local').Strategy;
 var GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
 var KakaoStrategy = require('passport-kakao').Strategy;
 var Raven = require('raven');
-if(server_settings.sentry){
+if(server_settings.sentry_error == true){
   Raven.config(server_settings.sentry).install();
 }
 
@@ -32,7 +32,9 @@ app.set('trust proxy', function (ip) {
 if(server_settings.pretty_html == true) {
   app.locals.pretty = true;
 }
-app.use(Raven.requestHandler());
+if(server_settings.sentry_error == true){
+  app.use(Raven.requestHandler());
+}
 app.use(compression())
 app.use(function(req,res,next){
   if (req.hostname == server_settings.hostname || fs.existsSync('./config/ssl/'+req.hostname+'/key.pem')) {
@@ -220,7 +222,9 @@ passport.use(new KakaoStrategy({
 app.use(require('./routes/userpage-with-404'));
 
 // 500 서버 에러 처리
-app.use(Raven.errorHandler());
+if(server_settings.sentry_error == true){
+  app.use(Raven.errorHandler());
+}
 app.use(function(err, req, res, next) {
   console.error('[Error] 처리할 수 없는 문제로 500 에러가 사용자에게 출력되고 있습니다. ' + err.message);
   res.status(500).render('error/500')
