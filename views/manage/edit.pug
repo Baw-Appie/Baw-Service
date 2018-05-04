@@ -58,8 +58,8 @@ block contents
           .uk-margin.uk-grid-small.uk-child-width-auto.uk-grid
             label #{custom_select['korean']}
             - var name = custom_select['name'];
-            label
-              each custom_list, oo in custom_select['options']
+            each custom_list, oo in custom_select['options']
+              label
                 if rows[0][name].toLowerCase() == custom_select['option_data'][oo].toLowerCase()
                   input.uk-radio(type='radio', name=name, value=custom_select["option_data"][oo], checked)
                   |  #{custom_select["option_korean"][oo]}
