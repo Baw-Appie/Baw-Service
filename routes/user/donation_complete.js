@@ -74,7 +74,7 @@ function complete(req, res){
         return reject('입금자를 입력해주세요.')
       }
     }
-    if(Combo == "틴캐시" || Combo == "도서문화상품권") {
+    if(Combo == "틴캐시" || Combo == "해피머니" || Combo == "도서문화상품권") {
       if(vali.isEmpty(code) || code.length > 18){
         return reject('인증 번호(발행일)을 입력해주세요.')
       }
@@ -131,7 +131,7 @@ function complete(req, res){
                       request.post({url: 'http://smsapi.dotname.co.kr/index.php', form: formdata}, function(error, response, body){
                         sql.query(SqlString.format('update sms set send = send+1 where id = ?', [rows[0]['owner']]))
                         if(body != "@1"){
-                          return reject('후원 등록에는 성공하였으니 알림 문자 전송 오류입니다. 후원 사실을 서버 관리자에게 직접 알려주세요.')
+                          return reject('후원 등록에는 성공하였으나 알림 문자 전송 오류입니다. 후원 사실을 서버 관리자에게 직접 알려주세요.')
                         }
                       })
                     }
