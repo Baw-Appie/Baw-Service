@@ -127,7 +127,7 @@ function complete(req, res){
                   sql.query(SqlString.format('SELECT * FROM sms WHERE id=?', [rows[0]['owner']]), function(err, rows5){
                     if (err) { return reject('5번 질의 오류'); }
                     if(rows5.length == 1){
-                      var formdata = {data: JSON.stringify({id: 'pp121324', pw: crypto.createHash('sha256').update('qqpp3203').digest('hex'), code: '5325', type: 'A', caller: '01065540029', toll: '01065540029', html: '1'}), msg: '새로운 후원이 있습니다! https://baws.kr'}
+                      var formdata = {data: JSON.stringify({id: server_settings.sms_id, pw: crypto.createHash('sha256').update(server_settings.sms_pw).digest('hex'), code: '5325', type: 'A', caller: server_settings.sms_caller, toll: rows5[0]['phone'], html: '1'}), msg: '새로운 후원이 있습니다! https://baws.kr'}
                       request.post({url: 'http://smsapi.dotname.co.kr/index.php', form: formdata}, function(error, response, body){
                         sql.query(SqlString.format('update sms set send = send+1 where id = ?', [rows[0]['owner']]))
                         if(body != "@1"){
