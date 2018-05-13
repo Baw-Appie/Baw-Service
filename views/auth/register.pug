@@ -9,7 +9,7 @@ block extscript
       if($('#id').val() != "") {
         $.ajax({
             type: 'post',
-            url : `https://${hostname}/auth/exist/id`,
+            url : 'https://#{hostname}/auth/exist/id',
             data : {
                 data : $('#id').val()
             },
@@ -34,7 +34,7 @@ block extscript
       if($('#mail').val() != "") {
         $.ajax({
             type: 'post',
-            url : `https://${hostname}/auth/exist/mail`,
+            url : 'https://#{hostname}/auth/exist/mail',
             data : {
                 data : $('#mail').val()
             },
