@@ -78,7 +78,7 @@ function complete(req, res){
               });
 
               console.info('회원가입 성공!')
-              resolved(true)
+              resolve(true)
             })
           }
         })
