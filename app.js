@@ -152,8 +152,8 @@ app.get('/auth/register', function(req, res){
 app.post('/auth/exist/:type', require('./routes/auth/exist'))
 // 로컬 회원가입 시도
 app.post('/auth/register', require('./routes/auth/register'))
-// 로컬 회원가입 완료
-app.get('/check-email', require('./routes/auth/check-email'))
+// 로컬 회원가입 이메일 인증
+app.get('/auth/check-email', require('./routes/auth/check-email'))
 // Google 로그인
 app.get('/auth/google',
   passport.authenticate('google', { scope:
