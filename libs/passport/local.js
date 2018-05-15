@@ -9,6 +9,7 @@ module.exports = function (req, username, password, done) {
         return done(null, false, { message: '존재하지 않는 ID거나 비밀번호를 잘못 입력하셨습니다.' })
       } else {
         if(rows[0].status == 0){
+          req.session.error = '이메일 인증이 필요합니다. 카카오톡 pp121324로 문의하세요.';
           return done(null, false, { message: '이메일 인증이 필요합니다. 카카오톡 pp121324로 문의하세요.' })
         }
         req.session.error = rows[0].id + '로 로그인했습니다.';

@@ -77,6 +77,7 @@ function complete(req, res){
                 }
               });
 
+              console.info('회원가입 성공!')
               resolved(true)
             })
           }
@@ -93,6 +94,7 @@ module.exports = function(req, res){
   complete(req, res).then(function (text) {
     req.session.error = "Baw Service에서 인증 메일을 보냈습니다. 인증 메일을 확인해주세요."
     res.redirect('/')
+    console.info('회원가입 성공!')
   }).catch(function (error) {
   	res.send('<script>alert("' + error +'");history.go(-1);</script>')
   });
