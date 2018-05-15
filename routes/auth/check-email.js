@@ -7,7 +7,7 @@ module.exports = function(req, res){
     var sql_Request = SqlString.format('SELECT * FROM id WHERE enc_mail=? AND status=0', [key])
     var sql_req = sql.query(sql_Request, function(err, rows){
       if(err){ throw new Error('1번 질의 오류') }
-      if(rows.length == 0){
+      if(rows.length == 1){
         sql.query(SqlString.format('UPDATE id SET status=1 WHERE enc_mail=?', [key]), function(err, rows){
           if(err) { throw new Error('2번 질의 오류') }
           // res.json({ success: true, message: "사용자가 활성화되었습니다." })
