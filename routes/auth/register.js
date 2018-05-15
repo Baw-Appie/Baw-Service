@@ -77,7 +77,7 @@ function complete(req, res){
                 }
               });
 
-              req.session.error = "Baw Service에서 인증 메일을 보냈습니다. 인증 메일을 확인해주세요."
+              resolved(true)
             })
           }
         })
@@ -91,6 +91,7 @@ function complete(req, res){
 
 module.exports = function(req, res){
   complete(req, res).then(function (text) {
+    req.session.error = "Baw Service에서 인증 메일을 보냈습니다. 인증 메일을 확인해주세요."
     res.redirect('/')
   }).catch(function (error) {
   	res.send('<script>alert("' + error +'");history.go(-1);</script>')
