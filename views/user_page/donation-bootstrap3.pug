@@ -173,9 +173,11 @@ html
             button.btn.btn.btn-info.g-recaptcha(type='submit', data-sitekey='6LeKTiwUAAAAANOYA7r37sTyquy_R0ljzSTVS6Bp', data-callback='captchaSubmit')
               i.fa.fa-chevron-circle-right(aria-hidden='true')
               |  제출
+            |         
             button.btn.btn.btn-danger(type='reset')
               i.fa.fa-trash(aria-hidden='true')
               |  재입력
+            |         
             if pagedata['youtube']
               button.btn.btn.btn-success(onclick='pv()', type='button')
                 i.fa.fa-youtube-play(aria-hidden='true')
