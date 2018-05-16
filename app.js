@@ -11,6 +11,7 @@ var cookieSession = require('cookie-session')
 var session_config = require('./config/session');
 var SqlString = require('sqlstring');
 var compression = require('compression')
+var RateLimit = require('express-rate-limit');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
@@ -141,7 +142,14 @@ app.get('/auth/login', function(req, res){
   res.render('login');
 })
 // 로컬 로그인 시도
-app.post('/auth/login', passport.authenticate('local', {failureRedirect: '/auth/login', failureFlash: false}), function (req, res) {
+var LoginLimiter = new RateLimit({
+  windowMs: 60*60*1000, // 1 hour window
+  delayAfter: 1, // begin slowing down responses after the first request
+  delayMs: 3*1000, // slow down subsequent responses by 3 seconds per request
+  max: 10, // start blocking after 5 requests
+  message: "너무 많은 로그인 시도가 감지되었습니다. 잠시 후 다시 시도하세요."
+});
+app.post('/auth/login', LoginLimiter, passport.authenticate('local', {failureRedirect: '/auth/login', failureFlash: false}), function (req, res) {
     res.redirect('/');
 });
 // 로컬 회원가입
