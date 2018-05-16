@@ -143,10 +143,10 @@ app.get('/auth/login', function(req, res){
 })
 // 로컬 로그인 시도
 var LoginLimiter = new RateLimit({
-  windowMs: 60*60*1000, // 1 hour window
-  delayAfter: 1, // begin slowing down responses after the first request
-  delayMs: 3*1000, // slow down subsequent responses by 3 seconds per request
-  max: 10, // start blocking after 5 requests
+  windowMs: 60*60*1000,
+  delayAfter: 1,
+  delayMs: 3*1000,
+  max: 10,
   message: "너무 많은 로그인 시도가 감지되었습니다. 잠시 후 다시 시도하세요."
 });
 app.post('/auth/login', LoginLimiter, passport.authenticate('local', {failureRedirect: '/auth/login', failureFlash: false}), function (req, res) {
