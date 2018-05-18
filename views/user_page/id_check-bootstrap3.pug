@@ -77,7 +77,11 @@ html
       form#TRM(name='TRM', method='post', action=`https://${hostname}/user/id_check`)
         .panel.panel-default
           .panel-heading
-            h4 <a style="color:DodgerBlue;" href="#" data-toggle="tooltip" title="이 정품 인증 사이트는 Baw Service에 의하여 인증되었습니다."><i class="fas fa-check-circle"></i></a> #{userdata['svname']}서버 정품 인증
+            if(authdata != false)
+              h4 <a style="color:DodgerBlue;" href="#" data-toggle="tooltip" title="이 후원 사이트는 Baw Service에서 #{authdata[0]['date']}에 #{authdata[0]['sv_ip']}으로 접속할 수 있는 #{authdata[0]['sv_name']}임을 확인하였습니다."><i class="fas fa-check-circle"></i></a> #{userdata['svname']}서버 정품인증
+            else
+              h4 #{userdata['svname']}서버 정품인증
+            //- h4 <a style="color:DodgerBlue;" href="#" data-toggle="tooltip" title="이 정품 인증 사이트는 Baw Service에 의하여 인증되었습니다."><i class="fas fa-check-circle"></i></a> #{userdata['svname']}서버 정품 인증
           ul.list-group
             li.list-group-item
               label Mojang ID
