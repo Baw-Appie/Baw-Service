@@ -41,6 +41,19 @@ module.exports = function (req, res) {
             res.render('manage/create', {rows: rows, data: data})
           }
         });
+      } else if(req.params.service == 4) {
+        var data = {
+          "name": "후원 금액 조회",
+          "service": 3
+        }
+        var sql_req = sql.query('select * from page where service=3 and owner=' + SqlString.escape(req.user.id), function(err, rows){
+          if (rows.length != 0) {
+            req.session.error = '후원 금액 조회 페이지는 이미 존재합니다.';
+            res.redirect('/')
+          } else {
+            res.render('manage/create', {rows: rows, data: data})
+          }
+        });
       } else {
         res.render('error/403')
       }
