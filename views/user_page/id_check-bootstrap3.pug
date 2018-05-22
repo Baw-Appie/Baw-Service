@@ -4,13 +4,15 @@ html
     title #{userdata['svname']}서버 정품 인증
     meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no')
     link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css')
-    link(rel="stylesheet" href=`https://${hostname}/public/fontawesome/css/fa-svg-with-js.css`)
+    link(rel="stylesheet" href=`https://${hostname}/public/dashboard/css/fontawesome/fa-svg-with-js.css`)
+    link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.3.0/css/iziToast.min.css")
     script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js')
     script(src='https://www.google.com/recaptcha/api.js', async, defer)
     script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/gauge.js/1.3.5/gauge.min.js')
-    script(src=`https://${hostname}/public/fontawesome/js/fontawesome-all.min.js`)
-    script(src=`https://${hostname}/public/fontawesome/js/fa-v4-shims.min.js`)
+    script(src=`https://${hostname}/public/dashboard/js/fontawesome/fontawesome-all.min.js`)
+    script(src=`https://${hostname}/public/dashboard/js/fontawesome/fa-v4-shims.min.js`)
+    script(src=`https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.3.0/js/iziToast.min.js`)
     style.
       @import url(https://fonts.googleapis.com/earlyaccess/nanumgothic.css);
       @import url(https://fonts.googleapis.com/earlyaccess/nanumpenscript.css);
@@ -44,25 +46,28 @@ html
 
 
     script.
+      function error(text){
+        iziToast.warning({title: "정품인증에 실패했습니다.", message: text})
+      }
       $(document).ready(function(){
           $('[data-toggle="tooltip"]').tooltip();   
       });
       function blank_up(){
         var du = document.TRM;
         if(!du.id.value){
-          alert('ID를 입력해주세요.');
+          error('ID를 입력해주세요.');
           du.id.focus();
           return false;
         }
         if(!du.password.value){
-          alert('비밀번호를 입력해주세요.');
+          error('비밀번호를 입력해주세요.');
           du.password.focus();
           return false;
         }
         var v = grecaptcha.getResponse();
         if(v.length == 0)
         {
-          alert('흠.. 유저님이 로봇일거라고는 전혀 생각해본적이 없는데..');
+          error('정말 로봇이신가요?');
           return false;
         }
       }
@@ -78,7 +83,7 @@ html
         .panel.panel-default
           .panel-heading
             if(authdata != false)
-              h4 <a style="color:DodgerBlue;" href="#" data-toggle="tooltip" title="이 후원 사이트는 Baw Service에서 #{authdata[0]['date']}에 #{authdata[0]['sv_ip']}으로 접속할 수 있는 #{authdata[0]['sv_name']}임을 확인하였습니다."><i class="fas fa-check-circle"></i></a> #{userdata['svname']}서버 정품인증
+              h4 <a style="color:DodgerBlue;" href="#" data-toggle="tooltip" title="이 정품인증 사이트는 Baw Service에서 #{authdata[0]['date']}에 #{authdata[0]['sv_ip']}으로 접속할 수 있는 #{authdata[0]['sv_name']}임을 확인하였습니다."><i class="fas fa-check-circle"></i></a> #{userdata['svname']}서버 정품인증
             else
               h4 #{userdata['svname']}서버 정품인증
             //- h4 <a style="color:DodgerBlue;" href="#" data-toggle="tooltip" title="이 정품 인증 사이트는 Baw Service에 의하여 인증되었습니다."><i class="fas fa-check-circle"></i></a> #{userdata['svname']}서버 정품 인증
