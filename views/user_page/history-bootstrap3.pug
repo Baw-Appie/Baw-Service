@@ -37,12 +37,15 @@ html
         #bs-example-navbar-collapse-1.collapse.navbar-collapse
           ul.nav.navbar-nav
             each da, i in otherpage
-              if da.service == 3
-                li
-                  a(href=`https://${hostname}/${da["name"]}`) 정품 인증
-              if da['service'] == 1
+              if da.service == 1
                 li
                   a(href=`https://${hostname}/${da["name"]}`) 후원
+              if da.service == 2
+                li
+                  a(href=`https://${hostname}/${da["name"]}`) 정품 인증
+              if da.service == 3
+                li
+                  a(href=`https://${hostname}/${da["name"]}`) 서버 상태 확인
 
 
     script.

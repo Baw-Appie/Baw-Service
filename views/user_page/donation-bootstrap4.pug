@@ -48,9 +48,12 @@ html
               if da.service == 2
                 li.nav-item
                   a.nav-link(href=`https://${hostname}/${da["name"]}`) 정품 인증
-              if da['service'] == 3
+              if da.service == 3
                 li.nav-item
                   a.nav-link(href=`https://${hostname}/${da["name"]}`) 서버 상태 확인
+              if da.service == 4
+                li.nav-item
+                  a.nav-link(href=`https://${hostname}/${da["name"]}`) 후원 금액 조회
     if pagedata['youtube']
       #player.player
       style.
