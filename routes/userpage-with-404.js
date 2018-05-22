@@ -17,8 +17,8 @@ module.exports = function(req, res, next) {
         var servicename = "id_check";
       } else if(rows[0]['service'] == '3') {
         var servicename = "server_status"
-      } else {
-        res.render('error/500')
+      } else if(rows[0]['service'] == '4') {
+        var servicename = "history"
       }
       if(servicename){
         if(fs.existsSync('./views/user_page/'+servicename+'-'+rows[0]['theme']+'.pug')) {
@@ -57,6 +57,8 @@ module.exports = function(req, res, next) {
                       });
                     });
                   }
+                } else if(rows[0]['service'] == '4') {
+                  res.render('./user_page/'+servicename+'-'+rows[0]['theme'], {pagedata: rows[0], otherpage: rows3, userdata: rows2[0], authdata: rows4})
                 }
               })
             })

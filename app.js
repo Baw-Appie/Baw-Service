@@ -105,6 +105,7 @@ app.post('/manage/:service/data_add', require('./routes/manage/data_add'))
 app.get('/manage/:service/history', require('./routes/manage/history_view'))
 app.post('/manage/:service/create', require('./routes/manage/create_complete'))
 app.get('/manage/:service/create', require('./routes/manage/create_view'))
+app.post('/manage/:service/lookup', require('./routes/manage/lookup'))
 
 // API 관리
 app.post('/api/:service/edit', require('./routes/api/edit_complete'))

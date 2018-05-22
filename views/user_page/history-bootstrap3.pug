@@ -1,0 +1,136 @@
+doctype html
+html
+  head
+    title #{userdata['svname']}서버 정품 인증
+    meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no')
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css')
+    link(rel="stylesheet" href=`https://${hostname}/public/dashboard/css/fontawesome/fa-svg-with-js.css`)
+    link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.3.0/css/iziToast.min.css")
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+    script(src='https://www.google.com/recaptcha/api.js', async, defer)
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/gauge.js/1.3.5/gauge.min.js')
+    script(src=`https://${hostname}/public/dashboard/js/fontawesome/fontawesome-all.min.js`)
+    script(src=`https://${hostname}/public/dashboard/js/fontawesome/fa-v4-shims.min.js`)
+    script(src=`https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.3.0/js/iziToast.min.js`)
+    style.
+      @import url(https://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+      @import url(https://fonts.googleapis.com/earlyaccess/nanumpenscript.css);
+      body {
+      margin-top:-0px;
+      font-family:나눔고딕, NanumGothic, 'Nanum Gothic', Nanumbarungothic, arial, verdana, sans-serif;
+      }
+      h1, h2, h5, h4, h5, h6 {
+      font-family:나눔고딕, NanumGothic, 'Nanum Gothic', Nanumbarungothic, arial, verdana, sans-serif;
+      }
+
+  body
+    nav.navbar.navbar-default
+      .container
+        .navbar-header
+          button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1')
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand(href='#') #{userdata['svname']}서버
+        #bs-example-navbar-collapse-1.collapse.navbar-collapse
+          ul.nav.navbar-nav
+            each da, i in otherpage
+              if da.service == 3
+                li
+                  a(href=`https://${hostname}/${da["name"]}`) 정품 인증
+              if da['service'] == 1
+                li
+                  a(href=`https://${hostname}/${da["name"]}`) 후원
+
+
+    script.
+        function error(text){
+          iziToast.warning({title: "후원 기록 조회에 실패했습니다.", message: text})
+        }
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();   
+        });
+        function blank_up(){
+          var du = document.TRM;
+          if(!du.nick.value){
+            error('닉네임를 입력해주세요.');
+            du.id.focus();
+            return false;
+          }
+          var v = grecaptcha.getResponse();
+          if(v.length == 0)
+          {
+            error('정말로 로봇인가요?');
+            return false;
+          }
+          return true;
+        }
+        function captchaSubmit() {
+        	var ok = blank_up();
+          if (ok == true) {
+      		    $("#TRM").submit();
+          }
+          grecaptcha.reset()
+        }
+        $(function(){
+          $("#TRM").submit(function(){
+        		var formdata=$("#TRM").serialize();
+        		var url="https://#{hostname}/manage/1/lookup";
+            $.ajax({
+                type: "post",
+                url : url,
+                data : formdata,
+                success : function s(a){
+                  console.log(a)
+                  if(a.success == true) {
+                    $("#view").html("<img src=\"https://visage.surgeplay.com/full/" + document.TRM.nick.value + "\"><b>" + a.message + "원</b>");
+                  } else {
+                    error(a.message)
+                  }
+                },
+                error : function error(a){ error('후원 로그 조회 서비스에 접근할 수 없습니다.') }
+            });
+            return false;
+          });
+        });
+      
+      
+    .container(style='text-align: center;')
+      if pagedata['notice'] != ""
+        | <div class='row'><div class='col-md-8'>
+      form#TRM(name='TRM', method='post', action=`https://${hostname}/user/id_check`)
+        .panel.panel-default
+          .panel-heading
+            if(authdata != false)
+              h4 <a style="color:DodgerBlue;" href="#" data-toggle="tooltip" title="이 후원 기록확인 사이트는 Baw Service에서 #{authdata[0]['date']}에 #{authdata[0]['sv_ip']}으로 접속할 수 있는 #{authdata[0]['sv_name']}임을 확인하였습니다."><i class="fas fa-check-circle"></i></a> #{userdata['svname']}서버 후원기록 확인
+            else
+              h4 #{userdata['svname']}서버 후원 기록 확인
+          ul.list-group
+            li.list-group-item
+              label NickName
+              input.form-control(type='text', name='nick', tabindex='1', placeholder='ID', required='')
+            br
+            button.btn.btn.btn-info.g-recaptcha(type='submit', data-sitekey='6LeKTiwUAAAAANOYA7r37sTyquy_R0ljzSTVS6Bp', data-callback='captchaSubmit')
+              i.fa.fa-chevron-circle-right(aria-hidden='true')
+              |  제출
+            button.btn.btn.btn-danger(type='reset')
+              i.fa.fa-trash(aria-hidden='true')
+              |  재입력
+            input(type='hidden', value=pagedata["name"], name='page')
+            br
+            br
+            #view
+                
+        if pagedata['notice'] != ""
+          | </div>
+          | <div class='col-md-4'>
+          | 	<div class='panel panel-default'>
+          | 	  <div class='panel-heading'><h4>공지 사항<h4></div>
+          | 	  <div class='panel-body'>
+          |		 !{pagedata['notice']}
+          | 	  </div>
+          | 	</div>
+          | </div>
+        br
