@@ -27,3 +27,41 @@ block contents
   p 강화 확률은 99%지만, 얼마나 오래 걸릴지, 어떠한 버그가 나올지 몰라요.
   p 만약 버그가 발견되면 가만히 냅두지 말고 잡아서 아래 연락처로 신고해주세요!
   p 카카오톡: pp121324, 이메일: pp121324@gmail.com
+  .uk-card.uk-card-default.uk-card-body(class='uk-width-1-2@m')
+    h3.uk-card-title 후원 차트
+    p
+      canvas#chart
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js")
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js")
+  script.
+    new Chart(
+      document.getElementById("chart"),
+      {
+        "type":"line",
+        "data":
+        {
+          "labels":
+          [
+            "2개월 전",
+            "1개월 전",
+            "이번달"
+          ],
+          "datasets":
+          [
+            {
+              "label":"후원 금액",
+              "data":
+              [
+                #{c3},
+                #{c2},
+                #{c1}
+              ],
+              "fill":false,
+              "borderColor":"rgb(75, 192, 192)",
+              "lineTension":0.1
+            }
+          ]
+        },
+        "options": {}
+      }
+    );

@@ -23,7 +23,16 @@ function donation(req){
             var a2_data = countdata(a2, 'bal', /,/gi)
             sql.query(SqlString.format('SELECT * from service1 WHERE owner=? AND status=2', [req.user.id]), function(err, a3){
               var a3_data = a3.length
-              resolve([a1_data, a2_data, a3_data])
+              sql.query(SqlString.format('SELECT * from service1 WHERE owner=? AND status=1 AND `date` BETWEEN DATE_SUB(CURRENT_DATE, INTERVAL DAYOFMONTH(CURRENT_DATE)-1 DAY)  AND LAST_DAY(CURDATE());', [req.user.id]), function(err, c1){
+                var c1_data = countdata(c1, 'bal', /,/gi)
+                sql.query(SqlString.format('SELECT * from service1 WHERE owner=? AND status=1 AND `date` BETWEEN date(CURRENT_DATE - interval 1 MONTH) - interval day(now()) day + interval 1 day AND LAST_DAY(CURRENT_DATE - interval 1 MONTH);', [req.user.id]), function(err, c2){
+                  var c2_data = countdata(c2, 'bal', /,/gi)
+                  sql.query(SqlString.format('SELECT * from service1 WHERE owner=? AND status=1 AND `date` BETWEEN date(CURRENT_DATE - interval 2 MONTH) - interval day(now()) day + interval 1 day AND LAST_DAY(CURRENT_DATE - interval 2 MONTH);', [req.user.id]), function(err, c3){
+                    var c3_data = countdata(c3, 'bal', /,/gi)
+                    resolve([a1_data, a2_data, a3_data, c1_data, c2_data, c3_data])
+                  })
+                })
+              })
             })
           })
         })
@@ -51,8 +60,7 @@ module.exports = function(req) {
   return new Promise(function (resolve, reject) {
     donation(req).then(function (text) {
       idcheck(req).then(function (text2) {
-        var data = {a1: text[0], a2: text[1], a3: text[2]}
-        data['a4'] = text2
+        var data = {a1: text[0], a2: text[1], a3: text[2], a4: text2, c1: text[3], c2: text[4], c3: text[5]}
         resolve(data)
       })
     })
