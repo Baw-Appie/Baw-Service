@@ -49,37 +49,34 @@ block contents
 
 block extscript
   script.
-    loadScriptwithCallback("https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js", function(){
-      new Chart(
-        document.getElementById("chart"),
+    new Chart(
+      document.getElementById("chart"),
+      {
+        "type":"line",
+        "data":
         {
-          "type":"line",
-          "data":
-          {
-            "labels":
-            [
-              "2개월 전",
-              "1개월 전",
-              "이번달"
-            ],
-            "datasets":
-            [
-              {
-                "label":"후원 금액",
-                "data":
-                [
-                  #{c3},
-                  #{c2},
-                  #{c1}
-                ],
-                "fill":false,
-                "borderColor":"rgb(75, 192, 192)",
-                "lineTension":0.1
-              }
-            ]
-          },
-          "options": {}
-        }
-      );
-    })
-    loadScript("https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js")
+          "labels":
+          [
+            "2개월 전",
+            "1개월 전",
+            "이번달"
+          ],
+          "datasets":
+          [
+            {
+              "label":"후원 금액",
+              "data":
+              [
+                #{c3},
+                #{c2},
+                #{c1}
+              ],
+              "fill":false,
+              "borderColor":"rgb(75, 192, 192)",
+              "lineTension":0.1
+            }
+          ]
+        },
+        "options": {}
+      }
+    );
