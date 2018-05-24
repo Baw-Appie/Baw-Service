@@ -25,7 +25,7 @@ block contents
   .uk-card.uk-card-default.uk-card-body
     h3.uk-card-title 후원 차트
     p
-      canvas#chart(height="100px")
+      #chart
   br
   .uk-card.uk-card-default.uk-card-body
     h3.uk-card-title Baw Service Update News
@@ -36,37 +36,43 @@ block contents
     p 카카오톡: pp121324, 이메일: pp121324@gmail.com
 block extscript
   script.
-    loadScriptwithCallback("https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js", function(){
-      new Chart(
-        document.getElementById("chart"),
-        {
-          "type":"line",
-          "data":
-          {
-            "labels":
-            [
-              "2개월 전",
-              "1개월 전",
-              "이번달"
-            ],
-            "datasets":
-            [
-              {
-                "label":"후원 금액",
-                "data":
-                [
-                  #{c3},
-                  #{c2},
-                  #{c1}
-                ],
-                "fill":false,
-                "borderColor":"rgb(75, 192, 192)",
-                "lineTension":0.1
-              }
-            ]
-          },
-          "options": {}
+    var container = document.getElementById('chart');
+    var data = {
+        categories: ['2개월 전', '1개월 전', '이번달'],
+        series: [
+            {
+                name: '후원 금액',
+                data: [#{c3}, #{c2}, #{c1}]
+            }
+        ]
+    }
+    var options = {
+        chart: {
+            width: 1160,
+            height: 540,
+            title: '최근 후원 기록'
+        },
+        series: {
+            zoomable: true,
+            showDot: false,
+            areaOpacity: 1
+        },
+        yAxis: {
+            title: '3개월간의 후원 기록을 표시합니다.',
+            pointOnColumn: true
+        },
+        xAxis: {
+            title: 'Month'
+        },
+        tooltip: {
+            suffix: '원'
         }
-      );
-    })
-    loadScript("https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js")
+    }
+    var theme = {
+        series: {
+            colors: [
+                '#83b14e', '#458a3f', '#295ba0', '#2a4175', '#289399',
+                '#289399', '#617178', '#8a9a9a', '#516f7d', '#dddddd'
+            ]
+        }
+    }
