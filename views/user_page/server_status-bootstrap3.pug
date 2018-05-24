@@ -12,6 +12,12 @@ html
     script(src=`https://${hostname}/public/fontawesome/js/fontawesome-all.min.js`)
     script(src=`https://${hostname}/public/fontawesome/js/fa-v4-shims.min.js`)
     script(src=`https://${hostname}/public/MinecraftColorCodes.min.3.7.js`)
+    script(async src='https://www.googletagmanager.com/gtag/js?id=UA-112023380-1')
+    script.
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-112023380-1');
     style.
       @import url(https://fonts.googleapis.com/earlyaccess/nanumgothic.css);
       @import url(https://fonts.googleapis.com/earlyaccess/nanumpenscript.css);

@@ -14,6 +14,12 @@ html
     script(src=`https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.3.0/js/iziToast.min.js`)
     script(src='https://www.google.com/recaptcha/api.js', async, defer)
     script(src=`https://${hostname}/public/user_page/js/donation.js`)
+    script(async src='https://www.googletagmanager.com/gtag/js?id=UA-112023380-1')
+    script.
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-112023380-1');
     style.
       @import url(https://fonts.googleapis.com/earlyaccess/nanumgothic.css);
       @import url(https://fonts.googleapis.com/earlyaccess/nanumpenscript.css);
