@@ -58,6 +58,22 @@ block contents
       a(href='https://baws.kr/auth/register')
         button(class="uk-button uk-button-primary") 헐 나 Baw Service 쓸래!
   br
+  .uk-card.uk-card-default.uk-card-body
+    h3.uk-card-title Baw Service Blog 최신글
+    table.uk-table.uk-table-divider
+      thead
+        tr
+          th 글 이름
+          th 작성일
+      tbody
+        each list, index in items
+          tr
+            td
+              a(href=list.url)
+                | #{list.title}
+            td=list.created
+    a(href="https://baw-service.tistory.com/")
+      button.uk-button.uk-button-text Baw Service Blog에서 더 보기
   br
   p Baw Service는 마인크래프트 흑백서버와 크롱 클라우드의 지원을 받습니다.
   p

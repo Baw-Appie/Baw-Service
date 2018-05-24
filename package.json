@@ -25,6 +25,7 @@
     "pug": "^2.0.3",
     "raven": "^2.6.0",
     "request": "^2.85.0",
+    "rss-to-json": "^1.0.4",
     "spdy": "^3.4.7",
     "sqlstring": "^2.3.1",
     "supervisor": "^0.12.0",

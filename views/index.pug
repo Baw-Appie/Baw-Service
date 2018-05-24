@@ -28,12 +28,25 @@ block contents
       canvas#chart(height="100px")
   br
   .uk-card.uk-card-default.uk-card-body
-    h3.uk-card-title Baw Service Update News
-    p 안녕하세요! #{user.id}님! Baw Service를 선택해주셔서 감사합니다 :)
-    p 현재 Baw Service의 기능 강화가 진행중이에요!
-    p 강화 확률은 99%지만, 얼마나 오래 걸릴지, 어떠한 버그가 나올지 몰라요.
-    p 만약 버그가 발견되면 가만히 냅두지 말고 잡아서 아래 연락처로 신고해주세요!
-    p 카카오톡: pp121324, 이메일: pp121324@gmail.com
+    h3.uk-card-title Baw Service Blog 최신글
+    table.uk-table.uk-table-divider
+      thead
+        tr
+          th 글 이름
+          th 작성일
+      tbody
+        each list, index in items
+          tr
+            td
+              a(href=list.url)
+                | #{list.title}
+            td=list.created
+    a(href="https://baw-service.tistory.com/")
+      button.uk-button.uk-button-text Baw Service Blog에서 더 보기
+  br
+  br
+  br
+
 block extscript
   script.
     loadScriptwithCallback("https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js", function(){
