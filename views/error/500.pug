@@ -1,9 +1,15 @@
 extends ../includes/layout
 block contents
   div(style='text-align: center;')
-    span(style='font-size: 18pt;color: #ff0000;') 요청한 페이지에 문제가 있습니다.
-    br
-    br
-    p 서버에서 해당 페이지를 처리하던 도중 오류가 발생했습니다. [500 ERROR]
-    br
-    p 서버의 문제이므로 이 사실을 Baw Service 관리자에게 알려주세요. [카카오톡 pp121324] [이메일 pp121324@gmail.com]
+    div(style='font-size: 15pt')
+      | 허걱!
+    div(style='font-size: 18pt')
+      | Baw Service에 치명적인 오류입니다!
+    hr.uk-driver
+    p 현재 Baw Service에서 페이지를 로드하던 도중 오류가 발생했습니다. [500 ERROR]
+    p Baw Service 관리자에게 자동으로 이 오류가 보고되는것이 정상이나, 가끔가다 정상적으로 보고되지 않는 경우가 있습니다.
+    p 아래 연락처로 꼭! 이 문제를 알려주세요.
+    p 카카오톡 pp121324, 이메일 pp121324@gmail.com
+    a(href="https://baws.kr")
+      span(uk-icon="icon: home")
+      |  메인 페이지로 돌아가기
