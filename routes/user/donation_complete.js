@@ -113,7 +113,7 @@ function complete(req, res){
                     from: 'Baw Service <A-Mail-Sender@rpgfarm.com>',
                     to: rows2[0]['mail'],
                     subject: '[Baw Service] 새로운 후원 요청이 있습니다!',
-                    html: "<p>Baw Service에서 새로운 정품 인증 요청이 있습니다!</p><p>후원 관리 사이트를 확인해주세요!</p><p><a href=\"https://"+req.hostname+"/manage/2/view\">[Baw Service 관리 사이트]</a></p><p>Powered by <a href='https://baws.kr/'>Baw Service</a></p>"
+                    html: "<p>Baw Service에서 새로운 후원 요청이 있습니다!</p><p>후원 관리 사이트를 확인해주세요!</p><p><a href=\"https://"+req.hostname+"/manage/1/view\">[Baw Service 관리 사이트]</a></p><p>Powered by <a href='https://baws.kr/'>Baw Service</a></p>"
                   };
                   transporter.sendMail(mailOptions, function(error, info) {
                     transporter.close();
