@@ -12,12 +12,18 @@
       .uk-navbar-right
         ul.uk-navbar-nav(class='uk-visible@s')
           if(!user)
-            button.uk-button.uk-button-default.uk-margin-small-right(type='button', uk-toggle='target: #login-slide') 로그인
+            button.uk-button.uk-button-default.uk-margin-small-right(type='button', uk-toggle='target: #login-slide')
+              span(uk-icon="icon: sign-in")
+              |  로그인
           else
             a(onclick=`location.href='https://${hostname}/auth/logout'`)
-              button.uk-button.uk-button-default.uk-margin-small-right(type='button') 로그아웃
+              button.uk-button.uk-button-default.uk-margin-small-right(type='button')
+                span(uk-icon="icon: sign-out")
+                |  로그아웃
             a(href=`https://${hostname}/my`)
-              button.uk-button.uk-button-default.uk-margin-small-right(type='button') 내 정보
+              button.uk-button.uk-button-default.uk-margin-small-right(type='button')
+                span(uk-icon="icon: user")
+                |  내 정보
         a.uk-navbar-toggle(uk-navbar-toggle-icon='', href='#navbar', class='uk-hidden@s', uk-toggle='')
         
         
@@ -33,19 +39,23 @@
               .uk-margin
                   input.uk-input(name="pass" type="password" placeholder="Password")
               p
-                button.uk-button.uk-button-default.uk-width-1-1 로그인
+                button.uk-button.uk-button-default.uk-width-1-1
+                  span(uk-icon="icon: sign-in")
+                  |  로그인
               font(style='text-align: center;')
                 p OR Sign in with
               .uk-button-group(style="width: 100%;")
                 a(onclick=`location.href=('https://${hostname}/auth/google')`, style="width: 100%;")
-                  button.uk-button.uk-button-secondary(type="button", style="width: 100%;") Google
+                  button.uk-button.uk-button-secondary(type="button", style="width: 100%;")
+                    span(uk-icon="icon: google")
                 a(onclick=`location.href=('https://${hostname}/auth/kakao')`, style="width: 100%;")
-                  button.uk-button.uk-button-secondary(type="button", style="width: 100%;") Kakao
+                  button.uk-button.uk-button-secondary(type="button", style="width: 100%;")
+                    i.fas.fa-comment
               hr.uk-divider-icon
               p 아직 계정이 없으신가요?
               p
                 a(href=`https://${hostname}/auth/register`).link
-                  button.uk-button.uk-button-primary.uk-width-1-1(type="button") 회원가입
+                  button.uk-button.uk-button-danger.uk-width-1-1(type="button") 회원가입
 
 
                 
