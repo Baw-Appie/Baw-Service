@@ -1,0 +1,170 @@
+extends ../includes/layout
+block extscript
+  script.
+    $(".recent_process").hide();
+    $('.okay button').click(() => {
+      var target = event.target
+      var element = $(target).parent("div").parent("div")
+      $(element).hide(500)
+      var id = $(element).attr("id")
+      if($(target).hasClass("okay1") === true){
+        var url = "https://#{hostname}/manage/#{data.service}/complete/"+id+"/1"
+        var realnoapi = false
+      }
+      if($(target).hasClass("okay1noapi") === true){
+        var url = "https://#{hostname}/manage/#{data.service}/complete/"+id+"/1?noapi=true"
+        var realnoapi = true
+      }
+      if($(target).hasClass("okay2") === true){
+        var url = "https://#{hostname}/manage/#{data.service}/complete/"+id+"/2"
+        var realnoapi = false
+      }
+      $.ajax({
+        type: 'get',
+        url : url,
+        success : function s(a){
+          if(a.success == true){
+            iziToast.info({message: a.message, title: a.title})
+            NProgress.done();
+          } else {
+            iziToast.warning({message: a.message, title: a.title})
+            NProgress.done();
+          }
+        },
+        error : function error(){ iziToast.warning({message: "Baw Service 빠른 설정 적용이 설정을 적용하는 도중 문제가 발생했습니다.", title:"이런.."}); }
+      });
+    })
+    $('.opening').click(() => {
+      var target = event.target
+      var id = $(target).attr("id")
+      
+      $(".form").slideUp("fast")
+      $("."+id).slideToggle("slow");
+    })
+  if(data.service == 1)
+    script.
+      $(".data_add").hide();
+      $(".data_export").hide();
+      loadScript('https://www.google.com/recaptcha/api.js')
+      function captchaSubmit() {
+      	$("#data_add").submit();
+      }
+      $(function(){
+        $("#data_add").submit(function(){
+          NProgress.start();
+          $.ajax({
+            type: "post",
+            url : "https://#{hostname}/manage/#{data.service}/data_add",
+            data : $("#data_add").serialize(),
+            success : function s(a){
+              if(a.success == true){
+                iziToast.info({message: a.message})
+              } else {
+                iziToast.warning({message: a.message})
+              }
+            },
+            error : function error(){ iziToast.warning({message: "Baw Service 빠른 설정 적용이 설정을 적용하는 도중 문제가 발생했습니다.", title:"이런.."}); }
+          });
+          $.pjax.reload('#contents')
+          return false;
+        });
+      });
+      function captchaSubmit2() {
+      	$("#data_export_excel").submit();
+      }
+	
+block contents
+  .uk-card.uk-card-default.uk-card-body(class='uk-width-auto')
+    h3.uk-card-title #{data.name} 데이터 관리자
+    button.uk-button.uk-button-default.opening#recent_process
+      i(class="fas fa-edit")
+      |  최근 처리 수정
+    if(data.service == 1)
+      button.uk-button.uk-button-default.opening#data_export
+        i(class="far fa-file-excel")
+        |  데이터 내보내기
+      button.uk-button.uk-button-default.opening#data_add
+        i(class="fas fa-plus-circle")
+        |  데이터 추가
+  br
+  br
+  .recent_process.form
+    .uk-card.uk-card-default.uk-card-body(class='uk-width-auto')
+      h3.uk-card-title #{data.name} 최근 처리 완료 후원 정보 [10개]
+      each row, i in data1
+        div(id=data1[i]["num"])
+          each li, ii in list
+            | #{korean[ii]}: #{data1[i][li]}
+            br
+          br
+          div(class="okay")
+            button.uk-button.uk-button-danger.okay2
+              i(class="fas fa-times-circle")
+              |  처리 거절으로 수정
+          hr.uk-divider-icon
+        
+      - if (rows.length == 0)
+        p 처리 성공된 #{data.name}이 없습니다.
+        hr.uk-divider-icon
+      p Powered by Baw Service
+    br
+    br
+    .uk-card.uk-card-default.uk-card-body(class='uk-width-auto')
+      h3.uk-card-title #{data.name} 최근 처리 거절 후원 정보 [5개]
+      each row, i in data2
+        div(id=data2[i]["num"])
+          each li, ii in list
+            | #{korean[ii]}: #{data2[i][li]}
+            br
+          br
+          div(class="okay")
+            button.uk-button.uk-button-primary.okay1
+              i(class="fas fa-check-circle")
+              |  처리 완료
+            button.uk-button.uk-button-default.okay1noapi API 요청 없이 처리 완료
+          hr.uk-divider-icon
+        
+      - if (rows.length == 0)
+        p 처리 거절된 #{data.name}이 없습니다.
+        hr.uk-divider-icon
+      p Powered by Baw Service
+    br
+    br
+  if(data.service == 1)
+    .data_export.form
+      .uk-card.uk-card-default.uk-card-body(class='uk-width-auto')
+        h3.uk-card-title #{data.name} 데이터 관리자
+        form(id="data_export_excel", action=`https://${hostname}/manage/${data.service}/data_export_excel`)
+          button.uk-button.uk-button-primary.g-recaptcha(type='submit', data-sitekey='6LeKTiwUAAAAANOYA7r37sTyquy_R0ljzSTVS6Bp', data-callback='captchaSubmit2')
+            i(class="far fa-file-excel")
+            |  Excel으로 데이터 내보내기
+        p Baw Service에 저장된 #{data.name} 데이터를 Excel 형식으로 이 기기에 저장합니다.
+      br
+      br
+    .data_add.form
+      .uk-card.uk-card-default.uk-card-body(class='uk-width-auto')
+        h3.uk-card-title 수동으로 #{data.name} 데이터 추가
+        form(id="data_add")
+          div(class="uk-grid-small uk-child-width-expand@s uk-text-center", uk-grid)
+            each li, ii in list
+              div
+                font(size=2)
+                  p #{korean[ii]}
+                input.uk-input(type='text', name=li, placeholder=korean[ii])
+            div
+              font(size=2)
+                p 처리 상태
+              input.uk-input(type='text', name='status', placeholder='처리 상태')
+          br
+          br
+          button.uk-button.uk-button-primary.g-recaptcha(type='submit', data-sitekey='6LeKTiwUAAAAANOYA7r37sTyquy_R0ljzSTVS6Bp', data-callback='captchaSubmit')
+            i(class="fas fa-plus-circle")
+            |  데이터 추가
+          hr.uk-divider-icon
+          p 만약 이 기능의 사용법을 제대로 이해하지 못한다면 사용하지 마세요.
+          p
+            a(href="http://baw-service.tistory.com/20")
+             | [여기]
+            | 를 클릭하여 사용 방법을 확인하세요.
+      br
+      br

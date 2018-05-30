@@ -58,31 +58,27 @@ function complete(req, res){
       var sql_req = sql.query('SELECT * FROM page WHERE owner='+ SqlString.escape(req.user.id)+' and service=1', function(err, rows) {
         if (err) { return reject('1번 질의 오류') }
         if (rows.length == 0) { return reject('후원 홈페이지가 존재하지 않습니다.') }
-        sql.query('select * from auth where page='+ SqlString.escape(rows[0]['name'])+' and owner=' + SqlString.escape(req.user.id), function(err, check2){
-          if (check2.length === 0) {
-            return reject('Baw Service 인증이 적용되지 않은 페이지입니다.');
-          } else {
-            var sql_req2 = sql.query('SELECT * FROM id WHERE id='+ SqlString.escape(rows[0]['owner']), function(err, rows2) {
-              if (err) { return reject('2번 질의 오류') }
-              var sql_req3 = sql.query('SELECT * FROM service1 ORDER BY `num` ASC', function(err, rows3) {
-                if (err) { return reject('3번 질의 오류') }
-                var counter = rows3.length;
-                rows3.forEach(function(item) {
-                  counter -= 1;
-                  if ( counter === 0){
-                    var no = item.num + 1
-             	      var sql_Request = SqlString.format('INSERT INTO service1 values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [no, rows[0]['name'], rows[0]['owner'], nick, bal, pin, method, code, nname, bouns, ip, date, status]);
-                    var sql_req4  = sql.query(sql_Request, function(err, rows4) {
-                      if (err) { return reject('4번 질의 오류'); }
-                      resolve("등록되었습니다.")
-                    })
-                  }
-                });
-              })
-            })
-          }
+        var sql_req2 = sql.query('SELECT * FROM id WHERE id='+ SqlString.escape(rows[0]['owner']), function(err, rows2) {
+          if (err) { return reject('2번 질의 오류') }
+          var sql_req3 = sql.query('SELECT * FROM service1 ORDER BY `num` ASC', function(err, rows3) {
+            if (err) { return reject('3번 질의 오류') }
+            var counter = rows3.length;
+            rows3.forEach(function(item) {
+              counter -= 1;
+              if ( counter === 0){
+                var no = item.num + 1
+         	      var sql_Request = SqlString.format('INSERT INTO service1 values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [no, rows[0]['name'], rows[0]['owner'], nick, bal, pin, method, code, nname, bouns, ip, date, status]);
+                var sql_req4  = sql.query(sql_Request, function(err, rows4) {
+                  if (err) { return reject('4번 질의 오류'); }
+                  resolve("등록되었습니다.")
+                })
+              }
+            });
+          })
         })
       })
+    } else {
+      return reject('후원 사이트에서만 사용할 수 있습니다.')
     }
   })
 }
