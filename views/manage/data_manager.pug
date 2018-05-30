@@ -2,6 +2,7 @@ extends ../includes/layout
 block extscript
   script.
     $(".recent_process").hide();
+    $(".data_list").hide();
     $('.okay button').click(() => {
       var target = event.target
       var element = $(target).parent("div").parent("div")
@@ -79,6 +80,9 @@ block contents
     button.uk-button.uk-button-default.opening#recent_process
       i(class="fas fa-edit")
       |  최근 처리 수정
+      button.uk-button.uk-button-default.opening#data_list
+        i(class="fas fa-list-ul")
+        |  데이터 리스트
     if(data.service == 1)
       button.uk-button.uk-button-default.opening#data_export
         i(class="far fa-file-excel")
@@ -168,3 +172,14 @@ block contents
             | 를 클릭하여 사용 방법을 확인하세요.
       br
       br
+  .data_list.form(style="overflow-x: auto;")
+    table.uk-table
+      thead
+        tr
+          each li, ii in korean
+            th=li
+      tbody
+        each row, i in data3
+          tr
+            each li, ii in list
+              td=row[li]

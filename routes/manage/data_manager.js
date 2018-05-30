@@ -16,7 +16,9 @@ module.exports = function (req, res) {
           } else {
             sql.query('select * from service1 where status=1 and owner=' + SqlString.escape(req.user.id) + 'ORDER BY num DESC limit 10', function(err, data1){
               sql.query('select * from service1 where status=2 and owner=' + SqlString.escape(req.user.id) + 'ORDER BY num DESC limit 5', function(err, data2){
-                res.render('manage/data_manager', {rows: rows, data: data, data1: data1, data2: data2, list: list, korean: korean})
+                sql.query('select * from service1 where owner=' + SqlString.escape(req.user.id), function(err, data3){
+                  res.render('manage/data_manager', {rows: rows, data: data, data1: data1, data2: data2, data3: data3, list: list, korean: korean})
+                })
               })
             })
           }
@@ -35,7 +37,9 @@ module.exports = function (req, res) {
           } else {
             sql.query('select * from service2 where status=1 and owner=' + SqlString.escape(req.user.id) + 'ORDER BY num DESC limit 10', function(err, data1){
               sql.query('select * from service2 where status=2 and owner=' + SqlString.escape(req.user.id) + 'ORDER BY num DESC limit 5', function(err, data2){
-                res.render('manage/data_manager', {rows: rows, data: data, data1: data1, data2: data2, list: list, korean: korean})
+                sql.query('select * from service2 where owner=' + SqlString.escape(req.user.id), function(err, data3){
+                  res.render('manage/data_manager', {rows: rows, data: data, data1: data1, data2: data2, data3: data3, list: list, korean: korean})
+                })
               })
             })
           }
