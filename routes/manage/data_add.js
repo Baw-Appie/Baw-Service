@@ -52,8 +52,8 @@ function complete(req, res){
       if(vali.isEmpty(code) || code.length > 18){
         return reject('인증 번호(발행일)을 입력해주세요.')
       }
-      if(status == 0 || 1 || 2){
-        return reject('처리 상태를 제대로 선택해주세요.')
+      if(status != 0 && status !=  1 && status !=  2){
+        return reject('처리 상태를 제대로 선택해주세요.' + status)
       }
       var sql_req = sql.query('SELECT * FROM page WHERE owner='+ SqlString.escape(req.user.id)+' and service=1', function(err, rows) {
         if (err) { return reject('1번 질의 오류') }

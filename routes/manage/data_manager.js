@@ -7,8 +7,8 @@ module.exports = function (req, res) {
           "name": "후원 사이트",
           "service": 1
         }
-        var list = ["nick", "bal", "method", "pin", "bouns", "ip", "date"];
-        var korean = ["닉네임", "후원 금액", "후원 방법", "핀번호", "원하는 보상", "IP", "날짜"]
+        var list = ["nick", "bal", "method", "pin", "bouns", "nname", "code", "ip", "date"];
+        var korean = ["닉네임", "후원 금액", "후원 방법", "핀번호", "원하는 보상", "입금자명", "발행일(인증코드)", "IP", "날짜"]
         sql.query('select * from page where service=1 and owner=' + SqlString.escape(req.user.id), function(err, rows){
           if (rows.length === 0) {
             req.session.error = '후원 홈페이지가 존재하지 않습니다.';
