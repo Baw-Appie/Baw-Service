@@ -136,7 +136,7 @@ block contents
       .uk-card.uk-card-default.uk-card-body(class='uk-width-auto')
         h3.uk-card-title #{data.name} 데이터 관리자
         form(id="data_export_excel_form", action=`https://${hostname}/manage/${data.service}/data_export_excel`)
-          //- button.uk-button.uk-button-primary.g-recaptcha#data_export_excel_submit(data-sitekey='6LeKTiwUAAAAANOYA7r37sTyquy_R0ljzSTVS6Bp', data-callback='captchaSubmit2')
+          button.uk-button.uk-button-primary.g-recaptcha#data_export_excel_submit(data-sitekey='6LeKTiwUAAAAANOYA7r37sTyquy_R0ljzSTVS6Bp', data-callback='captchaSubmit2')
             i(class="far fa-file-excel")
             |  Excel으로 데이터 내보내기
         p Baw Service에 저장된 #{data.name} 데이터를 Excel 형식으로 이 기기에 저장합니다.
