@@ -36,9 +36,11 @@
     "snyk": "^1.82.0"
   },
   "scripts": {
-    "start": "node app.js",
-    "superstart": "supervisor app.js",
-    "secuitytest": "snyk test"
+    "install": "set NODE_ENV=production && echo Node.js 프로덕션 모드로 변경되었습니다.",
+    "devinstall": "set NODE_ENV=development && echo Node.js 개발 모드로 변경되었습니다. && npm i nodemon && echo nodemon이 설치되었습니다.",
+    "start": "node app",
+    "devstart": "nodemon app",
+    "secuitytest": "snyk test",
   },
   "author": "Baw_Appie",
   "license": "ISC"
