@@ -112,16 +112,16 @@ app.post('/api/:service/edit', require('./routes/api/edit_complete'))
 app.get('/api/:service/edit', require('./routes/api/edit_view'))
 
 // API 요청 처리
-app.all('/api/serveripcheck.php', function(req,res) {
+app.all(['/api/serveripcheck.php', '/API/GetServerIP'], function(req,res) {
   res.send(server_settings.server_ip)
 })
-app.all('/api/versionchecker.php', function(req,res) {
-  res.send("0.11-Alpha")
+app.all(['/api/versionchecker.php', '/API/GetAPIVersion'], function(req,res) {
+  res.send("1.0")
 })
-app.all('/api/versioncheckerHTTP.php', function(req,res) {
-  res.send("0.2")
+app.all(['/api/versioncheckerHTTP.php', '/API/GetHTTPAPIVersion'], function(req,res) {
+  res.send("1.0")
 })
-app.all('/api/getlist.php', require('./routes/api/getlist'))
+app.all(['/api/getlist.php', '/API/GetList'], require('./routes/api/getlist'))
 
 // 유저 활동 처리
 app.post('/user/donation', require('./routes/user/donation_complete'))
