@@ -144,9 +144,8 @@ app.get('/auth/login', function(req, res){
 })
 // 로컬 로그인 시도
 var LoginLimiter = new RateLimit({
-  windowMs: 60*60*1000,
-  delayAfter: 1,
-  delayMs: 3*1000,
+  windowMs: 20*60*1000,
+  delayMs: 0,
   max: 10,
   message: "너무 많은 로그인 시도가 감지되었습니다. 잠시 후 다시 시도하세요."
 });
