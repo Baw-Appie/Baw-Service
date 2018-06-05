@@ -57,7 +57,7 @@ function complete(req, res){
           if(rows2.length != 0){
             return reject('이미 등록된 이메일입니다.')
           } else {
-            var enc_mail = require('md5')('mail' + 'session_config.secret')
+            var enc_mail = require('md5')(mail + 'session_config.secret')
             var sql_Request3 = SqlString.format('insert into id values (?, password(?), ?, ?, ?, 0, ?, \'\', 0, \'\', 3203, \'socket\', \'\', \'0000-00-00\')', [id, pass, mail, svname, date, enc_mail])
             var sql_req3 = sql.query(sql_Request3, function(err, rows3){
               if(err){ return reject('3번 질의 오류') }
