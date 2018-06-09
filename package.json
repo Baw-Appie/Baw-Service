@@ -40,7 +40,7 @@
     "devinstall": "set NODE_ENV=development && echo Node.js 개발 모드로 변경되었습니다. && npm i nodemon && echo nodemon이 설치되었습니다.",
     "start": "node app",
     "devstart": "nodemon app",
-    "secuitytest": "snyk test",
+    "secuitytest": "snyk test"
   },
   "author": "Baw_Appie",
   "license": "ISC"
