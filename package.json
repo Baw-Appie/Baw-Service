@@ -1,7 +1,7 @@
 {
-  "name": "bawservicepanel",
+  "name": "bawservice",
   "version": "1.0.0",
-  "description": "Baw Service's Node.js DashBoard(Admin Panel)",
+  "description": "Baw Service Node.js Project",
   "main": "app.js",
   "dependencies": {
     "body-parser": "^1.18.3",
