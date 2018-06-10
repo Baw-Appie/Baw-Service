@@ -4,6 +4,7 @@
 이 PHP 소스는 이미 등록된 전체 메시지의 테스트 발송을 이용하여 이미 친구 추가된 사용자에게 메시지를 전달할 수 있습니다.
 
 사용 방법
+
 	require './login.class.php';
 	require './send.class.php';
 	use Baw_Appie\Kakao\FriendsTalk\Login;
