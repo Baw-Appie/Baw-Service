@@ -13,7 +13,7 @@ module.exports = function (req, res) {
         var text_option_korean = ["후원 보너스 설정", "API 플러그인 명령어 설정", "Youtube Video ID 설정"]
         var textarea_option = ["notice"]
         var textarea_option_korean = ["공지사항"]
-        var custom_select_option = [{name: "theme", korean: "테마(베타)", options: ["Bootstrap3", "UiKit", "Bootstrap4"], option_data: ["bootstrap3", "uikit", "bootstrap4"], option_korean: ["Bootstrap3", "UIKit", "Bootstrap4"]}]
+        var custom_select_option = [{name: "theme", korean: "테마(베타)", options: ["Bootstrap3", "UiKit", "Bootstrap4", "Material"], option_data: ["bootstrap3", "uikit", "bootstrap4", "material"], option_korean: ["Bootstrap3", "UIKit", "Bootstrap4", "Material"]}]
         var custom_checkbox_option = [{name: "disabled", korean: "사용하지 않을 후원 방법", options: ["문화상품권", "도서 문화상품권", "해피머니", "틴캐시", "계좌이체"], option_data: ["문화상품권1", "도서문화상품권", "해피머니", "틴캐시", "계좌이체"], option_korean: ["문화상품권", "도서 문화상품권", "해피머니", "틴캐시", "계좌이체"]}]
         var help = `<p>후원 보너스 설정의 다음줄은 || 으로 구분합니다.</p>
 			<p>후원 보너스 설정 예제: 캐시||칭호||Baw Service 최고</p>

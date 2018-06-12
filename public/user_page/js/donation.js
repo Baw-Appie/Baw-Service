@@ -168,12 +168,14 @@ $(function() {
 			var text = document.getElementById("code_text");
 			var input = document.getElementById("code");
 			if(du.Combo.value == "해피머니"){
-				text.innerHTML = "인증코드";
-				input.setAttribute("placeholder", "인증코드");
+				text.innerText = "인증코드";
+        if( typeof(disable_placeholder) == 'undefined' )
+				    input.setAttribute("placeholder", "인증코드");
 			}
 			if(du.Combo.value == "도서문화상품권"){
-				text.innerHTML = "발행일";
-				input.setAttribute("placeholder", "발행일");
+				text.innerText = "발행일";
+        if( typeof(disable_placeholder) == 'undefined' )
+				    input.setAttribute("placeholder", "발행일");
 			}
 		}
 	});
