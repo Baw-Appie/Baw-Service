@@ -26,8 +26,8 @@ module.exports = function (req, res) {
 
         var sql_req = sql.query('select * from page where service=1 and owner=' + SqlString.escape(req.user.id), function(err, rows){
           if (rows.length === 0) {
-            req.session.error = '후원 홈페이지가 존재하지 않습니다.';
-            res.redirect('/')
+            req.session.error = '후원 홈페이지가 존재하지 않습니다. 먼저 페이지를 생성해주세요!';
+            res.redirect('/manage')
           } else {
             res.render('manage/edit', {rows: rows,data: data,select_option: select_option,select_option_korean: select_option_korean,text_option: text_option,text_option_korean: text_option_korean,textarea_option: textarea_option,textarea_option_korean: textarea_option_korean, custom_checkbox_option: custom_checkbox_option, help: help, custom_select_option: custom_select_option})
           }
@@ -52,7 +52,7 @@ module.exports = function (req, res) {
 
         var sql_req = sql.query('select * from page where service=2 and owner=' + SqlString.escape(req.user.id), function(err, rows){
           if (rows.length === 0) {
-            req.session.error = '정품 인증 페이지가 존재하지 않습니다.';
+            req.session.error = '정품 인증 페이지가 존재하지 않습니다. 먼저 페이지를 생성해주세요!';
             res.redirect('/')
           } else {
             res.render('manage/edit', {rows: rows,data: data,select_option: select_option,select_option_korean: select_option_korean,text_option: text_option,text_option_korean: text_option_korean,textarea_option: textarea_option,textarea_option_korean: textarea_option_korean, help: help})
@@ -74,8 +74,8 @@ module.exports = function (req, res) {
 
         var sql_req = sql.query('select * from page where service=3 and owner=' + SqlString.escape(req.user.id), function(err, rows){
           if (rows.length === 0) {
-            req.session.error = '서버 상태 위젯이 존재하지 않습니다.';
-            res.redirect('/')
+            req.session.error = '서버 상태 위젯이 존재하지 않습니다. 먼저 페이지를 생성해주세요!';
+            res.redirect('/manage')
           } else {
             res.render('manage/edit', {rows: rows,data: data,select_option: select_option,select_option_korean: select_option_korean,text_option: text_option,text_option_korean: text_option_korean,textarea_option: textarea_option,textarea_option_korean: textarea_option_korean, help: help})
           }
