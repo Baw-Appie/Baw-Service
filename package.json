@@ -17,7 +17,7 @@
     "node-excel-export": "^1.4.3",
     "node-google-translate-skidz": "^1.1.2",
     "nodemailer": "^4.6.5",
-    "npm": "^5.10.0",
+    "npm": "^6.1.0",
     "passport": "^0.4.0",
     "passport-google-oauth2": "^0.1.6",
     "passport-kakao": "0.0.5",
@@ -37,10 +37,10 @@
   },
   "scripts": {
     "install": "set NODE_ENV=production && echo Node.js 프로덕션 모드로 변경되었습니다.",
-    "devinstall": "set NODE_ENV=development && echo Node.js 개발 모드로 변경되었습니다. && npm i nodemon && echo nodemon이 설치되었습니다.",
+    "dev:install": "set NODE_ENV=development && echo Node.js 개발 모드로 변경되었습니다. && npm i nodemon -g && echo nodemon이 설치되었습니다.",
     "start": "node app",
-    "devstart": "nodemon app",
-    "secuitytest": "snyk test"
+    "dev:start": "nodemon app",
+    "dev:secuitytest": "snyk test"
   },
   "author": "Baw_Appie",
   "license": "ISC"
