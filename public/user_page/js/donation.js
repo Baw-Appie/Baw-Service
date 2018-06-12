@@ -143,28 +143,28 @@ $(function() {
     var du = document.TRM;
 	$("#Combo").change( function() {
 		if(du.Combo.value == "계좌이체"){
-			$(".nn").show(500);
-			$(".ncombo").hide(500);
-			$("#ninfo").show(500);
+			$(".nn").slideDown(500);
+			$(".ncombo").slideUp(500);
+			$("#ninfo").slideDown(500);
 		}
 		if(du.Combo.value !== "계좌이체"){
-			$(".nn").hide(500);
-			$(".ncombo").show(500);
-			$("#ninfo").hide(500);
+			$(".nn").slideUp(500);
+			$(".ncombo").slideDown(500);
+			$("#ninfo").slideUp(500);
 		}
 		if(du.Combo.value == "틴캐시"){
-			$(".teen").show(500);
-			$(".normal").hide(500);
+			$(".teen").slideDown(500);
+			$(".normal").slideUp(500);
 		}
 		if(du.Combo.value !== "틴캐시"){
-			$(".normal").show(500);
-			$(".teen").hide(500);
+			$(".normal").slideDown(500);
+			$(".teen").slideUp(500);
 		}
 		if(du.Combo.value !== "도서문화상품권" || du.Combo.value !== "해피머니"){
-			$(".code").hide(500);
+			$(".code").slideUp(500);
 		}
 		if(du.Combo.value == "해피머니" || du.Combo.value == "도서문화상품권"){
-			$(".code").show(500);
+			$(".code").slideDown(500);
 			var text = document.getElementById("code_text");
 			var input = document.getElementById("code");
 			if(du.Combo.value == "해피머니"){
