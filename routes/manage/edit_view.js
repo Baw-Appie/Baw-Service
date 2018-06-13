@@ -7,8 +7,8 @@ module.exports = function (req, res) {
           "name": "후원 사이트",
           "service": 1
         }
-        var select_option = ["mail_ok", "sms_ok", "kakao_ok", "tg_ok", "slack_ok"]
-        var select_option_korean = ["후원 Mail 알림", "후원 SMS 알림", "후원 KakaoTalk 알림", "후원 Telegram 알림", "후원 Slack 알림"]
+        var select_option = ["mail_ok", "sms_ok", "kakao_ok", "tg_ok"]
+        var select_option_korean = ["후원 Mail 알림", "후원 SMS 알림", "후원 KakaoTalk 알림", "후원 Telegram 알림"]
         var text_option = ["bouns","api_cmd","youtube"]
         var text_option_korean = ["후원 보너스 설정", "API 플러그인 명령어 설정", "Youtube Video ID 설정"]
         var textarea_option = ["notice"]
