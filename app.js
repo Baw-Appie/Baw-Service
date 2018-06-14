@@ -165,7 +165,7 @@ app.get('/auth/check-email', require('./routes/auth/check-email'))
 // Google 로그인
 app.get('/auth/google',
   passport.authenticate('google', { scope:
-  	[ 'profile', 'email' ] }
+  	[ 'email' ] }
 ));
 // Google 로그인 시도
 app.get( '/auth/google/callback',
