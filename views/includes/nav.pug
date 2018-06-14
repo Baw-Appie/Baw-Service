@@ -54,7 +54,7 @@
               hr.uk-divider-icon
               p 아직 계정이 없으신가요?
               p
-                a(href=`https://${hostname}/auth/register`).link
+                a(href=`https://${hostname}/auth/register`, onclick="UIkit.offcanvas('#login-slide').hide();")
                   button.uk-button.uk-button-danger.uk-width-1-1(type="button") 회원가입
 
 
