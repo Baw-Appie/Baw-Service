@@ -124,7 +124,7 @@ function complete(req, res){
                 }
 
                 if(rows[0]['sms_ok'] == 1) {
-                  sql.query(SqlString.format('SELECT * FROM sms WHERE id=?', [rows[0]['owner']]), function(err, rows5){
+                  sql.query(SqlString.format('SELECT * FROM sms WHERE send=0 AND id=?', [rows[0]['owner']]), function(err, rows5){
                     if (err) { return reject('5번 질의 오류'); }
                     if(rows5.length == 1){
                       var formdata = {data: JSON.stringify({id: server_settings.sms_id, pw: crypto.createHash('sha256').update(server_settings.sms_pw).digest('hex'), code: '5325', type: 'A', caller: server_settings.sms_caller, toll: rows5[0]['phone'], html: '1'}), msg: '새로운 후원이 있습니다! https://baws.kr'}
@@ -146,6 +146,47 @@ function complete(req, res){
                           const { TelegramClient } = require('messaging-api-telegram');
                           const client = TelegramClient.connect(server_settings.tg_bot_key);
                           client.sendMessage(rows6[0]['chat_id'], '새로운 후원이 있습니다! https://baws.kr');
+                        }
+                      })
+                    }
+                  })
+                }
+                if(rows[0]['kakao_ok'] == 1) {
+                  sql.query(SqlString.format('SELECT * FROM katalk WHERE send=0 AND id=?', [rows[0]['owner']]), function(err, rows7){
+                    if (err) { return reject('7번 질의 오류'); }
+                    if(rows7.length == 1){
+
+                      var date = Date.now();
+                      var date = Math.round(date/1000)
+                      var hmac = crypto.createHmac('md5', server_settings.katalk_ssec)
+                      var sign = hmac.update(date+server_settings.katalk_salt).digest('hex');
+                      var code = Math.floor(Math.random() * 100000)
+                      var formdata = {
+                        "api_key": server_settings.katalk_skey,
+                        "timestamp": date,
+                        "salt": server_settings.katalk_salt,
+                        "signature": sign,
+                        "to": rows7[0]['phone'],
+                        "from": "01065540029",
+                        "text": `[Baw Notication] `+rows[0]['name']+` 상점에 직접 등록하셔서 판매중이던 `+Radio+`(이)가 판매되었습니다.
+
+상품명: `+Radio+`
+구매자명: `+nick+`
+구매 일시: `+date+`
+구매 금액: `+bal+`
+
+`+date+`에 이 알림 수신에 동의하셨으며, 더 이상 수신을 원하지 않으실 경우 아래 채팅창으로 알려주시기 바랍니다.`,
+                        "type": "ATA",
+                        "template_code": "2fa",
+                        "sender_key": server_settings.katalk_senderkey,
+                        "country": "82",
+                        "only_ata": true,
+                        "srk": "K0001142457"
+                      }
+                      request.post({url: 'https://api.coolsms.co.kr/sms/2/send', form: formdata}, function(e,r,b){
+                        sql.query(SqlString.format('update katalk set send = send+1 where id = ?', [rows[0]['owner']]))
+                        if(body != "@1"){
+                          return reject('후원 등록에는 성공하였으나 알림 문자 전송 오류입니다. 후원 사실을 서버 관리자에게 직접 알려주세요.')
                         }
                       })
                     }
