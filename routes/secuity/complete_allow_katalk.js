@@ -33,7 +33,7 @@ function complete(req, res){
             return reject({ success: false, title: "부가서비스 가입 실패", message: "전화번호가 변경되었습니다."})
           }
 
-          sql.query(SqlString.format('insert into katalk values (?, ?)', [req.user.id, phone]), function(err, rows3){
+          sql.query(SqlString.format('insert into katalk values (?, ?)', [req.user.id, phone, 0]), function(err, rows3){
             if(err) { return reject("3번 질의 오류") }
             return reject({ success: true, title: "부가서비스 가입 성공", message: "부가서비스 가입에 성공했습니다."})
           })
