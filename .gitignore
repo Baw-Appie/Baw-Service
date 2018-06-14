@@ -78,3 +78,6 @@ config/oauth_info.js
 
 # Custom SSL
 .well-known/*
+
+# Test File
+test.js
