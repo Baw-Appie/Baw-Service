@@ -195,7 +195,7 @@ function complete(req, res){
                   })
                 }
 
-                resolve("<script>alert('등록되었습니다.');location.replace('https://"+req.hostname+"/"+page+"');</script>")
+                resolve("<script>alert('후원 요청이 완료되었습니다.');location.replace('https://"+req.hostname+"/"+page+"');</script>")
               })
             }
           });
