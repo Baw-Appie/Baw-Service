@@ -19,6 +19,7 @@ module.exports = (function () {
     katalk_ssec: "SECRET",
     katalk_salt: "SECRET",
     katalk_senderkey: "SECRET",
+    katalk_caller: "SECRET",
     ad: false,
     sentry: 'sentry url',
     sentry_error: true,
