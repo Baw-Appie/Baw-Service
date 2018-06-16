@@ -9,6 +9,7 @@ var bodyParser = require('body-parser');
 var app = express();
 var cookieSession = require('cookie-session')
 var session_config = require('./config/session');
+var oauth_info = require('./config/oauth_info');
 var SqlString = require('sqlstring');
 var compression = require('compression')
 var RateLimit = require('express-rate-limit');
@@ -58,6 +59,8 @@ app.use(function(req,res,next){
     res.set("Access-Control-Allow-Origin", '*');
     res.locals.user = req.user;
     res.locals.ad = server_settings.ad;
+    res.locals.server_settings = server_settings;
+    res.locals.oauth_info = oauth_info;
     next();
 });
 app.use( require('./libs/logging') );
@@ -208,7 +211,6 @@ passport.use(new LocalStrategy({
 
 // *소셜 로그인 //
 // Google 로그인
-var oauth_info = require('./config/oauth_info');
 passport.use(new GoogleStrategy({
     clientID: oauth_info.googleid,
     clientSecret: oauth_info.googlesecret,
