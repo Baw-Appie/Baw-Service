@@ -164,6 +164,8 @@ function complete(req, res){
 구매 금액: `+bal+`
 
 `+date+`에 이 알림 수신에 동의하셨으며, 더 이상 수신을 원하지 않으실 경우 아래 채팅창으로 알려주시기 바랍니다.`,
+                          "button_name": "판매자 페이지",
+                          "button_url": "https://baws.kr/manage/1/view",
                           "type": "ATA",
                           "template_code": "2fa",
                           "sender_key": server_settings.katalk_senderkey,
