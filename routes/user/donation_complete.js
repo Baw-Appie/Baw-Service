@@ -130,6 +130,7 @@ function complete(req, res){
                       var formdata = {data: JSON.stringify({id: server_settings.sms_id, pw: crypto.createHash('sha256').update(server_settings.sms_pw).digest('hex'), code: '5325', type: 'A', caller: server_settings.sms_caller, toll: rows5[0]['phone'], html: '1'}), msg: '새로운 후원이 있습니다! https://baws.kr'}
                       request.post({url: 'http://smsapi.dotname.co.kr/index.php', form: formdata}, function(error, response, body){
                         sql.query(SqlString.format('update sms set send = send+1 where id = ?', [rows[0]['owner']]))
+                        body = JSON.parse(body);
                         if(body != "@1"){
                           return reject('후원 등록에는 성공하였으나 알림 문자 전송 오류입니다. 후원 사실을 서버 관리자에게 직접 알려주세요.')
                         }
@@ -172,6 +173,7 @@ function complete(req, res){
                         }
                         request.post({url: 'https://api.coolsms.co.kr/sms/2/send', form: formdata}, function(e,r,b){
                           sql.query(SqlString.format('update katalk set send = send+1 where id = ?', [rows[0]['owner']]))
+                          body = JSON.parse(body);
                           if(body != "@1"){
                             return reject('후원 등록에는 성공하였으나 알림 문자 전송 오류입니다. 후원 사실을 서버 관리자에게 직접 알려주세요.')
                           }
@@ -185,6 +187,7 @@ function complete(req, res){
                     if (err) { return reject('6번 질의 오류'); }
                     if(rows6.length == 1){
                       request('https://api.telegram.org/bot'+server_settings.tg_bot_key+'/getChat?chat_id='+rows6[0]['chat_id'], function(err, res, body) {
+                        body = JSON.parse(body);
                         if(body.ok == true){
                           const { TelegramClient } = require('messaging-api-telegram');
                           const client = TelegramClient.connect(server_settings.tg_bot_key);
