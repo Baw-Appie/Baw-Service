@@ -23,7 +23,7 @@ module.exports = function(id, phone, ip){
           "timestamp": date,
           "salt": server_settings.katalk_salt,
           "signature": sign,
-          "to": "01065540029",
+          "to": server_settings.katalk_caller,
           "from": phone,
           "text": `[Baw Notication] 요청하신 인증 번호입니다.
 아래 인증번호를 잘 확인 후 Baw Service에 입력하세요.

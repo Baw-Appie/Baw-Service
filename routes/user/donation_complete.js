@@ -143,18 +143,18 @@ function complete(req, res){
                       if (err) { return reject('7번 질의 오류'); }
                       if(rows7.length == 1){
 
-                        var date = Date.now();
-                        var date = Math.round(date/1000)
+                        var date1 = Date.now();
+                        var date1 = Math.round(date1/1000)
                         var hmac = crypto.createHmac('md5', server_settings.katalk_ssec)
                         var sign = hmac.update(date+server_settings.katalk_salt).digest('hex');
                         var code = Math.floor(Math.random() * 100000)
                         var formdata = {
                           "api_key": server_settings.katalk_skey,
-                          "timestamp": date,
+                          "timestamp": date1,
                           "salt": server_settings.katalk_salt,
                           "signature": sign,
                           "to": rows7[0]['phone'],
-                          "from": "01065540029",
+                          "from": server_settings.katalk_caller,
                           "text": `[Baw Notication] `+rows[0]['name']+` 상점에 직접 등록하셔서 판매중이던 `+Radio+`(이)가 판매되었습니다.
 
 상품명: `+Radio+`
