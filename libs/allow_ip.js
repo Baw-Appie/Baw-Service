@@ -15,7 +15,7 @@ module.exports = function() {
           if( config.indexOf(req.ip) >= 0 ) {
               next();
           } else {
-            res.send('죄송합니다.'+req.ip+'에 대한 Baw Service Beta 4 접근 권한이 없습니다.');
+            res.status('403').send('HTTP 403: 현재 Baw Service Beta 4에 '+req.ip+'으로 접근할 수 없습니다. 관리자에게 문의하세요.');
           }
         } else {
           next();
