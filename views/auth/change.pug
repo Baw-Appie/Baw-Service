@@ -1,0 +1,9 @@
+extends ../includes/layout
+block contents
+  div
+  .uk-card.uk-card-default.uk-card-body
+    h3.uk-card-title 계정 전환
+    p 계정을 전환하거나 로그아웃합니다.
+    a.uk-button.uk-button-default(onclick=`location.href=('https://${hostname}/auth/logout')`) 로그아웃
+    |  
+    a.uk-button.uk-button-primary(href=`https://${hostname}/auth/login`) 다른 계정으로 로그인

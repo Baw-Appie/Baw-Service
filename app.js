@@ -136,6 +136,10 @@ app.get('/favicon.ico', function(req, res){
 });
 
 // *인증 With PassportJS* //
+// 계정 전환
+app.get('/auth/change', function(req, res){
+  res.render('auth/change')
+});
 // 로그아웃
 app.get('/auth/logout', function(req, res){
   req.logout();

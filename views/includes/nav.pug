@@ -20,6 +20,10 @@
               button.uk-button.uk-button-default.uk-margin-small-right(type='button')
                 span(uk-icon="icon: sign-out")
                 |  로그아웃
+            a(onclick=`location.href='https://${hostname}/auth/login'`)
+              button.uk-button.uk-button-default.uk-margin-small-right(type='button')
+                span(uk-icon="icon: users")
+                |  계정 전환
             a(href=`https://${hostname}/my`)
               button.uk-button.uk-button-default.uk-margin-small-right(type='button')
                 span(uk-icon="icon: user")
@@ -69,8 +73,7 @@
               if(!user)
                 button.uk-button.uk-button-default.uk-margin-small-right(type='button', uk-toggle='target: #login-slide') 로그인
               else
-                .uk-button-group(style="width: 100%;")
-                  a(onclick=`location.href='https://${hostname}/auth/logout'`)
-                    button.uk-button.uk-button-default(type='button') 로그아웃
-                  a.link(href=`https://${hostname}/my`)
-                    button.uk-button.uk-button-default(type='button') 내 정보
+                a.link(href=`https://${hostname}/auth/change`)
+                  button.uk-button.uk-button-default.uk-width-1-1(type='button') 계정 전환 / 로그아웃
+                a.link(href=`https://${hostname}/my`)
+                  button.uk-button.uk-button-default.uk-width-1-1(type='button') 내 정보
