@@ -42,7 +42,6 @@ module.exports = function(req, res) {
       		var theme = req.body.theme;
       		var bouns = req.body.bouns;
       		var sms_ok = req.body.sms_ok;
-      		var slack_ok = req.body.slack_ok;
       		var tg_ok = req.body.tg_ok;
       		var kakao_ok = req.body.kakao_ok;
         }
@@ -65,7 +64,7 @@ module.exports = function(req, res) {
         req_check(req_field, req).then(function (text) {
           opt_check(opt_field, req).then(function (text) {
             if(req.params.service == 1) {
-              var sql_Request = SqlString.format('UPDATE `page` SET `mail_ok` = ?, `bouns` = ?, `sms_ok` = ?, `slack_ok` =  ?, `kakao_ok` = ?, `tg_ok` = ?, `api_cmd` = ?, `disabled`=?, `notice` =?, `theme`=?, `youtube`=? WHERE service=1 and owner=?', [mail_ok, bouns, sms_ok, slack_ok, kakao_ok, tg_ok, api_cmd, disabled, notice, theme, youtube, req.user.id])
+              var sql_Request = SqlString.format('UPDATE `page` SET `mail_ok` = ?, `bouns` = ?, `sms_ok` = ?, `kakao_ok` = ?, `tg_ok` = ?, `api_cmd` = ?, `disabled`=?, `notice` =?, `theme`=?, `youtube`=? WHERE service=1 and owner=?', [mail_ok, bouns, sms_ok, kakao_ok, tg_ok, api_cmd, disabled, notice, theme, youtube, req.user.id])
             }
             if(req.params.service == 2) {
             	var sql_Request = SqlString.format("UPDATE `page` SET `mail_ok` =?, `api_cmd` = ?, `notice`=?, `youtube`=? , `auto_process`=? WHERE service=2 and owner=?", [mail_ok, api_cmd, notice, youtube, auto_process, req.user.id])
