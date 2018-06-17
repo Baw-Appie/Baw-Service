@@ -31,6 +31,16 @@ else
           if(ad == true)
             br
             ins.daum_ddn_area(style='display:none;width:100%;', data-ad-unit='DAN-vf3og7audbad', data-ad-media='5rL', data-ad-pubuser='3ZP', data-ad-type='A', data-ad-width='320', data-ad-height='50')
+    script.
+      fcWidget.init({
+        token: "#{server_settings.freshchat_token}",
+        host: "https://wchat.freshchat.com"
+      });
+    if(user)
+      script.
+        fcWidget.setExternalId("#{user.id}");
+        fcWidget.user.setFirstName("#{user.svname}");
+        fcWidget.user.setEmail("#{user.mail}");
   include ./footer
   block extscript
   script.

@@ -20,6 +20,7 @@ module.exports = (function () {
     katalk_salt: "SECRET",
     katalk_senderkey: "SECRET",
     katalk_caller: "SECRET",
+    freshchat_token: "SECRET",
     ad: false,
     sentry: 'sentry url',
     sentry_error: true,
