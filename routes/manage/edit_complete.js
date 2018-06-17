@@ -30,7 +30,7 @@ module.exports = function(req, res) {
         var service = req.params.service;
       	var notice = req.body.notice;
         if(service == 1){
-          req_field.push("theme", "bouns", "sms_ok", "slack_ok", "tg_ok", "kakao_ok")
+          req_field.push("theme", "bouns", "sms_ok", "tg_ok", "kakao_ok")
           opt_field.push("youtube")
       		var youtube = req.body.youtube;
           if(req.body.disabled == undefined) {
