@@ -64,7 +64,7 @@ module.exports = function (req, res) {
         var textarea_option = []
         var textarea_option_korean = []
         var custom_select_option = []
-        var custom_text = ['<p>카카오톡 알림 서비스의 전화번호는 수정할 수 없습니다. 수정하려면 카카오톡 고객센터 @b_noti로 알려주세요.</p><p>만약 SMS 알림 서비스를 이용하면 카카오톡 알림은 전송되지 않습니다.</p><p>카카오톡 알림 서비스를 이용하려면 후원 사이트에서 SMS 알림이 켜져있다면 꺼주세요.</p><p> [제일 중요] 카카오측이 최근 알림톡으로 발생하는 불법 도박 스팸으로 인하여 3개월동안 일정 건수 이상의 알림톡 미발송자를 차단하여 카카오톡 알림 서비스는 현재 지원되지 않습니다. 서비스가 복구되면 다시 알려드리겠습니다.</p>']
+        var custom_text = ['<p>카카오톡 알림 서비스의 전화번호는 수정할 수 없습니다. 수정하려면 카카오톡 고객센터 @b_noti로 알려주세요.</p><p>만약 SMS 알림 서비스를 이용하면 카카오톡 알림은 전송되지 않습니다.</p><p>카카오톡 알림 서비스를 이용하려면 후원 사이트에서 SMS 알림이 켜져있다면 꺼주세요.</p><p>SMS 서비스와 동일하게 10분당 1회만 전송됩니다.</p>']
 
         var sql_req = sql.query('select * from katalk where id=' + SqlString.escape(req.user.id), function(err, rows){
           if (rows.length === 0) {
