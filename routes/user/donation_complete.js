@@ -142,40 +142,18 @@ function complete(req, res){
                     sql.query(SqlString.format('SELECT * FROM katalk WHERE send=0 AND id=?', [rows[0]['owner']]), function(err, rows7){
                       if (err) { return reject('7번 질의 오류'); }
                       if(rows7.length == 1){
-
-                        var date1 = Date.now();
-                        var date1 = Math.round(date1/1000)
-                        var hmac = crypto.createHmac('md5', server_settings.katalk_ssec)
-                        var sign = hmac.update(date+server_settings.katalk_salt).digest('hex');
-                        var code = Math.floor(Math.random() * 100000)
-                        var formdata = {
-                          "api_key": server_settings.katalk_skey,
-                          "timestamp": date1,
-                          "salt": server_settings.katalk_salt,
-                          "signature": sign,
-                          "to": rows7[0]['phone'],
-                          "from": server_settings.katalk_caller,
-                          "text": `[Baw Notication] `+rows[0]['name']+` 상점에 직접 등록하셔서 판매중이던 `+Radio+`(이)가 판매되었습니다.
-
-상품명: `+Radio+`
-구매자명: `+nick+`
-구매 일시: `+date+`
-구매 금액: `+bal+`
-
-`+date+`에 이 알림 수신에 동의하셨으며, 더 이상 수신을 원하지 않으실 경우 아래 채팅창으로 알려주시기 바랍니다.`,
-                          "button_name": "판매자 페이지",
-                          "button_url": "https://baws.kr/manage/1/view",
-                          "type": "ATA",
-                          "template_code": "2fa",
-                          "sender_key": server_settings.katalk_senderkey,
-                          "country": "82",
-                          "only_ata": true,
-                          "srk": "K0001142457"
-                        }
-                        request.post({url: 'https://api.coolsms.co.kr/sms/2/send', form: formdata}, function(e,r,b){
+                        var headers = {
+                            'Accept': 'application/json',
+                            'Content-type': 'application/json',
+                            'userId': server_settings.katalk_id
+                        };
+                        var formdata = `[{"message_type": "at","phn": "`+rows7[0]['phone']+`","profile": "`+server_settings.katalk_senderkey+`","reserveDt": "00000000000000","msg": "[Baw Notication] `+rows2[0]['svname']+` 상점에 직접 등록하셔서 판매중이던 `+Radio+`(이)가 판매되었습니다.\n\n상품명: `+Radio+`\n구매자명: `+nick+`\n구매 일시: `+date+`\n구매 금액: `+bal+`\n\n`+date+`에 이 알림 수신에 동의하셨으며, 더 이상 수신을 원하지 않으실 경우 아래 채팅창으로 알려주시기 바랍니다.","tmplId": "N08","smsKind": "N", "button1": {"name":"판매자 페이지", "type":"WL","url_mobile":"https://baws.kr/manage/1/view"}}]`
+                        console.log(formdata)
+                        request.post({url: 'https://alimtalk-api.bizmsg.kr/v2/sender/send', headers: headers, body: formdata}, function(e,r,b){
                           sql.query(SqlString.format('update katalk set send = send+1 where id = ?', [rows[0]['owner']]))
-                          body = JSON.parse(body);
-                          if(body != "@1"){
+                          console.log(b)
+                          b = JSON.parse(b);
+                          if(b.code == "fail"){
                             return reject('후원 등록에는 성공하였으나 알림 문자 전송 오류입니다. 후원 사실을 서버 관리자에게 직접 알려주세요.')
                           }
                         })
