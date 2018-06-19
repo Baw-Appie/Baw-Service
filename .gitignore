@@ -59,7 +59,7 @@ typings/
 
 # ssl file
 config/ssl/*
-!config/ssl/github_distribution
+!config/ssl/gitlab_distribution
 
 # db file
 config/dbinfo.js
