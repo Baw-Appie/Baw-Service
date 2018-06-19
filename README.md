@@ -2,14 +2,16 @@
 ## 시작하기에 앞서..
 이 프로젝트에는 Baw Service Beta 4의 대부분의 소스와 이미지, 콘피그가 포함되어 있습니다.
 
-다운로드는 [여기!](https://github.com/Baw-Appie/Baw-Service/releases)에서 진행하실 수 있으며, 최신 배포본은 2018-05-18입니다.
-단, 이 프로젝트는 Baw Service가 이용하는 dotname korea SMS 호스팅과 COOLSMS의 알림톡 서비스만을 지원합니다. 이로 인하여 [DK Service](http://www.dkservice.co.kr/)의 알림톡 템플릿 검수 과정이 필요합니다.
+다운로드는 [여기를 클릭](https://gitlab.com/Baw-Dev/Baw-Service/-/archive/master/Baw-Service-master.zip)해서 다운로드 받을 수 있습니다.
+단, 이 프로젝트는 Baw Service가 이용하는 SMS 및 알림톡 부가 서비스를 그대로 이용하기 위해서 dotname korea SMS 호스팅을 구매해야 하며, BizM의 알림톡 서비스의 템플릿 검수도 필요합니다.
 또한 이 소스는 최적화 그딴거 하나도 없으며, 제대로 작동하는지도 모르며, 설치 가이드도 없으며, SQL 구조도 없고, 설치 페이지, 명령어 그딴거도 없습니다.
 심지어 Sentry의 오류 보고 시스템도 사용하고 있어 해당 서비스의 연동도 필요합니다.
-즉, 이 소스를 사용하여 개발하는 것은 매우 까다롭습니다.
+즉, 이 소스는 참고용이지, Fork를 통해서 따로 개발하지 않는 이상 개발하는 것은 사실상 불가능에 가깝습니다.
 
-그러나 GitHub 배포를 목표로 개발되어 있기 때문에 config 파일이 지원됩니다.
-대부분의 콘피그 파일은 기본적으로 설치되어 있지 않지만(..) [/config/github_distribution] 이라는 이름의 폴더로 기본 콘피그 파일을 정리해두었습니다. 이 파일을 [/config]로 모두 이동시키고 파일 내용을 수정하여 자신에 맞게 설정하세요.
+# 서버 기본 설정
+
+Baw Service Beta 4는 OpenSource Project를 목표로 개발되어 있기 때문에 config를 사용합니다.
+대부분의 콘피그 파일은 기본적으로 설치되어 있지 않지만 [/config/gitlab_distribution] 이라는 이름의 폴더로 기본 콘피그 파일을 정리해두었습니다. 이 파일을 [/config]로 모두 이동시키고 파일 내용을 수정하여 자신에 맞게 설정하세요.
 
 ## 그럼 이걸 왜 배포하는건가요?
 Baw Service는 돈이 오고 가는 플렛폼으로써 마인크래프트 서버 운영자분들이 믿고 사용할 수 있도록 소스를 공개하고 있습니다.
@@ -27,6 +29,7 @@ Upstart를 이용하는 경우, 작업 파일에 env 키워드를 사용하십�
 
 	/etc/init/env.conf
 	env NODE_ENV=production
+
 
 systemd를 이용하는 경우, 유닛 파일에 Environment 지시문을 사용하십시오. 예를 들면 다음과 같습니다.
 
