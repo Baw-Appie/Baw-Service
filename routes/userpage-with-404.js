@@ -35,28 +35,39 @@ module.exports = function(req, res, next) {
                 } else if(rows[0]['service'] == '2') {
                   res.render('./user_page/'+servicename+'-'+rows[0]['theme'], {pagedata: rows[0], otherpage: rows3, userdata: rows2[0], authdata: rows4})
                 } else if(rows[0]['service'] == '3') {
+                  // 서버 상태 위젯 -- 가독성 주의
+
                   var mineping = require("mineping");
                   if(rows[0]['sv_ip'] == '' || rows[0]['sv_port'] == '') {
+                    // 정보 없음 오류 렌더
                     res.render('./user_page/'+servicename+'-'+rows[0]['theme'], {pagedata: rows[0], userdata: rows2[0], otherpage: rows3, data: false, authdata: rows4})
                   } else {
+                    // SRV 조회
                     const dns = require('dns');
                     dns.resolve('_minecraft._tcp.'+rows[0]['sv_ip'], 'SRV', (err, records) => {
                       if (err) {
+                        // SRV 미사용
                         var sv_ip = rows[0]['sv_ip']
                         var sv_port = rows[0]['sv_port']
                       } else {
+                        // SRV 사용
                         var sv_ip = records[0]['name']
                         var sv_port = records[0]['port']
                       }
+                      // 서버 정보 가져옴
                       mineping(1, sv_ip, sv_port, function(err, data) {
                         if(err) {
-                            res.render('./user_page/'+servicename+'-'+rows[0]['theme'], {pagedata: rows[0], userdata: rows2[0], otherpage: rows3, data: false, authdata: rows4})
+                          // 정보 없음
+                          res.render('./user_page/'+servicename+'-'+rows[0]['theme'], {pagedata: rows[0], userdata: rows2[0], otherpage: rows3, data: false, authdata: rows4})
                         } else {
+                          // 완료!
                           res.render('./user_page/'+servicename+'-'+rows[0]['theme'], {pagedata: rows[0], userdata: rows2[0], otherpage: rows3, data: data, authdata: rows4})
                         }
                       });
                     });
                   }
+
+
                 } else if(rows[0]['service'] == '4') {
                   res.render('./user_page/'+servicename+'-'+rows[0]['theme'], {pagedata: rows[0], otherpage: rows3, userdata: rows2[0], authdata: rows4})
                 }
