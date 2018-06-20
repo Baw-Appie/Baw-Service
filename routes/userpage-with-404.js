@@ -61,7 +61,49 @@ module.exports = function(req, res, next) {
                           res.render('./user_page/'+servicename+'-'+rows[0]['theme'], {pagedata: rows[0], userdata: rows2[0], otherpage: rows3, data: false, authdata: rows4})
                         } else {
                           // 완료!
-                          res.render('./user_page/'+servicename+'-'+rows[0]['theme'], {pagedata: rows[0], userdata: rows2[0], otherpage: rows3, data: data, authdata: rows4})
+                          if(req.body.type == "img"){
+                            res.render('./user_page/'+servicename+'-'+rows[0]['theme'], {pagedata: rows[0], userdata: rows2[0], otherpage: rows3, data: data, authdata: rows4})
+                          } else {
+                            const sharp = require('sharp');
+                            const TextToSVG = require('text-to-svg');
+                            const textToSVG = TextToSVG.loadSync('./public/font.ttf');
+                            const attributes = {fill: 'black', stroke: 'black'};
+                            const options = {x: 0, y: 0, fontSize: 35, anchor: 'top', attributes: attributes};
+                            const svname = new Buffer.from(textToSVG.getSVG(rows2[0]['svname']+'서버', options))
+                            const options2 = {x: 0, y: 0, fontSize: 18, anchor: 'top', attributes: attributes};
+                            const online = new Buffer.from(textToSVG.getSVG(data.currentPlayers+'명', options2))
+                            const address = new Buffer.from(textToSVG.getSVG(rows[0]['sv_ip'], options2))
+                            const version = new Buffer.from(textToSVG.getSVG(data.version, options2))
+                            sharp('./public/banner.png')
+                              .overlayWith(svname, { left: 2, top: 2 })
+                              .toBuffer()
+                              .then(function(buffer){
+                                sharp(buffer)
+                                .overlayWith(online, { left: 29, top: 70 })
+                                .toBuffer()
+                                .then(function(buffer){
+                                  sharp(buffer)
+                                  .overlayWith(address, { left: 140, top: 70 })
+                                  .toBuffer()
+                                  .then(function(buffer){
+                                    sharp(buffer)
+                                    .overlayWith(version, { left: 300, top: 70 })
+                                    .toBuffer()
+                                    .then(function(buffer){
+                                      // res.header("Content-Type",'image/png');
+                                      // res.send(buffer)
+                                      // res.end(data, 'binary');
+                                      res.writeHead(200, {
+                                       'Content-Type': 'image/png',
+                                       'Content-Length': buffer.length
+                                     });
+                                     res.end(buffer);
+                                    })
+                                  })
+                                })
+                              })
+
+                          }
                         }
                       });
                     });
