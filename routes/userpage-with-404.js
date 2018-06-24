@@ -61,7 +61,7 @@ module.exports = function(req, res, next) {
                           res.render('./user_page/'+servicename+'-'+rows[0]['theme'], {pagedata: rows[0], userdata: rows2[0], otherpage: rows3, data: false, authdata: rows4})
                         } else {
                           // 완료!
-                          if(req.body.type == "img"){
+                          if(req.query.type != "img"){
                             res.render('./user_page/'+servicename+'-'+rows[0]['theme'], {pagedata: rows[0], userdata: rows2[0], otherpage: rows3, data: data, authdata: rows4})
                           } else {
                             const sharp = require('sharp');
