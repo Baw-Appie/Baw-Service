@@ -40,9 +40,9 @@ module.exports = function(req, res) {
         })
       }
     }).catch(function (error) {
-      res.json({ success: false, title: "필요 데이터 미전달됨",  message: "설정에 필요한 데이터가 전달되지 않았거나 설정되지 않았습니다." });
+      res.json({ success: false, title: "필요 데이터 미전달됨",  message: "설정에 필요한 데이터가 정의되지 않았습니다. 이 문제는 Baw Service의 문제일 가능성이 큽니다." });
     });
   } else {
-    res.json({ success: false, title: "권한이 없습니다.",  message: "비밀번호 변경 권한이 없습니다." });
+    res.json({ success: false, title: "권한이 없습니다.",  message: "먼저 로그인하세요." });
   }
 }

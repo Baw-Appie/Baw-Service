@@ -56,9 +56,9 @@ module.exports = function(req, res) {
           });
         });
       } else {
-        res.json({ success: false, title: "권한이 없습니다.",  message: "페이지 수정 권한이 없습니다." });
+        res.json({ success: false, title: "권한이 없습니다.",  message: "해당 서비스 접근 권한이 없습니다." });
       }
     } else {
-      res.json({ success: false, title: "권한이 없습니다.",  message: "페이지 수정 권한이 없습니다." });
+      res.json({ success: false, title: "권한이 없습니다.",  message: "로그인이 필요합니다." });
     }
 }

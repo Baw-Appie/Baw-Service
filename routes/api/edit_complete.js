@@ -42,17 +42,17 @@ module.exports = function(req, res) {
             opt_check(opt_field, req).then(function (text) {
               if(req.params.service == "API") {
                 if(!vali.isPort(req.body.api_port)){
-                  res.json({ success: false, title: "잘못된 데이터 감지됨",  message: "전달된 일부 데이터를 설정에 적용할 수 없습니다." });
+                  res.json({ success: false, title: "잘못된 데이터 감지됨",  message: "API PORT가 잘못 입력되었습니다." });
                 }
                 var sql_Request = SqlString.format('UPDATE `id` SET `api_ok` = ?, `api_key`=?, `api_ip`=?, `api_port`=?, `api`=? WHERE `id`.`id` =?', [req.body.api_ok, req.body.api_key, req.body.api_ip, req.body.api_port, req.body.api, req.user.id])
               } else if (req.params.service == "SMS") {
                 if(req.body.phone.length > 13){
-                  res.json({ success: false, title: "잘못된 데이터 감지됨",  message: "전달된 일부 데이터를 설정에 적용할 수 없습니다." });
+                  res.json({ success: false, title: "잘못된 데이터 감지됨",  message: "전화번호를 입력하세요." });
                 }
                 var sql_Request = SqlString.format('UPDATE `sms` SET `phone`=? WHERE `sms`.`id` = ?', [req.body.phone, req.user.id])
               } else if (req.params.service == "Telegram") {
                 if(req.body.chat_id.length > 45){
-                  res.json({ success: false, title: "잘못된 데이터 감지됨",  message: "전달된 일부 데이터를 설정에 적용할 수 없습니다." });
+                  res.json({ success: false, title: "잘못된 데이터 감지됨",  message: "채팅방 ID를 제대로 입력하세요." });
                 }
                 var sql_Request = SqlString.format('UPDATE `telegram` SET `chat_id` = ? WHERE `telegram`.`id` = ?', [req.body.chat_id, req.user.id])
               } else if (req.params.service == "Custom") {
@@ -62,19 +62,19 @@ module.exports = function(req, res) {
                     res.json({ success: false, title: "설정할 수 없습니다.",  message: "이미 동일한 도메인이 등록되어 있습니다." });
                   } else {
                     sql.query(SqlString.format('UPDATE `custom_domain` SET `domain` = ? WHERE `custom_domain`.`owner` = ?', [req.body.domain, req.user.id]))
-                    res.json({ success: true, title: "완료했습니다!",  message: "부가 서비스 설정 요청이 전달되었습니다." });
+                    res.json({ success: true, title: "완료했습니다!",  message: "부가 서비스 설정 변경이 요청되었습니다." });
                   }
                 })
               }
               if(sql_Request) {
                 var sql_req = sql.query(sql_Request)
-                res.json({ success: true, title: "완료했습니다!",  message: "부가 서비스 설정 요청이 전달되었습니다." });
+                res.json({ success: true, title: "완료했습니다!",  message: "부가 서비스 설정 변경이 요청되었습니다." });
               }
             }).catch(function (error) {
-              res.json({ success: false, title: "필요 데이터 미전달됨",  message: "설정에 필요한 데이터가 전달되지 않았습니다." });
+              res.json({ success: false, title: "필요 데이터 미전달됨",  message: "모든 입력칸을 채우세요." });
             });
           }).catch(function (error) {
-            res.json({ success: false, title: "필요 데이터 미전달됨",  message: "설정에 필요한 데이터가 전달되지 않았거나 설정되지 않았습니다." });
+            res.json({ success: false, title: "필요 데이터 미전달됨",  message: "설정에 필요한 데이터가 정의되지 않았습니다. 이 문제는 Baw Service의 문제일 가능성이 큽니다." });
           });
       } else {
         res.json({ success: false, title: "권한이 없습니다.",  message: "부가 서비스 수정 권한이 없습니다." });
