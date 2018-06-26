@@ -4,7 +4,6 @@ block extscript
     $('.okay button').click(() => {
       var target = event.target
       var element = $(target).parent("div").parent("div")
-      $(element).slideUp(500)
       var id = $(element).attr("id")
       if($(target).hasClass("okay1") === true){
         var url = "https://#{hostname}/manage/#{data.service}/complete/"+id+"/1"
@@ -23,6 +22,7 @@ block extscript
           url : url,
           success : function s(a){
             if(a.success == true){
+              $(element).slideUp(500)
               iziToast.info({message: a.message, title: a.title})
               NProgress.done();
             } else {
