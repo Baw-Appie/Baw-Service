@@ -21,8 +21,8 @@ Baw Service는 돈이 오고 가는 플렛폼으로써 마인크래프트 서버
 Express의 캐싱을 활성화 하기 위해서 다음 명령어를 실행해야 합니다.
 
 ### Windows
+Command Prompt로 앱을 실행하는 경우 아래 명령어를 앱 실행 전 입력하세요.
 	set NODE_ENV=production
-를 Command Prompt에 입력합니다.
 
 ### Linux
 Upstart를 이용하는 경우, 작업 파일에 env 키워드를 사용하십시오. 예를 들면 다음과 같습니다.
