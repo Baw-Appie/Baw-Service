@@ -71,10 +71,10 @@ module.exports = function(req, res) {
                 res.json({ success: true, title: "완료했습니다!",  message: "부가 서비스 설정 변경이 요청되었습니다." });
               }
             }).catch(function (error) {
-              res.json({ success: false, title: "필요 데이터 미전달됨",  message: "모든 입력칸을 채우세요." });
+              res.json({ success: false, title: "필요 데이터 미전달됨",  message: "설정에 필요한 데이터가 정의되지 않았습니다. 이 문제는 Baw Service의 문제일 가능성이 큽니다." });
             });
           }).catch(function (error) {
-            res.json({ success: false, title: "필요 데이터 미전달됨",  message: "설정에 필요한 데이터가 정의되지 않았습니다. 이 문제는 Baw Service의 문제일 가능성이 큽니다." });
+            res.json({ success: false, title: "필요 데이터 미전달됨",  message: "모든 입력칸을 채우세요." });
           });
       } else {
         res.json({ success: false, title: "권한이 없습니다.",  message: "부가 서비스 수정 권한이 없습니다." });
