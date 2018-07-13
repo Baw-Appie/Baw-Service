@@ -12,6 +12,7 @@ script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js')
 script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js')
 script(src=`https://smartlock.google.com/client`)
 if(server_settings.freshchat_token != "disable")
+  script(src='https://wchat.freshchat.com/js/widget.js')
   script.
     fcWidget.init({
       token: "#{server_settings.freshchat_token}",
