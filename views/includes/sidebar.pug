@@ -1,28 +1,36 @@
 ul.uk-nav-default.uk-nav-parent-icon(uk-nav='multiple: true')
+  li.link
+    a(href='https://' + hostname) 홈
   li.uk-nav-header SERVICE MANAGEMENT
-    li.link
-      a(href='https://' + hostname) 홈
+  li.link
+    a(href='https://' + hostname + '/manage') 나의 페이지 전체 보기
   li.uk-parent
     a(href='#') 사이트 관리
     ul.uk-nav-sub
       li.link
-        a(href='https://' + hostname + '/manage') 전체 보기
-      li.link
-        a(href='https://' + hostname + '/manage/1/edit') 후원 사이트 수정
-      li.link
         a(href='https://' + hostname + '/manage/1/view') 후원 리스트 관리
       li.link
-        a(href='https://' + hostname + '/manage/1/data_manager') 후원 데이터 관리자
+        a(href='https://' + hostname + '/api/Custom/edit') 후원 사이트 도메인 설정
+      li.link
+        a(href='https://' + hostname + '/manage/2/view') 정품 인증 리스트 관리
+  li.uk-parent
+    a(href='#') 사이트 수정
+    ul.uk-nav-sub
       li.link
         a(href='https://' + hostname + '/manage/2/edit') 정품 인증 사이트 수정
       li.link
-        a(href='https://' + hostname + '/manage/2/view') 정품 인증 리스트 관리
-      li.link
-        a(href='https://' + hostname + '/manage/2/data_manager') 정품 인증 데이터 관리자
+        a(href='https://' + hostname + '/manage/1/edit') 후원 사이트 수정
       li.link
         a(href='https://' + hostname + '/manage/3/edit') 서버 상태 위젯 수정
   li.uk-parent
-    a(href='#') 부가 서비스 관리
+    a(href='#') 데이터 관리자
+    ul.uk-nav-sub
+      li.link
+        a(href='https://' + hostname + '/manage/2/data_manager') 정품 인증 데이터 관리자
+      li.link
+        a(href='https://' + hostname + '/manage/1/data_manager') 후원 데이터 관리자
+  li.uk-parent
+    a(href='#') 알림 서비스 관리
     ul.uk-nav-sub
       li.link
         a(href='https://' + hostname + '/api/API/edit') API 플러그인 설정
@@ -32,8 +40,6 @@ ul.uk-nav-default.uk-nav-parent-icon(uk-nav='multiple: true')
         a(href='https://' + hostname + '/api/Kakao/edit') KakaoTalk 알림 설정
       li.link
         a(href='https://' + hostname + '/api/Telegram/edit') Telegram 알림 설정
-      li.link
-        a(href='https://' + hostname + '/api/Custom/edit') 커스텀 도메인 설정
   li.uk-nav-header BAW SERVICE
     li.uk-parent
       a(href='#') Baw Service Blog
