@@ -1,3 +1,10 @@
+style.
+  .photo {
+    width: 30px; height: 30px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
 .uk-section-primary.uk-preserve-color
   div(uk-sticky='animation: uk-animation-slide-top; sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky; cls-inactive: uk-navbar-transparent uk-light; top: 200')
     nav.uk-navbar-container.uk-margin(uk-navbar='')
@@ -16,18 +23,21 @@
               span(uk-icon="icon: sign-in")
               |  로그인
           else
-            a(onclick=`location.href='https://${hostname}/auth/logout'`)
-              button.uk-button.uk-button-default.uk-margin-small-right(type='button')
-                span(uk-icon="icon: sign-out")
-                |  로그아웃
-            a(href=`https://${hostname}/auth/login`)
-              button.uk-button.uk-button-default.uk-margin-small-right(type='button')
-                span(uk-icon="icon: users")
-                |  계정 전환
-            a(href=`https://${hostname}/my`)
-              button.uk-button.uk-button-default.uk-margin-small-right(type='button')
-                span(uk-icon="icon: user")
-                |  내 정보
+            button.uk-button.uk-button-default.uk-margin-small-right(type='button')
+              img(class="photo", src=`https://www.gravatar.com/avatar/${user.md5mail}?d=mp`)
+              |       
+              span(uk-icon="icon: menu")
+            div(uk-dropdown='mode: click')
+              ul.uk-nav.uk-dropdown-nav
+                li.uk-nav-header #{user.svname}서버로 로그인중
+                li.uk-nav-divider
+                li
+                  a(onclick=`location.href='https://${hostname}/auth/logout'`) 로그아웃
+                li
+                  a(href=`https://${hostname}/auth/login`) 계정 전환
+                li.uk-nav-divider
+                li
+                  a(href=`https://${hostname}/my`) 내 정보
         a.uk-navbar-toggle(uk-navbar-toggle-icon='', href='#navbar', class='uk-hidden@s', uk-toggle='')
         
         
@@ -73,7 +83,18 @@
               if(!user)
                 button.uk-button.uk-button-default.uk-margin-small-right(type='button', uk-toggle='target: #login-slide') 로그인
               else
-                a.link(href=`https://${hostname}/auth/change`)
-                  button.uk-button.uk-button-default.uk-width-1-1(type='button') 계정 전환 / 로그아웃
-                a.link(href=`https://${hostname}/my`)
-                  button.uk-button.uk-button-default.uk-width-1-1(type='button') 내 정보
+                button.uk-button.uk-button-default.uk-margin-small-right(type='button')
+                  img(class="photo", src=`https://www.gravatar.com/avatar/${user.md5mail}?d=mp`)
+                  |       
+                  span(uk-icon="icon: menu")
+                div(uk-dropdown='mode: click')
+                  ul.uk-nav.uk-dropdown-nav
+                    li.uk-nav-header #{user.svname}서버로 로그인중
+                    li.uk-nav-divider
+                    li
+                      a(onclick=`location.href='https://${hostname}/auth/logout'`) 로그아웃
+                    li
+                      a(href=`https://${hostname}/auth/login`) 계정 전환
+                    li.uk-nav-divider
+                    li
+                      a(href=`https://${hostname}/my`) 내 정보
