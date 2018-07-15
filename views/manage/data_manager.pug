@@ -177,9 +177,10 @@ block contents
             | 를 클릭하여 사용 방법을 확인하세요.
       br
       br
-  .data_list.form(style="overflow-x: auto;")
+  .data_list.form
     .uk-card.uk-card-default.uk-card-body(class='uk-width-auto')
-      table.uk-table
+      h3.uk-card-title #{data.name} 데이터 목록
+      table.uk-table(style="overflow-x: auto;")
         thead
           tr
             each li, ii in korean
@@ -189,3 +190,5 @@ block contents
             tr
               each li, ii in list
                 td=row[li]
+    br
+    br
