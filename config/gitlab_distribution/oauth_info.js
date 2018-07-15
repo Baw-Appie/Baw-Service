@@ -2,7 +2,7 @@ module.exports = (function () {
   return {
    googleid: 'YOURID.apps.googleusercontent.com',
    kakaoid: 'YOURID',
-   googlesecret: 'YOURSCERT!'
+   googlesecret: 'YOURSCERT!',
    kakaosecret: 'YOURSCERT!'
   }
 })();
