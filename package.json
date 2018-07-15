@@ -45,5 +45,5 @@
     "dev:secuitytest": "snyk test"
   },
   "author": "Baw_Appie",
-  "license": "ISC"
+  "license": "MPL-2.0"
 }
