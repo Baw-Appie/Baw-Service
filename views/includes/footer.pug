@@ -11,6 +11,14 @@ script(src='https://cdn.jsdelivr.net/gh/Baw-Appie/scriptLoader@0.1/scriptLoader.
 script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js')
 script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js')
 script(src=`https://smartlock.google.com/client`)
+script(src=`https://developers.kakao.com/sdk/js/kakao.min.js`)
+script.
+  Kakao.init('4976c5aa590cf204b6b27a95f06b5769');
+  function plusFriendChat() {
+    Kakao.PlusFriend.chat({
+      plusFriendId: '_xixfxmGC'
+    });
+  }
 if(server_settings.freshchat_token != "disable")
   script(src='https://wchat.freshchat.com/js/widget.js')
   script.
