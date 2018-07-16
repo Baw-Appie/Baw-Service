@@ -23,7 +23,7 @@ var version = require('child_process')
   .execSync('git rev-parse HEAD')
   .toString().trim()
 
-console.log("[Baw Service Server] Baw Service v"+version+" Starting..")
+console.log("[Baw Service Server] Baw Service "+version+" Starting..")
 if(server_settings.sentry_error == true){
   Raven.config(server_settings.sentry, { release: version }).install();
 }
