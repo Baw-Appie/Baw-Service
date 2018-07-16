@@ -18,8 +18,14 @@ var LocalStrategy = require('passport-local').Strategy;
 var GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
 var KakaoStrategy = require('passport-kakao').Strategy;
 var Raven = require('raven');
+
+var version = require('child_process')
+  .execSync('git rev-parse HEAD')
+  .toString().trim()
+
+console.log("[Baw Service Server] Baw Service v"+version+" Starting..")
 if(server_settings.sentry_error == true){
-  Raven.config(server_settings.sentry).install();
+  Raven.config(server_settings.sentry, { release: version }).install();
 }
 
 app.set('view engine', 'pug');
@@ -234,6 +240,9 @@ passport.use(new KakaoStrategy({
 ));
 // *PassportJS* //
 
+app.get('/crash', function mainHandler(req, res) {
+    throw new Error('Broke!');
+});
 // 유저 페이지 로드 및 404 서버 에러 처리
 app.use(require('./routes/userpage-with-404'));
 
@@ -242,8 +251,13 @@ if(server_settings.sentry_error == true){
   app.use(Raven.errorHandler());
 }
 app.use(function(err, req, res, next) {
-  console.error('[Error] 처리할 수 없는 문제로 500 에러가 사용자에게 출력되고 있습니다. ' + err.message);
-  res.status(500).render('error/500')
+  console.error('[Error] 처리할 수 없는 문제로 500 에러가 사용자에게 출력되고 있습니다. '+err.message);
+  res.status(500)
+  if( req.header( 'X-PJAX' ) ) {
+      res.json({ sentry: res.sentry, dsn: server_settings.sentry })
+  } else {
+    res.render('error/500', { sentry: res.sentry })
+  }
 });
 
 // *서버 초기화* //
