@@ -240,9 +240,6 @@ passport.use(new KakaoStrategy({
 ));
 // *PassportJS* //
 
-app.get('/crash', function mainHandler(req, res) {
-    throw new Error('Broke!');
-});
 // 유저 페이지 로드 및 404 서버 에러 처리
 app.use(require('./routes/userpage-with-404'));
 
