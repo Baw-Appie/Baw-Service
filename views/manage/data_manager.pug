@@ -112,7 +112,7 @@ block contents
               |  처리 거절으로 수정
           hr.uk-divider-icon
         
-      - if (rows.length == 0)
+      - if (data1.length == 0)
         p 처리 성공된 #{data.name}이 없습니다.
         hr.uk-divider-icon
       p Powered by Baw Service
@@ -133,7 +133,7 @@ block contents
             button.uk-button.uk-button-default.okay1noapi API 요청 없이 처리 완료
           hr.uk-divider-icon
         
-      - if (rows.length == 0)
+      - if (data2.length == 0)
         p 처리 거절된 #{data.name}이 없습니다.
         hr.uk-divider-icon
       p Powered by Baw Service

@@ -28,7 +28,8 @@ module.exports = function(req, res) {
     var opt_field = ["ninfo"]
     req_check(req_field, req).then(function (text) {
       opt_check(opt_field, req).then(function (text) {
-        var sql_Request = SqlString.format('UPDATE `id` SET `svname`=?, `ninfo`=? WHERE `id`.`id` = ?', [req.body.svname, req.body.ninfo, req.user.id])
+        var sql_Request = SqlString.format('UPDATE `users` SET userdata=json_set(userdata, "$.svname", ?, "$.ninfo", ?) WHERE `id` = ?', [req.body.svname, req.body.ninfo, req.user.id])
+        console.log(sql_Request)
         var sql_req = sql.query(sql_Request)
         res.json({ success: true, title: "완료했습니다!",  message: "성공적으로 나의 정보 변경이 요청되었습니다." });
       }).catch(function (error) {

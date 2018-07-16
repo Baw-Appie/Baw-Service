@@ -55,26 +55,23 @@ function complete(req, res){
       if(status != 0 && status !=  1 && status !=  2){
         return reject('처리 상태를 제대로 선택해주세요.' + status)
       }
-      var sql_req = sql.query('SELECT * FROM page WHERE owner='+ SqlString.escape(req.user.id)+' and service=1', function(err, rows) {
+      var sql_req = sql.query('SELECT * FROM pages WHERE owner='+ SqlString.escape(req.user.id)+' and service=1', function(err, rows) {
         if (err) { return reject('1번 질의 오류') }
         if (rows.length == 0) { return reject('후원 홈페이지가 존재하지 않습니다.') }
-        var sql_req2 = sql.query('SELECT * FROM id WHERE id='+ SqlString.escape(rows[0]['owner']), function(err, rows2) {
-          if (err) { return reject('2번 질의 오류') }
-          var sql_req3 = sql.query('SELECT * FROM service1 ORDER BY `num` ASC', function(err, rows3) {
-            if (err) { return reject('3번 질의 오류') }
-            var counter = rows3.length;
-            rows3.forEach(function(item) {
-              counter -= 1;
-              if ( counter === 0){
-                var no = item.num + 1
-         	      var sql_Request = SqlString.format('INSERT INTO service1 values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [no, rows[0]['name'], rows[0]['owner'], nick, bal, pin, method, code, nname, bouns, ip, date, status]);
-                var sql_req4  = sql.query(sql_Request, function(err, rows4) {
-                  if (err) { return reject('4번 질의 오류'); }
-                  resolve("등록되었습니다.")
-                })
-              }
-            });
-          })
+        var sql_req3 = sql.query('SELECT * FROM service1 ORDER BY `num` ASC', function(err, rows3) {
+          if (err) { return reject('3번 질의 오류') }
+          var counter = rows3.length;
+          rows3.forEach(function(item) {
+            counter -= 1;
+            if ( counter === 0){
+              var no = item.num + 1
+       	      var sql_Request = SqlString.format('INSERT INTO service1 values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [no, rows[0]['name'], rows[0]['owner'], nick, bal, pin, method, code, nname, bouns, ip, date, status]);
+              var sql_req4  = sql.query(sql_Request, function(err, rows4) {
+                if (err) { return reject('4번 질의 오류'); }
+                resolve("등록되었습니다.")
+              })
+            }
+          });
         })
       })
     } else {

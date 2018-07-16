@@ -82,10 +82,10 @@ function complete(req, res){
       var code = "없음"
     }
 
-    var sql_req = sql.query('SELECT * FROM page WHERE name='+ SqlString.escape(page)+' and service=1', function(err, rows) {
+    var sql_req = sql.query('SELECT * FROM pages WHERE name='+ SqlString.escape(page)+' and service=1', function(err, rows) {
       if (err) { return reject('1번 질의 오류') }
       if (rows.length == 0) { return reject('후원 홈페이지가 존재하지 않습니다.') }
-      var sql_req2 = sql.query('SELECT * FROM id WHERE id='+ SqlString.escape(rows[0]['owner']), function(err, rows2) {
+      var sql_req2 = sql.query('SELECT * FROM users WHERE id='+ SqlString.escape(rows[0]['owner']), function(err, rows2) {
         if (err) { return reject('2번 질의 오류') }
         var sql_req3 = sql.query('SELECT * FROM service1 ORDER BY `num` ASC', function(err, rows3) {
           if (err) { return reject('3번 질의 오류') }
@@ -106,7 +106,8 @@ function complete(req, res){
               var sql_req4  = sql.query(sql_Request, function(err, rows4) {
                 if (err) { return reject('4번 질의 오류'); }
 
-                if(rows[0]['mail_ok'] == 1) {
+                var jsonpagedata = JSON.parse(rows[0]['pagedata'])
+                if(jsonpagedata['mail_ok'] == 1) {
                   var nodemailer = require('nodemailer');
                   var transporter = require('../../libs/mail_init');
                   var mailOptions = {
@@ -123,7 +124,7 @@ function complete(req, res){
                   });
                 }
 
-                if(rows[0]['sms_ok'] == 1) {
+                if(jsonpagedata['sms_ok'] == 1) {
                   sql.query(SqlString.format('SELECT * FROM sms WHERE send=0 AND id=?', [rows[0]['owner']]), function(err, rows5){
                     if (err) { return reject('5번 질의 오류'); }
                     if(rows5.length == 1){
@@ -138,7 +139,7 @@ function complete(req, res){
                   })
                 } else {
 
-                  if(rows[0]['kakao_ok'] == 1) {
+                  if(jsonpagedata['kakao_ok'] == 1) {
                     sql.query(SqlString.format('SELECT * FROM katalk WHERE send=0 AND id=?', [rows[0]['owner']]), function(err, rows7){
                       if (err) { return reject('7번 질의 오류'); }
                       if(rows7.length == 1){
@@ -147,7 +148,7 @@ function complete(req, res){
                             'Content-type': 'application/json',
                             'userId': server_settings.katalk_id
                         };
-                        var formdata = `[{"message_type": "at","phn": "`+rows7[0]['phone']+`","profile": "`+server_settings.katalk_senderkey+`","reserveDt": "00000000000000","msg": "[Baw Notication] `+rows2[0]['svname']+` 상점에 직접 등록하셔서 판매중이던 `+Radio+`(이)가 판매되었습니다.\n\n상품명: `+Radio+`\n구매자명: `+nick+`\n구매 일시: `+date+`\n구매 금액: `+bal+`\n\n`+date+`에 이 알림 수신에 동의하셨으며, 더 이상 수신을 원하지 않으실 경우 아래 채팅창으로 알려주시기 바랍니다.","tmplId": "N08","smsKind": "N", "button1": {"name":"판매자 페이지", "type":"WL","url_mobile":"https://baws.kr/manage/1/view"}}]`
+                        var formdata = `[{"message_type": "at","phn": "`+rows7[0]['phone']+`","profile": "`+server_settings.katalk_senderkey+`","reserveDt": "00000000000000","msg": "[Baw Notication] `+rows2[0]['userdata']['svname']+` 상점에 직접 등록하셔서 판매중이던 `+Radio+`(이)가 판매되었습니다.\n\n상품명: `+Radio+`\n구매자명: `+nick+`\n구매 일시: `+date+`\n구매 금액: `+bal+`\n\n`+date+`에 이 알림 수신에 동의하셨으며, 더 이상 수신을 원하지 않으실 경우 아래 채팅창으로 알려주시기 바랍니다.","tmplId": "N08","smsKind": "N", "button1": {"name":"판매자 페이지", "type":"WL","url_mobile":"https://baws.kr/manage/1/view"}}]`
                         console.log(formdata)
                         request.post({url: 'https://alimtalk-api.bizmsg.kr/v2/sender/send', headers: headers, body: formdata}, function(e,r,b){
                           sql.query(SqlString.format('update katalk set send = send+1 where id = ?', [rows[0]['owner']]))
@@ -161,7 +162,7 @@ function complete(req, res){
                     })
                   }
                 }
-                if(rows[0]['tg_ok'] == 1) {
+                if(jsonpagedata['tg_ok'] == 1) {
                   sql.query(SqlString.format('SELECT * FROM telegram WHERE id=?', [rows[0]['owner']]), function(err, rows6){
                     if (err) { return reject('6번 질의 오류'); }
                     if(rows6.length == 1){

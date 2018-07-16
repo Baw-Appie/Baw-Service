@@ -15,6 +15,7 @@ module.exports = function (req, res) {
         var textarea_option_korean = ["공지사항"]
         var custom_select_option = [{name: "theme", korean: "테마(베타)", options: ["Bootstrap3", "UiKit", "Bootstrap4", "Material"], option_data: ["bootstrap3", "uikit", "bootstrap4", "material"], option_korean: ["Bootstrap3", "UIKit", "Bootstrap4", "Material (Beta)"]}]
         var custom_checkbox_option = [{name: "disabled", korean: "사용하지 않을 후원 방법", options: ["문화상품권", "도서 문화상품권", "해피머니", "틴캐시", "계좌이체"], option_data: ["문화상품권1", "도서문화상품권", "해피머니", "틴캐시", "계좌이체"], option_korean: ["문화상품권", "도서 문화상품권", "해피머니", "틴캐시", "계좌이체"]}]
+        var savetojson = ["mail_ok", "sms_ok", "kakao_ok", "tg_ok", "bouns","api_cmd","youtube", "disabled"]
         var help = `<p>후원 보너스 설정의 다음줄은 || 으로 구분합니다.</p>
 			<p>후원 보너스 설정 예제: 캐시||칭호||Baw Service 최고</p>
 			<p>API 플러그인의 사용을 원치 않는경우 API 플러그인 명령어칸을 빈칸으로 설정해주세요.</p>
@@ -24,12 +25,13 @@ module.exports = function (req, res) {
 			<p><a href='https://`+ req.hostname +`/api/API/edit'>[API 설정]</a></p>
 			<p>공지 사항란에 HTML을 사용할 수 있습니다.</p>`
 
-        var sql_req = sql.query('select * from page where service=1 and owner=' + SqlString.escape(req.user.id), function(err, rows){
+        var sql_req = sql.query('select * from pages where service=1 and owner=' + SqlString.escape(req.user.id), function(err, rows){
           if (rows.length === 0) {
             req.session.error = '후원 홈페이지가 존재하지 않습니다. 먼저 페이지를 생성해주세요!';
             res.redirect('/manage')
           } else {
-            res.render('manage/edit', {rows: rows,data: data,select_option: select_option,select_option_korean: select_option_korean,text_option: text_option,text_option_korean: text_option_korean,textarea_option: textarea_option,textarea_option_korean: textarea_option_korean, custom_checkbox_option: custom_checkbox_option, help: help, custom_select_option: custom_select_option})
+            var pagedata = JSON.parse(rows[0]['pagedata'])
+            res.render('manage/edit', {rows: rows,data: data,select_option: select_option,select_option_korean: select_option_korean,text_option: text_option,text_option_korean: text_option_korean,textarea_option: textarea_option,textarea_option_korean: textarea_option_korean, custom_checkbox_option: custom_checkbox_option, help: help, custom_select_option: custom_select_option, savetojson: savetojson, pagedata: pagedata})
           }
         });
       } else if(req.params.service == 2) {
@@ -43,6 +45,7 @@ module.exports = function (req, res) {
         var text_option_korean = ["API 플러그인 명령어 설정"]
         var textarea_option = ["notice"]
         var textarea_option_korean = ["공지사항"]
+        var savetojson = ["mail_ok", "auto_process", "api_cmd"]
         var help = `<p>API 플러그인의 사용을 원치 않는경우 API 플러그인 명령어칸을 빈칸으로 설정해주세요.</p>
 			<p>API 플러그인 명령어 플레이스 홀더 [유저이름: &lt;player&gt;]</p>
 			<p>API 플러그인 명령어는 콘솔에서 실행됩니다. '/'를 입력할 필요가 없습니다.</p>
@@ -50,12 +53,13 @@ module.exports = function (req, res) {
 			<p><a href='https://`+ req.hostname +`/api/API/edit'>[API 설정]</a></p>
 			<p>공지 사항란에 HTML을 사용할 수 있습니다.</p>`
 
-        var sql_req = sql.query('select * from page where service=2 and owner=' + SqlString.escape(req.user.id), function(err, rows){
+        var sql_req = sql.query('select * from pages where service=2 and owner=' + SqlString.escape(req.user.id), function(err, rows){
           if (rows.length === 0) {
             req.session.error = '정품 인증 페이지가 존재하지 않습니다. 먼저 페이지를 생성해주세요!';
             res.redirect('/')
           } else {
-            res.render('manage/edit', {rows: rows,data: data,select_option: select_option,select_option_korean: select_option_korean,text_option: text_option,text_option_korean: text_option_korean,textarea_option: textarea_option,textarea_option_korean: textarea_option_korean, help: help})
+            var pagedata = JSON.parse(rows[0]['pagedata'])
+            res.render('manage/edit', {rows: rows,data: data,select_option: select_option,select_option_korean: select_option_korean,text_option: text_option,text_option_korean: text_option_korean,textarea_option: textarea_option,textarea_option_korean: textarea_option_korean, help: help, savetojson: savetojson, pagedata: pagedata})
           }
         });
 
@@ -70,14 +74,16 @@ module.exports = function (req, res) {
         var text_option_korean = ["서버 IP", "서버 PORT"]
         var textarea_option = ["notice"]
         var textarea_option_korean = ["공지사항"]
+        var savetojson = ["sv_ip", "sv_port"]
         var help = `<p>공지 사항란에 HTML을 사용할 수 있습니다.</p>`
 
-        var sql_req = sql.query('select * from page where service=3 and owner=' + SqlString.escape(req.user.id), function(err, rows){
+        var sql_req = sql.query('select * from pages where service=3 and owner=' + SqlString.escape(req.user.id), function(err, rows){
           if (rows.length === 0) {
             req.session.error = '서버 상태 위젯이 존재하지 않습니다. 먼저 페이지를 생성해주세요!';
             res.redirect('/manage')
           } else {
-            res.render('manage/edit', {rows: rows,data: data,select_option: select_option,select_option_korean: select_option_korean,text_option: text_option,text_option_korean: text_option_korean,textarea_option: textarea_option,textarea_option_korean: textarea_option_korean, help: help})
+            var pagedata = JSON.parse(rows[0]['pagedata'])
+            res.render('manage/edit', {rows: rows,data: data,select_option: select_option,select_option_korean: select_option_korean,text_option: text_option,text_option_korean: text_option_korean,textarea_option: textarea_option,textarea_option_korean: textarea_option_korean, help: help, savetojson: savetojson, pagedata: pagedata})
           }
         });
 

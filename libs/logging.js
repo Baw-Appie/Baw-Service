@@ -9,9 +9,10 @@ function check() {
 
 
 module.exports = function(req, res, next) {
+  var time = new Date().toLocaleTimeString();
   if(req.user)
-    console.log('[Access] '+req.user.id+'('+req.ip+'): '+req.path+' ('+req.method+')')
+    console.log('['+time+'] [Access] '+req.user.id+'('+req.ip+'): '+req.path+' ('+req.method+')')
   else
-    console.log('[Access] '+req.ip+': '+req.path+' ('+req.method+')')
+    console.log('['+time+'] [Access] '+req.ip+': '+req.path+' ('+req.method+')')
   next();
 };

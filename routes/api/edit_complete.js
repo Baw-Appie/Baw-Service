@@ -26,7 +26,7 @@ module.exports = function(req, res) {
     if(req.user) {
         if(req.params.service){
           if(req.params.service == "API") {
-            var req_field = ["api_ok", "api_key", "api"]
+            var req_field = ["api_enable", "api_key", "api_type"]
             var opt_field = ["api_ip", "api_port"]
           } else if (req.params.service == "SMS") {
             var req_field = ["phone"]
@@ -44,7 +44,7 @@ module.exports = function(req, res) {
                 if(!vali.isPort(req.body.api_port)){
                   res.json({ success: false, title: "잘못된 데이터 감지됨",  message: "API PORT가 잘못 입력되었습니다." });
                 }
-                var sql_Request = SqlString.format('UPDATE `id` SET `api_ok` = ?, `api_key`=?, `api_ip`=?, `api_port`=?, `api`=? WHERE `id`.`id` =?', [req.body.api_ok, req.body.api_key, req.body.api_ip, req.body.api_port, req.body.api, req.user.id])
+                var sql_Request = SqlString.format('UPDATE `api` SET `api_enable` = ?, `api_key`=?, `api_ip`=?, `api_port`=?, `api_type`=? WHERE `id` =?', [req.body.api_enable, req.body.api_key, req.body.api_ip, req.body.api_port, req.body.api_type, req.user.id])
               } else if (req.params.service == "SMS") {
                 if(req.body.phone.length > 13){
                   res.json({ success: false, title: "잘못된 데이터 감지됨",  message: "전화번호를 입력하세요." });

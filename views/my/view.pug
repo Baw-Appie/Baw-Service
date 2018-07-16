@@ -55,14 +55,14 @@ block contents
         label 서버 이름
         br
         .uk-inline.uk-width-1-1
-          input.uk-input(type='text', id="svname", name="svname", value=rows[0]["svname"])
+          input.uk-input(type='text', id="svname", name="svname", value=jsondata["svname"])
           p.uk-form-icon.uk-form-icon-flip(style="background-color: #b4b6ba;") 서버
       .uk-margin
         label 이메일
         input.uk-input(type='mail', id="mail", name="mail", value=rows[0]["mail"], disabled)
       .uk-margin
         label 계좌 정보
-        input.uk-input(type='text', id="ninfo", name="ninfo", value=rows[0]["ninfo"])
+        input.uk-input(type='text', id="ninfo", name="ninfo", value=jsondata["ninfo"])
       p 이메일 변경을 원하신다면 카카오톡 pp121324로 알려주세요.
       button.uk-button.uk-button-primary(type="submit")
         i(class="fas fa-save")

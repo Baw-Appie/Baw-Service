@@ -5,13 +5,13 @@ module.exports = function(req, res){
   if(req.params.type && req.body.data){
     var type = req.params.type
     if(type == "id"){
-      var sql_Request = SqlString.format('SELECT * FROM id WHERE id=?', [req.body.data])
+      var sql_Request = SqlString.format('SELECT * FROM users WHERE id=?', [req.body.data])
     }
     if(type == "mail"){
-      var sql_Request = SqlString.format('SELECT * FROM id WHERE mail=?', [req.body.data])
+      var sql_Request = SqlString.format('SELECT * FROM users WHERE mail=?', [req.body.data])
     }
     if(type == "page"){
-      var sql_Request = SqlString.format('SELECT * FROM page WHERE name=?', [req.body.data])
+      var sql_Request = SqlString.format('SELECT * FROM pages WHERE name=?', [req.body.data])
     }
     var sql_req = sql.query(sql_Request, function(err, rows){
       if(err){ throw new Error('1번 질의 오류') }

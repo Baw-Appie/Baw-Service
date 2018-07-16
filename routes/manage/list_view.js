@@ -2,10 +2,10 @@ var sql = require('../../config/dbtool');
 var SqlString = require('sqlstring');
 module.exports = function (req, res) {
   if(req.user) {
-    sql.query(SqlString.format("SELECT * FROM page WHERE owner=? and service=1", [req.user.id]), function(err, rows){
-      sql.query(SqlString.format("SELECT * FROM page WHERE owner=? and service=2", [req.user.id]), function(err, rows2){
-        sql.query(SqlString.format("SELECT * FROM page WHERE owner=? and service=3", [req.user.id]), function(err, rows3){
-          sql.query(SqlString.format("SELECT * FROM page WHERE owner=? and service=4", [req.user.id]), function(err, rows4){
+    sql.query(SqlString.format("SELECT * FROM pages WHERE owner=? and service=1", [req.user.id]), function(err, rows){
+      sql.query(SqlString.format("SELECT * FROM pages WHERE owner=? and service=2", [req.user.id]), function(err, rows2){
+        sql.query(SqlString.format("SELECT * FROM pages WHERE owner=? and service=3", [req.user.id]), function(err, rows3){
+          sql.query(SqlString.format("SELECT * FROM pages WHERE owner=? and service=4", [req.user.id]), function(err, rows4){
             if(rows.length != 0){
               var data1 = rows[0]
             }

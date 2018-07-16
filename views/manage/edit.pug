@@ -37,8 +37,13 @@ block contents
         .uk-margin.uk-grid-small.uk-child-width-auto.uk-grid
           label #{select}
           - var name = select_option[i];
+          - if(savetojson.indexOf(name) == -1){
+            - var vdata = rows[0][name]
+          - } else {
+            - var vdata = pagedata[name]
+          - }
           label
-            if rows[0][name] == 0
+            if vdata == 0
               input.uk-radio(type='radio', name=name, value=0, checked)
               |  차단
             else
@@ -46,7 +51,7 @@ block contents
               |  차단
               
           label
-            if rows[0][name] == 1
+            if vdata == 1
               input.uk-radio(type='radio', name=name, value=1, checked)
               |  허용
             else
@@ -59,8 +64,13 @@ block contents
             label #{custom_select['korean']}
             - var name = custom_select['name'];
             each custom_list, oo in custom_select['options']
+              - if(savetojson.indexOf(name) == -1){
+                - var vdata = rows[0][name]
+              - } else {
+                - var vdata = pagedata[name]
+              - }
               label
-                if rows[0][name].toLowerCase() == custom_select['option_data'][oo].toLowerCase()
+                if vdata.toLowerCase() == custom_select['option_data'][oo].toLowerCase()
                   input.uk-radio(type='radio', name=name, value=custom_select["option_data"][oo], checked)
                   |  #{custom_select["option_korean"][oo]}
                 else
@@ -73,8 +83,13 @@ block contents
             label #{custom_checkbox['korean']}
             - var name = custom_checkbox['name'];
             each custom_list, oo in custom_checkbox['options']
+              - if(savetojson.indexOf(name) == -1){
+                - var vdata = rows[0][name]
+              - } else {
+                - var vdata = pagedata[name]
+              - }
               label
-                -if(rows[0][name].indexOf(custom_checkbox['option_data'][oo]) != -1)
+                -if(vdata.indexOf(custom_checkbox['option_data'][oo]) != -1)
                   input.uk-checkbox(type='checkbox', name=name, value=custom_checkbox["option_data"][oo], checked)
                   |  #{custom_checkbox["option_korean"][oo]}
                 -else
@@ -86,10 +101,14 @@ block contents
       each text, i in text_option_korean
         .uk-margin
           label #{text}
-          - var name = text_option[i];
-          - var value = rows[0][name]
-            if value != ""
-              input.uk-input(type='text', name=name, placeholder=text, value=value)
+            - var name = text_option[i];
+            - if(savetojson.indexOf(name) == -1){
+              - var vdata = rows[0][name]
+            - } else {
+              - var vdata = pagedata[name]
+            - }
+            if vdata != ""
+              input.uk-input(type='text', name=name, placeholder=text, value=vdata)
             else 
               input.uk-input(type='text', name=name, placeholder=text)
             
@@ -98,9 +117,13 @@ block contents
         .uk-margin
           label #{textarea}
           - var name = textarea_option[i];
-          - var value = rows[0][name]
-            if value != ""
-              textarea.uk-textarea(name=name, placeholder=textarea, rows=5) !{value}
+          - if(savetojson.indexOf(name) == -1){
+            - var vdata = rows[0][name]
+          - } else {
+            - var vdata = pagedata[name]
+          - }
+            if vdata != ""
+              textarea.uk-textarea(name=name, placeholder=textarea, rows=5) !{vdata}
             else
               textarea.uk-textarea(name=name, placeholder=textarea, rows=5)
               
@@ -115,7 +138,7 @@ block contents
           |  설정 적용
         button.uk-button.uk-button-default(type="button")
           a(onclick="$.pjax.reload('#contents')")
-            i(class="fas fa-undo")
+            i(class="fas fa-undo") 
             |  적용 안함
       br
       br
