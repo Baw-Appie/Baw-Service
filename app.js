@@ -253,10 +253,14 @@ if(server_settings.sentry_error == true){
 app.use(function(err, req, res, next) {
   console.error('[Error] 처리할 수 없는 문제로 500 에러가 사용자에게 출력되고 있습니다. '+err.message);
   res.status(500)
-  if( req.header( 'X-PJAX' ) ) {
-      res.json({ sentry: res.sentry, dsn: server_settings.sentry })
+  if(server_settings.sentry_error == true) {
+    if( req.header( 'X-PJAX' ) ) {
+        res.json({ sentry: res.sentry, dsn: server_settings.sentry })
+    } else {
+      res.render('error/500', { sentry: res.sentry })
+    }
   } else {
-    res.render('error/500', { sentry: res.sentry })
+    res.render('error/500')
   }
 });
 
