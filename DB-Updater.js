@@ -30,7 +30,7 @@ sql.query("select * from page", function(err, rows){
       sql.query(SqlString.format("INSERT INTO pages SET name=?, owner=?, service=?, status=1, notice=?, theme=?, pagedata=json_object('regdate', ?, 'sv_ip', ?, 'sv_port', ?)", [item.name, item.owner, item.service, item.notice, item.theme, item.regdate, item.sv_ip, item.sv_port]))
     }
     if(item.service == 4){
-      sql.query(SqlString.format("INSERT INTO pages SET name=?, owner=?, service=?, status=1, notice=?, theme=?, pagedata=json_object('regdate', ?)", [item.regdate, item.name, item.owner, item.service, item.notice, item.theme, item.regdate]))
+      sql.query(SqlString.format("INSERT INTO pages SET name=?, owner=?, service=?, status=1, notice=?, theme=?, pagedata=json_object('regdate', ?)", [item.name, item.owner, item.service, item.notice, item.theme, item.regdate]))
     }
   })
 })
