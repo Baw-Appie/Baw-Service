@@ -3,7 +3,7 @@ var SqlString = require('sqlstring');
 var passport = require('passport');
 module.exports = function(request, accessToken, refreshToken, profile, done) {
   process.nextTick(function () {
-    var login_req = sql.query('select * from id where id=' + SqlString.escape(profile.emails[0]['value']), function(err, rows){
+    var login_req = sql.query('select * from users where id=' + SqlString.escape(profile.emails[0]['value']), function(err, rows){
       if(err) { done(err) };
       if (rows.length === 0) {
         request.session.error = '존재하지 않는 ID거나 비밀번호를 잘못 입력하셨습니다.';

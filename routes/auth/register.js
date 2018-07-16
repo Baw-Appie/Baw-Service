@@ -45,20 +45,20 @@ function complete(req, res){
       return reject('비밀번호가 비밀번호 확인과 일치하지 않습니다.')
     }
 
-    var sql_Request = SqlString.format('SELECT * FROM id WHERE id=?', [id])
+    var sql_Request = SqlString.format('SELECT * FROM users WHERE id=?', [id])
     var sql_req = sql.query(sql_Request, function(err, rows){
       if(err){ return reject('1번 질의 오류') }
       if(rows.length != 0){
         return reject('이미 존재하는 ID입니다.')
       } else {
-        var sql_Request2 = SqlString.format('SELECT * FROM id WHERE mail=?', [mail])
+        var sql_Request2 = SqlString.format('SELECT * FROM users WHERE mail=?', [mail])
         var sql_req2 = sql.query(sql_Request2, function(err, rows2){
           if(err){ return reject('2번 질의 오류') }
           if(rows2.length != 0){
             return reject('이미 등록된 이메일입니다.')
           } else {
             var enc_mail = require('md5')(mail + 'session_config.secret')
-            var sql_Request3 = SqlString.format('insert into id values (?, password(?), ?, ?, ?, 0, ?, \'\', 0, \'\', 3203, \'socket\', \'\', \'0000-00-00\')', [id, pass, mail, svname, date, enc_mail])
+            var sql_Request3 = SqlString.format("INSERT INTO users SET id=?, mail=?, password=password(?), status=0, userdata=json_object('svname', ?, 'regdate', ?, 'ninfo', '', 'enc_mail', ?)", [id, mail, pass, svname, date, enc_mail])
             var sql_req3 = sql.query(sql_Request3, function(err, rows3){
               if(err){ return reject('3번 질의 오류') }
 
@@ -73,6 +73,7 @@ function complete(req, res){
               transporter.sendMail(mailOptions, function(error, info) {
                 transporter.close();
                 if(error) {
+                  console.log(error)
                   return reject('인증 메일 발송 오류입니다. 관리자(카카오톡 pp121324)에게 문의하세요.')
                 }
               });

@@ -10,7 +10,7 @@ module.exports = function (req, res) {
         var list = ["nick", "bal", "method", "pin", "bouns", "nname", "code", "ip", "date"];
         var korean = ["닉네임", "후원 금액", "후원 방법", "핀번호", "원하는 보상", "입금자명", "발행일(인증코드)", "IP", "날짜"]
 
-        var sql_req = sql.query('select * from page where service=1 and owner=' + SqlString.escape(req.user.id), function(err, rows){
+        var sql_req = sql.query('select * from pages where service=1 and owner=' + SqlString.escape(req.user.id), function(err, rows){
           if (rows.length === 0) {
             req.session.error = '후원 홈페이지가 존재하지 않습니다. 먼저 페이지를 생성해주세요!';
             res.redirect('/manage')
@@ -36,7 +36,7 @@ module.exports = function (req, res) {
         var list = ["nick", "ip", "date"];
         var korean = ["닉네임", "IP", "날짜"];
 
-        var sql_req = sql.query('select * from page where service=2 and owner=' + SqlString.escape(req.user.id), function(err, rows){
+        var sql_req = sql.query('select * from pages where service=2 and owner=' + SqlString.escape(req.user.id), function(err, rows){
           if (rows.length === 0) {
             req.session.error = '정품인증 페이지가 존재하지 않습니다. 먼저 페이지를 생성해주세요!';
             res.redirect('/manage')

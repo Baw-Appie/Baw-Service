@@ -1,7 +1,7 @@
 doctype html
 html
   head
-    title #{userdata['svname']}서버 후원 홈페이지
+    title #{jsonuserdata['svname']}서버 후원 홈페이지
     meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no')
     link(rel="stylesheet" href=`https://${hostname}/public/dashboard/css/uikit/uikit.min.css`)
     link(rel="stylesheet" href=`https://${hostname}/public/dashboard/css/fontawesome/fa-svg-with-js.css`)
@@ -40,7 +40,7 @@ html
   body
     nav.uk-navbar-container.uk-margin(uk-navbar='')
       .uk-navbar-left
-        a.uk-navbar-item.uk-logo(href='#') #{userdata['svname']}서버
+        a.uk-navbar-item.uk-logo(href='#') #{jsonuserdata['svname']}서버
         ul.uk-navbar-nav
           each da, i in otherpage
             if da.service == 2
@@ -53,7 +53,7 @@ html
               li
                 a(href=`https://${hostname}/${da["name"]}`) 후원 금액 확인
 
-    if pagedata['youtube']
+    if jsonpagedata['youtube']
       #player.player
       style.
         .player {
@@ -69,7 +69,7 @@ html
             player = new YT.Player("player", {
             height: "390",
             width: "640",
-            videoId: "#{pagedata['youtube']}",
+            videoId: "#{jsonpagedata['youtube']}",
             events: {
             "onReady": onPlayerReady
             }
@@ -84,10 +84,10 @@ html
           else
           player.playVideo();
         }
-    if(userdata['ninfo'] != "")
+    if(jsonuserdata['ninfo'] != "")
       div#ninfo(uk-alert, class="uk-alert-primary", style='text-align: center;margin:0 auto;max-width: 80%; height: auto;')
         span.fa.fa-info-circle
-        |  입금 계좌 정보: #{userdata['ninfo']}
+        |  입금 계좌 정보: #{jsonuserdata['ninfo']}
       br
     .uk-container(style='text-align: center;')
       if pagedata['notice'] != ""
@@ -95,9 +95,9 @@ html
       form#TRM(name='TRM', method='post', action=`https://${hostname}/user/donation`)
         div(class="uk-card uk-card-default uk-card-body")
           if(authdata != false)
-            h4.uk-card-title <a style="color:DodgerBlue;" uk-tooltip="이 후원 사이트는 Baw Service에서 #{authdata[0]['date']}에 #{authdata[0]['sv_ip']}으로 접속할 수 있는 #{authdata[0]['sv_name']}임을 확인하였습니다."><i class="fas fa-check-circle"></i></a> #{userdata['svname']}서버 후원
+            h4.uk-card-title <a style="color:DodgerBlue;" uk-tooltip="이 후원 사이트는 Baw Service에서 #{authdata[0]['date']}에 #{authdata[0]['sv_ip']}으로 접속할 수 있는 #{authdata[0]['sv_name']}임을 확인하였습니다."><i class="fas fa-check-circle"></i></a> #{jsonuserdata['svname']}서버 후원
           else
-            h4.uk-card-title #{userdata['svname']}서버 후원
+            h4.uk-card-title #{jsonuserdata['svname']}서버 후원
           .uk-grid-small(uk-grid='')
             div(class='uk-width-1-2@s')
               .uk-margin
@@ -105,19 +105,19 @@ html
                 .uk-form-controls
                   select#Combo.uk-select(name='Combo')
                     option(value='후원수단선택') 후원 수단을 선택하세요.
-                    - if (pagedata['disabled'].indexOf('문화상품권1') == -1)
+                    - if (jsonpagedata['disabled'].indexOf('문화상품권1') == -1)
                       - var okdata = true
                       option(value='문화상품권') 컬쳐랜드 - 문화상품권
-                    - if (pagedata['disabled'].indexOf('도서문화상품권') == -1)
+                    - if (jsonpagedata['disabled'].indexOf('도서문화상품권') == -1)
                       - var okdata = true
                       option(value='도서문화상품권') 북앤라이프 - 도서문화상품권
-                    - if (pagedata['disabled'].indexOf('해피머니') == -1)
+                    - if (jsonpagedata['disabled'].indexOf('해피머니') == -1)
                       - var okdata = true
                       option(value='해피머니') 해피머니
-                    - if (pagedata['disabled'].indexOf('틴캐시') == -1)
+                    - if (jsonpagedata['disabled'].indexOf('틴캐시') == -1)
                       - var okdata = true
                       option(value='틴캐시') 틴캐시
-                    - if (pagedata['disabled'].indexOf('계좌이체') == -1)
+                    - if (jsonpagedata['disabled'].indexOf('계좌이체') == -1)
                       - var okdata = true
                       option(value='계좌이체') 계좌이체
                     if(!okdata)
@@ -128,7 +128,7 @@ html
                 label 보상 선택
                 .uk-form-controls
                   select.uk-select(name='Radio')
-                    - var bouns = pagedata.bouns.split('||')
+                    - var bouns = jsonpagedata.bouns.split('||')
                     each boun in bouns
                       option(value=boun) #{boun}
           label 닉네임
@@ -173,7 +173,7 @@ html
             i.fa.fa-trash(aria-hidden='true')
             |  재입력
           |         
-          if pagedata['youtube']
+          if jsonpagedata['youtube']
             button.uk-button.uk-button-default(onclick='pv()', type='button')
               i.fa.fa-youtube-play(aria-hidden='true')
               |  BGM 재생 / 중지

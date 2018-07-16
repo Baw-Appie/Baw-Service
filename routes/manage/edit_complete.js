@@ -64,14 +64,15 @@ module.exports = function(req, res) {
         req_check(req_field, req).then(function (text) {
           opt_check(opt_field, req).then(function (text) {
             if(req.params.service == 1) {
-              var sql_Request = SqlString.format('UPDATE `page` SET `mail_ok` = ?, `bouns` = ?, `sms_ok` = ?, `kakao_ok` = ?, `tg_ok` = ?, `api_cmd` = ?, `disabled`=?, `notice` =?, `theme`=?, `youtube`=? WHERE service=1 and owner=?', [mail_ok, bouns, sms_ok, kakao_ok, tg_ok, api_cmd, disabled, notice, theme, youtube, req.user.id])
+              var sql_Request = SqlString.format('UPDATE `pages` SET pagedata=json_set(pagedata, "$.mail_ok", ?, "$.bouns", ?, "$.sms_ok", ?, "$.kakao_ok", ?, "$.tg_ok", ?, "$.api_cmd", ?, "$.disabled", ?, "$.youtube", ?), `notice`=?, `theme`=? WHERE service=1 and owner=?', [mail_ok, bouns, sms_ok, kakao_ok, tg_ok, api_cmd, disabled, youtube, notice, theme, req.user.id])
             }
             if(req.params.service == 2) {
-            	var sql_Request = SqlString.format("UPDATE `page` SET `mail_ok` =?, `api_cmd` = ?, `notice`=?, `youtube`=? , `auto_process`=? WHERE service=2 and owner=?", [mail_ok, api_cmd, notice, youtube, auto_process, req.user.id])
+            	var sql_Request = SqlString.format("UPDATE `pages` SET pagedata=json_set(pagedata, '$.mail_ok', ?, '$.api_cmd', ?, '$.auto_process', ?), `notice`=? WHERE service=2 and owner=?", [mail_ok, api_cmd, auto_process, notice, req.user.id])
             }
             if(req.params.service == 3) {
-            	var sql_Request = SqlString.format("UPDATE `page` SET `sv_ip` = ?, `sv_port` = ?, `notice`=?, `youtube`=? WHERE service=3 and owner=?", [sv_ip, sv_port, notice, youtube, req.user.id])
+            	var sql_Request = SqlString.format("UPDATE `pages` SET pagedata=json_set(pagedata, '$.sv_ip', ?, '$.sv_port', ?), `notice`=? WHERE service=3 and owner=?", [sv_ip, sv_port, notice, req.user.id])
             }
+            console.log(sql_Request)
             var sql_req = sql.query(sql_Request)
             res.json({ success: true, title: "완료했습니다!",  message: "성공적으로 페이지 수정을 요청했습니다." });
           }).catch(function (error) {

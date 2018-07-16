@@ -44,10 +44,10 @@ function complete(req, res){
           } else if(rdata.selectedProfile.name){
             var nick = rdata['selectedProfile']['name']
             /* */
-            var sql_req = sql.query('SELECT * FROM page WHERE name='+ SqlString.escape(page)+' and service=2', function(err, rows) {
+            var sql_req = sql.query('SELECT * FROM pages WHERE name='+ SqlString.escape(page)+' and service=2', function(err, rows) {
               if (err) { return reject('1번 질의 오류') }
               if (rows.length == 0) { return reject('정품인증 페이지가 존재하지 않습니다.') }
-              var sql_req2 = sql.query('SELECT * FROM id WHERE id='+ SqlString.escape(rows[0]['owner']), function(err, rows2) {
+              var sql_req2 = sql.query('SELECT * FROM users WHERE id='+ SqlString.escape(rows[0]['owner']), function(err, rows2) {
                 if (err) { return reject('2번 질의 오류') }
                 var sql_req5 = sql.query('SELECT * FROM service2 WHERE nick='+SqlString.escape(nick)+' and page='+ SqlString.escape(page), function (err, rows5) {
                   if(err){ return reject('5번 질의 오류') }
@@ -65,8 +65,8 @@ function complete(req, res){
                       var sql_Request = SqlString.format('INSERT INTO service2 values (?, ?, ?, ?, ?, ?, 0)', [no, rows[0]['owner'], page, nick, date, ip]);
                       var sql_req4  = sql.query(sql_Request, function(err, rows4) {
                         if (err) { return reject('4번 질의 오류'); }
-
-                        if(rows[0]['mail_ok'] == 1) {
+                        var jsonpagedata = JSON.parse(rows[0]['pagedata'])
+                        if(jsonpagedata['mail_ok'] == 1) {
                           var nodemailer = require('nodemailer');
                           var transporter = require('../../libs/mail_init');
                           var mailOptions = {
@@ -82,19 +82,22 @@ function complete(req, res){
                             }
                           });
                         }
-                        if(rows[0]['auto_process'] == 1){
-                          if(rows2[0]['api_ok'] == 1) {
-                            var api_cmd = rows[0]['api_cmd'];
-                            api_cmd = api_cmd.replace("<player>", nick);
-                            if(rows2[0]['api'] == "socket"){
-                              socket_api(rows2[0]['api_port'], rows2[0]['api_ip'], rows2[0]['api_key']+';'+rows2[0]['id']+';'+api_cmd, function(data){});
+                        if(jsonpagedata['auto_process'] == 1){
+                          sql.query(SqlString.format("SELECT * FROM api WHERE id=?"), [rows[0]['owner']], function(err, rows8){
+                            if(rows2[0]['pagedata']['api_ok'] == 1) {
+                              var api_cmd = rows[0]['pagedata']['api_cmd'];
+                              api_cmd = api_cmd.replace("<player>", nick);
+                              if(rows8[0]['api_type'] == "socket"){
+                                socket_api(rows8[0]['api_port'], rows8[0]['api_ip'], rows8[0]['api_key']+';'+rows2[0]['id']+';'+api_cmd, function(data){});
+                              }
+                              if(rows8[0]['api_type'] == "HTTP") {
+                                var sql_Request = SqlString.format('insert into api2 values (?, ?, ?, ?, ?)', [rows2[0]['id'], rows8[0]['api_key'], page, nick, api_cmd])
+                                var sql_req4 = sql.query(sql_Request)
+                              }
                             }
-                            if(rows2[0]['api'] == "HTTP") {
-                              var sql_Request = SqlString.format('insert into api2 values (?, ?, ?, ?, ?)', [rows2[0]['id'], rows2[0]['api_key'], page, nick, api_cmd])
-                              var sql_req4 = sql.query(sql_Request)
-                            }
-                          }
-                          sql.query('UPDATE `service2` SET status=1 WHERE num=' + SqlString.escape(no))
+                            sql.query('UPDATE `service2` SET status=1 WHERE num=' + SqlString.escape(no))
+                          })
+
                         }
 
                         resolve("<script>alert('정품인증에 성공했습니다!');location.replace('https://"+req.hostname+"/"+page+"');</script>")

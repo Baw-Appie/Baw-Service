@@ -2,17 +2,18 @@ var sql = require('../../config/dbtool');
 var SqlString = require('sqlstring');
 module.exports = function (req, res) {
     if(req.user) {
+      var savetojson = []
       if(req.params.service == "API") {
         var data = {
           "name": "API 플러그인"
         }
-        var select_option = ["api_ok"]
+        var select_option = ["api_enable"]
         var select_option_korean = ["API 플러그인 사용"]
         var text_option = ["api_ip","api_port","api_key"]
         var text_option_korean = ["API 플러그인 IP(Socket 전용)", "API 플러그인 포트(Socket 전용)", "API 키"]
         var textarea_option = []
         var textarea_option_korean = []
-        var custom_select_option = [{name: "api", korean: "API 타입", options: ["HTTP", "socket"], option_data: ["HTTP", "socket"], option_korean: ["HTTP", "socket"]}]
+        var custom_select_option = [{name: "api_type", korean: "API 타입", options: ["HTTP", "socket"], option_data: ["HTTP", "socket"], option_korean: ["HTTP", "socket"]}]
         var custom_text = ['<script>function randomString(){for(var n="0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz",t="",r=0;r<15;r++){var e=Math.floor(Math.random()*n.length);t+=n.substring(e,e+1)}return t}function input_Text(){document.getElementsByName("api_key")[0].value=randomString()}</script><button class="uk-button uk-button-danger uk-width-1-1" type="button" onclick="input_Text()"><i class="fas fa-redo-alt"></i> API 키  재설정</button><br><a target="_blank" href="https://www.icloud.com/iclouddrive/0HQuoqJ7Y9pNqZ5KJqACRLL7Q#BawServiceAPI-1.0.jar"><button type="button" class="uk-button uk-button-default uk-width-1-1">API 소켓 플러그인 다운로드 (v1.0)</button></a><br><a target="_blank" href="https://www.icloud.com/iclouddrive/0-hK77REwF5YNej0qTI-SGGSg#BawServiceHTTPAPI-1.0.jar"><button type="button" class="uk-button uk-button-default uk-width-1-1">API HTTP 플러그인 다운로드 (v1.0)</button></a><br>']
         var help = `<p>API 플러그인 중 소켓 버전을 사용할 시 사용자가 처리한 후원을 즉시 서버로 요청을 전달할 수 있습니다.</p>
 		<p>그 대신 단, 포트가 1개가 필요합니다.</p>
@@ -22,12 +23,14 @@ module.exports = function (req, res) {
 		<p>불가능할때에는 HTTP 버전을 사용하세요.</p>
 		<p>API 관련하여 궁금하신 사항이 있으시다면 언제든지 카카오톡 pp121324로 연락 부탁드립니다.</p>`
 
-        var sql_req = sql.query('select * from id where id=' + SqlString.escape(req.user.id), function(err, rows){
+        var sql_req = sql.query('select * from api where id=' + SqlString.escape(req.user.id), function(err, rows){
           if (rows.length === 0) {
-            req.session.error = data.name+'가 비활성화되어 있습니다.';
-            res.redirect('/')
+            var sql_req = sql.query(SqlString.format("INSERT INTO api SET id=?, api_enable=0, api_key='', api_ip='', api_port=3203, api_type='HTTP'", [req.user.id]), function(err, rows2){
+              req.session.error = data.name+' 서비스가 등록되어 있지 않아 서비스를 등록시켰습니다.';
+              res.send('<script>$.pjax({url: location.href, container: "#contents"})</script>')
+            })
           } else {
-            res.render('manage/edit', {rows: rows,data: data,select_option: select_option,select_option_korean: select_option_korean,text_option: text_option,text_option_korean: text_option_korean,textarea_option: textarea_option,textarea_option_korean: textarea_option_korean, custom_select_option: custom_select_option, custom_text: custom_text, help: help})
+            res.render('manage/edit', {rows: rows,data: data,select_option: select_option,select_option_korean: select_option_korean,text_option: text_option,text_option_korean: text_option_korean,textarea_option: textarea_option,textarea_option_korean: textarea_option_korean, custom_select_option: custom_select_option, custom_text: custom_text, help: help, savetojson: savetojson})
           }
         });
       } else if(req.params.service == "SMS") {
@@ -50,7 +53,7 @@ module.exports = function (req, res) {
               res.send('<script>$.pjax({url: location.href, container: "#contents"})</script>')
             })
           } else {
-            res.render('manage/edit', {rows: rows,data: data,select_option: select_option,select_option_korean: select_option_korean,text_option: text_option,text_option_korean: text_option_korean,textarea_option: textarea_option,textarea_option_korean: textarea_option_korean, custom_select_option: custom_select_option, custom_text: custom_text})
+            res.render('manage/edit', {rows: rows,data: data,select_option: select_option,select_option_korean: select_option_korean,text_option: text_option,text_option_korean: text_option_korean,textarea_option: textarea_option,textarea_option_korean: textarea_option_korean, custom_select_option: custom_select_option, custom_text: custom_text, savetojson: savetojson})
           }
         });
       } else if(req.params.service == "Kakao") {
@@ -70,7 +73,7 @@ module.exports = function (req, res) {
           if (rows.length === 0) {
             res.send('<script>location.replace("/secuity/allow_katalk")</script>')
           } else {
-            res.render('manage/edit', {rows: rows,data: data,select_option: select_option,select_option_korean: select_option_korean,text_option: text_option,text_option_korean: text_option_korean,textarea_option: textarea_option,textarea_option_korean: textarea_option_korean, custom_select_option: custom_select_option, custom_text: custom_text, do_not_save: true})
+            res.render('manage/edit', {rows: rows,data: data,select_option: select_option,select_option_korean: select_option_korean,text_option: text_option,text_option_korean: text_option_korean,textarea_option: textarea_option,textarea_option_korean: textarea_option_korean, custom_select_option: custom_select_option, custom_text: custom_text, do_not_save: true, savetojson: savetojson})
           }
         });
       } else if(req.params.service == "Telegram") {
@@ -93,7 +96,7 @@ module.exports = function (req, res) {
               res.send('<script>$.pjax({url: location.href, container: "#contents"})</script>')
             })
           } else {
-            res.render('manage/edit', {rows: rows,data: data,select_option: select_option,select_option_korean: select_option_korean,text_option: text_option,text_option_korean: text_option_korean,textarea_option: textarea_option,textarea_option_korean: textarea_option_korean, custom_select_option: custom_select_option, help: help})
+            res.render('manage/edit', {rows: rows,data: data,select_option: select_option,select_option_korean: select_option_korean,text_option: text_option,text_option_korean: text_option_korean,textarea_option: textarea_option,textarea_option_korean: textarea_option_korean, custom_select_option: custom_select_option, help: help, savetojson: savetojson})
           }
         });
 
@@ -112,7 +115,7 @@ module.exports = function (req, res) {
         var sql_req = sql.query('select * from custom_domain where owner=' + SqlString.escape(req.user.id), function(err, rows){
           if (rows.length === 0) {
             var date = new Date().toLocaleDateString()
-            var sql_req = sql.query('select * from page where service=1 and owner=' + SqlString.escape(req.user.id), function(err, rows2){
+            var sql_req = sql.query('select * from pages where service=1 and owner=' + SqlString.escape(req.user.id), function(err, rows2){
               if(rows2.length === 1){
                 var sql_req = sql.query(SqlString.format('INSERT INTO `custom_domain` VALUES (NULL, ?, ?, "example.com", ?, 1);', [req.user.id, date, rows2[0]['name']]), function(err, rows3){
                   req.session.error = data.name+' 서비스가 등록되어 있지 않아 서비스를 등록시켰습니다.';
@@ -125,7 +128,7 @@ module.exports = function (req, res) {
             })
           } else {
             var custom_text = "연결 후 해당 도메인을 CNAME 레코드로 dev.rpgfarm.com에 연결하세요.<br>현재 연결 대상 사이트: https://baws.kr/" + rows[0]['go']
-            res.render('manage/edit', {rows: rows,data: data,select_option: select_option,select_option_korean: select_option_korean,text_option: text_option,text_option_korean: text_option_korean,textarea_option: textarea_option,textarea_option_korean: textarea_option_korean, custom_select_option: custom_select_option, custom_text: custom_text})
+            res.render('manage/edit', {rows: rows,data: data,select_option: select_option,select_option_korean: select_option_korean,text_option: text_option,text_option_korean: text_option_korean,textarea_option: textarea_option,textarea_option_korean: textarea_option_korean, custom_select_option: custom_select_option, custom_text: custom_text, savetojson: savetojson})
           }
         });
 
