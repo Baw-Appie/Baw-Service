@@ -139,7 +139,7 @@ function setComma(inNum){
       }
      return outNum;
 }
-$('.ui.dropdown').dropdown('setting', 'onChange', function(value, text, choice){
+$('.ui.dropdown.MethodSelect').dropdown('setting', 'onChange', function(value, text, choice){
   if(value == "계좌이체"){
     $(".nn").slideDown(500);
     $(".ncombo").slideUp(500);

@@ -105,7 +105,7 @@ html
         .two.fields
           .field
             label 후원 종류
-            .ui.selection.dropdown
+            .ui.selection.dropdown.MethodSelect
               input(type='hidden', name='Combo')
               i.dropdown.icon
               .default.text 후원 수단을 선택하세요.
@@ -217,9 +217,8 @@ html
           | 공지 사항을 읽었습니다.
           i.checkmark.icon
     script.
-      $('.ui.modal')
-      .modal('show')
-      ;
+      $('.ui.dropdown').dropdown();
+      $('.ui.modal').modal('show');
 
   script(src=`https://${hostname}/public/user_page/js/donation-semantic.js`)
   if(authdata != false)
