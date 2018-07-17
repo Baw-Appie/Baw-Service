@@ -1,0 +1,227 @@
+doctype html
+html
+  head
+    title #{jsonuserdata['svname']}서버 후원 홈페이지
+    meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no')
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.9/semantic.min.css')
+    link(rel="stylesheet" href=`https://${hostname}/public/dashboard/css/fontawesome/fa-svg-with-js.css`)
+    link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.3.0/css/iziToast.min.css")
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.9/semantic.min.js')
+    script(src=`https://${hostname}/public/dashboard/js/fontawesome/fontawesome-all.min.js`)
+    script(src=`https://${hostname}/public/dashboard/js/fontawesome/fa-v4-shims.min.js`)
+    script(src=`https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.3.0/js/iziToast.min.js`)
+    script(src='https://www.google.com/recaptcha/api.js', async, defer)
+    script(async src='https://www.googletagmanager.com/gtag/js?id=UA-112023380-1')
+    script.
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-112023380-1');
+    style.
+      @import url('https://fonts.googleapis.com/css?family=Nanum+Gothic');
+      * {
+        font-family: 'Nanum Gothic', sans-serif;
+      }
+      body {
+        background-image: url("public/img/background.jpg");
+        background-color: #cccccc;
+      }
+      .ui.top.fixed.menu {
+        margin-bottom: 20px;
+      }
+      .grecaptcha-badge {
+        display: none;
+      }
+      
+
+  body
+    //- .ui.fixed.menu
+    //-   .ui.container
+    //-     a.header.item(href='#')
+    //-       |         #{jsonuserdata['svname']}서버
+    //-     each da, i in otherpage
+    //-       if da.service == 1
+    //-         a.item.active(href=`https://${hostname}/${da["name"]}`) 후원
+    //-       if da.service == 2
+    //-         a.item(href=`https://${hostname}/${da["name"]}`) 정품 인증
+    //-       if da.service == 3
+    //-         a.item(href=`https://${hostname}/${da["name"]}`) 서버 상태 확인
+    //-       if da.service == 4
+    //-         a.item(href=`https://${hostname}/${da["name"]}`) 후원 금액 조회
+
+    if jsonpagedata['youtube']
+      #player.player
+      style.
+        .player {
+          display: none;
+        }
+      script.
+        var tag = document.createElement("script");
+        tag.src = "https://www.youtube.com/player_api";
+        var firstScriptTag = document.getElementsByTagName("script")[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        var player;
+        function onYouTubePlayerAPIReady() {
+            player = new YT.Player("player", {
+            height: "390",
+            width: "640",
+            videoId: "#{jsonpagedata['youtube']}",
+            events: {
+            "onReady": onPlayerReady
+            }
+          });
+        }
+        function onPlayerReady(event) {
+          player.playVideo();
+        }
+        function pv() {
+          if (player.getPlayerState() == 1)
+          player.stopVideo();
+          else
+          player.playVideo();
+        }
+    br
+    br
+    br
+        
+        
+    br
+    .ui.container
+      if(jsonuserdata['ninfo'] != "")
+        .ui.success.message#ninfo
+          i.close.icon
+          .header
+            | 계좌 이체 후원 정보
+          p #{jsonuserdata['ninfo']}
+        br
+      .ui.attached.message(style="text-align: center;")
+        if(authdata != false)
+          .header <a style="color:DodgerBlue;" href="#" id="authed" data-content="이 후원 사이트는 Baw Service에서 #{authdata[0]['date']}에 #{authdata[0]['sv_ip']}으로 접속할 수 있는 #{authdata[0]['sv_name']}임을 확인하였습니다."><i class="fas fa-check-circle"></i></a> #{jsonuserdata['svname']}서버 후원하기
+        else
+          .header #{jsonuserdata['svname']}서버 후원하기
+        //- p #{jsonuserdata['svname']}서버에 후원하기
+      form.ui.form.attached.fluid.segment#TRM(name='TRM', method='post', action=`https://${hostname}/user/donation`)
+        .two.fields
+          .field
+            label 후원 종류
+            .ui.selection.dropdown
+              input(type='hidden', name='Combo')
+              i.dropdown.icon
+              .default.text 후원 수단을 선택하세요.
+              .menu
+                - if (jsonpagedata['disabled'].indexOf('문화상품권1') == -1)
+                  - var okdata = true
+                  .item(data-value='문화상품권') 컬쳐랜드 - 문화상품권
+                - if (jsonpagedata['disabled'].indexOf('도서문화상품권') == -1)
+                  - var okdata = true
+                  .item(data-value='도서문화상품권') 북앤라이프 - 도서문화상품권
+                - if (jsonpagedata['disabled'].indexOf('해피머니') == -1)
+                  - var okdata = true
+                  .item(data-value='해피머니') 해피머니
+                - if (jsonpagedata['disabled'].indexOf('틴캐시') == -1)
+                  - var okdata = true
+                  .item(data-value='틴캐시') 틴캐시
+                - if (jsonpagedata['disabled'].indexOf('계좌이체') == -1)
+                  - var okdata = true
+                  .item(data-value='계좌이체') 계좌이체
+                if(!okdata)
+                  .item(data-value='후원수단없음', disabled) 후원 수단 선택 불가
+                  .item(data-value='후원수단없음', disabled) 관리자에게 문의하세요.
+          .field
+            label 보상 선택
+            .ui.selection.dropdown
+              input(type='hidden', name='Radio')
+              i.dropdown.icon
+              .default.text 후원 보상을 선택하세요.
+              .menu
+                - var bouns = jsonpagedata.bouns.split('||')
+                each boun in bouns
+                  .item(value=boun) #{boun}
+                  - var okdata2 = true
+                if(okdata2 == false)
+                  .item(data-value='보상없음', disabled) 후원 보상 없음
+                    
+        .field
+          label 닉네임
+          input.form-control(type='text', name='nick', size='20', placeholder='닉네임', required='')
+        .field
+          label 후원 금액
+          input.form-control(type='text', name='bal', size='20', onkeyup='getNumber(this);', placeholder='후원 금액', required='')
+        .code
+          .field
+            label#code_text 발행일 또는 인증번호
+            input#code.form-control(type='text', size='16', name='code', placeholder='발행일 또는 인증코드')
+        .nn
+          .field
+            label 의뢰자
+            input#nname.form-control(type='text', name='nname', size='20', placeholder='입금자명')
+        .ncombo
+          .field
+            label 상품권 핀번호
+            table.normal
+              td(width='25%')
+                input#pin1.form-control.pin(type='text', name='pin1[]', maxlength='4', onkeydown='return onlyNumber(event)', onkeyup='removeChar(event)', placeholder='4자리')
+              td  - 
+              td(width='25%')
+                input#pin2.form-control.pin(type='text', name='pin2[]', maxlength='4', onkeydown='return onlyNumber(event)', onkeyup='removeChar(event)', placeholder='4자리')
+              td  - 
+              td(width='25%')
+                input#pin3.form-control.pin(type='text', name='pin3[]', maxlength='4', onkeydown='return onlyNumber(event)', onkeyup='removeChar(event)', placeholder='4자리')
+              td  - 
+              td(width='25%')
+                input#pin4.form-control.pin(type='text', name='pin4[]', maxlength='6', onkeydown='return onlyNumber(event)', onkeyup='removeChar(event)', placeholder='4/6자리')
+            table.teen
+              td(width='34%')
+                input#pin1teen.form-control.pin(type='text', name='pin1[]', maxlength='4', placeholder='4자리')
+              td  - 
+              td(width='34%')
+                input#pin2teen.form-control.pin(type='text', name='pin2[]', maxlength='4', placeholder='4자리')
+              td  - 
+              td(width='34%')
+                input#pin3teen.form-control.pin(type='text', name='pin3[]', maxlength='4', placeholder='4자리')
+        br
+        div(style="text-align: center;")
+          button.ui.animated.button.primary.g-recaptcha(type='submit', data-sitekey='6LeKTiwUAAAAANOYA7r37sTyquy_R0ljzSTVS6Bp', data-callback='captchaSubmit')
+            .visible.content 
+              i.far.fa-paper-plane
+            .hidden.content
+              | 제출
+          button.ui.animated.button.red.basic(type='reset')
+            .visible.content 
+              i.fa.fa-trash
+            .hidden.content
+              |  재입력
+          if jsonpagedata['youtube']
+            button.ui.animated.button.red.pink(onclick='pv()', type='button')
+              .visible.content 
+                i.fa.fa-youtube-play
+              .hidden.content
+                |  BGM
+        input(type='hidden', value=pagedata["name"], name='page')
+  br
+  br
+  if(pagedata['notice'] != "")
+    .ui.modal
+      //- i.close.icon
+      .header
+        | 공지 사항 확인
+      .image.content
+        //- .ui.medium.image
+        //-   img(src='/images/avatar/large/chris.jpg')
+        .description
+          .ui.header 다음 공지 사항을 읽고 후원을 계속하세요.
+          | !{pagedata['notice']}
+      .actions
+        .ui.positive.right.labeled.icon.button
+          | 공지 사항을 읽었습니다.
+          i.checkmark.icon
+    script.
+      $('.ui.modal')
+      .modal('show')
+      ;
+
+  script(src=`https://${hostname}/public/user_page/js/donation-semantic.js`)
+  if(authdata != false)
+    script.
+      $('#authed').popup();
