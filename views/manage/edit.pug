@@ -63,7 +63,7 @@ block contents
           .uk-margin.uk-grid-small.uk-child-width-auto.uk-grid
             label #{custom_select['korean']}
             - var name = custom_select['name'];
-            each custom_list, oo in custom_select['options']
+            each custom_list, oo in custom_select['option_data']
               - if(savetojson.indexOf(name) == -1){
                 - var vdata = rows[0][name]
               - } else {
