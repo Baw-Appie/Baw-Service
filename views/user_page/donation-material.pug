@@ -47,7 +47,7 @@ html
   body
     nav
       .nav-wrapper
-        a.brand-logo(href='#') #{userdata['svname']}서버
+        a.brand-logo(href='#') #{jsonuserdata['svname']}서버
         ul#nav-mobile.right.hide-on-med-and-down
           each da, i in otherpage
             if da.service == 2
