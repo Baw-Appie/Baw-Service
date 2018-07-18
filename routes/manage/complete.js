@@ -11,7 +11,7 @@ module.exports = function(req, res) {
           if(rows.length == 0) {
             res.json({ success: false, title: "권한이 없습니다.",  message: "해당 기록 수정 권한이 없습니다." });
           }
-          var sql_req2 = sql.query('select * from `id` WHERE id='+SqlString.escape(req.user.id), function(err, rows2){
+          var sql_req2 = sql.query('select * from `users` WHERE id='+SqlString.escape(req.user.id), function(err, rows2){
 
 
             if(err) { throw err };
