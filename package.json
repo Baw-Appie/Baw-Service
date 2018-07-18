@@ -5,19 +5,19 @@
   "main": "app.js",
   "dependencies": {
     "body-parser": "^1.18.3",
-    "compression": "^1.7.2",
+    "compression": "^1.7.3",
     "cookie-session": "^2.0.0-beta.3",
     "express": "^4.16.3",
     "express-rate-limit": "^2.11.0",
     "hoek": "^5.0.3",
     "md5": "^2.2.1",
-    "messaging-api-telegram": "^0.7.0",
+    "messaging-api-telegram": "^0.7.4",
     "mineping": "^0.1.0",
-    "mysql": "^2.15.0",
+    "mysql": "^2.16.0",
     "node-excel-export": "^1.4.3",
     "node-google-translate-skidz": "^1.1.2",
     "nodemailer": "^4.6.5",
-    "npm": "^6.1.0",
+    "npm": "^6.2.0",
     "passport": "^0.4.0",
     "passport-google-oauth2": "^0.1.6",
     "passport-kakao": "0.0.5",
@@ -27,6 +27,7 @@
     "request": "^2.87.0",
     "rss-to-json": "^1.0.4",
     "sharp": "^0.20.3",
+    "snyk": "^1.89.0",
     "spdy": "^3.4.7",
     "sqlstring": "^2.3.1",
     "supervisor": "^0.12.0",
@@ -34,9 +35,7 @@
     "tls": "0.0.1",
     "validator": "^9.4.1"
   },
-  "devDependencies": {
-    "snyk": "^1.82.0"
-  },
+  "devDependencies": {},
   "scripts": {
     "install": "set NODE_ENV=production && echo Node.js 프로덕션 모드로 변경되었습니다.",
     "dev:install": "set NODE_ENV=development && echo Node.js 개발 모드로 변경되었습니다. && npm i nodemon -g && echo nodemon이 설치되었습니다.",
