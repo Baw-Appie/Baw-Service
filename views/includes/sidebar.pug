@@ -2,6 +2,7 @@ ul.uk-nav-default.uk-nav-parent-icon(uk-nav='multiple: true')
   li.link
     a(href='https://' + hostname) 홈
   li.uk-nav-header SERVICE MANAGEMENT
+  li.uk-nav-divider
   li.link
     a(href='https://' + hostname + '/manage') 나의 페이지 전체 보기
   li.uk-parent
@@ -41,26 +42,27 @@ ul.uk-nav-default.uk-nav-parent-icon(uk-nav='multiple: true')
       li.link
         a(href='https://' + hostname + '/api/Telegram/edit') Telegram 알림 설정
   li.uk-nav-header BAW SERVICE
-    li.uk-parent
-      a(href='#') Baw Service Blog
-      ul.uk-nav-sub
-        li.link
-          a(href='http://baw-service.tistory.com') Baw Service 공식 블로그
-        li.link
-          a(href='http://baw-service.tistory.com/13') Baw Service 인증 알아보기
-        li.link
-          a(href='http://baw-service.tistory.com/29') Baw Service 이용 약관
-    li.link
-      a(href='https://'+hostname+'/BawService') Baw Service 후원
-    li.link
-      a(href='https://gitlab.com/Baw-Dev/Baw-Service') Baw Service 오픈소스 프로젝트
-    li.uk-parent
-      a(href='#') Baw Service 버그 신고
-      ul.uk-nav-sub
-        li.link
-          a(href='mailto:pp121324@gmail.com') Email
-        li.link
-          a(onclick='void plusFriendChat()') KakaoTalk
-        li.link
-          a(href='https://t.me/BawAppie') Telegram
+  li.uk-nav-divider
+  li.uk-parent
+    a(href='#') Baw Service Blog
+    ul.uk-nav-sub
+      li.link
+        a(href='http://baw-service.tistory.com') Baw Service 공식 블로그
+      li.link
+        a(href='http://baw-service.tistory.com/13') Baw Service 인증 알아보기
+      li.link
+        a(href='http://baw-service.tistory.com/29') Baw Service 이용 약관
+  li.link
+    a(href='https://'+hostname+'/BawService') Baw Service 후원
+  li.link
+    a(href='https://gitlab.com/Baw-Dev/Baw-Service') Baw Service 오픈소스 프로젝트
+  li.uk-parent
+    a(href='#') Baw Service 버그 신고
+    ul.uk-nav-sub
+      li.link
+        a(href='mailto:pp121324@gmail.com') Email
+      li.link
+        a(onclick='void plusFriendChat()') KakaoTalk
+      li.link
+        a(href='https://t.me/BawAppie') Telegram
     
