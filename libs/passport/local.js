@@ -16,7 +16,7 @@ module.exports = function (req, username, password, done) {
         return done(null, {
           'id': username,
           'mail': rows[0]['mail'],
-          'svname': rows[0]['svname'],
+          'svname': JSON.parse(rows[0]['userdata'])['svname'],
           'md5mail': require('md5')(rows[0]['mail'])
         });
       }
