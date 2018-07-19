@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Baw Service Node.js Project",
   "main": "app.js",
+  "repository": "https://gitlab.com/Baw-Dev/Baw-Service.git",
   "dependencies": {
     "body-parser": "^1.18.3",
     "compression": "^1.7.3",
