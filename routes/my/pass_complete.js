@@ -34,7 +34,7 @@ module.exports = function(req, res) {
             res.json({ success: false, title: "비밀번호 불일치",  message: "기존 비밀번호가 일치하지 않습니다." });
           } else {
             var sql_Request = SqlString.format('UPDATE `users` SET `password`=password(?) WHERE `id` = ?', [req.body.pass1, req.user.id])
-            var sql_req = sql.query(sql_Request)
+            sql.query(sql_Request)
             res.json({ success: true, title: "완료했습니다!",  message: "정보 변경 요청이 전달되었습니다." });
           }
         })

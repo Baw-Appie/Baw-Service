@@ -67,7 +67,7 @@ module.exports = function(req, res) {
                 })
               }
               if(sql_Request) {
-                var sql_req = sql.query(sql_Request)
+                sql.query(sql_Request)
                 res.json({ success: true, title: "완료했습니다!",  message: "부가 서비스 설정 변경이 요청되었습니다." });
               }
             }).catch(function (error) {

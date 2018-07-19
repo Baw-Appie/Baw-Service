@@ -13,7 +13,7 @@ module.exports = function(req, res){
     if(type == "page"){
       var sql_Request = SqlString.format('SELECT * FROM pages WHERE name=?', [req.body.data])
     }
-    var sql_req = sql.query(sql_Request, function(err, rows){
+    sql.query(sql_Request, function(err, rows){
       if(err){ throw new Error('1번 질의 오류') }
       if(rows.length == 0){
         if(type == "mail"){

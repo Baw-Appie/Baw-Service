@@ -55,10 +55,10 @@ function complete(req, res){
       if(status != 0 && status !=  1 && status !=  2){
         return reject('처리 상태를 제대로 선택해주세요.' + status)
       }
-      var sql_req = sql.query('SELECT * FROM pages WHERE owner='+ SqlString.escape(req.user.id)+' and service=1', function(err, rows) {
+      sql.query('SELECT * FROM pages WHERE owner='+ SqlString.escape(req.user.id)+' and service=1', function(err, rows) {
         if (err) { return reject('1번 질의 오류') }
         if (rows.length == 0) { return reject('후원 홈페이지가 존재하지 않습니다.') }
-        var sql_req3 = sql.query('SELECT * FROM service1 ORDER BY `num` ASC', function(err, rows3) {
+        sql.query('SELECT * FROM service1 ORDER BY `num` ASC', function(err, rows3) {
           if (err) { return reject('3번 질의 오류') }
           var counter = rows3.length;
           rows3.forEach(function(item) {

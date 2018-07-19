@@ -44,18 +44,18 @@ function complete(req, res){
           } else if(rdata.selectedProfile.name){
             var nick = rdata['selectedProfile']['name']
             /* */
-            var sql_req = sql.query('SELECT * FROM pages WHERE name='+ SqlString.escape(page)+' and service=2', function(err, rows) {
+            sql.query('SELECT * FROM pages WHERE name='+ SqlString.escape(page)+' and service=2', function(err, rows) {
               if (err) { return reject('1번 질의 오류') }
               if (rows.length == 0) { return reject('정품인증 페이지가 존재하지 않습니다.') }
-              var sql_req2 = sql.query('SELECT * FROM users WHERE id='+ SqlString.escape(rows[0]['owner']), function(err, rows2) {
+              sql.query('SELECT * FROM users WHERE id='+ SqlString.escape(rows[0]['owner']), function(err, rows2) {
                 if (err) { return reject('2번 질의 오류') }
-                var sql_req5 = sql.query('SELECT * FROM service2 WHERE nick='+SqlString.escape(nick)+' and page='+ SqlString.escape(page), function (err, rows5) {
+                sql.query('SELECT * FROM service2 WHERE nick='+SqlString.escape(nick)+' and page='+ SqlString.escape(page), function (err, rows5) {
                   if(err){ return reject('5번 질의 오류') }
                   if(rows5.length != 0){
                     return reject('이미 인증되었습니다.')
                   }
                 })
-                var sql_req3 = sql.query('SELECT * FROM service2 ORDER BY `num` ASC', function(err, rows3) {
+                sql.query('SELECT * FROM service2 ORDER BY `num` ASC', function(err, rows3) {
                   if (err) { return reject('3번 질의 오류') }
                   var counter = rows3.length;
                   rows3.forEach(function(item) {
@@ -92,7 +92,7 @@ function complete(req, res){
                               }
                               if(rows8[0]['api_type'] == "HTTP") {
                                 var sql_Request = SqlString.format('insert into api2 values (?, ?, ?, ?, ?)', [rows2[0]['id'], rows8[0]['api_key'], page, nick, api_cmd])
-                                var sql_req4 = sql.query(sql_Request)
+                                sql.query(sql_Request)
                               }
                             }
                             sql.query('UPDATE `service2` SET status=1 WHERE num=' + SqlString.escape(no))

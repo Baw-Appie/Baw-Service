@@ -23,9 +23,9 @@ module.exports = function (req, res) {
 		<p>불가능할때에는 HTTP 버전을 사용하세요.</p>
 		<p>API 관련하여 궁금하신 사항이 있으시다면 언제든지 카카오톡 pp121324로 연락 부탁드립니다.</p>`
 
-        var sql_req = sql.query('select * from api where id=' + SqlString.escape(req.user.id), function(err, rows){
+        sql.query('select * from api where id=' + SqlString.escape(req.user.id), function(err, rows){
           if (rows.length === 0) {
-            var sql_req = sql.query(SqlString.format("INSERT INTO api SET id=?, api_enable=0, api_key='', api_ip='', api_port=3203, api_type='HTTP'", [req.user.id]), function(err, rows2){
+            sql.query(SqlString.format("INSERT INTO api SET id=?, api_enable=0, api_key='', api_ip='', api_port=3203, api_type='HTTP'", [req.user.id]), function(err, rows2){
               req.session.error = data.name+' 서비스가 등록되어 있지 않아 서비스를 등록시켰습니다.';
               res.send('<script>$.pjax({url: location.href, container: "#contents"})</script>')
             })
@@ -46,9 +46,9 @@ module.exports = function (req, res) {
         var custom_select_option = []
         var custom_text = ['<p>SMS 부가 서비스를 이용하면 카카오톡 알림은 전송되지 않습니다.</p><p>카카오톡 알림 서비스를 사용하려면 후원 사이트 수정에서 SMS 알림이 켜져있다면 꺼주세요.</p>']
 
-        var sql_req = sql.query('select * from sms where id=' + SqlString.escape(req.user.id), function(err, rows){
+        sql.query('select * from sms where id=' + SqlString.escape(req.user.id), function(err, rows){
           if (rows.length === 0) {
-            var sql_req = sql.query(SqlString.format('insert into sms values (?, "010-0000-0000", 0, 0)', [req.user.id]), function(err, rows2){
+            sql.query(SqlString.format('insert into sms values (?, "010-0000-0000", 0, 0)', [req.user.id]), function(err, rows2){
               req.session.error = data.name+' 서비스가 등록되어 있지 않아 서비스를 등록시켰습니다.';
               res.send('<script>$.pjax({url: location.href, container: "#contents"})</script>')
             })
@@ -69,7 +69,7 @@ module.exports = function (req, res) {
         var custom_select_option = []
         var custom_text = ['<p>카카오톡 알림 서비스의 전화번호는 수정할 수 없습니다. 수정하려면 카카오톡 고객센터 @b_noti로 알려주세요.</p><p>만약 SMS 알림 서비스를 이용하면 카카오톡 알림은 전송되지 않습니다.</p><p>카카오톡 알림 서비스를 이용하려면 후원 사이트에서 SMS 알림이 켜져있다면 꺼주세요.</p><p>SMS 서비스와 동일하게 10분당 1회만 전송됩니다.</p>']
 
-        var sql_req = sql.query('select * from katalk where id=' + SqlString.escape(req.user.id), function(err, rows){
+        sql.query('select * from katalk where id=' + SqlString.escape(req.user.id), function(err, rows){
           if (rows.length === 0) {
             res.send('<script>location.replace("/secuity/allow_katalk")</script>')
           } else {
@@ -89,9 +89,9 @@ module.exports = function (req, res) {
         var custom_select_option = []
         var help = `<p>Telegram에서 @BawServiceBot을 초대하여 '채팅방 ID'라고 질문하세요.</p>`
 
-        var sql_req = sql.query('select * from telegram where id=' + SqlString.escape(req.user.id), function(err, rows){
+        sql.query('select * from telegram where id=' + SqlString.escape(req.user.id), function(err, rows){
           if (rows.length === 0) {
-            var sql_req = sql.query(SqlString.format('insert into telegram values (?, "")', [req.user.id]), function(err, rows2){
+            sql.query(SqlString.format('insert into telegram values (?, "")', [req.user.id]), function(err, rows2){
               req.session.error = data.name+' 서비스가 등록되어 있지 않아 서비스를 등록시켰습니다.';
               res.send('<script>$.pjax({url: location.href, container: "#contents"})</script>')
             })
@@ -112,12 +112,12 @@ module.exports = function (req, res) {
         var textarea_option_korean = []
         var custom_select_option = []
 
-        var sql_req = sql.query('select * from custom_domain where owner=' + SqlString.escape(req.user.id), function(err, rows){
+        sql.query('select * from custom_domain where owner=' + SqlString.escape(req.user.id), function(err, rows){
           if (rows.length === 0) {
             var date = new Date().toLocaleDateString()
-            var sql_req = sql.query('select * from pages where service=1 and owner=' + SqlString.escape(req.user.id), function(err, rows2){
+            sql.query('select * from pages where service=1 and owner=' + SqlString.escape(req.user.id), function(err, rows2){
               if(rows2.length === 1){
-                var sql_req = sql.query(SqlString.format('INSERT INTO `custom_domain` VALUES (NULL, ?, ?, "example.com", ?, 1);', [req.user.id, date, rows2[0]['name']]), function(err, rows3){
+                sql.query(SqlString.format('INSERT INTO `custom_domain` VALUES (NULL, ?, ?, "example.com", ?, 1);', [req.user.id, date, rows2[0]['name']]), function(err, rows3){
                   req.session.error = data.name+' 서비스가 등록되어 있지 않아 서비스를 등록시켰습니다.';
                   res.send('<script>$.pjax({url: location.href, container: "#contents"})</script>')
                 })
