@@ -143,19 +143,20 @@ function complete(req, res){
                     sql.query(SqlString.format('SELECT * FROM katalk WHERE send=0 AND id=?', [rows[0]['owner']]), function(err, rows7){
                       if (err) { return reject('7번 질의 오류'); }
                       if(rows7.length == 1){
-                        var headers = {
-                            'Accept': 'application/json',
-                            'Content-type': 'application/json',
-                            'userId': server_settings.katalk_id
-                        };
-                        var formdata = `[{"message_type": "at","phn": "`+rows7[0]['phone']+`","profile": "`+server_settings.katalk_senderkey+`","reserveDt": "00000000000000","msg": "[Baw Notication] `+rows2[0]['userdata']['svname']+` 상점에 직접 등록하셔서 판매중이던 `+Radio+`(이)가 판매되었습니다.\n\n상품명: `+Radio+`\n구매자명: `+nick+`\n구매 일시: `+date+`\n구매 금액: `+bal+`\n\n`+date+`에 이 알림 수신에 동의하셨으며, 더 이상 수신을 원하지 않으실 경우 아래 채팅창으로 알려주시기 바랍니다.","tmplId": "N08","smsKind": "N", "button1": {"name":"판매자 페이지", "type":"WL","url_mobile":"https://baws.kr/manage/1/view"}}]`
-                        console.log(formdata)
-                        request.post({url: 'https://alimtalk-api.bizmsg.kr/v2/sender/send', headers: headers, body: formdata}, function(e,r,b){
+                        var formdata = {
+                          api_key: server_settings.katalk_api_key,
+                          template_code: server_settings.katalk_donation_template,
+                          variable: JSON.parse(rows2[0]['userdata'])['svname']+"서버|"+Radio+"|"+Radio+"|"+nick+"|"+date+"|"+bal+"|"+date,
+                          callback: server_settings.katalk_caller,
+                          dstaddr: rows7[0]['phone'],
+                          next_type: 0,
+                          send_reserve: 0
+                        }
+                        request.post({url: 'http://'+server_settings.katalk_server+'/API/alimtalk_api', form: formdata}, function(e,r,b){
                           sql.query(SqlString.format('update katalk set send = send+1 where id = ?', [rows[0]['owner']]))
-                          console.log(b)
                           b = JSON.parse(b);
-                          if(b.code == "fail"){
-                            return reject('후원 등록에는 성공하였으나 알림 문자 전송 오류입니다. 후원 사실을 서버 관리자에게 직접 알려주세요.')
+                          if(b.result != "100"){
+                            return reject('후원 등록에는 성공하였으나 알림 카톡 전송 오류입니다. 후원 사실을 서버 관리자에게 직접 알려주세요.')
                           }
                         })
                       }

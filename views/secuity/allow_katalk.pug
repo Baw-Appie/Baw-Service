@@ -49,13 +49,11 @@ block contents
       legend.uk-legend 카카오톡 알림톡 수신 설정
       .uk-margin
         label 카카오톡이 설치된 한국 국제번호
-          input.uk-input(type='text', name='phone', id='phone', placeholder='"-"를 제외한 한국 국제번호')
+          input.uk-input(type='text', name='phone', id='phone', placeholder='"-"를 제외한 한국전화번호')
       button.uk-button.uk-button-secondary.send(type="button")
         i(class="fas fa-plane")
         |  인증번호 발송
       |  (인증번호는 하루에 3회만 수신할 수 있습니다)
-      | 국내 전화번호의 첫부분에 붙은 0을 지우고 그 앞에 82를 붙이면 국제전화번호가 됩니다.
-      | 010-1234-5678 → 821012345678
       .uk-margin
         label 카카오톡으로 수신한 인증번호
           input.uk-input(type='text', name='code', placeholder='인증번호')
