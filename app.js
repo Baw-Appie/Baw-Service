@@ -103,6 +103,8 @@ app.post('/my', require('./routes/my/edit_complete'))
 app.post('/my/pass', require('./routes/my/pass_complete'))
 // *개인설정* //
 
+app.get('/action/:code', require('./routes/action'))
+
 // 페이지 관리
 app.get('/manage', require('./routes/manage/list_view'));
 app.get('/manage/:service/view', require('./routes/manage/view'));
