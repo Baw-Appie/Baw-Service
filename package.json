@@ -7,7 +7,7 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "compression": "^1.7.3",
-    "cookie-session": "^2.0.0-beta.3",
+    "cookie-session": "^1.3.2",
     "express": "^4.16.3",
     "express-rate-limit": "^2.11.0",
     "hoek": "^5.0.3",
@@ -15,26 +15,26 @@
     "messaging-api-telegram": "^0.7.4",
     "mineping": "^0.1.0",
     "mysql": "^2.16.0",
-    "node-excel-export": "^1.4.3",
+    "node-excel-export": "^1.4.4",
     "node-google-translate-skidz": "^1.1.2",
-    "nodemailer": "^4.6.5",
+    "nodemailer": "^4.6.7",
     "npm": "^6.2.0",
     "passport": "^0.4.0",
     "passport-google-oauth2": "^0.1.6",
     "passport-kakao": "0.0.5",
     "passport-local": "^1.0.0",
     "pug": "^2.0.3",
-    "raven": "^2.6.2",
+    "raven": "^2.6.3",
     "request": "^2.87.0",
     "rss-to-json": "^1.0.4",
-    "sharp": "^0.20.3",
+    "sharp": "^0.20.5",
     "snyk": "^1.89.0",
     "spdy": "^3.4.7",
     "sqlstring": "^2.3.1",
     "supervisor": "^0.12.0",
     "text-to-svg": "^3.1.3",
     "tls": "0.0.1",
-    "validator": "^9.4.1"
+    "validator": "^10.4.0"
   },
   "devDependencies": {},
   "scripts": {
@@ -42,8 +42,11 @@
     "dev:install": "set NODE_ENV=development && echo Node.js 개발 모드로 변경되었습니다. && npm i nodemon -g && echo nodemon이 설치되었습니다.",
     "start": "node app",
     "dev:start": "nodemon app",
-    "dev:secuitytest": "snyk test"
+    "dev:secuitytest": "snyk test",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "author": "Baw_Appie",
-  "license": "MPL-2.0"
+  "license": "MPL-2.0",
+  "snyk": true
 }
