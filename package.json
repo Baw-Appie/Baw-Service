@@ -41,8 +41,11 @@
     "install": "set NODE_ENV=production",
     "dev:install": "set NODE_ENV=development && npm i nodemon -g",
     "start": "node app",
-    "dev:start": "nodemon app"
+    "dev:start": "nodemon app",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "author": "Baw_Appie",
-  "license": "MPL-2.0"
+  "license": "MPL-2.0",
+  "snyk": true
 }
