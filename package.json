@@ -1,5 +1,5 @@
 {
-  "name": "bawservice",
+  "name": "baw-service",
   "version": "1.0.0",
   "description": "Baw Service Node.js Project",
   "main": "app.js",
@@ -38,11 +38,10 @@
   },
   "devDependencies": {},
   "scripts": {
-    "install": "set NODE_ENV=production && echo Node.js 프로덕션 모드로 변경되었습니다.",
-    "dev:install": "set NODE_ENV=development && echo Node.js 개발 모드로 변경되었습니다. && npm i nodemon -g && echo nodemon이 설치되었습니다.",
+    "install": "set NODE_ENV=production",
+    "dev:install": "set NODE_ENV=development && npm i nodemon -g",
     "start": "node app",
     "dev:start": "nodemon app",
-    "dev:secuitytest": "snyk test",
     "snyk-protect": "snyk protect",
     "prepare": "npm run snyk-protect"
   },
