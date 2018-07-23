@@ -1,3 +1,20 @@
+$('.ui.dropdown').dropdown();
+$('.ui.modal').modal('show');
+loadScript('https://www.google.com/recaptcha/api.js?onload=Loaded&render=explicit')
+function Loaded() {
+  captcha = {}
+  $(".g-recaptcha").each(function(index,value) {
+      var object = $(this);
+      captcha[index] = grecaptcha.render(object.attr("id"), {
+          "sitekey" : captcha_sitekey,
+          "callback" : function(token) {
+              console.log(object.parents('form'))
+              object.parents('form').find(".g-recaptcha-response").val(token);
+              object.parents('form').submit();
+          }
+      });
+  });
+}
 $(function() {
     $(".pin").keyup (function () {
         var charLimit = $(this).attr("maxlength");
@@ -8,7 +25,6 @@ $(function() {
         }
     });
 });
-
 function onlyNumber(event){
 	event = event || window.event;
 	var keyID = (event.which) ? event.which : event.keyCode;
@@ -28,7 +44,6 @@ function removeChar(event) {
 function error(text){
   iziToast.warning({title: "후원에 실패했습니다.", message: text})
 }
-
 function blank_up(){
     var du = document.TRM;
 
@@ -101,7 +116,7 @@ function blank_up(){
 		}
 	}
 
-	var v = grecaptcha.getResponse();
+	var v = grecaptcha.getResponse(0);
      if(v.length == 0)
     {
         error('정말 로봇이 맞으신가요?');
@@ -120,18 +135,15 @@ var rgx1 = /\D/g;
 var rgx2 = /(\d+)(\d{3})/;
 
 function getNumber(obj){
-
      var num01;
      var num02;
      num01 = obj.value;
      num02 = num01.replace(rgx1,"");
      num01 = setComma(num02);
      obj.value =  num01;
-
 }
 
 function setComma(inNum){
-
      var outNum;
      outNum = inNum;
      while (rgx2.test(outNum)) {
@@ -182,12 +194,15 @@ $(document).ready(function()
 	$("#ninfo").hide();
 	$(".code").hide();
 });
-
-function captchaSubmit() {
-	var ok = blank_up();
-    if (ok == true) {
-		    $("#TRM").submit();
-    } else {
-        grecaptcha.reset();
-    }
-}
+// $("#TRM").submit(function(){
+//   iziToast.info({ title: "잠시만 기다려주세요..", message: "작성하신 내용을 확인하고 있습니다.." })
+// 	var ok = blank_up();
+//   if (ok == false) {
+//     console.log("Fail!~")
+//     return false;
+//   } else {
+//     var formdata=$("#TRM").serialize();
+//     console.log(formdata)
+//   }
+//   grecaptcha.reset(0)
+// })
