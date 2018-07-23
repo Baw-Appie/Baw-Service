@@ -40,10 +40,6 @@ function complete(req, res){
             var sql_Request = SqlString.format("INSERT INTO pages SET name=?, owner=?, service=3, status=1, theme='bootstrap3', notice='이 정보는 부정확할 수 있으니 직접 접속하여 확인해보시기 바랍니다.', pagedata=json_object('regdate', ?, 'sv_ip', '', 'sv_port', 25565)", [name, req.user.id, date])
             var message = "페이지 설정에서 서버의 IP와 포트를 입력할 수 있으며, SRV 레코드를 지원합니다! 일부 서버에서는 작동하지 않는 문제가 확인되고 있으니, 해당 문제가 발생하면 카카오톡 pp121324로 꼭 알려주세요!"
           }
-          if(service == 4) {
-            var sql_Request = SqlString.format("INSERT INTO pages SET name=?, owner=?, service=4, status=1, notice='', theme='bootstrap3', pagedata=json_object('regdate', ?)", [name, req.user.id, date])
-            var message = "후원 금액 조회 서비스는 Baw Service의 후원 기록 데이터베이스와 연동되는 서비스입니다. 타 서비스에서 Baw Service로 전환하고자 하신다면 카카오톡 pp121324로 꼭 알려주세요!"
-          }
 
           sql.query(sql_Request, function(err, rows3){
             if(err) { return reject("3번 질의 오류") }
