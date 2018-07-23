@@ -4,7 +4,10 @@ block contents
     div
       .uk-card.uk-card-default.uk-card-body
         h3.uk-card-title 후원 홈페이지
-        p 마인크래프트 서버의 후원을 받을 수 있도록 최적화된 사이트
+        p
+          | 마인크래프트 서버의 후원을 받을 수 있도록 최적화된 사이트
+          br
+          a(href=`https://${hostname}/${data1.name}`, class="uk-button uk-button-text") https://#{hostname}/#{data1.name}
         if(data1)
           a(href="https://" + hostname + "/manage/1/edit")
             button.uk-button.uk-button-default 수정
@@ -20,7 +23,10 @@ block contents
     div
       .uk-card.uk-card-primary.uk-card-body
         h3.uk-card-title 정품 인증 사이트
-        p 마인크래프트 정품 유저인지 가장 확실하게 알려주는 사이트
+        p
+          | 마인크래프트 정품 유저인지 가장 확실하게 알려주는 사이트
+          br
+          a(href=`https://${hostname}/${data2.name}`, class="uk-button uk-button-text") https://#{hostname}/#{data2.name}
         if(data2)
           a(href="https://" + hostname + "/manage/2/edit")
             button.uk-button.uk-button-default 수정
@@ -36,7 +42,10 @@ block contents
     div
       .uk-card.uk-card-secondary.uk-card-body
         h3.uk-card-title 서버 상태 위젯
-        p 마인크래프트 서버의 상태를 간편하게 확인할 수 있도록 도와주는 사이트
+        p
+          | 마인크래프트 서버의 상태를 간편하게 확인할 수 있도록 도와주는 사이트
+          br
+          a(href=`https://${hostname}/${data3.name}`, class="uk-button uk-button-text") https://#{hostname}/#{data3.name}
         if(data3)
           a(href="https://" + hostname + "/manage/3/edit")
             button.uk-button.uk-button-default 수정
