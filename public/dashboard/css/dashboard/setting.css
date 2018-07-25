@@ -1,3 +1,10 @@
+@import url('https://fonts.googleapis.com/css?family=Nanum+Gothic');
 @media screen and (max-width: 400px) {
     div.sitedata { margin:0 auto;max-width: 95%; height: auto; }
+}
+* {
+  font-family: 'Nanum Gothic' !important;
+}
+.grecaptcha-badge {
+  display: none;
 }
