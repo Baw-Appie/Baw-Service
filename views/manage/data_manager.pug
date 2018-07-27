@@ -8,7 +8,7 @@ block extscript
     $(".recent_process").hide();
     $(".data_list").hide();
     $(".data_delete").hide();
-    $('.okay button').click(() => {
+    $('.okay button').click((event) => {
       var target = event.target
       var element = $(target).parent("div").parent("div")
       var id = $(element).attr("id")
@@ -38,7 +38,7 @@ block extscript
       });
     })
     var opened = []
-    $('.opening').click(() => {
+    $('.opening').click((event) => {
       var target = event.target
       var id = $(target).attr("id")
       $(".form").each(function(){ 
