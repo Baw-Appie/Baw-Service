@@ -28,3 +28,27 @@ patch:
         patched: '2018-07-20T12:23:54.508Z'
     - npm > node-gyp > request > hawk > cryptiles > boom > hoek:
         patched: '2018-07-20T12:23:54.508Z'
+    - npm > libcipm > npm-lifecycle > node-gyp > request > hawk > sntp > hoek:
+        patched: '2018-08-01T16:12:15.069Z'
+    - npm > npm-lifecycle > node-gyp > request > hawk > hoek:
+        patched: '2018-08-01T16:12:15.069Z'
+    - npm > npm-lifecycle > node-gyp > request > hawk > sntp > hoek:
+        patched: '2018-08-01T16:12:15.069Z'
+    - npm > npm-lifecycle > node-gyp > request > hawk > cryptiles > boom > hoek:
+        patched: '2018-08-01T16:12:15.069Z'
+    - npm > libcipm > npm-lifecycle > node-gyp > request > hawk > hoek:
+        patched: '2018-08-01T16:12:15.069Z'
+    - npm > libcipm > npm-lifecycle > node-gyp > request > hawk > boom > hoek:
+        patched: '2018-08-01T16:12:15.069Z'
+    - npm > npm-lifecycle > node-gyp > request > hawk > boom > hoek:
+        patched: '2018-08-01T16:12:15.069Z'
+    - npm > libcipm > npm-lifecycle > node-gyp > request > hawk > cryptiles > boom > hoek:
+        patched: '2018-08-01T16:12:15.069Z'
+    - npm > node-gyp > request > hawk > hoek:
+        patched: '2018-08-01T16:12:15.069Z'
+    - npm > node-gyp > request > hawk > boom > hoek:
+        patched: '2018-08-01T16:12:15.069Z'
+    - npm > node-gyp > request > hawk > sntp > hoek:
+        patched: '2018-08-01T16:12:15.069Z'
+    - npm > node-gyp > request > hawk > cryptiles > boom > hoek:
+        patched: '2018-08-01T16:12:15.069Z'
