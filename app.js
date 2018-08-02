@@ -83,6 +83,7 @@ app.use('/.well-known', express.static('.well-known'));
 // *페이지 라우터* //
 // 메인
 app.all('/', require('./routes/index'));
+app.all('/UnsupportedBrowser', (req, res) => { res.render('./UnsupportedBrowser') });
 
 // *보안* //
 // 카카오톡 활성화 요청
