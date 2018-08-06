@@ -83,7 +83,7 @@ module.exports = function(req, res, next) {
                               var banner = './public/banner_offline.png'
                             } else {
                               var online = new Buffer.from(textToSVG.getSVG(data.currentPlayers+'명', options2))
-                              var version = new Buffer.from(textToSVG.getSVG(data.version, options2))
+                              var version = new Buffer.from(textToSVG.getSVG(data.version.replace("Bungeecord ", ''), options2))
                               var banner = './public/banner_online.png'
                             }
                             var timer2 = new Date();
@@ -96,7 +96,7 @@ module.exports = function(req, res, next) {
                             .toBuffer()
                             .then(function(buffer){
                               sharp(buffer)
-                              .overlayWith(address, { left: 400, top:20 })
+                              .overlayWith(address, { left: 400, top: 20 })
                               .toBuffer()
                               .then(function(buffer){
                                 sharp(buffer)
