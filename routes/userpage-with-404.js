@@ -83,7 +83,7 @@ module.exports = function(req, res, next) {
                               var banner = './public/banner_offline.png'
                             } else {
                               var online = new Buffer.from(textToSVG.getSVG(data.currentPlayers+'명', options2))
-                              var version = new Buffer.from(textToSVG.getSVG(data.version.replace("Bungeecord ", ''), options2))
+                              var version = new Buffer.from(textToSVG.getSVG(data.version.replace("BungeeCord ", ''), options2))
                               var banner = './public/banner_online.png'
                             }
                             var timer2 = new Date();
