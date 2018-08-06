@@ -38,7 +38,7 @@ module.exports = function(req, res, next) {
                   res.render('./user_page/'+servicename+'-'+rows[0]['theme'], {pagedata: rows[0], otherpage: rows3, userdata: rows2[0], authdata: rows4, jsonpagedata: jsonpagedata, jsonuserdata: jsonuserdata})
                 } else if(rows[0]['service'] == '3') {
                   // 서버 상태 위젯 -- 가독성 주의
-
+                  var timer1 = new Date()
                   var mineping = require("mineping");
                   if(jsonpagedata['sv_ip'] == '' || jsonpagedata['sv_port'] == '') {
                     // 정보 없음 오류 렌더
@@ -58,52 +58,70 @@ module.exports = function(req, res, next) {
                       }
                       // 서버 정보 가져옴
                       mineping(1, sv_ip, sv_port, function(err, data) {
-                        if(err) {
-                          // 정보 없음
-                          res.render('./user_page/'+servicename+'-'+rows[0]['theme'], {pagedata: rows[0], userdata: rows2[0], otherpage: rows3, data: false, authdata: rows4, jsonpagedata: jsonpagedata, jsonuserdata: jsonuserdata})
-                        } else {
                           // 완료!
                           if(req.query.type != "img"){
-                            res.render('./user_page/'+servicename+'-'+rows[0]['theme'], {pagedata: rows[0], userdata: rows2[0], otherpage: rows3, data: data, authdata: rows4, jsonpagedata: jsonpagedata, jsonuserdata: jsonuserdata})
+                            if(err) {
+                              // 정보 없음
+                              res.render('./user_page/'+servicename+'-'+rows[0]['theme'], {pagedata: rows[0], userdata: rows2[0], otherpage: rows3, data: false, authdata: rows4, jsonpagedata: jsonpagedata, jsonuserdata: jsonuserdata})
+                            } else {
+                              // 정보 있음
+                              res.render('./user_page/'+servicename+'-'+rows[0]['theme'], {pagedata: rows[0], userdata: rows2[0], otherpage: rows3, data: data, authdata: rows4, jsonpagedata: jsonpagedata, jsonuserdata: jsonuserdata})
+                            }
                           } else {
                             // 이미지 모드로 진입!
-                            const sharp = require('sharp');
-                            const TextToSVG = require('text-to-svg');
-                            const textToSVG = TextToSVG.loadSync('./public/font.ttf');
-                            const attributes = {fill: 'black', stroke: 'black'};
-                            const options = {x: 0, y: 0, fontSize: 35, anchor: 'top', attributes: attributes};
-                            const svname = new Buffer.from(textToSVG.getSVG(jsonuserdata['svname']+'서버', options))
-                            const options2 = {x: 0, y: 0, fontSize: 18, anchor: 'top', attributes: attributes};
-                            const online = new Buffer.from(textToSVG.getSVG(data.currentPlayers+'명', options2))
-                            const address = new Buffer.from(textToSVG.getSVG(jsonpagedata['sv_ip'], options2))
-                            const version = new Buffer.from(textToSVG.getSVG(data.version, options2))
-                            sharp('./public/banner.png')
-                              .overlayWith(svname, { left: 2, top: 2 })
+                            var sharp = require('sharp');
+                            var TextToSVG = require('text-to-svg');
+                            var textToSVG = TextToSVG.loadSync('./public/font.ttf');
+                            var attributes = {fill: 'black', stroke: 'black'};
+                            var options = {x: 0, y: 0, fontSize: 30, anchor: 'top', attributes: {fill: 'white', stroke: 'white'}};
+                            var svname = new Buffer.from(textToSVG.getSVG(jsonuserdata['svname']+'서버', options))
+                            var address = new Buffer.from(textToSVG.getSVG(jsonpagedata['sv_ip'], options))
+                            var options2 = {x: 0, y: 0, fontSize: 18, anchor: 'top', attributes: attributes};
+                            if(err){
+                              var online = new Buffer.from(textToSVG.getSVG('연결 불가', options2))
+                              var version = new Buffer.from(textToSVG.getSVG('연결 불가', options2))
+                              var banner = './public/banner_offline.png'
+                            } else {
+                              var online = new Buffer.from(textToSVG.getSVG(data.currentPlayers+'명', options2))
+                              var version = new Buffer.from(textToSVG.getSVG(data.version, options2))
+                              var banner = './public/banner_online.png'
+                            }
+                            var timer2 = new Date();
+                            var timer3 = timer2-timer1
+                            var timer = new Buffer.from(textToSVG.getSVG(timer3/1000+'초', options2))
+
+
+                            sharp(banner)
+                            .overlayWith(svname, { left: 121, top: 20 })
+                            .toBuffer()
+                            .then(function(buffer){
+                              sharp(buffer)
+                              .overlayWith(address, { left: 400, top:20 })
                               .toBuffer()
                               .then(function(buffer){
                                 sharp(buffer)
-                                .overlayWith(online, { left: 29, top: 70 })
+                                .overlayWith(version, { left: 83, top: 98 })
                                 .toBuffer()
                                 .then(function(buffer){
                                   sharp(buffer)
-                                  .overlayWith(address, { left: 140, top: 70 })
+                                  .overlayWith(online, { left: 263, top: 98 })
                                   .toBuffer()
                                   .then(function(buffer){
                                     sharp(buffer)
-                                    .overlayWith(version, { left: 300, top: 70 })
+                                    .overlayWith(timer, { left: 452, top: 98 })
                                     .toBuffer()
                                     .then(function(buffer){
                                       res.writeHead(200, {
-                                       'Content-Type': 'image/png',
-                                       'Content-Length': buffer.length
-                                     });
-                                     res.end(buffer);
+                                        'Content-Type': 'image/png',
+                                        'Content-Length': buffer.length
+                                      });
+                                      res.end(buffer);
                                     })
                                   })
                                 })
                               })
+                            })
 
-                          }
                         }
                       });
                     });
