@@ -59,6 +59,8 @@ module.exports = function(req, res, next) {
                       // 서버 정보 가져옴
                       mineping(1, sv_ip, sv_port, function(err, data) {
                           // 완료!
+                          var timer2 = new Date();
+                          var timer3 = timer2-timer1
                           if(req.query.type != "img"){
                             if(err) {
                               // 정보 없음
@@ -73,7 +75,7 @@ module.exports = function(req, res, next) {
                             var TextToSVG = require('text-to-svg');
                             var textToSVG = TextToSVG.loadSync('./public/font.ttf');
                             var attributes = {fill: 'black', stroke: 'black'};
-                            var options = {x: 0, y: 0, fontSize: 30, anchor: 'top', attributes: {fill: 'white', stroke: 'white'}};
+                            var options = {x: 0, y: 0, fontSize: 23, anchor: 'top', attributes: {fill: 'white', stroke: 'white', 'stroke-width': '0.1'}};
                             var svname = new Buffer.from(textToSVG.getSVG(jsonuserdata['svname']+'서버', options))
                             var address = new Buffer.from(textToSVG.getSVG(jsonpagedata['sv_ip'], options))
                             var options2 = {x: 0, y: 0, fontSize: 18, anchor: 'top', attributes: attributes};
@@ -83,24 +85,22 @@ module.exports = function(req, res, next) {
                               var banner = './public/banner_offline.png'
                             } else {
                               var online = new Buffer.from(textToSVG.getSVG(data.currentPlayers+'명', options2))
-                              var version = new Buffer.from(textToSVG.getSVG(data.version.replace("BungeeCord ", ''), options2))
+                              var version = new Buffer.from(textToSVG.getSVG(data.version.replace("BungeeCord ", '').replace("Spigot ", ''), options2))
                               var banner = './public/banner_online.png'
                             }
-                            var timer2 = new Date();
-                            var timer3 = timer2-timer1
-                            var timer = new Buffer.from(textToSVG.getSVG(timer3/1000+'초', options2))
+                            var timer = new Buffer.from(textToSVG.getSVG(timer3+'ms', options2))
 
 
                             sharp(banner)
-                            .overlayWith(svname, { left: 121, top: 20 })
+                            .overlayWith(svname, { left: 116, top: 29 })
                             .toBuffer()
                             .then(function(buffer){
                               sharp(buffer)
-                              .overlayWith(address, { left: 400, top: 20 })
+                              .overlayWith(address, { left: 405, top: 29 })
                               .toBuffer()
                               .then(function(buffer){
                                 sharp(buffer)
-                                .overlayWith(version, { left: 83, top: 98 })
+                                .overlayWith(version, { left: 83, top: 98, gravity: 'center' })
                                 .toBuffer()
                                 .then(function(buffer){
                                   sharp(buffer)
