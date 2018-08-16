@@ -28,11 +28,11 @@ module.exports = function(req, res) {
                         api_cmd = api_cmd.replace("<package>", rows[0]['bouns']);
                         api_cmd = api_cmd.replace("원", "");
                         api_cmd = api_cmd.replace(",", "");
-                        if(rows2[0]['api'] == "socket"){
+                        if(rows4[0]['api_type'] == "socket"){
                           socket_api(rows4[0]['api_port'], rows4[0]['api_ip'], rows4[0]['api_key']+';'+rows2[0]['id']+';'+api_cmd, function(data){});
                         }
-                        if(rows2[0]['api'] == "HTTP") {
-                          sql.query('insert into api1 values ("'+req.user.id+'", '+SqlString.escape(rows4[0]['api_key'])+', '+SqlString.escape(rows[0]['page'])+', '+SqlString.escape(rows[0]['nick'])+', '+SqlString.escape(rows[0]['bal'])+', '+SqlString.escape(rows[0]['pin'])+', '+SqlString.escape(api_cmd)+')')
+                        if(rows4[0]['api_type'] == "HTTP") {
+                          sql.query(SqlString.format('insert into api1 values (?, ?, ?, ?, ?, ?, ?)', [req.user.id, rows4[0]['api_key'], rows[0]['page'], rows[0]['nick'], rows[0]['bal'], rows[0]['pin'], api_cmd]))
                         }
                       })
                     }
@@ -42,10 +42,10 @@ module.exports = function(req, res) {
                         if(err) { throw err };
                         var api_cmd = JSON.parse(rows3[0]['pagedata'])['api_cmd'];
                         api_cmd = api_cmd.replace("<player>", rows[0]['nick']);
-                        if(rows2[0]['api'] == "socket"){
+                        if(rows4[0]['api_type'] == "socket"){
                           socket_api(rows4[0]['api_port'], rows4[0]['api_ip'], rows4[0]['api_key']+';'+rows2[0]['id']+';'+api_cmd, function(data){});
                         }
-                        if(rows2[0]['api'] == "HTTP") {
+                        if(rows4[0]['api_type'] == "HTTP") {
                           var sql_Request = SqlString.format('insert into api2 values (?, ?, ?, ?, ?)', [req.user.id, rows4[0]['api_key'], rows[0]['page'], rows[0]['nick'], api_cmd])
                           sql.query(sql_Request)
                         }
