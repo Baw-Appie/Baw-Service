@@ -63,6 +63,7 @@ app.use(function(req,res,next){
     res.removeHeader("x-powered-by");
     res.locals.session = req.session;
     res.set("Access-Control-Allow-Origin", '*');
+    res.set("Strict-Transport-Security", "max-age=63072000")
     res.locals.user = req.user;
     res.locals.ad = server_settings.ad;
     res.locals.server_settings = server_settings;
