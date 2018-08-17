@@ -31,7 +31,8 @@ module.exports = function(req, res) {
       	var notice = req.body.notice;
         if(service == 1){
           req_field.push("theme", "bouns", "sms_ok", "tg_ok", "kakao_ok")
-          opt_field.push("youtube")
+          opt_field.push("youtube", "lookup_ok")
+      		var lookup_ok = req.body.lookup_ok;
       		var youtube = req.body.youtube;
           if(req.body.disabled == undefined) {
             var disabled = ""
@@ -64,7 +65,7 @@ module.exports = function(req, res) {
         req_check(req_field, req).then(function (text) {
           opt_check(opt_field, req).then(function (text) {
             if(req.params.service == 1) {
-              var sql_Request = SqlString.format('UPDATE `pages` SET pagedata=json_set(pagedata, "$.mail_ok", ?, "$.bouns", ?, "$.sms_ok", ?, "$.kakao_ok", ?, "$.tg_ok", ?, "$.api_cmd", ?, "$.disabled", ?, "$.youtube", ?), `notice`=?, `theme`=? WHERE service=1 and owner=?', [mail_ok, bouns, sms_ok, kakao_ok, tg_ok, api_cmd, disabled, youtube, notice, theme, req.user.id])
+              var sql_Request = SqlString.format('UPDATE `pages` SET pagedata=json_set(pagedata, "$.mail_ok", ?, "$.bouns", ?, "$.sms_ok", ?, "$.kakao_ok", ?, "$.tg_ok", ?, "$.api_cmd", ?, "$.disabled", ?, "$.youtube", ?, "$.lookup_ok", ?), `notice`=?, `theme`=? WHERE service=1 and owner=?', [mail_ok, bouns, sms_ok, kakao_ok, tg_ok, api_cmd, disabled, youtube, lookup_ok, notice, theme, req.user.id])
             }
             if(req.params.service == 2) {
             	var sql_Request = SqlString.format("UPDATE `pages` SET pagedata=json_set(pagedata, '$.mail_ok', ?, '$.api_cmd', ?, '$.auto_process', ?), `notice`=? WHERE service=2 and owner=?", [mail_ok, api_cmd, auto_process, notice, req.user.id])
@@ -72,9 +73,10 @@ module.exports = function(req, res) {
             if(req.params.service == 3) {
             	var sql_Request = SqlString.format("UPDATE `pages` SET pagedata=json_set(pagedata, '$.sv_ip', ?, '$.sv_port', ?), `notice`=? WHERE service=3 and owner=?", [sv_ip, sv_port, notice, req.user.id])
             }
-            console.log(sql_Request)
-            sql.query(sql_Request)
-            res.json({ success: true, title: "완료했습니다!",  message: "성공적으로 페이지 수정을 요청했습니다." });
+            sql.query(sql_Request, (err) => {
+              if(err) { console.log(err); return res.json({ success: false, title: '실패했습니다.', message: "요청에 실패했습니다. 좌측 메뉴의 버그 신고로 이 문제를 신고하세요." }); }
+              res.json({ success: true, title: "완료했습니다!",  message: "성공적으로 페이지 수정을 요청했습니다." });
+            })
           }).catch(function (error) {
             res.json({ success: false, title: "필요 데이터 미전달됨",  message: "설정에 필요한 데이터가 정의되지 않았습니다. 이 문제는 Baw Service의 문제일 가능성이 큽니다." });
           });

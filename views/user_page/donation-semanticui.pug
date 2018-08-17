@@ -22,7 +22,7 @@ html
     style.
       @import url('https://fonts.googleapis.com/css?family=Nanum+Gothic');
       * {
-        font-family: 'Nanum Gothic' !important;
+        font-family: 'Nanum Gothic';
       }
       body {
         background-image: url("public/img/background.jpg");
@@ -185,29 +185,29 @@ html
         input(type='hidden', value=pagedata["name"], name='page')
       br
       br
-      
-      form(name="history")#history
-        .ui.attached.message
-          .header
-            | 후원 금액 확인
-          p 닉네임을 입력하고 제출을 눌러주세요!
-        .ui.form.attached.fluid.segment
-          .field
-            label 닉네임
-            input.form-control(type='text', name='nick', size='20', placeholder='닉네임', required='')  
-          input(type='hidden', value=pagedata["name"], name='page')
-          #view
-        .ui.bottom.attached.message(style="text-align: center;")
-          button.ui.animated.button.primary.g-recaptcha#historycaptcha(type='submit', data-sitekey='6LeKTiwUAAAAANOYA7r37sTyquy_R0ljzSTVS6Bp', data-callback='HistoryLookupCaptcha')
-            .visible.content 
-              i.far.fa-paper-plane
-            .hidden.content
-              | 제출
-          button.ui.animated.button.red.basic(type='reset')
-            .visible.content 
-              i.fa.fa-trash
-            .hidden.content
-              |  재입력
+      if jsonpagedata['lookup_ok'] == 1
+        form(name="history")#history
+          .ui.attached.message
+            .header
+              | 후원 금액 확인
+            p 닉네임을 입력하고 제출을 눌러주세요!
+          .ui.form.attached.fluid.segment
+            .field
+              label 닉네임
+              input.form-control(type='text', name='nick', size='20', placeholder='닉네임', required='')  
+            input(type='hidden', value=pagedata["name"], name='page')
+            #view
+          .ui.bottom.attached.message(style="text-align: center;")
+            button.ui.animated.button.primary.g-recaptcha#historycaptcha(type='submit', data-sitekey='6LeKTiwUAAAAANOYA7r37sTyquy_R0ljzSTVS6Bp', data-callback='HistoryLookupCaptcha')
+              .visible.content 
+                i.far.fa-paper-plane
+              .hidden.content
+                | 제출
+            button.ui.animated.button.red.basic(type='reset')
+              .visible.content 
+                i.fa.fa-trash
+              .hidden.content
+                |  재입력
             
       br
       br
@@ -226,7 +226,8 @@ html
     
   script(src='https://cdn.jsdelivr.net/gh/Baw-Appie/scriptLoader@0.1/scriptLoader.min.js')
   script(src=`https://${hostname}/public/user_page/js/donation-semantic.js`)
-  script(src=`https://${hostname}/public/user_page/js/history.js`)
+  if jsonpagedata['lookup_ok'] == 1
+    script(src=`https://${hostname}/public/user_page/js/history.js`)
   if(authdata != false)
     script.
       $('#authed').popup();
