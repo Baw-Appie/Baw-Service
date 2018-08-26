@@ -6,11 +6,12 @@ block contents
     div(style='font-size: 18pt')
       | 아직도 IE를 사용하시다니요..
     hr.uk-driver
-    p 개발사에서도 더 이상 개발하지 않는 Internet Explorer로 접속하고 계십니다.
-    p Arrow Function, Promise등의 Javascript의 최신 기능을 전혀 지원하지 않는 Internet Explorer로 접속하고 계십니다.
-    p Baw Service는 Javascript의 최신 기술들을 활용하여 개발되었습니다.
-    p 그러므로 다른 브라우저를 사용하기 전까지는 Baw Service Dashboard에 접근할 수 없습니다.
-    p 그 대신 이런 브라우저를 사용해보세요.
+    p 더 이상 개발사에서 관심도 안주는 Microsoft Internet Explorer(이하 "IE")를 사용하여 접속하고 있습니다.
+    p 이 브라우저는 제대로된 보안 패치 조차 거의 이루어지지 않고있어 매우 위험합니다. 예를 들면 영화 불법 스트리밍 사이트등에서 표시되는 광고 중에 일부는 Internet Explorer의 버그를 사용하여 사용자의 파일을 암호화하는 바이러스인, 랜섬웨어를 감염시킵니다.
+    p 정말로 이런 브라우저를 계속 사용하시겠어요?
+    p 그리고 접속하고 있는 페이지는 JavaScript의 최신 기능인 Arrow Function, Promise를 이용하여 제작되었지만, Internet Explorer는 이를 지원하지 않습니다.
+    p 그러므로, 이 페이지에 접속하게 된다면 예상치 못한 버그가 "무조건" 발생하게 됩니다.
+    p 만약 IE 대신 브라우저를 써볼 생각이 있다면..
     p 
       | 바이러스로부터 안전하며, 속도가 매우 빠르고, 다양한 에드온에, 동기화 기능은 정말 편하고, 사용자까지 많은 
       a(href="https://chrome.com")
@@ -31,7 +32,7 @@ block contents
       | 만약 
       a(href="https://www.apple.com/kr/mac/")
         i.fas.fa-laptop
-        |  Apple Mac
+        |  Apple Mac 
       | 사용자가 아니라면 
       a(href="https://firefox.com")
         i.fab.fa-firefox
@@ -52,3 +53,13 @@ block contents
         i.fab.fa-edge
         |  Microsoft Edge
       | 를 사용해볼 수도 있습니다.
+    p 하지만, 절대로 저 브라우저들로 갈아탈 생각이 없거나, 급하게 이 페이지를 사용해야 하는 경우에는 아래의 버튼을 클릭하여 "임시로" 페이지에 접속할 수 있습니다.
+    p 마지막으로 기억해두세요. 지금 사용중인 브라우저를 계속 사용하는것은 위험합니다.
+    a(onclick="ignoreIEWarning()")
+      p 계속하기
+  script.
+    function ignoreIEWarning(){
+      iziToast.error({ title: "IE 경고를 무시합니다.", message: "세션이 진행되는 동안 IE 경고를 표시하지 않습니다." })
+      sessionStorage.setItem('ignoreBrowserWarning', true);
+    }
+    
