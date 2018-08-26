@@ -1,7 +1,6 @@
 $( document ).pjax( 'a', '#contents' );
 $(document).on('pjax:start', function() { NProgress.start(); });
 $(document).on('pjax:end', function() { NProgress.done(); });
-
 $(document).on('pjax:error', function(xhr, textStatus, error, options) {
   if(error == "error"){
     try {
@@ -23,13 +22,14 @@ $(document).on('pjax:error', function(xhr, textStatus, error, options) {
   }
   return false;
 });
-
 $.pjax.defaults.timeout = 1200
+
 $('.uk-offcanvas .link').click(() => { UIkit.offcanvas('#navbar').hide(); })
 $('.link a').click(() => {
   $(".link a").removeClass('uk-active');
   $(this).addClass('uk-active');
 })
+
 function post(path, params, method) {
   method = method || "post";
   var form = document.createElement("form");
@@ -46,4 +46,11 @@ function post(path, params, method) {
   }
   document.body.appendChild(form);
   form.submit();
+}
+
+Kakao.init('4976c5aa590cf204b6b27a95f06b5769');
+function plusFriendChat() {
+  Kakao.PlusFriend.chat({
+    plusFriendId: '_xixfxmGC'
+  });
 }

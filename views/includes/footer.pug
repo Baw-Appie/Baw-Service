@@ -6,25 +6,21 @@ script(src=`https://${hostname}/public/dashboard/js/uikit/uikit-icons.min.js`)
 script(src=`https://${hostname}/public/dashboard/js/pjax/jquery.pjax.js`)
 script(src=`https://${hostname}/public/dashboard/js/fontawesome/fontawesome-all.min.js`)
 script(src=`https://${hostname}/public/dashboard/js/fontawesome/fa-v4-shims.min.js`)
-script(src=`https://${hostname}/public/dashboard/js/dashboard/settings.js`)
 script(src='https://cdn.jsdelivr.net/gh/Baw-Appie/scriptLoader@0.1/scriptLoader.min.js')
 script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js')
 script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js')
-script(src=`https://smartlock.google.com/client`)
 script(src=`https://developers.kakao.com/sdk/js/kakao.min.js`)
+script(src=`https://${hostname}/public/dashboard/js/dashboard/settings.js`)
 script.
-  Kakao.init('4976c5aa590cf204b6b27a95f06b5769');
-  function plusFriendChat() {
-    Kakao.PlusFriend.chat({
-      plusFriendId: '_xixfxmGC'
-    });
-  }
-  if('#{browser}'.indexOf("Chrome") == -1 && '#{browser}'.indexOf("Edge") == -1 && '#{browser}'.indexOf("Safari") == -1){
+  var browser = "#{browser}"
+  var hostname = "#{hostname}"
+  
+  if(browser.indexOf("Chrome") == -1 && browser.indexOf("Edge") == -1 && browser.indexOf("Safari") == -1){
     iziToast.warning({ title: "미지원 브라우저 사용중", message: "현재 미지원 브라우저를 사용하고 있습니다. 최적의 환경을 위하여 Safari 또는 Chrome으로 접속하세요." })
-    if('#{browser}'.indexOf("IE") != -1){
+    if(browser.indexOf("IE") != -1){
       if(location.href.indexOf("UnsupportedBrowser") == -1){
         if(sessionStorage.getItem('ignoreBrowserWarning') == undefined){
-          location.href='https://#{hostname}/UnsupportedBrowser'
+          location.href='https://'+hostname+'/UnsupportedBrowser'
         } else {
           iziToast.error({ title: "IE 경고 무시중", message: "임시로 IE 경고를 해제합니다." })
         }
@@ -33,32 +29,5 @@ script.
   }
 if(!user)
   script.
-    const retrievePromise = googleyolo.retrieve({
-    supportedAuthMethods: [
-      "googleyolo://id-and-password",
-      "https://accounts.google.com"
-    ],
-    supportedIdTokenProviders: [
-      {
-        uri: "https://accounts.google.com",
-        clientId: "#{oauth_info.googleid}"
-      }
-    ]
-    });
-    retrievePromise.then((credential) => {
-      if(location.href.indexOf("auth/login") == -1){
-        if (credential.password) {
-          iziToast.info({ title: "자동 로그인중", message: "Google Smart Lock을 사용하여 자동 로그인하는중.." })
-          post('https://#{server_settings.hostname}/auth/login', {id: credential.id, pass: credential.password})
-        } else {
-          iziToast.info({ title: "자동 로그인 거부됨", message: "구글 로그인을 사용할 수 없습니다. ("+credential.idToken+")" })
-        }
-      } else {
-        iziToast.info({ title: "자동 로그인 거부됨", message: "무한 자동 로그인을 방지하기 위해서 현재 페이지에서는 자동 로그인할 수 없습니다." })
-      }
-    }, (error) => {
-      console.log(error)
-      if (error.type === 'noCredentialsAvailable') {
-        iziToast.info({ title: "자동 로그인 거부됨", message: "사용 가능 계정을 찾을 수 없습니다." })
-      }
-    });
+    var clientId = "#{oauth_info.googleid}"
+  script(src=`https://${hostname}/public/dashboard/js/dashboard/smartlock.js`)
