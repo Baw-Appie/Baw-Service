@@ -83,21 +83,19 @@ function complete(req, res){
                           });
                         }
                         if(jsonpagedata['auto_process'] == 1){
-                          sql.query(SqlString.format("SELECT * FROM api WHERE id=?"), [rows[0]['owner']], function(err, rows8){
-                            if(rows2[0]['pagedata']['api_ok'] == 1) {
-                              var api_cmd = rows[0]['pagedata']['api_cmd'];
+                          if(rows8[0]['api_enable'] == 1) {
+                            sql.query('select * from `pages` WHERE service=2 and owner='+SqlString.escape(req.user.id), function(err, rows3) {
+                              if(err) { throw err };
+                              var api_cmd = JSON.parse(rows[0]['pagedata'])['api_cmd'];
                               api_cmd = api_cmd.replace("<player>", nick);
                               if(rows8[0]['api_type'] == "socket"){
                                 socket_api(rows8[0]['api_port'], rows8[0]['api_ip'], rows8[0]['api_key']+';'+rows2[0]['id']+';'+api_cmd, function(data){});
                               }
                               if(rows8[0]['api_type'] == "HTTP") {
-                                var sql_Request = SqlString.format('insert into api2 values (?, ?, ?, ?, ?)', [rows2[0]['id'], rows8[0]['api_key'], page, nick, api_cmd])
-                                sql.query(sql_Request)
+                                sql.query(SqlString.format('insert into api2 values (?, ?, ?, ?, ?)', [rows2[0]['id'], rows8[0]['api_key'], page, nick, api_cmd]))
                               }
-                            }
-                            sql.query('UPDATE `service2` SET status=1 WHERE num=' + SqlString.escape(no))
-                          })
-
+                            })
+                          }
                         }
 
                         resolve("<script>alert('정품인증에 성공했습니다!');location.replace('https://"+req.hostname+"/"+page+"');</script>")
