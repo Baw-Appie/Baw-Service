@@ -20,8 +20,6 @@ module.exports = (function () {
     katalk_api_key: "SECRET!",
     katalk_2fa_template: "SECRET!",
     katalk_donation_template: "SECRET!",
-    freshchat_token: "disable",
-    // freshchat_token: "SECRET",
     ad: false,
     sentry: 'sentry url',
     sentry_error: true,

@@ -31,18 +31,6 @@ script.
       }
     }
   }
-if(server_settings.freshchat_token != "disable")
-  script(src='https://wchat.freshchat.com/js/widget.js')
-  script.
-    fcWidget.init({
-      token: "#{server_settings.freshchat_token}",
-      host: "https://wchat.freshchat.com"
-    });
-  if(user)
-    script.
-      fcWidget.setExternalId("#{user.id}");
-      fcWidget.user.setFirstName("#{user.svname}");
-      fcWidget.user.setEmail("#{user.mail}");
 if(!user)
   script.
     const retrievePromise = googleyolo.retrieve({
