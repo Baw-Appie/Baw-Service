@@ -1,7 +1,7 @@
 // 모듈 로드
 var express = require('express')
 var http = require('http');
-var https = require('spdy');
+var https = require('https');
 var fs = require('fs');
 var server_settings = require('./config/server_settings');
 var sql = require('./config/dbtool');
