@@ -1,5 +1,6 @@
 var sql = require('../config/dbtool');
 var SqlString = require('sqlstring');
+var sqlp = require('./sql-promise')
 
 function countdata(variable, option, regex){
   var i = 0
@@ -13,56 +14,27 @@ function countdata(variable, option, regex){
   }
   return data
 }
-function donation(req){
-  return new Promise(function (resolve, reject) {
-    sql.query(SqlString.format('SELECT * from pages WHERE service=1 AND owner=?', [req.user.id]), function(err, sv1){
-      if(sv1.length == 1){
-        sql.query(SqlString.format('SELECT * from service1 WHERE owner=? AND status=1', [req.user.id]), function(err, a1){
-          var a1_data = countdata(a1, 'bal', /,/gi)
-          sql.query(SqlString.format('SELECT * from service1 WHERE owner=? AND status=1 AND date > DATE_ADD(now(), INTERVAL -1 month)', [req.user.id]), function(err, a2){
-            var a2_data = countdata(a2, 'bal', /,/gi)
-            sql.query(SqlString.format('SELECT * from service1 WHERE owner=? AND status=2', [req.user.id]), function(err, a3){
-              var a3_data = a3.length
-              sql.query(SqlString.format('SELECT * from service1 WHERE owner=? AND status=1 AND `date` BETWEEN DATE_SUB(CURRENT_DATE, INTERVAL DAYOFMONTH(CURRENT_DATE)-1 DAY)  AND LAST_DAY(CURDATE());', [req.user.id]), function(err, c1){
-                var c1_data = countdata(c1, 'bal', /,/gi)
-                sql.query(SqlString.format('SELECT * from service1 WHERE owner=? AND status=1 AND `date` BETWEEN date(CURRENT_DATE - interval 1 MONTH) - interval day(now()) day + interval 1 day AND LAST_DAY(CURRENT_DATE - interval 1 MONTH);', [req.user.id]), function(err, c2){
-                  var c2_data = countdata(c2, 'bal', /,/gi)
-                  sql.query(SqlString.format('SELECT * from service1 WHERE owner=? AND status=1 AND `date` BETWEEN date(CURRENT_DATE - interval 2 MONTH) - interval day(now()) day + interval 1 day AND LAST_DAY(CURRENT_DATE - interval 2 MONTH);', [req.user.id]), function(err, c3){
-                    var c3_data = countdata(c3, 'bal', /,/gi)
-                    resolve([a1_data, a2_data, a3_data, c1_data, c2_data, c3_data])
-                  })
-                })
-              })
-            })
-          })
-        })
-      } else {
-        resolve([0, 0, 0])
-      }
-    })
-  })
-}
-function idcheck(req){
-  return new Promise(function (resolve, reject) {
-    sql.query(SqlString.format('SELECT * from pages WHERE service=2 AND owner=?', [req.user.id]), function(err, sv2){
-      if(sv2.length == 1){
-        sql.query(SqlString.format('SELECT * from service2 WHERE owner=? AND status=1', [req.user.id]), function(err, a4){
-          var a4_data = a4.length
-          resolve(a4_data)
-        })
-      } else {
-        resolve(0)
-      }
-    })
-  })
-}
-module.exports = function(req) {
-  return new Promise(function (resolve, reject) {
-    donation(req).then(function (text) {
-      idcheck(req).then(function (text2) {
-        var data = {a1: text[0], a2: text[1], a3: text[2], a4: text2, c1: text[3], c2: text[4], c3: text[5]}
-        resolve(data)
-      })
-    })
-  })
+
+module.exports = async (req) => {
+  if((await sqlp(sql, SqlString.format('SELECT * from pages WHERE service=1 AND owner=?', [req.user.id]))).length == 1){
+    var a1_data = countdata(await sqlp(sql, SqlString.format('SELECT * from service1 WHERE owner=? AND status=1', [req.user.id])), 'bal', /,/gi)
+    var a2_data = countdata(await sqlp(sql, SqlString.format('SELECT * from service1 WHERE owner=? AND status=1 AND date > DATE_ADD(now(), INTERVAL -1 month)', [req.user.id])), 'bal', /,/gi)
+    var a3_data = (await sqlp(sql, SqlString.format('SELECT * from service1 WHERE owner=? AND status=2', [req.user.id]))).length
+    var c1_data = countdata(await sqlp(sql, SqlString.format('SELECT * from service1 WHERE owner=? AND status=1 AND `date` BETWEEN DATE_SUB(CURRENT_DATE, INTERVAL DAYOFMONTH(CURRENT_DATE)-1 DAY)  AND LAST_DAY(CURDATE());', [req.user.id])), 'bal', /,/gi)
+    var c2_data = countdata(await sqlp(sql, SqlString.format('SELECT * from service1 WHERE owner=? AND status=1 AND `date` BETWEEN date(CURRENT_DATE - interval 1 MONTH) - interval day(now()) day + interval 1 day AND LAST_DAY(CURRENT_DATE - interval 1 MONTH);', [req.user.id])), 'bal', /,/gi)
+    var c3_data = countdata(await sqlp(sql, SqlString.format('SELECT * from service1 WHERE owner=? AND status=1 AND `date` BETWEEN date(CURRENT_DATE - interval 2 MONTH) - interval day(now()) day + interval 1 day AND LAST_DAY(CURRENT_DATE - interval 2 MONTH);', [req.user.id])), 'bal', /,/gi)
+  } else {
+    var a1_data = 0
+    var a2_data = 0
+    var a3_data = 0
+    var c1_data = 0
+    var c2_data = 0
+    var c3_data = 0
+  }
+  if((await sqlp(sql, SqlString.format('SELECT * from pages WHERE service=2 AND owner=?', [req.user.id]))).length == 1){
+    var a4_data = (await sqlp(sql, SqlString.format('SELECT * from service2 WHERE owner=? AND status=1', [req.user.id]))).length
+  } else {
+    var a4_data = 0
+  }
+  return {a1: a1_data, a2: a2_data, a3: a3_data, a4: a4_data, c1: c1_data, c2: c2_data, c3: c3_data}
 }
