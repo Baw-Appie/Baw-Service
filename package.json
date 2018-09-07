@@ -39,8 +39,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "install": "set NODE_ENV=production",
-    "dev:install": "set NODE_ENV=development && npm i nodemon -g",
+    "test": "echo 테스트기능은 지원하지 않습니다.",
     "start": "node app",
     "dev:start": "nodemon app",
     "snyk-protect": "snyk protect",
