@@ -9,7 +9,6 @@ module.exports = function(req, res){
       (async () => {
         var text = await getdata(req)
         var obj = Object.assign(text, rss);
-        console.log(text)
         res.render('index', text)
       })()
     } else {
