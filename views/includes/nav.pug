@@ -11,11 +11,6 @@ style.
       .uk-navbar-left
         a.uk-navbar-item.uk-logo(href=`https://${hostname}/`)
           img(src=`https://${hostname}/public/img/logo.png` width="180")
-          //- | Baw Service Beta 4
-        //- ul.uk-navbar-nav(class="uk-visible@s")
-        //-   li
-        //-     a(href='https://baws.kr')
-        //-       |                     기존 대시보드로 돌아가기
       .uk-navbar-right
         ul.uk-navbar-nav(class='uk-visible@s')
           if(!user)
@@ -25,8 +20,6 @@ style.
           else
             button.uk-button.uk-button-default.uk-margin-small-right(type='button')
               img(class="photo", src=`https://www.gravatar.com/avatar/${user.md5mail}?d=mp`)
-              |       
-              span(uk-icon="icon: menu")
             div(uk-dropdown='mode: click')
               ul.uk-nav.uk-dropdown-nav
                 li.uk-nav-header #{user.svname}서버로 로그인중
@@ -81,20 +74,15 @@ style.
               include sidebar
             p
               if(!user)
-                button.uk-button.uk-button-default.uk-margin-small-right(type='button', uk-toggle='target: #login-slide') 로그인
+                ul.uk-iconnav
+                  li
+                    a(uk-toggle='target: #login-slide', uk-icon='icon: sign-in')
+
               else
-                button.uk-button.uk-button-default.uk-margin-small-right(type='button')
-                  img(class="photo", src=`https://www.gravatar.com/avatar/${user.md5mail}?d=mp`)
-                  |       
-                  span(uk-icon="icon: menu")
-                div(uk-dropdown='mode: click')
-                  ul.uk-nav.uk-dropdown-nav
-                    li.uk-nav-header #{user.svname}서버로 로그인중
-                    li.uk-nav-divider
-                    li
-                      a(onclick=`location.href='https://${hostname}/auth/logout'`) 로그아웃
-                    li
-                      a(href=`https://${hostname}/auth/login`) 계정 전환
-                    li.uk-nav-divider
-                    li
-                      a(href=`https://${hostname}/my`) 내 정보
+                ul.uk-iconnav
+                  li
+                    a(onclick=`location.href='https://${hostname}/auth/logout'`, uk-icon='icon: sign-out')
+                  li.link
+                    a(href=`https://${hostname}/auth/login`, onclick="iziToast.info({ title: '계정 전환을 완료하려면 전환 대상으로 로그인하세요.'})", uk-icon='icon: users')
+                  li.link
+                    a(href=`https://${hostname}/my`, uk-icon='icon: user')
