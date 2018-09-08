@@ -85,6 +85,21 @@ app.use('/.well-known', express.static('.well-known'));
 // *페이지 라우터* //
 // 메인
 app.all('/', require('./routes/index'));
+app.all('/manifest.json', (req, res) => {
+  res.json({
+    "short_name": "Baw Service",
+    "name": "Baw Service",
+    "icons": [
+      {
+        "src": "/public/img/favicon.jpg",
+        "type": "image/jpg",
+        "sizes": "64x64"
+      }
+    ],
+    "start_url": "/",
+    "gcm_sender_id": server_settings.firebase_SenderID
+  })
+});
 app.all('/UnsupportedBrowser', (req, res) => { res.render('./UnsupportedBrowser') });
 
 // *보안* //
