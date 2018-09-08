@@ -97,9 +97,12 @@ app.all('/manifest.json', (req, res) => {
       }
     ],
     "start_url": "/",
-    "gcm_sender_id": server_settings.firebase_SenderID
+    "gcm_sender_id": "103953800507"
+    // "gcm_sender_id": server_settings.firebase_SenderID
   })
 });
+app.all('/firebase_init.js', (req, res) => { res.type("js").send(`firebase.initializeApp({'messagingSenderId': '`+server_settings.firebase_SenderID+`'});`) })
+app.all('/firebase-messaging-sw.js', (req, res) => { res.sendFile("./public/firebase-messaging-sw.js", { root: __dirname }) })
 app.all('/UnsupportedBrowser', (req, res) => { res.render('./UnsupportedBrowser') });
 
 // *보안* //
@@ -142,6 +145,7 @@ app.post('/manage/:service/lookup', require('./routes/manage/lookup'))
 // API 관리
 app.post('/api/:service/edit', require('./routes/api/edit_complete'))
 app.get('/api/:service/edit', require('./routes/api/edit_view'))
+app.post('/api/Browser/:type', require('./routes/api/Browser'))
 
 // API 요청 처리
 app.all(['/api/serveripcheck.php', '/API/GetServerIP'], function(req,res) {
