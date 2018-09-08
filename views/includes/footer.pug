@@ -10,10 +10,20 @@ script(src='https://cdn.jsdelivr.net/gh/Baw-Appie/scriptLoader@0.1/scriptLoader.
 script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js')
 script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js')
 script(src=`https://developers.kakao.com/sdk/js/kakao.min.js`)
+script(src=`https://www.gstatic.com/firebasejs/5.0.4/firebase-app.js`)
+script(src=`https://www.gstatic.com/firebasejs/5.0.4/firebase-messaging.js`)
 script.
   var browser = "#{browser}"
   var hostname = "#{hostname}"
   var version = "#{version}"
+  var config = {
+    apiKey: "#{server_settings.firebase_apiKey}",
+    projectId: "#{server_settings.firebase_projectId}",
+    messagingSenderId: "#{server_settings.firebase_SenderID}",
+  };
+  firebase.initializeApp(config);
+  
+  const messaging = firebase.messaging();
   
   if(browser.indexOf("Chrome") == -1 && browser.indexOf("Edge") == -1 && browser.indexOf("Safari") == -1){
     iziToast.warning({ title: "미지원 브라우저 사용중", message: "현재 미지원 브라우저를 사용하고 있습니다. 최적의 환경을 위하여 Safari 또는 Chrome으로 접속하세요." })
