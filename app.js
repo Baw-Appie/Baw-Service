@@ -68,6 +68,7 @@ app.use(function(req,res,next){
     res.locals.ad = server_settings.ad;
     res.locals.server_settings = server_settings;
     res.locals.oauth_info = oauth_info;
+    res.locals.version = version;
     var useragent = require('useragent');
     res.locals.browser = useragent.lookup(req.headers['user-agent']).family;
     next();

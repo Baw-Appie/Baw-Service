@@ -10,10 +10,10 @@ script(src='https://cdn.jsdelivr.net/gh/Baw-Appie/scriptLoader@0.1/scriptLoader.
 script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js')
 script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js')
 script(src=`https://developers.kakao.com/sdk/js/kakao.min.js`)
-script(src=`https://${hostname}/public/dashboard/js/dashboard/settings.js`)
 script.
   var browser = "#{browser}"
   var hostname = "#{hostname}"
+  var version = "#{version}"
   
   if(browser.indexOf("Chrome") == -1 && browser.indexOf("Edge") == -1 && browser.indexOf("Safari") == -1){
     iziToast.warning({ title: "미지원 브라우저 사용중", message: "현재 미지원 브라우저를 사용하고 있습니다. 최적의 환경을 위하여 Safari 또는 Chrome으로 접속하세요." })
@@ -27,6 +27,7 @@ script.
       }
     }
   }
+script(src=`https://${hostname}/public/dashboard/js/dashboard/settings.js`)
 if(!user)
   script.
     var clientId = "#{oauth_info.googleid}"

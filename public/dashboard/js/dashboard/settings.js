@@ -13,7 +13,7 @@ $(document).on('pjax:error', function(xhr, textStatus, error, options) {
       })
       iziToast.error({title: '이런..', message: '페이지 로드 중 오류가 발생했습니다. 어떤 작업 도중 이 문제가 발생했는지 알려주세요. 버그 수정에 도움이 됩니다.'});
     } catch (error) {
-        iziToast.error({title: '이런..', message: '페이지 로드 중 서버 오류가 발생했습니다.'});
+      iziToast.error({title: '이런..', message: '페이지 로드 중 서버 오류가 발생했습니다.'});
     }
   } else if(error == "abort"){
     iziToast.info({title: '흠..?', message: '페이지 로드 요청이 취소되었습니다.'});
@@ -29,6 +29,26 @@ $('.link a').click(() => {
   $(".link a").removeClass('uk-active');
   $(this).addClass('uk-active');
 })
+if(localStorage.getItem("LastVersion") == undefined){
+  localStorage.setItem("LastVersion", version)
+  console.log("버전 설정됨")
+}
+if(localStorage.getItem("LastVersion") != version) {
+  $('#contents').prepend(`
+<div id="updater" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+        <h2 class="uk-modal-title">Baw Service Updater</h2>
+        <p>Baw Service를 `+version.substring(0, 7)+`으로 성공적으로 업데이트했습니다!<br>
+        Baw Service의 변경 사항을 확인하시려면 <a href="https://gitlab.com/Baw-Dev/Baw-Service/commits/master">[여기]</a>로 접속해주세요.</p>
+        <p>Baw Service를 이용해주셔서 감사합니다.</p>
+        <button class="uk-button uk-button-primary" type="button">완료</button>
+    </div>
+</div>
+  `);
+  UIkit.modal("#updater").show();
+  localStorage.setItem("LastVersion", version)
+  console.log("버전 업데이트됨")
+}
 
 function post(path, params, method) {
   method = method || "post";
