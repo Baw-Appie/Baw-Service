@@ -1,4 +1,4 @@
-$( document ).pjax( 'a', '#contents' );
+$(document).pjax('a', '#contents');
 $(document).on('pjax:start', function() { NProgress.start(); });
 $(document).on('pjax:end', function() { NProgress.done(); });
 $(document).on('pjax:error', function(xhr, textStatus, error, options) {
