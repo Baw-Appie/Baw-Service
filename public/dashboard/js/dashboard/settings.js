@@ -41,7 +41,7 @@ if(localStorage.getItem("LastVersion") != version) {
         <p>Baw Service를 `+version.substring(0, 7)+`으로 성공적으로 업데이트했습니다!<br>
         Baw Service의 변경 사항을 확인하시려면 <a href="https://gitlab.com/Baw-Dev/Baw-Service/commits/master">[여기]</a>로 접속해주세요.</p>
         <p>Baw Service를 이용해주셔서 감사합니다.</p>
-        <button class="uk-button uk-button-primary" type="button">완료</button>
+        <button class="uk-button uk-button-primary uk-modal-close" type="button">완료</button>
     </div>
 </div>
   `);
