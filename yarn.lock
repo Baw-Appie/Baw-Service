@@ -790,7 +790,7 @@ chownr@^1.0.1, chownr@~1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/chownr/-/chownr-1.0.1.tgz#e2a75042a9551908bebd25b8523d5f9769d79181"
 
-ci-info@^1.3.0, ci-info@^1.4.0:
+ci-info@^1.4.0, ci-info@^1.5.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/ci-info/-/ci-info-1.5.0.tgz#38327c69e98dab18487744b84e5d6e841a09a1a7"
 
@@ -2277,10 +2277,10 @@ is-builtin-module@^1.0.0:
     builtin-modules "^1.0.0"
 
 is-ci@^1.0.10:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/is-ci/-/is-ci-1.2.0.tgz#3f4a08d6303a09882cef3f0fb97439c5f5ce2d53"
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/is-ci/-/is-ci-1.2.1.tgz#e3779c8ee17fccf428488f6e281187f2e632841c"
   dependencies:
-    ci-info "^1.3.0"
+    ci-info "^1.5.0"
 
 is-cidr@^2.0.6:
   version "2.0.6"
@@ -3330,7 +3330,7 @@ npm-user-validate@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/npm-user-validate/-/npm-user-validate-1.0.0.tgz#8ceca0f5cea04d4e93519ef72d0557a75122e951"
 
-npm@^6.4.0:
+npm@^6.4.1:
   version "6.4.1"
   resolved "https://registry.yarnpkg.com/npm/-/npm-6.4.1.tgz#4f39f9337b557a28faed4a771d5c8802d6b4288b"
   dependencies:
@@ -4727,9 +4727,9 @@ snyk-go-plugin@1.5.2:
     tmp "0.0.33"
     toml "^2.3.2"
 
-snyk-gradle-plugin@1.3.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/snyk-gradle-plugin/-/snyk-gradle-plugin-1.3.0.tgz#7a589155825ec613e24cc2bcf0d738438fb06216"
+snyk-gradle-plugin@1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/snyk-gradle-plugin/-/snyk-gradle-plugin-1.3.1.tgz#9bd080f9d9ee0b9186fa0e34e682613766a13637"
   dependencies:
     clone-deep "^0.3.0"
 
@@ -4740,9 +4740,9 @@ snyk-module@1.8.2, snyk-module@^1.6.0, snyk-module@^1.8.2:
     debug "^3.1.0"
     hosted-git-info "^2.1.4"
 
-snyk-mvn-plugin@1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/snyk-mvn-plugin/-/snyk-mvn-plugin-1.2.1.tgz#133c0b8958c3c6614cd206755f0f8e910c313234"
+snyk-mvn-plugin@1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/snyk-mvn-plugin/-/snyk-mvn-plugin-1.2.2.tgz#1ffbd0696aa548ab0ae55fb842b7d4a7d9c50f90"
 
 snyk-nodejs-lockfile-parser@1.4.1:
   version "1.4.1"
@@ -4815,11 +4815,9 @@ snyk-resolve@1.0.1, snyk-resolve@^1.0.0, snyk-resolve@^1.0.1:
     debug "^3.1.0"
     then-fs "^2.0.0"
 
-snyk-sbt-plugin@1.3.1:
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/snyk-sbt-plugin/-/snyk-sbt-plugin-1.3.1.tgz#15b4a212672dfba33f26aec953229db1a962f29e"
-  dependencies:
-    debug "^3.1.0"
+snyk-sbt-plugin@1.3.2:
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/snyk-sbt-plugin/-/snyk-sbt-plugin-1.3.2.tgz#f724219c7084da30505b90492a672c5e9493945f"
 
 snyk-tree@^1.0.0:
   version "1.0.0"
@@ -4837,8 +4835,8 @@ snyk-try-require@1.3.1, snyk-try-require@^1.1.1:
     then-fs "^2.0.0"
 
 snyk@^1.93.0:
-  version "1.95.0"
-  resolved "https://registry.yarnpkg.com/snyk/-/snyk-1.95.0.tgz#0efedd4701c04e597ffcff10a702a32053314849"
+  version "1.95.1"
+  resolved "https://registry.yarnpkg.com/snyk/-/snyk-1.95.1.tgz#99b2ed59239b4d199dc93d5b065eb55d0a173e78"
   dependencies:
     abbrev "^1.1.1"
     ansi-escapes "^3.1.0"
@@ -4858,9 +4856,9 @@ snyk@^1.93.0:
     snyk-config "2.2.0"
     snyk-docker-plugin "1.10.4"
     snyk-go-plugin "1.5.2"
-    snyk-gradle-plugin "1.3.0"
+    snyk-gradle-plugin "1.3.1"
     snyk-module "1.8.2"
-    snyk-mvn-plugin "1.2.1"
+    snyk-mvn-plugin "1.2.2"
     snyk-nodejs-lockfile-parser "1.4.1"
     snyk-nuget-plugin "1.6.5"
     snyk-php-plugin "1.5.1"
@@ -4868,7 +4866,7 @@ snyk@^1.93.0:
     snyk-python-plugin "1.8.1"
     snyk-resolve "1.0.1"
     snyk-resolve-deps "3.1.0"
-    snyk-sbt-plugin "1.3.1"
+    snyk-sbt-plugin "1.3.2"
     snyk-tree "^1.0.0"
     snyk-try-require "1.3.1"
     tempfile "^2.0.0"
@@ -5160,10 +5158,6 @@ strip-json-comments@~2.0.1:
 stubs@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/stubs/-/stubs-3.0.0.tgz#e8d2ba1fa9c90570303c030b6900f7d5f89abe5b"
-
-supervisor@^0.12.0:
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/supervisor/-/supervisor-0.12.0.tgz#de7e6337015b291851c10f3538c4a7f04917ecc1"
 
 supports-color@^5.3.0:
   version "5.5.0"
