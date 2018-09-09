@@ -18,6 +18,11 @@ var LocalStrategy = require('passport-local').Strategy;
 var GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
 var KakaoStrategy = require('passport-kakao').Strategy;
 var Raven = require('raven');
+var admin = require('firebase-admin');
+
+admin.initializeApp({
+  credential: admin.credential.cert(require('./config/service-account.json'))
+});
 
 var version = require('child_process')
   .execSync('git rev-parse HEAD')
