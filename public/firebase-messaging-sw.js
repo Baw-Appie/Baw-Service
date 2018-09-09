@@ -10,6 +10,26 @@ const messaging = firebase.messaging();
   // iziToast.info({ title: "새 후원이 있습니다!", message: "지금 바로 데이터 관리로 이동해서 새 후원을 확인하세요!" })
 // });
 
+self.addEventListener('notificationclick', function(event) {
+  console.log('On notification click: ', event.notification.tag);
+  event.notification.close();
+  event.waitUntil(
+    clients.matchAll({
+      type: "window"
+    })
+    .then(function(clientList) {
+      for (var i = 0; i < clientList.length; i++) {
+        var client = clientList[i];
+        if (client.url == '/' && 'focus' in client)
+          return client.focus();
+      }
+      if (clients.openWindow) {
+        return clients.openWindow('https://baws.kr/manage/1/view');
+      }
+    })
+  );
+});
+
 messaging.setBackgroundMessageHandler(function(payload) {
   console.log('[firebase-messaging-sw.js] Received background message ', payload);
   var notificationTitle = 'Baw Service 알림';
