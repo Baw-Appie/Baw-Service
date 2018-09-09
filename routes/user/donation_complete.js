@@ -172,8 +172,30 @@ function complete(req, res){
                         if(body.ok == true){
                           const { TelegramClient } = require('messaging-api-telegram');
                           const client = TelegramClient.connect(server_settings.tg_bot_key);
-                          client.sendMessage(rows6[0]['chat_id'], '새로운 후원이 있습니다! https://baws.kr');
+                          client.sendMessage(rows6[0]['chat_id'], nick+'님의 '+Combo+' '+bal+'원 후원을 지금 Baw Service에서 확인하세요! https://baws.kr');
                         }
+                      })
+                    }
+                  })
+                }
+                if(jsonpagedata['browser_ok'] == 1) {
+                  sql.query(SqlString.format('SELECT * FROM fcm WHERE id=?', [rows[0]['owner']]), function(err, rows8){
+                    if (err) { return reject('8번 질의 오류'); }
+                    if(rows8.length != 0){
+                      var admin = require('firebase-admin')
+                      rows8.forEach((value) => {
+                        const message = {
+                          webpush: {
+                            notification: {
+                              title: '새로운 후원이 있습니다.',
+                              body: nick+'님의 '+Combo+' '+bal+'원 후원을 지금 Baw Service에서 확인하세요!',
+                              icon: 'https://baws.kr/public/img/favicon.jpg'
+                            }
+                          },
+                          token: value.token
+                        }
+                        console.log(value.token)
+                        admin.messaging().send(message)
                       })
                     }
                   })
