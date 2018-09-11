@@ -27,6 +27,7 @@
     "pug": "^2.0.3",
     "raven": "^2.6.3",
     "request": "^2.88.0",
+    "request-promise": "^4.2.2",
     "rss-to-json": "^1.0.4",
     "sharp": "^0.20.7",
     "snyk": "^1.93.0",
