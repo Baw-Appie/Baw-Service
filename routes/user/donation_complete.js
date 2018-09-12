@@ -51,37 +51,37 @@ module.exports = (req, res) => {
       var date = new Date().toLocaleDateString()
       var ip = req.ip
       if(vali.isEmpty(nick) || nick.length > 18){
-        throw new Error('닉네임을 입력해주세요.')
+        throw ('닉네임을 입력해주세요.')
       }
       if(vali.isEmpty(bal) || bal.length > 18){
-        throw new Error('후원금액을 입력해주세요.')
+        throw ('후원금액을 입력해주세요.')
       }
       if(vali.isEmpty(Combo) || Combo.length > 18){
-        throw new Error('후원방법을 선택해주세요.')
+        throw ('후원방법을 선택해주세요.')
       }
       if(Combo != "계좌이체") {
         if(vali.isEmpty(pin1) || pin1.length != 4){
-          throw new Error('핀번호1를 입력해주세요.')
+          throw ('핀번호1를 입력해주세요.')
         }
         if(vali.isEmpty(pin2) || pin2.length != 4){
-          throw new Error('핀번호2를 입력해주세요.')
+          throw ('핀번호2를 입력해주세요.')
         }
         if(vali.isEmpty(pin3) || pin3.length != 4){
-          throw new Error('핀번호3를 입력해주세요.')
+          throw ('핀번호3를 입력해주세요.')
         }
         if(Combo != "틴캐시") {
           if(vali.isEmpty(pin4) || pin1.length > 6 || pin4.length < 3 || pin4.length == 5){
-            throw new Error('핀번호4를 입력해주세요.')
+            throw ('핀번호4를 입력해주세요.')
           }
         }
       } else {
         if(vali.isEmpty(nname)) {
-          throw new Error('입금자를 입력해주세요.')
+          throw ('입금자를 입력해주세요.')
         }
       }
       if(Combo == "틴캐시" || Combo == "해피머니" || Combo == "도서문화상품권") {
         if(vali.isEmpty(code) || code.length > 18){
-          throw new Error('인증 번호(발행일)을 입력해주세요.')
+          throw ('인증 번호(발행일)을 입력해주세요.')
         }
       } else {
         var code = "없음"
@@ -89,12 +89,12 @@ module.exports = (req, res) => {
 
       var pagedata_req = await sqlp(sql, SqlString.format('SELECT * FROM pages WHERE name=? and service=1', [page]))
       if(pagedata_req.length != 1) {
-        throw new Error("후원 홈페이지가 없습니다.")
+        throw ("후원 홈페이지가 없습니다.")
       }
       var pagedata = pagedata_req[0]
       var ownerdata_req = await sqlp(sql, SqlString.format('SELECT * FROM users WHERE id=?', [pagedata['owner']]));
       if(ownerdata_req.length != 1) {
-        throw new Error("페이지 관리자가 없습니다.")
+        throw ("페이지 관리자가 없습니다.")
       }
       var ownerdata = ownerdata_req[0]
 
@@ -135,7 +135,7 @@ module.exports = (req, res) => {
           await sqlp(sql, SqlString.format('update sms set send = send+1 where id = ?', [pagedata['owner']]))
           if(sms_body != "@1"){
             console.log(sms_body)
-            throw new Error('후원 등록에는 성공하였으나 알림 문자 전송 오류입니다. 후원 사실을 서버 관리자에게 직접 알려주세요.')
+            throw ('후원 등록에는 성공하였으나 알림 문자 전송 오류입니다. 후원 사실을 서버 관리자에게 직접 알려주세요.')
           }
         }
       } else {
@@ -157,7 +157,7 @@ module.exports = (req, res) => {
            await sqlp(sql, SqlString.format('update katalk set send = send+1 where id = ?', [pagedata['owner']]))
            console.log(katalk_body)
            if(JSON.parse(katalk_body).result != "100"){
-             throw new Error('후원 등록에는 성공하였으나 알림 카톡 전송 오류입니다. 후원 사실을 서버 관리자에게 직접 알려주세요.')
+             throw ('후원 등록에는 성공하였으나 알림 카톡 전송 오류입니다. 후원 사실을 서버 관리자에게 직접 알려주세요.')
            }
          }
        }
@@ -200,8 +200,11 @@ module.exports = (req, res) => {
 
     } catch(err) {
       console.log(err)
-      console.log(err.stack)
-      var msg = "후원에 실패했습니다! ("+err+")"
+      if(err instanceof Error) {
+        var msg = "후원 시스템에 오류가 있습니다. 관리자에게 이 내용과 함께 오류를 알려주세요. \\n("+err+")"
+      } else {
+        var msg = "후원에 실패했습니다! ("+err+")"
+      }
     } finally {
       res.send('<script>alert("' + msg +'");history.go(-1);</script>')
     }
