@@ -31,23 +31,12 @@ module.exports = (req, res) => {
       await Recaptcha(req)
 
       // 페이지 데이터 가져옴
-      var nick = req.body.nick
-      var bal = req.body.bal
-      var nname = req.body.nname
-      var Combo = req.body.Combo
+      var { nick, bal, nname, Combo, Radio, page, code } = req.body
       if (Combo != "틴캐시") {
-        var pin1 = req.body['pin1[]'][0]
-        var pin2 = req.body['pin2[]'][0]
-        var pin3 = req.body['pin3[]'][0]
-        var pin4 = req.body['pin4[]']
+        var [ pin1, pin2, pin3, pin4 ] = [req.body.pin1[0], req.body.pin2[0], req.body.pin3[0], req.body.pin4]
       } else {
-        var pin1 = req.body['pin1[]'][1]
-        var pin2 = req.body['pin2[]'][1]
-        var pin3 = req.body['pin3[]'][1]
+        var [ pin1, pin2, pin3 ] = [req.body.pin1[1], req.body.pin2[1], req.body.pin3[1]]
       }
-      var Radio = req.body.Radio
-      var page = req.body.page
-      var code = req.body.code
       var date = new Date().toLocaleDateString()
       var ip = req.ip
       if(vali.isEmpty(nick) || nick.length > 18){
@@ -79,7 +68,7 @@ module.exports = (req, res) => {
           throw ('입금자를 입력해주세요.')
         }
       }
-      if(Combo == "틴캐시" || Combo == "해피머니" || Combo == "도서문화상품권") {
+      if(Combo == "해피머니" || Combo == "도서문화상품권") {
         if(vali.isEmpty(code) || code.length > 18){
           throw ('인증 번호(발행일)을 입력해주세요.')
         }
