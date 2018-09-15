@@ -77,7 +77,7 @@ function complete(req, res){
                   return reject('인증 메일 발송 오류입니다. 관리자(카카오톡 pp121324)에게 문의하세요.')
                 }
               });
-
+              req.sqreen.signup_track({ username: id });
               console.info('회원가입 성공!')
               resolve(true)
             })

@@ -1,4 +1,5 @@
 // 모듈 로드
+var Sqreen = require('sqreen');
 var express = require('express')
 var http = require('http');
 var https = require('https');
@@ -64,6 +65,7 @@ app.use(cookieSession({
 }))
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(Sqreen.middleware)
 app.use(function(req,res,next){
     res.removeHeader("x-powered-by");
     res.locals.session = req.session;
@@ -110,6 +112,9 @@ app.all('/firebase_init.js', (req, res) => { res.type("js").send(`firebase.initi
 app.all('/firebase-messaging-sw.js', (req, res) => { res.sendFile("./public/firebase-messaging-sw.js", { root: __dirname }) })
 app.all('/UnsupportedBrowser', (req, res) => { res.render('./UnsupportedBrowser') });
 
+app.all("/test", (req, res) => {
+  sql.query("SELECT "+req.query.asd, (err, rows) => res.send(err))
+})
 // *보안* //
 // 카카오톡 활성화 요청
 app.get('/secuity/allow_katalk', function (req, res) {

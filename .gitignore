@@ -73,6 +73,7 @@ config/allow_ips.js
 # Server config file
 config/server_settings.js
 config/service-account.json
+sqreen.json
 
 # oauth config file
 config/oauth_info.js
