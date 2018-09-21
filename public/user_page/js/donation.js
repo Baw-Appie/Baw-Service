@@ -45,19 +45,19 @@ function blank_up(){
 
   if(du.Combo.value !== "계좌이체"){
 		if(du.Combo.value !== "틴캐시"){
-			if(!du.pin1.value){
+			if($("[name=pin1]")[0].value == ""){
 				error('핀번호1를 입력해주세요..');
-				du.pin1.focus();
+				$("[name=pin1]")[0].focus();
 				return false;
 			}
-			if(!du.pin2.value){
+			if($("[name=pin2]")[0].value == ""){
 				error('핀번호2를 입력해주세요..');
-				du.pin2.focus();
+		   $("[name=pin2]")[0].focus();
 				return false;
 			}
-			if(!du.pin3.value){
+			if($("[name=pin3]")[0].value == ""){
 				error('핀번호3를 입력해주세요..');
-				du.pin3.focus();
+				$("[name=pin3]")[0].focus();
 				return false;
 			}
 			if(!du.pin4.value){
@@ -68,19 +68,19 @@ function blank_up(){
 		}
 
 		if(du.Combo.value == "틴캐시"){
-			if(!du.pin1teen.value){
+			if($("[name=pin1]")[1].value == ""){
 				error('틴캐시 핀번호를 입력해주세요..');
-				du.pin1teen.focus();
+				$("[name=pin1]")[1].focus();
 				return false;
 			}
-			if(!du.pin2teen.value){
+			if($("[name=pin2]")[1].value == ""){
 				error('틴캐시 핀번호를 입력해주세요..');
-				du.pin2teen.focus();
+				$("[name=pin2]")[1].focus();
 				return false;
 			}
-			if(!du.pin3teen.value){
+			if($("[name=pin3]")[1].value == ""){
 				error('틴캐시 핀번호를 입력해주세요..');
-				du.pin3teen.focus();
+				$("[name=pin3]")[1].focus();
 				return false;
 			}
 		}
