@@ -2,8 +2,8 @@ var sql = require('../../config/dbtool');
 var SqlString = require('sqlstring');
 var passport = require('passport');
 module.exports = function(request, accessToken, refreshToken, profile, done) {
-  if(req.sqreen.userIsBanned(req)){
-    req.session.error = '보안 시스템에 의하여 로그인이 거부되었습니다.';
+  if(request.sqreen.userIsBanned(req)){
+    request.session.error = '보안 시스템에 의하여 로그인이 거부되었습니다.';
     return done(null, false, { message: '보안 시스템에 의하여 로그인이 거부되었습니다.' })
   }
   process.nextTick(function () {
@@ -12,11 +12,11 @@ module.exports = function(request, accessToken, refreshToken, profile, done) {
         if(err) { done(err) };
         if (rows.length === 0) {
           request.session.error = '존재하지 않는 ID거나 비밀번호를 잘못 입력하셨습니다.';
-          req.sqreen.auth_track(false, { username: profile['_json']['kaccount_email'] });
+          request.sqreen.auth_track(false, { username: profile['_json']['kaccount_email'] });
           return done(null, false, { message: '존재하지 않는 ID거나 비밀번호를 잘못 입력하셨습니다.' })
         } else {
           request.session.error = rows[0].id + '로 로그인했습니다.';
-          req.sqreen.auth_track(true, { username: rows[0].id });
+          request.sqreen.auth_track(true, { username: rows[0].id });
           return done(null, {
             'id': rows[0]['id'],
             'mail': rows[0]['mail'],
@@ -27,7 +27,7 @@ module.exports = function(request, accessToken, refreshToken, profile, done) {
       });
     } else {
       request.session.error = '카카오에서 이메일 인증을 먼저 완료하세요.';
-      req.sqreen.auth_track(false, { username: profile['_json']['kaccount_email'] });
+      requset.sqreen.auth_track(false, { username: profile['_json']['kaccount_email'] });
       return done(null, false, { message: '카카오에서 이메일 인증을 먼저 완료하세요.' })
     }
   });
