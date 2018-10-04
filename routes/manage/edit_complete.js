@@ -7,6 +7,7 @@ function req_check(variable, req){
     variable.forEach(function(item) {
       if(req.body[item] == undefined || req.body[item] == ""){
         reject(true)
+        console.log(item)
       }
     })
     resolve(true)
@@ -17,6 +18,7 @@ function opt_check(variable, req){
     variable.forEach(function(item) {
       if(req.body[item] == undefined){
         reject(true)
+        console.log(item)
       }
     })
     resolve(true)
@@ -30,9 +32,9 @@ module.exports = function(req, res) {
         var service = req.params.service;
       	var notice = req.body.notice;
         if(service == 1){
-          req_field.push("theme", "bouns", "sms_ok", "tg_ok", "kakao_ok")
-          opt_field.push("youtube", "lookup_ok")
-      		var lookup_ok = req.body.lookup_ok;
+          req_field.push("theme", "bouns")
+          opt_field.push("youtube")
+      		var lookup_ok = req.body.lookup_ok == undefined ? 0 : 1
       		var youtube = req.body.youtube;
           if(req.body.disabled == undefined) {
             var disabled = ""
@@ -42,19 +44,18 @@ module.exports = function(req, res) {
           }
       		var theme = req.body.theme;
       		var bouns = req.body.bouns;
-      		var sms_ok = req.body.sms_ok;
-      		var tg_ok = req.body.tg_ok;
-      		var kakao_ok = req.body.kakao_ok;
+      		var sms_ok = req.body.sms_ok == undefined ? 0 : 1
+      		var tg_ok = req.body.tg_ok == undefined ? 0 : 1
+      		var kakao_ok = req.body.kakao_ok == undefined ? 0 : 1
+      		var browser_ok = req.body.browser_ok == undefined ? 0 : 1
         }
         if(service == 1 || service  == 2){
-          req_field.push("mail_ok")
           opt_field.push("api_cmd")
-      		var mail_ok = req.body.mail_ok;
+      		var mail_ok = req.body.mail_ok == undefined ? 0 : 1
       		var api_cmd = req.body.api_cmd;
         }
         if(service == 2){
-          req_field.push("auto_process")
-      		var auto_process = req.body.auto_process;
+      		var auto_process = req.body.auto_process == undefined ? 0 : 1
         }
         if(service == 3){
           req_field.push("sv_ip", "sv_port")
@@ -65,7 +66,7 @@ module.exports = function(req, res) {
         req_check(req_field, req).then(function (text) {
           opt_check(opt_field, req).then(function (text) {
             if(req.params.service == 1) {
-              var sql_Request = SqlString.format('UPDATE `pages` SET pagedata=json_set(pagedata, "$.mail_ok", ?, "$.bouns", ?, "$.sms_ok", ?, "$.kakao_ok", ?, "$.tg_ok", ?, "$.api_cmd", ?, "$.disabled", ?, "$.youtube", ?, "$.lookup_ok", ?), `notice`=?, `theme`=? WHERE service=1 and owner=?', [mail_ok, bouns, sms_ok, kakao_ok, tg_ok, api_cmd, disabled, youtube, lookup_ok, notice, theme, req.user.id])
+              var sql_Request = SqlString.format('UPDATE `pages` SET pagedata=json_set(pagedata, "$.mail_ok", ?, "$.bouns", ?, "$.sms_ok", ?, "$.kakao_ok", ?, "$.tg_ok", ?, "$.browser_ok", ?, "$.api_cmd", ?, "$.disabled", ?, "$.youtube", ?, "$.lookup_ok", ?), `notice`=?, `theme`=? WHERE service=1 and owner=?', [mail_ok, bouns, sms_ok, kakao_ok, tg_ok, browser_ok, api_cmd, disabled, youtube, lookup_ok, notice, theme, req.user.id])
             }
             if(req.params.service == 2) {
             	var sql_Request = SqlString.format("UPDATE `pages` SET pagedata=json_set(pagedata, '$.mail_ok', ?, '$.api_cmd', ?, '$.auto_process', ?), `notice`=? WHERE service=2 and owner=?", [mail_ok, api_cmd, auto_process, notice, req.user.id])

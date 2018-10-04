@@ -1,51 +1,53 @@
 extends ./includes/layout
 block contents
-  .uk-grid-small.uk-child-width-1-2.uk-text-center(class='uk-child-width-1-4@s', uk-grid)
-    div
-      .uk-panel
-        .uk-alert.uk-margin-remove
+  .ui.grid.four.column
+    .row.doubling.four.column 
+      .column
+        .ui.message
           | 총 후원 금액
           h4 #{a1}원
-    div
-      .uk-panel
-        .uk-alert.uk-margin-remove
-          | 30일 이내 후원 금액
+      .column
+        .ui.message
+          | 30일간 후원 금액
           h4 #{a2}원
-    div
-      .uk-panel
-        .uk-alert.uk-margin-remove
-          | 총 거절된 후원 횟수
+      .column
+        .ui.message
+          | 후원 거절 횟수
           h4 #{a3}번
-    div
-      .uk-panel
-        .uk-alert.uk-margin-remove
-          | 총 정품 인증 처리 횟수
+      .column
+        .ui.message
+          | 정품인증 성공 횟수
           h4 #{a4}번
   br
-  .uk-card.uk-card-default.uk-card-body
-    h3.uk-card-title 후원 차트
-    p
-      canvas#chart(height="100px")
-  br
-  .uk-card.uk-card-default.uk-card-body
-    h3.uk-card-title Baw Service Blog 최신글
-    table.uk-table.uk-table-divider
-      thead
-        tr
-          th 글 이름
-          th 작성일
-      tbody
-        each list, index in items
-          tr
-            td
-              a(href=list.url)
-                | #{list.title}
-            td=list.created
-    a(href="https://baw-service.tistory.com/")
-      button.uk-button.uk-button-text Baw Service Blog에서 더 보기
-    br
-    a.twitter-follow-button(href='https://twitter.com/BawAppie?ref_src=twsrc%5Etfw', data-show-count='false') Follow @BawAppie
-    script(async='', src='https://platform.twitter.com/widgets.js', charset='utf-8')
+  .ui.grid.stackable
+    .eight.wide.column
+      .ui.message
+        h3 후원 차트
+        p
+          canvas#chart(height="100px")
+    .eight.wide.column
+      .ui.message.column
+        h3 Baw Service Blog 최신글
+        table.ui.celled.table
+          thead
+            tr
+              th 글 이름
+              th 작성일
+          tbody
+            each list, index in items
+              tr
+                td
+                  a(href=list.url)
+                    | #{list.title}
+                -const date = new Date(list.created).toISOString().slice(0,10);
+                td=date
+        .ui.buttons
+          a.ui.button(href="https://baw-service.tistory.com") 더 보기
+          .or
+          a.ui.button.twitter(href="https://twitter.com/BawAppie")
+            i.icon.twitter
+            | @BawAppie 
+
   br
   br
   br

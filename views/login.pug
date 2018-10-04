@@ -1,23 +1,43 @@
 extends ./includes/layout
 block contents
   h3 로그인
-  form(action="https://" + hostname + "/auth/login" method="post")
-    p Baw Service에 로그인하려면 아래 정보를 입력하세요.
-    .uk-margin
-        input.uk-input(name="id" type="text" placeholder="ID / Mail")
-    .uk-margin
-        input.uk-input(name="pass" type="password" placeholder="Password")
-    p
-      button.uk-button.uk-button-default.uk-width-1-1 로그인
-    font(style='text-align: center;')
-      p OR Sign in with
-    .uk-button-group(style="width: 100%;")
-      a(onclick="location.href=('https://" + hostname + "/auth/google')", style="width: 100%;")
-        button.uk-button.uk-button-secondary(type="button", style="width: 100%;") Google
-      a(onclick="location.href=('https://" + hostname + "/auth/kakao')", style="width: 100%;")
-        button.uk-button.uk-button-secondary(type="button", style="width: 100%;") Kakao
-    hr.uk-divider-icon
-    p 아직 계정이 없으신가요?
-    p
-      a(href="https://" + hostname + "/auth/register")
-        button.uk-button.uk-button-primary.uk-width-1-1(type="button") 회원가입
+  p Baw Service에 로그인하려면 아래 정보를 입력해주세요.
+  form(action="/auth/login" method="post")
+    .ui.form.error
+      .field
+        label ID
+        input(type='text', placeholder='Your ID', name="id")
+      .field
+        label Password
+        input(type='password', placeholder='Your Password', name="pass")
+      button(type="submit", style="float: right;").ui.button.primary Sign In
+  br
+  br
+  br
+  .ui.large.buttons
+    button.ui.button(onclick="location.href=('/auth/google')") Google
+    .or
+    button.ui.button(onclick="location.href=('/auth/kakao')") Kakao
+
+
+  //- h3 로그인
+  //- form(action="https://" + hostname + "/auth/login" method="post")
+  //-   p Baw Service에 로그인하려면 아래 정보를 입력하세요.
+  //-   .uk-margin
+  //-       input.uk-input(name="id" type="text" placeholder="ID / Mail")
+  //-   .uk-margin
+  //-       input.uk-input(name="pass" type="password" placeholder="Password")
+  //-   p
+  //-     button.uk-button.uk-button-default.uk-width-1-1 로그인
+  //-   font(style='text-align: center;')
+  //-     p OR Sign in with
+  //-   .uk-button-group(style="width: 100%;")
+  //-     a(onclick="location.href=('https://" + hostname + "/auth/google')", style="width: 100%;")
+  //-       button.uk-button.uk-button-secondary(type="button", style="width: 100%;") Google
+  //-     a(onclick="location.href=('https://" + hostname + "/auth/kakao')", style="width: 100%;")
+  //-       button.uk-button.uk-button-secondary(type="button", style="width: 100%;") Kakao
+  //-   hr.uk-divider-icon
+  //-   p 아직 계정이 없으신가요?
+  //-   p
+  //-     a(href="https://" + hostname + "/auth/register")
+  //-       button.uk-button.uk-button-primary.uk-width-1-1(type="button") 회원가입

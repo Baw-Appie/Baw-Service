@@ -26,127 +26,109 @@ block extscript
 
 block contents
   form(method="post", id="edit")
-    fieldset.uk-fieldset
-      legend.uk-legend 
-        | #{data.name} 설정
-        if(help)
-          button(class="uk-button uk-button-default uk-margin-small-right", uk-toggle='target: #help-modal', type='button')
-            i(class="far fa-question-circle")
-      // SELECT INPUT
-      each select, i in select_option_korean
-        .uk-margin.uk-grid-small.uk-child-width-auto.uk-grid
-          label #{select}
-          - var name = select_option[i];
-          - if(savetojson.indexOf(name) == -1){
-            - var vdata = rows[0][name]
-          - } else {
-            - var vdata = pagedata[name]
-          - }
-          label
-            if vdata == 0
-              input.uk-radio(type='radio', name=name, value=0, checked)
-              |  차단
-            else
-              input.uk-radio(type='radio', name=name, value=0)
-              |  차단
-              
-          label
-            if vdata == 1
-              input.uk-radio(type='radio', name=name, value=1, checked)
-              |  허용
-            else
-              input.uk-radio(type='radio', name=name, value=1)
-              |  허용
-      // CUSTOM_SELECT INPUT
-      if custom_select_option
-        each custom_select, i in custom_select_option
-          .uk-margin.uk-grid-small.uk-child-width-auto.uk-grid
-            label #{custom_select['korean']}
-            - var name = custom_select['name'];
-            each custom_list, oo in custom_select['option_data']
-              - if(savetojson.indexOf(name) == -1){
-                - var vdata = rows[0][name]
-              - } else {
-                - var vdata = pagedata[name]
-              - }
-              label
-                if vdata.toLowerCase() == custom_select['option_data'][oo].toLowerCase()
-                  input.uk-radio(type='radio', name=name, value=custom_select["option_data"][oo], checked)
-                  |  #{custom_select["option_korean"][oo]}
-                else
-                  input.uk-radio(type='radio', name=name, value=custom_select["option_data"][oo])
-                  |  #{custom_select["option_korean"][oo]}
-      // CUSTOM_COMBO INPUT
-      if custom_checkbox_option
-        each custom_checkbox, i in custom_checkbox_option
-          .uk-margin.uk-grid-small.uk-child-width-auto.uk-grid
-            label #{custom_checkbox['korean']}
-            - var name = custom_checkbox['name'];
-            each custom_list, oo in custom_checkbox['options']
-              - if(savetojson.indexOf(name) == -1){
-                - var vdata = rows[0][name]
-              - } else {
-                - var vdata = pagedata[name]
-              - }
-              label
-                -if(vdata.indexOf(custom_checkbox['option_data'][oo]) != -1)
-                  input.uk-checkbox(type='checkbox', name=name, value=custom_checkbox["option_data"][oo], checked)
-                  |  #{custom_checkbox["option_korean"][oo]}
-                -else
-                  input.uk-checkbox(type='checkbox', name=name, value=custom_checkbox["option_data"][oo])
-                  |  #{custom_checkbox["option_korean"][oo]}
-                
-              
-      // TEXT INPUT
-      each text, i in text_option_korean
-        .uk-margin
-          label #{text}
-            - var name = text_option[i];
-            - if(savetojson.indexOf(name) == -1){
-              - var vdata = rows[0][name]
+    .ui.header
+      h2
+        i.icon.wrench
+        .content
+          | #{data.name} 설정
+    each group in options.groups
+      .ui.attached.message
+        .header
+          | #{group.korean}
+        p #{group.description}
+      .ui.attached.fluid.segment.form
+        if group.select
+          each select in group.select
+            - if(options.savetojson.indexOf(select.name) == -1){
+              - var vdata = rows[0][select.name]
             - } else {
-              - var vdata = pagedata[name]
+              - var vdata = pagedata[select.name]
             - }
-            if vdata != ""
-              input.uk-input(type='text', name=name, placeholder=text, value=vdata)
-            else 
-              input.uk-input(type='text', name=name, placeholder=text)
-            
-      // TEXTAREA INPUT
-      each textarea, i in textarea_option_korean
-        .uk-margin
-          label #{textarea}
-          - var name = textarea_option[i];
-          - if(savetojson.indexOf(name) == -1){
-            - var vdata = rows[0][name]
-          - } else {
-            - var vdata = pagedata[name]
-          - }
-            if vdata != ""
-              textarea.uk-textarea(name=name, placeholder=textarea, rows=5) !{vdata}
-            else
-              textarea.uk-textarea(name=name, placeholder=textarea, rows=5)
+            .field
+              .ui.toggle.checkbox
+                label #{select.korean}
+                if vdata == 1
+                  input.hidden(type='checkbox', name=select.name, value=1 checked)
+                else
+                  input.hidden(type='checkbox', name=select.name, value=1)
+                br
+        if group.custom_select
+          each select, i in group.custom_select
+            .inline.fields
+              label(for=select.name) #{select.korean}
+              each custom_list, oo in select.option_data
+                - if(options.savetojson.indexOf(select.name) == -1){
+                  - var vdata = rows[0][select.name]
+                - } else {
+                  - var vdata = pagedata[select.name]
+                - }
+                .field
+                  .ui.radio.checkbox
+                    if vdata.toLowerCase() == select['option_data'][oo].toLowerCase()
+                      input.uk-radio(type='radio', name=select.name, value=select["option_data"][oo], checked)
+                    else
+                      input.hidden(type='radio', name=select.name, value=select["option_data"][oo])
+                    label #{select["option_korean"][oo]}
+                    
+        if group.text
+          each text, i in group.text
+            .field
+              label #{text.korean}
+              - if(options.savetojson.indexOf(text.name) == -1){
+                - var vdata = rows[0][text.name]
+              - } else {
+                - var vdata = pagedata[text.name]
+              - }
+              if vdata != ""
+                input(type='text', name=text.name, placeholder=text.korean, value!=vdata)
+              else 
+                input(type='text', name=text.name, placeholder=text.korean)
               
-      // CUSTOM TEXT INPUT
-      if custom_text
-        | !{custom_text}
-      
+        if group.textarea
+          each textarea, i in group.textarea
+            .field
+              label #{textarea.korean}
+              - if(options.savetojson.indexOf(textarea.name) == -1){
+                - var vdata = rows[0][textarea.name]
+              - } else {
+                - var vdata = pagedata[textarea.name]
+              - }
+                if vdata != ""
+                  textarea(name=textarea.name, placeholder=textarea.korean, rows=5) !{vdata}
+                else
+                  textarea(name=textarea.name, placeholder=textarea.korean, rows=5)
+              
       br
-      if(!do_not_save)
-        button.uk-button.uk-button-primary(type="submit")
-          i(class="fas fa-save")
-          |  설정 적용
-        button.uk-button.uk-button-default(type="button")
-          a(onclick="$.pjax.reload('#contents')")
-            i(class="fas fa-undo") 
-            |  적용 안함
-      br
-      br
-      if(help)
-        #help-modal(uk-modal='')
-          .uk-modal-dialog.uk-modal-body
-            h2.uk-modal-title 도움말
-            p
-              | !{help}
-            p.uk-text-right
-              button.uk-button.uk-button-default.uk-modal-close(type='button') 닫기
+    if options.text
+      | !{options.text}
+    br
+    if(!options.do_not_save)
+      button.ui.button.primary.icon.labeled(type="submit")
+        i.icon.save
+        |  설정 적용
+      a(onclick="$.pjax.reload('#contents')")
+        button.ui.button.icon.labeled(type="button")
+          i.icon.undo
+          |  적용 안함
+    if(help)
+      button.ui.icon.button.icon.labeled(type="button" onclick="$('#help-modal').modal('show')")
+        i.icon.question
+        | 도움말
+  br
+  br
+  br
+  br
+  br
+  if(help)
+    .ui.modal#help-modal
+      i.close.icon
+      .header
+        | 도움말
+      .image.content
+        .description
+          .ui.header 도움말
+          | !{help}
+      .actions
+        .ui.positive.right.labeled.button.icon
+          | 닫기
+          i.icon.close
