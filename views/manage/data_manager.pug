@@ -1,16 +1,30 @@
 extends ../includes/layout
 block extscript
   script.
-    loadScript('https://www.google.com/recaptcha/api.js')
+    loadScript('https://www.google.com/recaptcha/api.js?onload=Loaded&render=explicit')
+    function Loaded() {
+      captcha = {}
+      $(".g-recaptcha").each(function(index,value) {
+          var object = $(this);
+          captcha[index] = grecaptcha.render(object.attr("id"), {
+              "sitekey" : "#{server_settings.g_captcha_site_key}",
+              "callback" : function(token) {
+                  console.log(object.parents('form'))
+                  object.parents('form').find(".g-recaptcha-response").val(token);
+                  object.parents('form').submit();
+              }
+          });
+      });
+    }
     function captchaSubmit3() {
       $("#data_delete_form").submit();
     }
     $(".recent_process").hide();
     $(".data_list").hide();
     $(".data_delete").hide();
-    $('.okay button').click((event) => {
+    $('.okay1, .okay1noapi, .okay2').click((event) => {
       var target = event.target
-      var element = $(target).parent("div").parent("div")
+      var element = $(target).closest(".head")
       var id = $(element).attr("id")
       if($(target).hasClass("okay1") === true){
         var url = "https://#{hostname}/manage/#{data.service}/complete/"+id+"/1"
@@ -22,19 +36,19 @@ block extscript
         var url = "https://#{hostname}/manage/#{data.service}/complete/"+id+"/2"
       }
       $.ajax({
-        type: 'get',
-        url : url,
-        success : function s(a){
-          if(a.success == true){
-            $(element).slideUp(500)
-            iziToast.info({message: a.message, title: a.title})
-            NProgress.done();
-          } else {
-            iziToast.warning({message: a.message, title: a.title})
-            NProgress.done();
-          }
-        },
-        error : function error(){ iziToast.warning({message: "Baw Service 빠른 설정 적용이 설정을 적용하는 도중 문제가 발생했습니다.", title:"이런.."}); }
+          type: 'get',
+          url : url,
+          success : function s(a){
+            if(a.success == true){
+              $(element).slideUp(500)
+              iziToast.info({message: a.message, title: a.title})
+              NProgress.done();
+            } else {
+              iziToast.warning({message: a.message, title: a.title})
+              NProgress.done();
+            }
+          },
+          error : function error(){ iziToast.warning({message: "Baw Service 빠른 설정 적용이 설정을 적용하는 도중 문제가 발생했습니다.", title:"이런.."}); }
       });
     })
     var opened = []
@@ -84,40 +98,46 @@ block extscript
       }
 	
 block contents
-  .uk-card.uk-card-default.uk-card-body(class='uk-width-auto')
-    h3.uk-card-title #{data.name} 데이터 관리자
-    button.uk-button.uk-button-default.opening#recent_process
-      i(class="fas fa-edit")
-      |  최근 처리 수정
-    button.uk-button.uk-button-default.opening#data_list
-      i(class="fas fa-list-ul")
-      |  데이터 리스트
+  .ui.message
+    .ui.header
+      h2
+        i.icon.wrench
+        .content
+          | #{data.name} 데이터 관리자
+    br
+    button.ui.button.opening.icon.labeled#recent_process
+      i.icon.edit
+      | 최근 처리 수정
+    button.ui.button.opening.icon.labeled#data_list
+      i.icon.list
+      | 데이터 리스트
     if(data.service == 1)
-      button.uk-button.uk-button-default.opening#data_export
-        i(class="far fa-file-excel")
-        |  데이터 내보내기
-      button.uk-button.uk-button-default.opening#data_add
-        i(class="fas fa-plus-circle")
-        |  데이터 추가
-    button.uk-button.uk-button-secondary.opening#data_delete
-      i(class="far fa-trash-alt")
-      |  데이터 전체 삭제
+      button.ui.button.opening.icon.labeled#data_export
+        i.file.excel.icon
+        | 데이터 내보내기
+      button.ui.button.opening.icon.labeled#data_add
+        i.icon.plus
+        | 데이터 추가
+    button.ui.button.negative.opening.icon.labeled#data_delete
+      i.icon.trash
+      | 데이터 전체 삭제
   br
   br
   .recent_process.form
-    .uk-card.uk-card-default.uk-card-body(class='uk-width-auto')
-      h3.uk-card-title #{data.name} 최근 처리 완료 후원 정보 [10개]
+    .ui.message
+      .ui.header
+        h2 #{data.name} 최근 처리 완료 후원 정보 [10개]
+      br
       each row, i in data1
-        div(id=data1[i]["num"])
+        .head(id=data1[i]["num"])
           each li, ii in list
             | #{korean[ii]}: #{data1[i][li]}
             br
           br
-          div(class="okay")
-            button.uk-button.uk-button-danger.okay2
-              i(class="fas fa-times-circle")
-              |  처리 거절으로 수정
-          hr.uk-divider-icon
+          button.ui.button.icon.labeled.negative.okay2
+            i.icon.times
+            | 처리 거절으로 수정
+          .ui.divider
         
       - if (data1.length == 0)
         p 처리 성공된 #{data.name}이 없습니다.
@@ -125,20 +145,26 @@ block contents
       p Powered by Baw Service
     br
     br
-    .uk-card.uk-card-default.uk-card-body(class='uk-width-auto')
-      h3.uk-card-title #{data.name} 최근 처리 거절 후원 정보 [5개]
+    .ui.message
+      .ui.header
+        h2 #{data.name} 최근 처리 거절 후원 정보 [10개]
+      br
       each row, i in data2
-        div(id=data2[i]["num"])
+        .head(id=data2[i]["num"])
           each li, ii in list
             | #{korean[ii]}: #{data2[i][li]}
             br
           br
-          div(class="okay")
-            button.uk-button.uk-button-primary.okay1
-              i(class="fas fa-check-circle")
-              |  처리 완료
-            button.uk-button.uk-button-default.okay1noapi API 요청 없이 처리 완료
-          hr.uk-divider-icon
+          .ui.buttons.primary
+            .ui.button.icon.labeled.okay1
+              i.icon.check
+              | 처리 완료
+            .ui.floating.dropdown.icon.button
+              i.dropdown.icon
+              .menu
+                .item.okay1noapi
+                  | API 요청 없이 처리 완료
+          .ui.divider
         
       - if (data2.length == 0)
         p 처리 거절된 #{data.name}이 없습니다.
@@ -146,60 +172,12 @@ block contents
       p Powered by Baw Service
     br
     br
-  .data_delete.form
-    .uk-card.uk-card-default.uk-card-body(class='uk-width-auto')
-      h3.uk-card-title #{data.name} 데이터 관리자
-      form(id="data_delete_form", method="post", action=`https://${hostname}/manage/${data.service}/data_delete`)
-        button.uk-button.uk-button-danger.g-recaptcha#data_delete_submit(data-sitekey='6LeKTiwUAAAAANOYA7r37sTyquy_R0ljzSTVS6Bp', data-callback='captchaSubmit3')
-          i(class="far fa-trash-alt")
-          |  #{data.name} 데이터를 모두 삭제
-      p Baw Service에 저장된 #{data.name} 데이터를 모두 삭제합니다.
-      p 작업을 실행하기 전 다음을 기억하세요.<br>이 작업은 그 누구도 되돌릴 수 없으며, 취소할 수도 없습니다.
-      p 작업을 실행하기 전 데이터를 Excel로 내보내는것을 권장합니다.
-    br
-    br
-  if(data.service == 1)
-    .data_export.form
-      .uk-card.uk-card-default.uk-card-body(class='uk-width-auto')
-        h3.uk-card-title #{data.name} 데이터 관리자
-        form(id="data_export_excel_form", action=`https://${hostname}/manage/${data.service}/data_export_excel`)
-          button.uk-button.uk-button-primary.g-recaptcha#data_export_excel_submit(data-sitekey='6LeKTiwUAAAAANOYA7r37sTyquy_R0ljzSTVS6Bp', data-callback='captchaSubmit2')
-            i(class="far fa-file-excel")
-            |  Excel으로 데이터 내보내기
-        p Baw Service에 저장된 #{data.name} 데이터를 Excel 형식으로 이 기기에 저장합니다.
-      br
-      br
-    .data_add.form
-      .uk-card.uk-card-default.uk-card-body(class='uk-width-auto')
-        h3.uk-card-title 수동으로 #{data.name} 데이터 추가
-        form(id="data_add_form")
-          div(class="uk-grid-small uk-child-width-expand@s uk-text-center", uk-grid)
-            each li, ii in list
-              div
-                font(size=2)
-                  p #{korean[ii]}
-                input.uk-input(type='text', name=li, placeholder=korean[ii])
-            div
-              font(size=2)
-                p 처리 상태
-              input.uk-input(type='text', name='status', placeholder='처리 상태')
-          br
-          br
-          button.uk-button.uk-button-primary.g-recaptcha#data_add_submit(data-sitekey='6LeKTiwUAAAAANOYA7r37sTyquy_R0ljzSTVS6Bp', data-callback='captchaSubmit')
-            i(class="fas fa-plus-circle")
-            |  데이터 추가
-          hr.uk-divider-icon
-          p 만약 이 기능의 사용법을 제대로 이해하지 못한다면 사용하지 마세요.
-          p
-            a(href="http://baw-service.tistory.com/20")
-             | [여기]
-            | 를 클릭하여 사용 방법을 확인하세요.
-      br
-      br
   .data_list.form
-    .uk-card.uk-card-default.uk-card-body(class='uk-width-auto')
-      h3.uk-card-title #{data.name} 데이터 목록
-      table.uk-table(style="overflow-x: auto;")
+    .ui.message
+      .ui.header
+        h2 #{data.name} 데이터 목록
+      br
+      table.ui.table.celled(style="overflow-x: auto;")
         thead
           tr
             each li, ii in korean
@@ -209,5 +187,59 @@ block contents
             tr
               each li, ii in list
                 td=row[li]
+  if(data.service == 1)
+    .data_export.form
+      .ui.message
+        .ui.header
+          h2 #{data.name} 데이터 관리자
+        br
+        form(id="data_export_excel_form", action=`https://${hostname}/manage/${data.service}/data_export_excel`)
+          button.ui.button.icon.labeled.primary.g-recaptcha#data_export_excel_submit(data-sitekey='6LeKTiwUAAAAANOYA7r37sTyquy_R0ljzSTVS6Bp', data-callback='captchaSubmit2')
+            i.icon.file.excel
+            | Excel으로 데이터 내보내기
+        p Baw Service에 저장된 #{data.name} 데이터를 Excel 형식으로 이 기기에 저장합니다.
+      br
+      br
+    .data_add.form
+      .ui.message
+        .ui.header
+          h2 수동으로 #{data.name} 데이터 추가
+        br
+        form.ui.form#data_add_form
+          each li, ii in list
+            .field
+              label(for=li) #{korean[ii]}
+              input(type='text', name=li, placeholder=korean[ii])
+          .field
+            label(for="status") 처리 상태
+            input.uk-input(type='text', name='status', placeholder='처리 상태')
+          br
+          br
+          button.ui.button.labeled.icon.primary.g-recaptcha#data_add_submit(data-sitekey='6LeKTiwUAAAAANOYA7r37sTyquy_R0ljzSTVS6Bp', data-callback='captchaSubmit')
+            i.icon.plus
+            | 데이터 추가
+          .ui.divider
+          p 만약 이 기능의 사용법을 제대로 이해하지 못한다면 사용하지 마세요.
+          p
+            a(href="http://baw-service.tistory.com/20")
+             | [여기]
+            | 를 클릭하여 사용 방법을 확인하세요.
+      br
+      br
+      
+    .data_delete.form
+      .ui.message
+        .ui.header
+          h2 #{data.name} 데이터 관리자
+        br
+        form(id="data_delete_form", method="post", action=`https://${hostname}/manage/${data.service}/data_delete`)
+          button.ui.button.negative.icon.labeled.g-recaptcha#data_delete_submit(data-sitekey='6LeKTiwUAAAAANOYA7r37sTyquy_R0ljzSTVS6Bp', data-callback='captchaSubmit3')
+            i.icon.trash
+            | #{data.name} 데이터 모두 삭제
+        p Baw Service에 저장된 #{data.name} 데이터를 모두 삭제합니다.
+        p 작업을 실행하기 전 다음을 기억하세요.<br>이 작업은 그 누구도 되돌릴 수 없으며, 취소할 수도 없습니다.
+        p 작업을 실행하기 전 데이터를 Excel로 내보내는것을 권장합니다.
+        br
+        br
     br
     br

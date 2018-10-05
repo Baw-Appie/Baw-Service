@@ -21,8 +21,11 @@ loadSemantic();
 setNav();
 
 $(document).pjax('a', '#contents');
-$(document).on('pjax:start', function() { NProgress.start(); });
-$(document).on('pjax:end', function() {
+$(document).on('pjax:start', () => {
+  NProgress.start();
+  // $("#contents").html('<div class="ui active centered inline loader"></div>')
+});
+$(document).on('pjax:end', () => {
   NProgress.done();
   loadSemantic()
   setNav()

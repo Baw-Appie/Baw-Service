@@ -1,21 +1,18 @@
 extends ../includes/layout
 block extscript
   script.
-    $('.okay button').click((event) => {
+    $('.okay1, .okay1noapi, .okay2').click((event) => {
       var target = event.target
-      var element = $(target).parent("div").parent("div")
+      var element = $(target).closest(".head")
       var id = $(element).attr("id")
       if($(target).hasClass("okay1") === true){
         var url = "https://#{hostname}/manage/#{data.service}/complete/"+id+"/1"
-        var realnoapi = false
       }
       if($(target).hasClass("okay1noapi") === true){
         var url = "https://#{hostname}/manage/#{data.service}/complete/"+id+"/1?noapi=true"
-        var realnoapi = true
       }
       if($(target).hasClass("okay2") === true){
         var url = "https://#{hostname}/manage/#{data.service}/complete/"+id+"/2"
-        var realnoapi = false
       }
       $.ajax({
           type: 'get',
@@ -33,37 +30,50 @@ block extscript
           error : function error(){ iziToast.warning({message: "Baw Service 빠른 설정 적용이 설정을 적용하는 도중 문제가 발생했습니다.", title:"이런.."}); }
       });
     })
-
+ 
 block contents
-  .uk-card.uk-card-default.uk-card-body(class='uk-width-auto')
-    h3.uk-card-title #{data.name} 목록
+  .ui.message
+    .ui.header
+      h2
+        i.icon.tv
+        .content
+          | 처리 대기 #{data.name} 데이터 목록
+    br
     each row, i in rows
-      div(id=rows[i]["num"])
+      .head(id=rows[i]["num"])
         each li, ii in list
           | #{korean[ii]}: #{rows[i][li]}
           br
         br
-        div(class="okay")
-          button.uk-button.uk-button-primary.okay1
-            i(class="fas fa-check-circle")
-            |  처리 완료
-          button.uk-button.uk-button-default.okay1noapi API 요청 없이 처리 완료
-          button.uk-button.uk-button-danger.okay2
-            i(class="fas fa-times-circle")
-            |  처리 거절
-        hr.uk-divider-icon
+        .ui.buttons.primary
+          .ui.button.icon.labeled.okay1
+            i.icon.check
+            | 처리 완료
+          .ui.floating.dropdown.icon.button
+            i.dropdown.icon
+            .menu
+              .item.okay1noapi
+                | API 요청 없이 처리 완료
+        button.ui.button.icon.labeled.negative.okay2
+          i.icon.times
+          | 처리 거절
+        .ui.divider
       
     - if (rows.length == 0)
       p 처리되지 않은 #{data.name}이 없습니다.
-      hr.uk-divider-icon
-    p Powered by Baw Service
+      .ui.divider
+    h4 Powered by Baw Service
   br
-  br
-  .uk-card.uk-card-default.uk-card-body(class='uk-width-auto')
-    h3.uk-card-title #{data.name} 데이터 관리자
+  .ui.message
+    .ui.header
+      h2
+        i.icon.wrench
+        .content
+          | #{data.name} 데이터 관리자
+    br
     a(href=`https://${hostname}/manage/${data.service}/data_manager`)
-      button.uk-button.uk-button-primary.g-recaptcha(type='button')
-        i(class="fas fa-database")
+      button.ui.button.primary.icon.labeled(type='button')
+        i.icon.database
         |  데이터 관리자 접근
     p Baw Service에 저장된 #{data.name} 데이터를 관리합니다.
   br

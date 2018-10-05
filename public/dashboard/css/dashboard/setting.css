@@ -1,24 +1,22 @@
 /* enable nanumgothic */
-/* @import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
+@import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
 * {
-  font-family: 'Nanum Gothic' !important;
-} */
+  font-family: 'Nanum Gothic';
+}
 
 /* visible */
 @media screen and (max-width: 400px) {
     div.sitedata { margin:0 auto;max-width: 95%; height: auto; }
 }
 @media only screen and (max-width: 767px) {
-  [class*="mobile hidden"],
-  [class*="tablet only"]:not(.mobile),
-  [class*="computer only"]:not(.mobile),
-  [class*="large monitor only"]:not(.mobile),
-  [class*="widescreen monitor only"]:not(.mobile),
-  [class*="or lower hidden"] {
+  .mobile.hidden {
     display: none !important;
   }
-  [class*="mobile visible"] {
-    display: block !important;
+}
+
+@media (min-width: 767px) {
+  .mobile.only {
+      display: none !important;
   }
 }
 

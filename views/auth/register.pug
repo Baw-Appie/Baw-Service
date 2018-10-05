@@ -5,86 +5,89 @@ block extscript
     function captchaSubmit() {
     	$("#reg").submit();
     }
-    $('#id').blur(function(){
-      if($('#id').val() != "") {
-        $.ajax({
-            type: 'post',
-            url : 'https://#{hostname}/auth/exist/id',
-            data : {
-                data : $('#id').val()
-            },
-            success : function s(a){ 
-              if(a.success == true){
-                $("#name").removeClass('uk-form-danger uk-form-success');
-                $("#id").addClass('uk-form-success');
-                iziToast.info({message: a.message})
-              } else {
-                iziToast.warning({message: a.message})
-                $("#name").removeClass('uk-form-danger uk-form-success');
-                $("#id").addClass('uk-form-danger');
-              }
-            },
-            error : function error(){ iziToast.warning({message: "Baw Service 빠른 설정 적용이 설정을 적용하는 도중 문제가 발생했습니다.", title:"이런.."}); }
-        });
-      } else {
-        $("#id").removeClass('uk-form-danger uk-form-success');
+    $('.ui.form#reg').form({
+      fields: {
+        name: {
+          identifier: 'id',
+          rules: [{ type: 'empty', prompt: 'ID를 입력해주세요.' }]
+        },
+        pass: {
+          identifier: 'pass',
+          rules: [{ type: 'empty', prompt: '비밀번호를 입력해주세요.' }, { type: 'minCount[5]', prompt: "비밀번호는 최소 5자리 이상이여야 합니다." }]
+        },
+        pass2: {
+          identifier: 'pass2',
+          rules: [{ type: 'empty', prompt: '비밀번호 확인을 입력해주세요.' },{ type: 'match[pass]', prompt: "비밀번호와 비밀번호 확인이 서로 일치하지 않습니다." }]
+        },
+        svname: {
+          identifier: 'svname',
+          rules: [{ type: 'empty', prompt: '서버 이름을 입력해주세요.' }]
+        },
+        mail: {
+          identifier: 'mail',
+          rules: [{ type: 'email', prompt: '제대로된 이메일을 입력해주세요.' }]
+        },
+        terms: {
+          identifier: 'terms',
+          rules: [{ type: 'checked', prompt: '이용약관에 동의해주세요' }]
+        }
       }
-    });
-    $('#mail').blur(function(){
-      if($('#mail').val() != "") {
+    })
+    $('#id, #mail').blur((event) => {
+      var element = $(event.target).attr("id")
+      var target = $(event.target).closest(".field")
+      if($(event.target).val() != "") {
         $.ajax({
             type: 'post',
-            url : 'https://#{hostname}/auth/exist/mail',
+            url : '/auth/exist/'+element,
             data : {
-                data : $('#mail').val()
+                data : $(event.target).val()
             },
             success : function s(a){ 
               if(a.success == true){
+                $(target).removeClass('error');
                 iziToast.info({message: a.message})
-                $("#name").removeClass('uk-form-danger uk-form-success');
-                $("#mail").addClass('uk-form-success');
               } else {
+                $(target).addClass('error');
                 iziToast.warning({message: a.message})
-                $("#name").removeClass('uk-form-danger uk-form-success');
-                $("#mail").addClass('uk-form-danger');
               }
             },
             error : function error(){ iziToast.warning({message: "Baw Service 빠른 설정 적용이 설정을 적용하는 도중 문제가 발생했습니다.", title:"이런.."}); }
         });
       } else {
-        $("#mail").removeClass('uk-form-danger uk-form-success');
+        $(event.target).removeClass('error');
       }
     });
 
 block contents
-  form(method='post', id="reg")
-    fieldset.uk-fieldset
-      legend.uk-legend Baw Service 회원가입
-      .uk-margin
-        label 아이디
-        input.uk-input(type='text', id="id", name="id", placeholder='ID')
-      .uk-margin
-        label 비밀번호
-        input.uk-input(type='password', id="pass", name="pass", placeholder='비밀번호')
-      .uk-margin
-        label 비밀번호 확인
-        input.uk-input(type='password', id="pass2", name="pass2", placeholder='비밀번호 확인')
-      .uk-margin
-        label 서버 이름
-        br
-        .uk-inline.uk-width-1-1
-          input.uk-input(type='text', id="svname", name="svname", placeholder='서버 이름 ("서버"는 자동 입력)')
-          p.uk-form-icon.uk-form-icon-flip(style="background-color: #b4b6ba;") 서버
-      .uk-margin
-        label 이메일
-        input.uk-input(type='mail', id="mail", name="mail", placeholder='이메일')
-      //- .uk-margin
-      //-   label 전화번호
-      //-   input.uk-input(type='number', id="phone", name="phone", placeholder='전화번호 ("-"은 제외)')
-        
-      button.uk-button.uk-button-primary.g-recaptcha(type='submit', data-sitekey='6LeKTiwUAAAAANOYA7r37sTyquy_R0ljzSTVS6Bp', data-callback='captchaSubmit')
+  .ui.message
+    .ui.header
+      h2 Baw Service 회원가입
+    br
+    form.ui.form#reg(method='post')
+      .field
+        label(for="id") 아이디
+        input(type='text', id="id", name="id", placeholder='ID')
+      .field
+        label(for="pass") 비밀번호
+        input(type='password', id="pass", name="pass", placeholder='비밀번호')
+      .field
+        label(for="pass2") 비밀번호 확인
+        input(type='password', id="pass2", name="pass2", placeholder='비밀번호 확인')
+      .field
+        label(for="svname") 서버 이름
+        input(type='text', id="svname", name="svname", placeholder='서버 이름 ("서버"는 자동 입력)')
+      .field
+        label(for="mail") 이메일
+        input(type='email', id="mail", name="mail", placeholder='이메일')
+      .field
+        .ui.checkbox
+          input.hidden#terms(type='checkbox')
+          label Baw Service 이용 약관에 동의합니다.
+
+      button.ui.button.primary.g-recaptcha(type='submit', data-sitekey='6LeKTiwUAAAAANOYA7r37sTyquy_R0ljzSTVS6Bp', data-callback='captchaSubmit')
         i(class="fas fa-user-plus")
         |  회원 가입
-      button.uk-button.uk-button-default(type="reset")
+      button.ui.button(type="reset")
         i(class="fas fa-undo")
         |  재입력
