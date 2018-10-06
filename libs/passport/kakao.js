@@ -2,7 +2,7 @@ var sql = require('../../config/dbtool');
 var SqlString = require('sqlstring');
 var passport = require('passport');
 module.exports = function(request, accessToken, refreshToken, profile, done) {
-  if(request.sqreen.userIsBanned(req)){
+  if(request.sqreen.userIsBanned(request)){
     request.session.error = '보안 시스템에 의하여 로그인이 거부되었습니다.';
     return done(null, false, { message: '보안 시스템에 의하여 로그인이 거부되었습니다.' })
   }
