@@ -78,10 +78,15 @@ block contents
               - } else {
                 - var vdata = pagedata[text.name]
               - }
-              if vdata != ""
+              if text.disabled == true
+                input(type='text', name=text.name, placeholder=text.korean, value!=vdata, disabled)
+              else
                 input(type='text', name=text.name, placeholder=text.korean, value!=vdata)
-              else 
-                input(type='text', name=text.name, placeholder=text.korean)
+        if group.password
+          each password, i in group.password
+            .field
+              label #{password.korean}
+              input(type='password', name=password.name, placeholder=password.korean)
               
         if group.textarea
           each textarea, i in group.textarea
