@@ -1,12 +1,15 @@
 extends ../includes/layout
 block contents
   div(style='text-align: center;')
-    div(style='font-size: 15pt')
-      | 띠용?
-    div(style='font-size: 18pt')
-      | 권한이 없는데요..
-    hr.uk-driver
-    p 사이트에 로그인하지 않거나 사이트가 점검중이여서 발생한 문제일 수 있습니다. [403 ERROR]
-    a(href="https://baws.kr")
-      span(uk-icon="icon: home")
-      |  메인 페이지로 돌아가기
+    h2(style='font-size: 18pt')
+      | 삐빗! 권한 부족!
+    .ui.divider
+    p 권한이 부족하여 이 페이지에 접근할 수 없습니다.
+    p 사이트에 로그인하지 않았거나, 사이트가 점검중인것은 아닐까요?
+    p
+      a(href="javascript:history.go(-1)")
+        | 돌아가기 
+      | 또는 
+      a(href="/contact")
+        | Baw Service에 연락해볼 수 
+      | 있습니다.
