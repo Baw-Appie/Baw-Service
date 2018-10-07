@@ -1,0 +1,34 @@
+extends ../includes/layout
+block contents
+  .ui.container
+    table.ui.celled.table
+      thead
+        th(width="1%") No.
+        th(width="15%") 종류
+        th(width="3%") 관리
+      tbody
+        tr
+          td 1
+          td API 플러그인
+          td
+            a.ui.button.negative(href="/API/api/edit") 수정
+        tr
+          td 2
+          td SMS 알림
+          td
+            a.ui.button.negative(href="/API/SMS/edit") 수정
+        tr
+          td 3
+          td 카카오톡 알림
+          td
+            a.ui.button.negative(href="/API/Kakao/edit") 수정
+        tr
+          td 4
+          td 텔레그램 알림
+          td
+            a.ui.button.negative(href="/API/Telegram/edit") 수정
+        tr
+          td 5
+          td 커스텀 도메인
+          td
+            a.ui.button.negative(href="/API/Custom/edit") 수정

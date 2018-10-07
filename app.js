@@ -135,7 +135,7 @@ app.post('/my', require('./routes/my/edit_complete'))
 app.get('/action/:code', require('./routes/action'))
 
 // 페이지 관리
-app.get('/manage', require('./routes/manage/list_view'));
+app.get('/manage', require('./routes/manage/index'));
 app.get('/manage/:service/view', require('./routes/manage/view'));
 app.all('/manage/:service/complete/:id/:status', require('./routes/manage/complete'))
 app.post('/manage/:service/edit', require('./routes/manage/edit_complete'))
@@ -149,6 +149,7 @@ app.get('/manage/:service/create', require('./routes/manage/create_view'))
 app.post('/manage/:service/lookup', require('./routes/manage/lookup'))
 
 // API 관리
+app.all('/api', require('./routes/api/index'))
 app.post('/api/:service/edit', require('./routes/api/edit_complete'))
 app.get('/api/:service/edit', require('./routes/api/edit_view'))
 app.post('/api/Browser/:type', require('./routes/api/Browser'))
