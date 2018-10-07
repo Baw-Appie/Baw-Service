@@ -47,9 +47,9 @@ block contents
               .ui.toggle.checkbox
                 label #{select.korean}
                 if vdata == 1
-                  input.hidden(type='checkbox', name=select.name, value=1 checked)
+                  input(type='checkbox', name=select.name, value=1 checked)
                 else
-                  input.hidden(type='checkbox', name=select.name, value=1)
+                  input(type='checkbox', name=select.name, value=1)
                 br
         if group.custom_select
           each select, i in group.custom_select
@@ -64,10 +64,28 @@ block contents
                 .field
                   .ui.radio.checkbox
                     if vdata.toLowerCase() == select['option_data'][oo].toLowerCase()
-                      input.uk-radio(type='radio', name=select.name, value=select["option_data"][oo], checked)
+                      input(type='radio', name=select.name, value=select["option_data"][oo], checked)
                     else
-                      input.hidden(type='radio', name=select.name, value=select["option_data"][oo])
+                      input(type='radio', name=select.name, value=select["option_data"][oo])
                     label #{select["option_korean"][oo]}
+                    
+        if group.custom_checkbox
+          each checkbox, i in group.custom_checkbox
+            .inline.fields
+              label(for=checkbox.name) #{checkbox.korean}
+              each custom_list, oo in checkbox.option_data
+                - if(options.savetojson.indexOf(checkbox.name) == -1){
+                  - var vdata = rows[0][checkbox.name]
+                - } else {
+                  - var vdata = pagedata[checkbox.name]
+                - }
+                .field
+                  .ui.checkbox
+                    if vdata.toLowerCase() == checkbox['option_data'][oo].toLowerCase()
+                      input(type='checkbox', name=checkbox.name, value=checkbox["option_data"][oo], checked)
+                    else
+                      input(type='checkbox', name=checkbox.name, value=checkbox["option_data"][oo])
+                    label #{checkbox["option_korean"][oo]}
                     
         if group.text
           each text, i in group.text

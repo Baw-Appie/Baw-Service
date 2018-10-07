@@ -130,7 +130,6 @@ app.post('/secuity/req_code', require('./routes/secuity/req_code'))
 // *개인설정* //
 app.get('/my', require('./routes/my/edit_view'))
 app.post('/my', require('./routes/my/edit_complete'))
-app.post('/my/pass', require('./routes/my/pass_complete'))
 // *개인설정* //
 
 app.get('/action/:code', require('./routes/action'))
