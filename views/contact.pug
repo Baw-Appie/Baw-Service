@@ -1,0 +1,23 @@
+extends ./includes/layout
+block contents
+  div(style='text-align: center;')
+    h2(style='font-size: 18pt')
+      | 어떤 방법으로 Baw Service에 연락해보실래요?
+    .ui.divider
+    a.ui.twitter.button(target="_blank", href="https://twitter.com/messages/compose?recipient_id=2365008222")
+      i.twitter.icon
+      | Twitter Direct Message
+    button.ui.yellow.button(onclick="plusFriendChat()")
+      i.comment.icon
+      | KakaoTalk Plus Firends
+    a.ui.blue.button(target="_blank", href="https://t.me/BawAppie")
+      i.telegram.icon
+      | Telegram
+    a.ui.button(href="mailto:pp121324@gmail.com")
+      i.envelope.outline.icon
+      | E-Mail
+    br
+    br
+    p
+      a(href="javascript:history.go(-1)")
+        | 굳이 연락해볼 필요는 없는거 같아요.

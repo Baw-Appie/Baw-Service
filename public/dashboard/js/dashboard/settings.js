@@ -16,6 +16,9 @@ function setNav() {
   if(path.indexOf("API") != -1){
     $(".api_button").addClass('active');
   }
+  if(path.indexOf("contact") != -1){
+    $(".contact_button").addClass('active');
+  }
 }
 loadSemantic();
 setNav();

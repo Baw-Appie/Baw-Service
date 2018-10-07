@@ -111,6 +111,7 @@ app.all('/manifest.json', (req, res) => {
 app.all('/firebase_init.js', (req, res) => { res.type("js").send(`firebase.initializeApp({'messagingSenderId': '`+server_settings.firebase_SenderID+`'});`) })
 app.all('/firebase-messaging-sw.js', (req, res) => { res.sendFile("./public/firebase-messaging-sw.js", { root: __dirname }) })
 app.all('/UnsupportedBrowser', (req, res) => { res.render('./UnsupportedBrowser') });
+app.all('/contact', (req, res) => { res.render('./contact') });
 
 // *보안* //
 // 카카오톡 활성화 요청
