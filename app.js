@@ -25,6 +25,14 @@ admin.initializeApp({
   credential: admin.credential.cert(require('./config/service-account.json'))
 });
 
+Array.prototype.forEachAsync = async function(cb){
+  var no = 0
+  for(let x of this){
+    await cb(x, no);
+    no++
+  }
+}
+
 var version = require('child_process')
   .execSync('git rev-parse HEAD')
   .toString().trim()
