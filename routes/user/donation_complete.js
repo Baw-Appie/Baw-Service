@@ -176,7 +176,8 @@ module.exports = (req, res) => {
                 notification: {
                   title: '새로운 후원이 있습니다.',
                   body: nick+'님의 '+Combo+' '+bal+'원 후원을 지금 Baw Service에서 확인하세요!',
-                  icon: 'https://baws.kr/public/img/favicon.jpg'
+                  icon: 'https://baws.kr/public/img/favicon.jpg',
+                  click_action: 'https://baws.kr/manage/1/view'
                 }
               },
               token: value.token
