@@ -170,7 +170,7 @@ module.exports = (req, res) => {
         var browser_req = await sqlp(sql, SqlString.format('SELECT * FROM fcm WHERE id=?', [pagedata['owner']]))
         if(browser_req.length != 0){
           var admin = require('firebase-admin')
-          browser_req.forEach(async (value) => {
+          browser_req.forEachAsync(async (value) => {
             const message = {
               webpush: {
                 notification: {
