@@ -1,70 +1,53 @@
 var sql = require('../../config/dbtool');
 var socket_api = require('../../libs/socket_api')
 var SqlString = require('sqlstring');
+var sqlp = require('../../libs/sql-promise');
 function isNumber(n) { return /^-?[\d.]+(?:e-?\d+)?$/.test(n); }
-module.exports = function(req, res) {
+
+module.exports = async (req, res) => {
   if(req.user) {
-    if(isNumber(req.params.id) && isNumber(req.params.service) && isNumber(req.params.status))
-      if(req.params.service == "1" || req.params.service == "2"){
-        sql.query('select * from  `service'+req.params.service+'` WHERE owner='+SqlString.escape(req.user.id)+' and num=' + SqlString.escape(req.params.id), function(err, rows){
-          if(err) { throw err };
-          if(rows.length == 0) {
-            res.json({ success: false, title: "권한이 없습니다.",  message: "해당 기록 수정 권한이 없습니다." });
-          }
-          sql.query('select * from `users` WHERE id='+SqlString.escape(req.user.id), function(err, rows2){
-
-
-            if(err) { throw err };
-            if(!req.query.noapi && req.params.status == "1"){
-              sql.query(SqlString.format("SELECT * from `api` WHERE id=?", [req.user.id]), function(err, rows4){
-                if(rows4.length != 0){
-                  if(req.params.service == "1"){
-                    if(rows4[0]['api_enable'] == 1) {
-                      sql.query('select * from `pages` WHERE service=1 and owner='+SqlString.escape(req.user.id), function(err, rows3) {
-                        if(err) { throw err };
-                        var api_cmd = JSON.parse(rows3[0]['pagedata'])['api_cmd'];
-                        api_cmd = api_cmd.replace("<player>", rows[0]['nick']);
-                        api_cmd = api_cmd.replace("<money>", rows[0]['bal']);
-                        api_cmd = api_cmd.replace("<package>", rows[0]['bouns']);
-                        api_cmd = api_cmd.replace("원", "");
-                        api_cmd = api_cmd.replace(",", "");
-                        if(rows4[0]['api_type'] == "socket"){
-                          socket_api(rows4[0]['api_port'], rows4[0]['api_ip'], rows4[0]['api_key']+';'+rows2[0]['id']+';'+api_cmd, function(data){});
-                        }
-                        if(rows4[0]['api_type'] == "HTTP") {
-                          sql.query(SqlString.format('insert into api1 values (?, ?, ?, ?, ?, ?, ?)', [req.user.id, rows4[0]['api_key'], rows[0]['page'], rows[0]['nick'], rows[0]['bal'], rows[0]['pin'], api_cmd]))
-                        }
-                      })
-                    }
-                  } else if (req.params.service == "2"){
-                    if(rows4[0]['api_enable'] == 1) {
-                      sql.query('select * from `pages` WHERE service=2 and owner='+SqlString.escape(req.user.id), function(err, rows3) {
-                        if(err) { throw err };
-                        var api_cmd = JSON.parse(rows3[0]['pagedata'])['api_cmd'];
-                        api_cmd = api_cmd.replace("<player>", rows[0]['nick']);
-                        if(rows4[0]['api_type'] == "socket"){
-                          socket_api(rows4[0]['api_port'], rows4[0]['api_ip'], rows4[0]['api_key']+';'+rows2[0]['id']+';'+api_cmd, function(data){});
-                        }
-                        if(rows4[0]['api_type'] == "HTTP") {
-                          var sql_Request = SqlString.format('insert into api2 values (?, ?, ?, ?, ?)', [req.user.id, rows4[0]['api_key'], rows[0]['page'], rows[0]['nick'], api_cmd])
-                          sql.query(sql_Request)
-                        }
-                      })
-                    }
-                  }
-                }
-              })
-            }
-            sql.query('UPDATE  `service'+req.params.service+'` SET status='+SqlString.escape(req.params.status)+' WHERE num=' + SqlString.escape(req.params.id), function(err, rows){
-              if(err) { throw err };
-              res.json({ success: true, title: "완료했습니다!",  message: req.params.id+"번의 상태 변경 요청이 정상적으로 처리되었습니다!" });
-            });
-          });
-        });
-      } else {
-        res.json({ success: false, title: "권한이 없습니다.",  message: "해당 서비스 접근 권한이 없습니다." });
+    var { id, service, status, noapi } = req.body
+    if(service == "1" || service == "2"){
+      var data = (await sqlp(sql, SqlString.format("SELECT * from `service" + service + " WHERE owner=? and num=?", [req.user.id, id])))[0]
+      if (data.length == 0) {
+        return res.json({ success: false, title: "권한이 없습니다.", message: "해당 기록 수정 권한이 없습니다." })
       }
-    } else {
-      res.json({ success: false, title: "권한이 없습니다.",  message: "로그인이 필요합니다." });
+      var owner = (await sqlp(sql, SqlString.format("SELECT * FROM `users` WHERE id=?", [res.user.id])))[0]
+      var page = (await sqlp(sql, SqlString.format("SELECT * FROM `pages` WHERE owner=?", [res.user.id])))[0]
+      var api = (await sqlp(sql, SqlString.format("SELECT * FROM `api` WHERE id=?", [req.user.id])))[0]
+      if (!noapi && status == "1") {
+        if (api['api_enable'] == 1) {
+          var api_cmd = JSON.parse(page['pagedata'])['api_cmd']
+          switch(service) {
+            case "1":
+              api_cmd = api_cmd.replace("<player>", data['nick']);
+              api_cmd = api_cmd.replace("<money>", data['bal']);
+              api_cmd = api_cmd.replace("<package>", data['bouns']);
+              api_cmd = api_cmd.replace("원", "");
+              api_cmd = api_cmd.replace(",", "");
+              if (api['api_type'] == "socket") {
+                socket_api(api['api_port'], api['api_ip'], api['api_key'] + ';' + owner['id'] + ';' + api_cmd)
+              }
+              if (api['api_type'] == "HTTP") {
+                var sql_Request =SqlString.format('insert into api1 values (?, ?, ?, ?, ?, ?, ?)', [req.user.id, api['api_key'], data['page'], data['nick'], data['bal'], data['pin'], api_cmd])
+              }
+              break;
+            case "2":
+              api_cmd = api_cmd.replace("<player>", data['nick']);
+              if (api['api_type'] == "socket") {
+                socket_api(api['api_port'], api['api_ip'], api['api_key'] + ';' + owner['id'] + ';' + api_cmd)
+              }
+              if (api['api_type'] == "HTTP") {
+                var sql_Request = SqlString.format('insert into api2 values (?, ?, ?, ?, ?)', [req.user.id, api['api_key'], data['page'], data['nick'], api_cmd])
+              }
+              break;
+            }
+            try { await sqlp(sql, sql_Request) } catch { return res.json({ success: false, title: '실패했습니다.', message: "요청에 실패했습니다. 좌측 메뉴의 버그 신고로 이 문제를 신고하세요." }) }
+            return res.json({ success: true, title: "완료했습니다!", message: "ID "+id+" 의 처리 상태 변경이 완료되었습니다." });
+        }
+      }
     }
+  } else {
+    res.json({ success: false, title: "권한이 없습니다.",  message: "로그인이 필요합니다." });
+  }
 }

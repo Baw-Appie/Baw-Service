@@ -1,6 +1,7 @@
 var sql = require('../../config/dbtool');
 var SqlString = require('sqlstring');
-module.exports = function (req, res) {
+
+module.exports = (req, res) => {
     if(req.user) {
       if(req.params.service == "API") {
         var data = {

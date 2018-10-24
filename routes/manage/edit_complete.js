@@ -20,9 +20,11 @@ module.exports = function(req, res) {
         case "2":
           var { auto_process=0 } = req.body
           var sql_Request = SqlString.format("UPDATE `pages` SET pagedata=json_set(pagedata, '$.mail_ok', ?, '$.api_cmd', ?, '$.auto_process', ?), `notice`=? WHERE service=2 and owner=?", [mail_ok, api_cmd, auto_process, notice, req.user.id])
+          break;
         case "3":
           var { sv_ip="", sv_port="" } = req.body
           var sql_Request = SqlString.format("UPDATE `pages` SET pagedata=json_set(pagedata, '$.sv_ip', ?, '$.sv_port', ?), `notice`=? WHERE service=3 and owner=?", [sv_ip, sv_port, notice, req.user.id])
+          break;
         default:
           return res.json({ success: false, title: "작업 실패", message: "지정되지 않은 작업 요청" })
       }
