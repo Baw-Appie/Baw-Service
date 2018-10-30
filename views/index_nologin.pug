@@ -1,5 +1,337 @@
-include ./includes/header
-p 안녕하세요. Baw Service Open Beta 5 메인 홈페이지입니다.
-p 페이지 개편 예정으로 아무것도 표시되지 않습니다.
-p 아래를 클릭하여 로그인 페이지로 이동하세요.
-a(href="/auth/login") 로그인!
+doctype html
+html(lang='en')
+  head
+    title Baw Service
+    meta(name="description" content="마인크래프트 서버 운영자를 위한 최고의 도구를 Baw Service에서 무료로 이용해보세요.")
+    meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0')
+    meta(charset='utf-8')
+    link(rel="shortcut icon" href='/public/img/favicon.ico')
+    link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Nanum+Gothic|Poppins')
+    link(rel="stylesheet" href='//cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css')
+    link(rel="stylesheet" href='//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css')
+    link(rel='stylesheet', href='//cdn.baws.kr/css/open-iconic-bootstrap.min.css')
+    link(rel='stylesheet', href='//cdn.baws.kr/css/animate.css')
+    link(rel='stylesheet', href='//cdn.baws.kr/css/owl.carousel.min.css')
+    link(rel='stylesheet', href='//cdn.baws.kr/css/owl.theme.default.min.css')
+    link(rel='stylesheet', href='//cdn.baws.kr/css/magnific-popup.css')
+    link(rel='stylesheet', href='//cdn.baws.kr/css/aos.css')
+    link(rel='stylesheet', href='//cdn.baws.kr/css/ionicons.min.css')
+    link(rel='stylesheet', href='//cdn.baws.kr/css/bootstrap-datepicker.css')
+    link(rel='stylesheet', href='//cdn.baws.kr/css/jquery.timepicker.css')
+    link(rel='stylesheet', href='//cdn.baws.kr/css/flaticon.css')
+    link(rel='stylesheet', href='//cdn.baws.kr/css/icomoon.css')
+    link(rel='stylesheet', href='//cdn.baws.kr/css/style.css')
+    link(rel="manifest" href='/manifest.json')
+    style.
+      * {
+        font-family: 'Nanum-Gothic'
+      }
+    script(async src='https://www.googletagmanager.com/gtag/js?id=UA-112023380-1')
+    script.
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-112023380-1');
+
+  body
+    nav#ftco-navbar.navbar.navbar-expand-lg.navbar-dark.ftco_navbar.bg-dark.ftco-navbar-light
+      .container
+        a.navbar-brand(href='/') Baw Service
+        button.navbar-toggler(type='button', data-toggle='collapse', data-target='#ftco-nav', aria-controls='ftco-nav', aria-expanded='false', aria-label='Toggle navigation')
+          span.oi.oi-menu
+          |  Menu
+        #ftco-nav.collapse.navbar-collapse
+          ul.navbar-nav.ml-auto
+            li.nav-item.active
+              a.nav-link(href='/auth/login') 로그인
+            li.nav-item.cta
+              a.nav-link(href='/auth/register')
+                span 회원가입
+    // END nav
+    .hero-wrap
+      .overlay
+      .circle-bg
+      .circle-bg-2
+      .container-fluid
+        .slider-text.d-md-flex.align-items-center(data-scrollax-parent='true')
+          .one-forth.pr-md-4.ftco-animate.align-self-md-center(data-scrollax=" properties: { translateY: '70%' }")
+            h1.mb-4(data-scrollax="properties: { translateY: '30%', opacity: 1.6 }")
+              | Baw Service
+            p.mb-md-5.mb-sm-3(data-scrollax="properties: { translateY: '30%', opacity: 1.6 }")
+              | 마인크래프트 서버 운영자를 위한 최고의 도구
+            p(data-scrollax="properties: { translateY: '30%', opacity: 1.6 }")
+              a.btn.btn-primary.px-4.py-3(href='/auth/register') 시작하기
+          .one-half.align-self-md-end.align-self-sm-center(style="margin: 0 auto;")
+            img(src='//cdn.baws.kr/images/Screenshot1.png' width='95%')
+    section.ftco-section.services-section
+      .container
+        .row.justify-content-center.mb-5.pb-5
+          .col-md-7.text-center.heading-section.ftco-animate
+            span.subheading 서비스
+            h2.mb-4 왜 선택해야 하나요?
+        .row
+          .col-md-4.d-flex.align-self-stretch.ftco-animate
+            .media.block-6.services.d-block.text-center
+              .d-flex.justify-content-center
+                .icon
+                  span.flaticon-ad
+              .media-body.p-2.mt-3
+                h3.heading 광고 없음
+                p
+                  | Baw Service에서 생성한 페이지에는 광고가 전혀 없습니다.
+          .col-md-4.d-flex.align-self-stretch.ftco-animate
+            .media.block-6.services.d-block.text-center
+              .d-flex.justify-content-center
+                .icon
+                  span.flaticon-shield
+              .media-body.p-2.mt-3
+                h3.heading 안전과 보안
+                p
+                  | Baw Service는 사용자 식별을 위한 최소한의 정보만 수집하며, 고객에 정보를 함부러 열어보거나 다른곳에 제공하지 않습니다.
+          .col-md-4.d-flex.align-self-stretch.ftco-animate
+            .media.block-6.services.d-block.text-center
+              .d-flex.justify-content-center
+                .icon
+                  span.flaticon-support
+              .media-body.p-2.mt-3
+                h3.heading 고객지원
+                p
+                  | 언제든지 문의해주시면 성의껏 답변해드립니다.
+    section.ftco-section.bg-light
+      .container
+        .row.justify-content-center.mb-5.pb-5
+          .col-md-7.text-center.heading-section.ftco-animate
+            span.subheading 가격 정책
+            h2.mb-4 Baw Service는 진짜 무료
+        .row
+            .block-7(style="margin: 0 auto")
+              .text-center
+                h2.heading 무료
+                span.price
+                  sup \
+                  span.number 0
+                span.excerpt.d-block 100% 무료. 영원히!
+                a.btn.btn-primary.d-block.px-3.py-3.mb-4(href='/auth/register') 시작하기
+                h3.heading-2.mb-3 모든 기능을 즐기세요.
+                ul.pricing-text
+                  li
+                    strong 후원사이트
+                  li
+                    strong 정품인증 사이트
+                  li
+                    strong 서버상태 위젯
+                  li
+                    | 트래픽
+                    strong  무제한
+                  li
+                    | 데이터 기록
+                    strong  무제한
+                  li
+                    | 알림 서비스
+                    strong  무제한
+                    
+                  li 그리고 모든 기능
+    section#section-counter.ftco-section.ftco-counter.img(style='background-image: url(//cdn.baws.kr/images/bg_1.jpg);')
+      .container
+        .row.justify-content-center.mb-5.pb-5
+          .col-md-7.text-center.heading-section.heading-section-white.ftco-animate
+            h2.mb-4 한가지 재미있는 사실
+            span.subheading Baw Service는 이미 많은분들에게 선택받았답니다!
+        .row.justify-content-center
+          .col-md-10
+            .row
+              .col-md-3.d-flex.justify-content-center.counter-wrap.ftco-animate
+                .block-18.text-center
+                  .text
+                    strong.number(data-number='150') 0
+                    span 고객 수
+              .col-md-3.d-flex.justify-content-center.counter-wrap.ftco-animate
+                .block-18.text-center
+                  .text
+                    strong.number(data-number='350') 0
+                    span 생성된 페이지 수
+              .col-md-3.d-flex.justify-content-center.counter-wrap.ftco-animate
+                .block-18.text-center
+                  .text
+                    strong.number(data-number='600') 0
+                    span 매월 방문자수
+              .col-md-3.d-flex.justify-content-center.counter-wrap.ftco-animate
+                .block-18.text-center
+                  .text
+                    strong.number(data-number='680') 0
+                    span 총 후원 & 정품인증 수
+    section.ftco-section.testimony-section.bg-light
+      .container
+        .row.justify-content-center.mb-5.pb-5
+          .col-md-7.text-center.heading-section.ftco-animate
+            span.subheading 고객의 소리
+            h2.mb-4 고객의 소리를 들어보세요.
+            p
+              | Baw Service는 개발자, 제휴사, 관리자, 사용자 모두에게 행복한 경험을 제공할 수 있도록 제작되었습니다.
+        .row.ftco-animate
+          .col-md-12
+            .carousel-testimony.owl-carousel.ftco-owl
+              .item
+                .testimony-wrap.p-4.pb-5
+                  .user-img.mb-5(style='background-image: url(https://crong.cloud/wp-content/uploads/2018/09/Spring-300x300.png)')
+                    span.quote.d-flex.align-items-center.justify-content-center
+                      i.icon-quote-left
+                  .text
+                    p.mb-5
+                      | "바우서비스 개꿀임 광고도 없고 종류도 다양하고 기능도마늠!!"
+                    p.name Sprin_g (봄)
+                    span.position 서버 관리자
+              .item
+                .testimony-wrap.p-4.pb-5
+                  .user-img.mb-5(style='background-image: url(https://repo.rpgfarm.com/CydiaIcon.png)')
+                    span.quote.d-flex.align-items-center.justify-content-center
+                      i.icon-quote-left
+                  .text
+                    p.mb-5
+                      | Baw Service 개발에만 1년이 넘게 걸렸습니다. 곧 정식 버전이 출시됩니다. :)
+                    p.name 애피
+                    span.position 서비스 개발자
+              .item
+                .testimony-wrap.p-4.pb-5
+                  .user-img.mb-5(style='background-image: url(https://pororojoa.kr/assets/img/team_pororo.jpg)')
+                    span.quote.d-flex.align-items-center.justify-content-center
+                      i.icon-quote-left
+                  .text
+                    p.mb-5
+                      | 크롱 클라우드는 역시 혁신 입니다. 우리 모두 크롱 클라우드 쓰세요
+                    p.name 홍윤석
+                    span.position 제휴사
+    section.ftco-section
+      .container
+        .row.justify-content-center.mb-5.pb-5
+          .col-md-7.text-center.heading-section.ftco-animate
+            span.subheading 서비스
+            h2.mb-4 어떻게 작동하나요?
+        .row
+          .col-md-12.nav-link-wrap.mb-5.pb-md-5.pb-sm-1.ftco-animate
+            #v-pills-tab.nav.ftco-animate.nav-pills.justify-content-center.text-center(role='tablist', aria-orientation='vertical')
+              a#v-pills-noad-tab.nav-link.active(data-toggle='pill', href='#v-pills-noad', role='tab', aria-controls='v-pills-noad', aria-selected='true') 광고 없음
+              a#v-pills-performance-tab.nav-link(data-toggle='pill', href='#v-pills-performance', role='tab', aria-controls='v-pills-performance', aria-selected='false') 퍼포먼스
+              a#v-pills-effect-tab.nav-link(data-toggle='pill', href='#v-pills-effect', role='tab', aria-controls='v-pills-effect', aria-selected='false') 효율성
+          .col-md-12.align-items-center.ftco-animate
+            #v-pills-tabContent.tab-content.ftco-animate
+              #v-pills-noad.tab-pane.fade.show.active(role='tabpanel', aria-labelledby='v-pills-noad-tab')
+                .d-md-flex
+                  .one-forth.align-self-center
+                    img.img-fluid(src='//cdn.baws.kr/images/Screenshot3.png', alt='')
+                  .one-half.ml-md-5.align-self-center
+                    h2.mb-4 광고 없는 후원 사이트
+                    p
+                      | 아직도 광고 달리는 후원 사이트를 사용하고 계세요? 'XXX에서 무료로 후원 사이트 만들기'와 비슷한 문구가 거슬리셨나요?
+                    p
+                      | 그렇다면 Baw Service로 넘어오실때입니다. Baw Service에는 그런거 하나도 없거든요.
+              #v-pills-performance.tab-pane.fade(role='tabpanel', aria-labelledby='v-pills-performance-tab')
+                .d-md-flex
+                  .one-forth.order-last.align-self-center
+                    img.img-fluid(src='//cdn.baws.kr/images/Screenshot2.png', alt='')
+                  .one-half.order-first.mr-md-5.align-self-center
+                    h2.mb-4 최고의 퍼포먼스
+                    p
+                      | 대시보드에서 메뉴 하나 이동하는데 5초가 넘게 걸린다고요? 그런걸 왜 쓰나요? Baw Service 로드 가속을 통해서 홈페이지에서 후원 관리 페이지까지 손만 빠르다면 1초안에 이동할 수 있습니다.
+                    p
+                      | (속도는 Crong Cloud 네트워크 상태에 따라 달라질 수 있습니다)
+              #v-pills-effect.tab-pane.fade(role='tabpanel', aria-labelledby='v-pills-effect-tab')
+                .d-md-flex
+                  .one-forth.align-self-center
+                    img.img-fluid(src='//cdn.baws.kr/images/Screenshot1.png', alt='')
+                  .one-half.ml-md-5.align-self-center
+                    h2.mb-4 효율적인 대시보드
+                    p
+                      | Baw Service의 메인 페이지는 대부분의 사람들이 만족할 수 있을거에요. 왜냐면 다른곳에서는 자사 유료 서비스를 이용해야 보여주는 차트나, 최근 통계등을 무료로 제공해주거든요!
+    footer.ftco-footer.ftco-bg-dark.ftco-section
+      .container
+        .row.mb-5
+          .col-md
+            .ftco-footer-widget.mb-4
+              h2.ftco-heading-2 Baw Service.
+              p
+                | Baw Service로 갈아타는것은 언제든지 환영입니다.
+              p.mt-4
+                a.btn.btn-primary.p-3(href='/contact') 연락하기
+          .col-md
+            .ftco-footer-widget.mb-4.ml-md-5
+              h2.ftco-heading-2 유용한 링크들
+              ul.list-unstyled
+                li
+                  a.py-2.d-block(href='https://baws.kr/bawservice') Baw Service 후원
+                li
+                  a.py-2.d-block(href='https://baw-service.tistory.com') Baw Service Blog
+                li
+                  a.py-2.d-block(href='https://crong.cloud') Crong Cloud
+                li
+                  a.py-2.d-block(href='https://baw-service.tistory.com/29') Policy
+          .col-md
+            .ftco-footer-widget.mb-4
+              h2.ftco-heading-2 네비게이션
+              ul.list-unstyled
+                li
+                  a.py-2.d-block(href='/') 홈
+                li
+                  a.py-2.d-block(href='/auth/signin') 로그인
+                li
+                  a.py-2.d-block(href='/auth/register') 회원가입
+          .col-md
+            .ftco-footer-widget.mb-4
+              .block-23.mb-3
+                ul
+                  li
+                    a(href='mailto:pp121324@gmail.com')
+                      span.icon.icon-envelope
+                      span.text pp121324@gmail.com
+              ul.ftco-footer-social.list-unstyled.float-md-left.float-lft.mt-5
+                li.ftco-animate
+                  a(href='https://twitter.com/BawAppie')
+                    span.icon-twitter
+                li.ftco-animate
+                  a(href='https://fb.me/BawAppie')
+                    span.icon-facebook
+        .row
+          .col-md-12.text-center
+            p
+              // Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0.
+              | Copyright ©
+              script.
+                document.write(new Date().getFullYear());
+              |  모든 권리 보유 | 이 템플릿은 
+              i.icon-heart(aria-hidden='true')
+              |  와 함께 
+              a(href='https://colorlib.com', target='_blank') Colorlib
+              | 이 제작했습니다.
+              // Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0.
+              // loader
+              #ftco-loader.show.fullscreen
+                svg.circular(width='48px', height='48px')
+                  circle.path-bg(cx='24', cy='24', r='22', fill='none', stroke-width='4', stroke='#eeeeee')
+                  circle.path(cx='24', cy='24', r='22', fill='none', stroke-width='4', stroke-miterlimit='10', stroke='#F96D00')
+              script(src='//cdn.baws.kr/js/jquery.min.js')
+              script(src='//cdn.baws.kr/js/jquery-migrate-3.0.1.min.js')
+              script(src='//cdn.baws.kr/js/popper.min.js')
+              script(src='//cdn.baws.kr/js/bootstrap.min.js')
+              script(src='//cdn.baws.kr/js/jquery.easing.1.3.js')
+              script(src='//cdn.baws.kr/js/jquery.waypoints.min.js')
+              script(src='//cdn.baws.kr/js/jquery.stellar.min.js')
+              script(src='//cdn.baws.kr/js/owl.carousel.min.js')
+              script(src='//cdn.baws.kr/js/jquery.magnific-popup.min.js')
+              script(src='//cdn.baws.kr/js/aos.js')
+              script(src='//cdn.baws.kr/js/jquery.animateNumber.min.js')
+              script(src='//cdn.baws.kr/js/bootstrap-datepicker.js')
+              script(src='//cdn.baws.kr/js/jquery.timepicker.min.js')
+              script(src='//cdn.baws.kr/js/scrollax.min.js')
+              script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false')
+              script(src='//cdn.baws.kr/js/google-map.js')
+              script(src='//cdn.baws.kr/js/main.js')
+                
+              script(src='//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js')
+              script(src='//cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js')
+              script(src='//www.gstatic.com/firebasejs/5.0.4/firebase-app.js')
+              script(src='//www.gstatic.com/firebasejs/5.0.4/firebase-messaging.js')
+              script(src='//cdn.jsdelivr.net/gh/Baw-Appie/scriptLoader@0.1/scriptLoader.min.js')
+              if(!user)
+                script.
+                  var clientId = "#{oauth_info.googleid}"
+                script(src='/public/dashboard/js/dashboard/smartlock.js')
