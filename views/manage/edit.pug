@@ -4,6 +4,7 @@ block extscript
     $(function(){
       $("#edit").submit(function(){
         NProgress.start();
+        $("#save").addClass("loading")
         $.ajax({
           type: "post",
           url : "#",
@@ -17,7 +18,8 @@ block extscript
               NProgress.done();
             }
           },
-          error : function error(){ iziToast.warning({message: "Baw Service 빠른 설정 적용이 설정을 적용하는 도중 문제가 발생했습니다.", title:"이런.."}); }
+          error : function error(){ iziToast.warning({message: "Baw Service 빠른 설정 적용이 설정을 적용하는 도중 문제가 발생했습니다.", title:"이런.."}); },
+          complete: () => $("#save").removeClass("loading")
         });
         return false;
       });
@@ -125,7 +127,7 @@ block contents
       | !{options.text}
     br
     if(!options.do_not_save)
-      button.ui.button.primary.icon.labeled(type="submit")
+      button.ui.button.primary.icon.labeled#save(type="submit")
         i.icon.save
         |  설정 적용
       a(onclick="$.pjax.reload('#contents')")
