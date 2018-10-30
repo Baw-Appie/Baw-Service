@@ -6,7 +6,7 @@ html(lang='en')
     meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0')
     meta(charset='utf-8')
     link(rel="shortcut icon" href='/public/img/favicon.ico')
-    link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Nanum+Gothic|Poppins')
+    link(rel='stylesheet', href='//fonts.googleapis.com/css?family=Nanum+Gothic|Poppins')
     link(rel="stylesheet" href='//cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css')
     link(rel="stylesheet" href='//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css')
     link(rel='stylesheet', href='//cdn.baws.kr/css/open-iconic-bootstrap.min.css')
@@ -24,7 +24,12 @@ html(lang='en')
     link(rel="manifest" href='/manifest.json')
     style.
       * {
-        font-family: 'Nanum-Gothic'
+        font-family: 'Nanum-Gothic', sans-serif; important;
+      }
+      @media (min-width: 767px) {
+        .imageresize {
+            max-width: 87%;
+        }
       }
     script(async src='https://www.googletagmanager.com/gtag/js?id=UA-112023380-1')
     script.
@@ -61,8 +66,17 @@ html(lang='en')
               | 마인크래프트 서버 운영자를 위한 최고의 도구
             p(data-scrollax="properties: { translateY: '30%', opacity: 1.6 }")
               a.btn.btn-primary.px-4.py-3(href='/auth/register') 시작하기
-          .one-half.align-self-md-end.align-self-sm-center(style="margin: 0 auto;")
-            img(src='//cdn.baws.kr/images/Screenshot1.png' width='95%')
+          .one-half.align-self-md-end.align-self-sm-center
+            .slider-carousel.owl-carousel.imageresize
+              .item
+                img.img-fluid.img(src='//cdn.baws.kr/images/Screenshot1.png', alt='')
+              .item
+                img.img-fluid.img(src='//cdn.baws.kr/images/Screenshot2.png', alt='')
+              .item
+                img.img-fluid.img(src='//cdn.baws.kr/images/Screenshot3.png', alt='')
+          //- 
+          //- .one-half.align-self-md-end.align-self-sm-center(style="margin: 0 auto;")
+          //-   img(src='//cdn.baws.kr/images/Screenshot1.png' width='95%')
     section.ftco-section.services-section
       .container
         .row.justify-content-center.mb-5.pb-5
@@ -218,7 +232,7 @@ html(lang='en')
               #v-pills-noad.tab-pane.fade.show.active(role='tabpanel', aria-labelledby='v-pills-noad-tab')
                 .d-md-flex
                   .one-forth.align-self-center
-                    img.img-fluid(src='//cdn.baws.kr/images/Screenshot3.png', alt='')
+                    img.img-fluid(src='//cdn.baws.kr/images/Screenshot2.png', alt='')
                   .one-half.ml-md-5.align-self-center
                     h2.mb-4 광고 없는 후원 사이트
                     p
@@ -228,7 +242,7 @@ html(lang='en')
               #v-pills-performance.tab-pane.fade(role='tabpanel', aria-labelledby='v-pills-performance-tab')
                 .d-md-flex
                   .one-forth.order-last.align-self-center
-                    img.img-fluid(src='//cdn.baws.kr/images/Screenshot2.png', alt='')
+                    img.img-fluid(src='//cdn.baws.kr/images/Screenshot3.png', alt='')
                   .one-half.order-first.mr-md-5.align-self-center
                     h2.mb-4 최고의 퍼포먼스
                     p
@@ -304,10 +318,10 @@ html(lang='en')
               | 이 제작했습니다.
               // Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0.
               // loader
-              #ftco-loader.show.fullscreen
-                svg.circular(width='48px', height='48px')
-                  circle.path-bg(cx='24', cy='24', r='22', fill='none', stroke-width='4', stroke='#eeeeee')
-                  circle.path(cx='24', cy='24', r='22', fill='none', stroke-width='4', stroke-miterlimit='10', stroke='#F96D00')
+              //- #ftco-loader.show.fullscreen
+              //-   svg.circular(width='48px', height='48px')
+              //-     circle.path-bg(cx='24', cy='24', r='22', fill='none', stroke-width='4', stroke='#eeeeee')
+              //-     circle.path(cx='24', cy='24', r='22', fill='none', stroke-width='4', stroke-miterlimit='10', stroke='#F96D00')
               script(src='//cdn.baws.kr/js/jquery.min.js')
               script(src='//cdn.baws.kr/js/jquery-migrate-3.0.1.min.js')
               script(src='//cdn.baws.kr/js/popper.min.js')
@@ -322,7 +336,6 @@ html(lang='en')
               script(src='//cdn.baws.kr/js/bootstrap-datepicker.js')
               script(src='//cdn.baws.kr/js/jquery.timepicker.min.js')
               script(src='//cdn.baws.kr/js/scrollax.min.js')
-              script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false')
               script(src='//cdn.baws.kr/js/google-map.js')
               script(src='//cdn.baws.kr/js/main.js')
                 
