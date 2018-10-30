@@ -3,7 +3,7 @@ var SqlString = require('sqlstring');
 var sqlp = require('../../libs/sql-promise');
 var vali = require('validator');
 
-module.exports = async (res, res) => {
+module.exports = async (req, res) => {
   if(req.user) {
     try {
       var success = true

@@ -5,34 +5,6 @@ block extscript
     function captchaSubmit() {
     	$("#reg").submit();
     }
-    $('.ui.form#reg').form({
-      fields: {
-        name: {
-          identifier: 'id',
-          rules: [{ type: 'empty', prompt: 'ID를 입력해주세요.' }]
-        },
-        pass: {
-          identifier: 'pass',
-          rules: [{ type: 'empty', prompt: '비밀번호를 입력해주세요.' }]
-        },
-        pass2: {
-          identifier: 'pass2',
-          rules: [{ type: 'empty', prompt: '비밀번호 확인을 입력해주세요.' },{ type: 'match[pass]', prompt: "비밀번호와 비밀번호 확인이 서로 일치하지 않습니다." }]
-        },
-        svname: {
-          identifier: 'svname',
-          rules: [{ type: 'empty', prompt: '서버 이름을 입력해주세요.' }]
-        },
-        mail: {
-          identifier: 'mail',
-          rules: [{ type: 'email', prompt: '제대로된 이메일을 입력해주세요.' }]
-        },
-        terms: {
-          identifier: 'terms',
-          rules: [{ type: 'checked', prompt: '이용약관에 동의해주세요' }]
-        }
-      }
-    })
     $('#id, #mail').blur((event) => {
       var element = $(event.target).attr("id")
       var target = $(event.target).closest(".field")
