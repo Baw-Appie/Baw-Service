@@ -14,7 +14,7 @@ block contents
         a.ui.button(href="/auth/register") Register
         .or
         button(type="submit").ui.button.primary Sign In
-  button.ui.circular.google.plus.icon.button
+  button.ui.circular.google.plus.icon.button(onclick="location.href=('/auth/google')")
     i.google.icon
   button.ui.circular.button.icon.yellow(onclick="location.href=('/auth/kakao')")
     i.comment.icon
