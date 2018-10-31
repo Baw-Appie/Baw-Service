@@ -68,14 +68,14 @@ app.use((req,res,next) => {
   res.locals.browser = require('useragent').lookup(req.headers['user-agent']).family;
   next();
 });
-app.use( require('./libs/logging') );
-app.use( require('./libs/pjax')() );
-app.use( require('./libs/hostname')() );
-app.use( require('./libs/allow_ip')() );
-app.use( require('./libs/custom_domains')() );
-app.use(bodyParser.urlencoded({extended: false}));
-app.use('/public', express.static('public'));
-app.use('/.well-known', express.static('.well-known'));
+app.use(require('./libs/logging'))
+app.use(require('./libs/pjax')())
+app.use(require('./libs/hostname')())
+app.use(require('./libs/allow_ip')())
+app.use(require('./libs/custom_domains'))
+app.use(bodyParser.urlencoded({extended: false}))
+app.use('/public', express.static('public'))
+app.use('/.well-known', express.static('.well-known'))
 
 // *페이지 라우터* //
 // 메인
@@ -214,7 +214,7 @@ passport.use(new KakaoStrategy({clientID: oauth_info.kakaoid,clientSecret: oauth
 // *PassportJS* //
 
 // 유저 페이지 로드 및 404 서버 에러 처리
-app.use(require('./routes/userpage-with-404'));
+app.use((req, res, next) => require('../libs/userpage-with-404')(req, res, next, req.path.split('/')[1]))
 
 // 500 서버 에러 처리
 if(server_settings.sentry_error == true){

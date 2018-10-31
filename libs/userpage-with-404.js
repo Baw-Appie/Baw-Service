@@ -7,10 +7,10 @@ var dns = require('dns')
 var sharp = require('sharp')
 var TextToSVG = require('text-to-svg')
 
-module.exports = async (req, res, next) => {
-  var path = req.path.split('/')
-  var page = await sqlp(sql, SqlString.format("SELECT * FROM pages WHERE ?", [{name: path[1]}]))
-  if(page.length == 0) { res.status(404).render('error/404') }
+module.exports = async (req, res, next, path) => {
+  if(!path) { var path = req.path.split('/')[1] }
+  var page = await sqlp(sql, SqlString.format("SELECT * FROM pages WHERE ?", [{name: path}]))
+  if(page.length == 0) { return res.status(404).render('error/404') }
   var service = page[0]['service']
   if(service == '1') {
     var servicename = "donation";
@@ -26,18 +26,18 @@ module.exports = async (req, res, next) => {
   if(fs.existsSync('./views/user_page/'+servicename+'-'+page[0]['theme']+'.pug') == false){ return res.status(500).render('error/500') }
   var user = await sqlp(sql, SqlString.format("SELECT * FROM users WHERE ?", [{id: page[0]['owner']}]))
   var otherpage = await sqlp(sql, SqlString.format("SELECT * FROM pages WHERE ?", [{owner: page[0]['owner']}]))
-  var auth = await sqlp(sql, SqlString.format("SELECT * FROM auth WHERE ?", [{page: path[1]}]))
+  var auth = await sqlp(sql, SqlString.format("SELECT * FROM auth WHERE ?", [{page: path}]))
   if(auth.length == 0) { auth = false }
 
   var jsonpagedata = JSON.parse(page[0]['pagedata'])
   var jsonuserdata = JSON.parse(user[0]['userdata'])
 
   if(service == '1' || service == '2') {
-    res.render('./user_page/'+servicename+'-'+page[0]['theme'], {pagedata: page[0], otherpage: otherpage, userdata: user[0], authdata: auth, jsonpagedata: jsonpagedata, jsonuserdata: jsonuserdata})
+    return res.render('./user_page/'+servicename+'-'+page[0]['theme'], {pagedata: page[0], otherpage: otherpage, userdata: user[0], authdata: auth, jsonpagedata: jsonpagedata, jsonuserdata: jsonuserdata})
   } else if(service == '3') {
     var timer1 = new Date()
     if(jsonpagedata['sv_ip'] == '' || jsonpagedata['sv_port'] == '') {
-      res.render('./user_page/'+servicename+'-'+page[0]['theme'], {pagedata: page[0], userdata: user[0], otherpage: otherpage, data: false, authdata: auth, jsonpagedata: jsonpagedata, jsonuserdata: jsonuserdata})
+      return res.render('./user_page/'+servicename+'-'+page[0]['theme'], {pagedata: page[0], userdata: user[0], otherpage: otherpage, data: false, authdata: auth, jsonpagedata: jsonpagedata, jsonuserdata: jsonuserdata})
     } else {
       dns.resolve('_minecraft._tcp.'+jsonpagedata['sv_ip'], 'SRV', (err, records) => {
         if (err) {
@@ -52,7 +52,7 @@ module.exports = async (req, res, next) => {
           var timer3 = timer2-timer1
           if(req.query.type != "img"){
             if(err) { var data = false }
-            res.render('./user_page/'+servicename+'-'+page[0]['theme'], {pagedata: page[0], userdata: user[0], otherpage: otherpage, data: data, authdata: auth, jsonpagedata: jsonpagedata, jsonuserdata: jsonuserdata})
+            return res.render('./user_page/'+servicename+'-'+page[0]['theme'], {pagedata: page[0], userdata: user[0], otherpage: otherpage, data: data, authdata: auth, jsonpagedata: jsonpagedata, jsonuserdata: jsonuserdata})
           } else {
             var textToSVG = TextToSVG.loadSync('./public/font.ttf');
             var attributes = {fill: 'black', stroke: 'black'};
@@ -81,12 +81,12 @@ module.exports = async (req, res, next) => {
               'Content-Type': 'image/png',
               'Content-Length': banner5.length
             })
-            res.end(banner5)
+            return res.end(banner5)
           }
         })
       })
     }
   } else if(service == '4') {
-    res.render('./user_page/'+servicename+'-'+rows[0]['theme'], {pagedata: rows[0], otherpage: rows3, userdata: rows2[0], authdata: rows4, jsonpagedata: jsonpagedata, jsonuserdata: jsonuserdata})
+    return res.render('./user_page/'+servicename+'-'+rows[0]['theme'], {pagedata: page[0], otherpage: otherpage, userdata: user[0], authdata: auth, jsonpagedata: jsonpagedata, jsonuserdata: jsonuserdata})
   }
 }
