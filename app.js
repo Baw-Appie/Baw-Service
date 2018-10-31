@@ -50,18 +50,15 @@ app.use((req,res,next) => {
   if((req.hostname == server_settings.hostname || fs.existsSync('./config/ssl/' + req.hostname + '/key.pem')) && !req.secure) { return res.redirect('https://' + req.get('host') + req.url)}
   if(req.header( 'X-PJAX' )) { res.locals.pjax = true }
   if(server_settings.whitelist == true && allow_ips.indexOf(req.ip) == 0) { return res.status('403').send('HTTP 403: 현재 Baw Service에 '+req.ip+'으로 접근할 수 없습니다. 관리자에게 문의하세요.')}
-  res.removeHeader("x-powered-by")
   res.locals.session = req.session
-  res.set("Access-Control-Allow-Origin", '*')
-  res.set("Strict-Transport-Security", "max-age=63072000")
   res.locals.user = req.user
-  res.locals.ad = server_settings.ad
   res.locals.server_settings = server_settings
   res.locals.oauth_info = oauth_info
   res.locals.version = version
   res.locals.browser = require('useragent').lookup(req.headers['user-agent']).family
   next()
 })
+app.use(require('helmet')())
 app.use(require('./libs/logging'))
 app.use(require('./libs/hostname'))
 app.use(require('./libs/custom_domains'))
@@ -167,7 +164,7 @@ passport.use(new KakaoStrategy({clientID: oauth_info.kakaoid,clientSecret: oauth
 // *PassportJS* //
 
 // 유저 페이지 로드 및 404 서버 에러 처리
-app.use((req, res, next) => require('../libs/userpage-with-404')(req, res, next, req.path.split('/')[1]))
+app.use((req, res, next) => require('./libs/userpage-with-404')(req, res, next, req.path.split('/')[1]))
 
 // 500 서버 에러 처리
 if(server_settings.sentry_error == true){
