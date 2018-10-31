@@ -3,6 +3,7 @@ var Sqreen = require('sqreen');
 var express = require('express')
 var http = require('http');
 var https = require('https');
+var tls = require('tls');
 var fs = require('fs');
 var server_settings = require('./config/server_settings');
 var sql = require('./config/dbtool');
@@ -11,6 +12,7 @@ var app = express();
 var cookieSession = require('cookie-session')
 var session_config = require('./config/session');
 var oauth_info = require('./config/oauth_info');
+var allow_ips = require('./config/allow_ips');
 var SqlString = require('sqlstring');
 var compression = require('compression')
 var RateLimit = require('express-rate-limit');
@@ -23,55 +25,45 @@ var admin = require('firebase-admin');
 
 admin.initializeApp({credential: admin.credential.cert(require('./config/service-account.json'))});
 
-var version = require('child_process')
-  .execSync('git rev-parse HEAD')
-  .toString().trim()
-
+var version = require('child_process').execSync('git rev-parse HEAD').toString().trim()
 console.log("[Baw Service Server] Baw Service "+version+" Starting..")
-if(server_settings.sentry_error == true){
-  Raven.config(server_settings.sentry, { release: version }).install();
-}
+
+if(server_settings.sentry_error == true) { Raven.config(server_settings.sentry, { release: version }).install() }
 
 app.set('view engine', 'pug');
 app.set('views', './views');
-app.set('trust proxy', function (ip) {
+app.set('trust proxy', (ip) => {
   if (ip === '127.0.0.1')
-  return true;
-  else return false;
+  return true
+  else return false
 });
 
 // 서버 초기화
-if(server_settings.pretty_html == true) {
-  app.locals.pretty = true;
-}
-if(server_settings.sentry_error == true){
-  app.use(Raven.requestHandler());
-}
+if(server_settings.pretty_html == true) { app.locals.pretty = true }
+if(server_settings.sentry_error == true){ app.use(Raven.requestHandler()) }
 app.use(compression())
 app.use(cookieSession({ name: 'session', keys: [session_config.secret], maxAge: 24 * 60 * 60 * 1000 }))
-app.use(passport.initialize());
-app.use(passport.session());
+app.use(passport.initialize())
+app.use(passport.session())
 app.use(Sqreen.middleware)
 app.use((req,res,next) => {
-  if ((req.hostname == server_settings.hostname || fs.existsSync('./config/ssl/' + req.hostname + '/key.pem')) && !req.secure) {
-    return res.redirect('https://' + req.get('host') + req.url);
-  }
-  res.removeHeader("x-powered-by");
-  res.locals.session = req.session;
-  res.set("Access-Control-Allow-Origin", '*');
+  if((req.hostname == server_settings.hostname || fs.existsSync('./config/ssl/' + req.hostname + '/key.pem')) && !req.secure) { return res.redirect('https://' + req.get('host') + req.url)}
+  if(req.header( 'X-PJAX' )) { res.locals.pjax = true }
+  if(server_settings.whitelist == true && allow_ips.indexOf(req.ip) == 0) { return res.status('403').send('HTTP 403: 현재 Baw Service에 '+req.ip+'으로 접근할 수 없습니다. 관리자에게 문의하세요.')}
+  res.removeHeader("x-powered-by")
+  res.locals.session = req.session
+  res.set("Access-Control-Allow-Origin", '*')
   res.set("Strict-Transport-Security", "max-age=63072000")
-  res.locals.user = req.user;
-  res.locals.ad = server_settings.ad;
-  res.locals.server_settings = server_settings;
-  res.locals.oauth_info = oauth_info;
-  res.locals.version = version;
-  res.locals.browser = require('useragent').lookup(req.headers['user-agent']).family;
-  next();
-});
+  res.locals.user = req.user
+  res.locals.ad = server_settings.ad
+  res.locals.server_settings = server_settings
+  res.locals.oauth_info = oauth_info
+  res.locals.version = version
+  res.locals.browser = require('useragent').lookup(req.headers['user-agent']).family
+  next()
+})
 app.use(require('./libs/logging'))
-app.use(require('./libs/pjax')())
-app.use(require('./libs/hostname')())
-app.use(require('./libs/allow_ip')())
+app.use(require('./libs/hostname'))
 app.use(require('./libs/custom_domains'))
 app.use(bodyParser.urlencoded({extended: false}))
 app.use('/public', express.static('public'))
@@ -80,26 +72,11 @@ app.use('/.well-known', express.static('.well-known'))
 // *페이지 라우터* //
 // 메인
 app.all('/', require('./routes/index'));
-app.all('/manifest.json', (req, res) => {
-  res.json({
-    "short_name": "Baw Service",
-    "name": "Baw Service",
-    "icons": [
-      {
-        "src": "/public/img/favicon.jpg",
-        "type": "image/jpg",
-        "sizes": "64x64"
-      }
-    ],
-    "start_url": "/",
-    "gcm_sender_id": "103953800507"
-    // "gcm_sender_id": server_settings.firebase_SenderID
-  })
-});
+app.all('/manifest.json', (req, res) => res.json({"short_name": "Baw Service", "name": "Baw Service", "icons": [{ "src": "/public/img/favicon.jpg", "type": "image/jpg", "sizes": "64x64" }], "start_url": "/", "gcm_sender_id": "103953800507"}))
 app.all('/firebase_init.js', (req, res) => res.type("js").send(`firebase.initializeApp({'messagingSenderId': '`+server_settings.firebase_SenderID+`'});`))
 app.all('/firebase-messaging-sw.js', (req, res) => res.sendFile("./public/firebase-messaging-sw.js", { root: __dirname }))
-app.all('/UnsupportedBrowser', (req, res) => res.render('./UnsupportedBrowser') );
-app.all('/contact', (req, res) => res.render('./contact') );
+app.all('/UnsupportedBrowser', (req, res) => res.render('./UnsupportedBrowser') )
+app.all('/contact', (req, res) => res.render('./contact') )
 
 // *보안* //
 // 카카오톡 활성화 요청
@@ -156,19 +133,13 @@ app.post('/user/id_check', require('./routes/user/id_check_complete'))
 // 서버 아이콘 셋팅
 app.get('/favicon.ico', (req, res) => res.download('./public/img/favicon.ico'))
 
-// *인증 With PassportJS* //
-// 계정 전환
+// *인증 * //
 app.get('/auth/change', (req, res) => res.render('auth/change'))
-// 로그아웃
 app.get('/auth/logout', (req, res) => {
-  req.logout();
-  res.redirect('/');
+  req.logout()
+  res.redirect('/')
 });
-// 로컬 로그인
-app.get('/auth/login', (req, res) => {
-  res.render('login');
-})
-// 로컬 로그인 시도
+app.get('/auth/login', (req, res) => res.render('login'))
 var LoginLimiter = new RateLimit({
   windowMs: 20*60*1000,
   delayMs: 0,
@@ -176,40 +147,22 @@ var LoginLimiter = new RateLimit({
   message: "너무 많은 로그인 시도가 감지되었습니다. 잠시 후 다시 시도하세요."
 });
 app.post('/auth/login', LoginLimiter, passport.authenticate('local', {failureRedirect: '/auth/login', failureFlash: false}), (req, res) => res.redirect('/'))
-
-// 로컬 회원가입
 app.get('/auth/register', (req, res) => res.render('auth/register'))
-// 로컬 회원가입을 위한 ID / Mail 중복 검사
 app.post('/auth/exist/:type', require('./routes/auth/exist'))
-// 로컬 회원가입 시도
 app.post('/auth/register', require('./routes/auth/register'))
-// 로컬 회원가입 이메일 인증
 app.get('/auth/check-email', require('./routes/auth/check-email'))
-// Google 로그인
-app.get('/auth/google', passport.authenticate('google', { scope: [ 'email' ] }));
-// Google 로그인 시도
-app.get( '/auth/google/callback', passport.authenticate( 'google', { successRedirect: '/', failureRedirect: '/auth/login'}));
-// Kakao 로그인
-app.get('/auth/kakao', passport.authenticate('kakao',{ failureRedirect: '/auth/login' }));
-// Kakao 로그인 시도
-app.get( '/auth/kakao/callback', passport.authenticate( 'kakao', { successRedirect: '/', failureRedirect: '/auth/login' }));
-// *인증 With PassportJS* //
+app.get('/auth/google', passport.authenticate('google', { scope: [ 'email' ] }))
+app.get( '/auth/google/callback', passport.authenticate( 'google', { successRedirect: '/', failureRedirect: '/auth/login'}))
+app.get('/auth/kakao', passport.authenticate('kakao',{ failureRedirect: '/auth/login' }))
+app.get( '/auth/kakao/callback', passport.authenticate( 'kakao', { successRedirect: '/', failureRedirect: '/auth/login' }))
+// *인증 * //
 // *페이지 라우터* //
 
 // *PassportJS* //
-
-// 유저 정보 설정
 passport.serializeUser((user, done) => { return done(null, user) })
-
 passport.deserializeUser((user, done) => { done(null, user) });
-
-// 로컬 로그인
 passport.use(new LocalStrategy({usernameField: 'id', passwordField: 'pass', session: true, passReqToCallback: true }, require('./libs/passport/local')));
-
-// *소셜 로그인 //
-// Google 로그인
 passport.use(new GoogleStrategy({clientID: oauth_info.googleid, clientSecret: oauth_info.googlesecret, callbackURL: "https://"+server_settings.hostname+"/auth/google/callback", passReqToCallback: true}, require('./libs/passport/google')));
-// Kakao 로그인
 passport.use(new KakaoStrategy({clientID: oauth_info.kakaoid,clientSecret: oauth_info.kakaosecret, callbackURL: "https://"+server_settings.hostname+"/auth/kakao/callback", passReqToCallback: true}, require('./libs/passport/kakao')));
 // *PassportJS* //
 
@@ -237,22 +190,11 @@ app.use(function(err, req, res, next) {
 // *서버 초기화* //
 var http_server = http.createServer(app)
 
-var tls = require('tls');
 // Baw Service 인증을 위한 SSL 자동 적용
 function getSSL(domain) {
-  if(fs.existsSync('./config/ssl/' + domain + '/key.pem')) {
-    return {
-      key: fs.readFileSync('./config/ssl/' + domain + '/key.pem', 'utf8'),
-      cert: fs.readFileSync('./config/ssl/' + domain + '/cert.pem', 'utf8'),
-      ca: fs.readFileSync('./config/ssl/' + domain + '/ca.pem', 'utf8')
-    }
-  } else {
-    return {
-      ca: fs.readFileSync('./config/ssl/ca.pem', 'utf8'),
-      key: fs.readFileSync('./config/ssl/key.pem', 'utf8'),
-      cert: fs.readFileSync('./config/ssl/cert.pem', 'utf8')
-    }
-  }
+  if(fs.existsSync('./config/ssl/' + domain + '/key.pem'))
+  return {key: fs.readFileSync('./config/ssl/'+domain+'/key.pem', 'utf8'), cert: fs.readFileSync('./config/ssl/'+domain+'/cert.pem', 'utf8'), ca: fs.readFileSync('./config/ssl/'+domain+'/ca.pem', 'utf8') }
+  else return {ca: fs.readFileSync('./config/ssl/ca.pem', 'utf8'), key: fs.readFileSync('./config/ssl/key.pem', 'utf8'), cert: fs.readFileSync('./config/ssl/cert.pem', 'utf8')}
 }
 var ssloptions = {
     SNICallback: (domain, cb) => {
@@ -270,9 +212,5 @@ var https_server = https.createServer(ssloptions, app);
 // *서버 초기화* //
 
 // 서버 실행
-http_server.listen(server_settings.http_port, '0.0.0.0', function() {
-  console.log('[Baw Service Server] HTTP server listening on port ' + http_server.address().port);
-});
-https_server.listen(server_settings.https_port, '0.0.0.0', function(){
-  console.log("[Baw Service Server] HTTPS server listening on port " + https_server.address().port);
-});
+http_server.listen(server_settings.http_port, '0.0.0.0', () => console.log('[Baw Service Server] HTTP server listening on port ' + http_server.address().port));
+https_server.listen(server_settings.https_port, '0.0.0.0', () => console.log("[Baw Service Server] HTTPS server listening on port " + https_server.address().port));
