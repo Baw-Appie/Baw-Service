@@ -13,12 +13,27 @@ module.exports = async (req, accessToken, refreshToken, profile, done) => {
     return done(null, false, { message: '이메일이 인증되지 않은 카카오 계정입니다.' })
   }
 
-  var data = await sqlp(sql, SqlString.format("SELECT * FROM users WHERE id=? OR mail=?", [profile['_json']['kaccount_email'], profile['_json']['kaccount_email']]))
+  var data = await sqlp(sql, SqlString.format("SELECT * FROM users WHERE id=?", [profile['_json']['kaccount_email']]))
   if(data.length ==  0) {
-    // TODO: 카카오계정으로 회원가입 추가
-    req.session.error = '존재하지 않는 ID거나 비밀번호를 잘못 입력하셨습니다.'
-    req.sqreen.auth_track(false, { username: profile['_json']['kaccount_email'] })
-    return done(null, false, { message: '존재하지 않는 ID거나 비밀번호를 잘못 입력하셨습니다.' })
+    var mail = profile['_json']['kaccount_email']
+    var svname = req.session.svname
+    delete req.session.svname
+    if(svname != undefined) {
+      var enc_mail = require('md5')(mail + session_config.secret)
+      var date = new Date().toLocaleDateString()
+      await sqlp(sql, SqlString.format("INSERT INTO users SET id=?, mail=?, password='Social Login', status=1, userdata=json_object('svname', ?, 'regdate', ?, 'ninfo', '', 'enc_mail', ?)", [mail, mail, svname, date, enc_mail]))
+      req.session.error = 'Baw Service에 오신걸 환영합니다! '+mail+'로 회원가입되었습니다.'
+      req.sqreen.signup_track({ username: mail })
+      return done(null, {
+        'id': mail,
+        'mail': mail,
+        'svname': svname,
+        'md5mail': require('md5')(mail)
+      })
+    }
+    req.session.error = '아직 회원가입되지 않은 계정입니다.'
+    req.sqreen.auth_track(false, { username: mail })
+    return done(null, false, { message: '아직 회원가입되지 않은 계정입니다.' })
   }
 
   req.session.error = data[0]['id'] + '로 로그인했습니다.'

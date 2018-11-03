@@ -1,5 +1,7 @@
 var SqlString = require('sqlstring')
 var sql = require('../../config/dbtool')
+var server_settings = require('../../config/server_settings');
+var session_config = require('../../config/session');
 var sqlp = require('../../libs/sql-promise')
 
 module.exports = async (req, accessToken, refreshToken, profile, done) => {
@@ -8,12 +10,27 @@ module.exports = async (req, accessToken, refreshToken, profile, done) => {
     return done(null, false, { message: '죄송합니다. 보안 시스템에 의하여 로그인이 거부되었습니다.' })
   }
 
-  var data = await sqlp(sql, SqlString.format("SELECT * FROM users WHERE id=? OR mail=?", [profile.emails[0]['value'], profile.emails[0]['value']]))
+  var data = await sqlp(sql, SqlString.format("SELECT * FROM users WHERE id=?", [profile.emails[0]['value']]))
   if(data.length ==  0) {
-    // TODO: 구글 계정으로 회원가입 추가
-    req.session.error = '존재하지 않는 ID거나 비밀번호를 잘못 입력하셨습니다.'
-    req.sqreen.auth_track(false, { username: profile.emails[0]['value'] })
-    return done(null, false, { message: '존재하지 않는 ID거나 비밀번호를 잘못 입력하셨습니다.' })
+    var mail = profile.emails[0]['value']
+    var svname = req.session.svname
+    delete req.session.svname
+    if(svname != undefined) {
+      var enc_mail = require('md5')(mail + session_config.secret)
+      var date = new Date().toLocaleDateString()
+      await sqlp(sql, SqlString.format("INSERT INTO users SET id=?, mail=?, password='Social Login', status=1, userdata=json_object('svname', ?, 'regdate', ?, 'ninfo', '', 'enc_mail', ?)", [mail, mail, svname, date, enc_mail]))
+      req.session.error = 'Baw Service에 오신걸 환영합니다! '+mail+'로 회원가입되었습니다.'
+      req.sqreen.signup_track({ username: mail })
+      return done(null, {
+        'id': mail,
+        'mail': mail,
+        'svname': svname,
+        'md5mail': require('md5')(mail)
+      })
+    }
+    req.session.error = '아직 회원가입되지 않은 계정입니다.'
+    req.sqreen.auth_track(false, { username: mail })
+    return done(null, false, { message: '아직 회원가입되지 않은 계정입니다.' })
   }
 
   req.session.error = data[0]['id'] + '로 로그인했습니다.'

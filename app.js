@@ -148,10 +148,10 @@ app.get('/auth/register', (req, res) => res.render('auth/register'))
 app.post('/auth/exist/:type', require('./routes/auth/exist'))
 app.post('/auth/register', require('./routes/auth/register'))
 app.get('/auth/check-email', require('./routes/auth/check-email'))
-app.get('/auth/google', passport.authenticate('google', { scope: [ 'email' ] }))
-app.get( '/auth/google/callback', passport.authenticate( 'google', { successRedirect: '/', failureRedirect: '/auth/login'}))
-app.get('/auth/kakao', passport.authenticate('kakao',{ failureRedirect: '/auth/login' }))
-app.get( '/auth/kakao/callback', passport.authenticate( 'kakao', { successRedirect: '/', failureRedirect: '/auth/login' }))
+app.all('/auth/google', passport.authenticate('google', { scope: [ 'email' ] }))
+app.all( '/auth/google/callback', passport.authenticate( 'google', { successRedirect: '/', failureRedirect: '/auth/login'}))
+app.all('/auth/kakao', passport.authenticate('kakao',{ failureRedirect: '/auth/login' }))
+app.all( '/auth/kakao/callback', passport.authenticate( 'kakao', { successRedirect: '/', failureRedirect: '/auth/login' }))
 // *인증 * //
 // *페이지 라우터* //
 

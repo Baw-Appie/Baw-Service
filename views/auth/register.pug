@@ -1,10 +1,19 @@
 extends ../includes/layout
 block extscript
   script.
+    $(".socialonly").toggle()
     loadScript('https://www.google.com/recaptcha/api.js')
     function captchaSubmit() {
     	$("#reg").submit();
     }
+    function signupWithSocial(name) {
+      post("/auth/register?social="+name, {svname: $("#svname").val()})
+      return false;
+    }
+    $("#social").change(() => {
+      $(".idonly").toggle()
+      $(".socialonly").toggle()
+    })
     $('#id, #mail').blur((event) => {
       var element = $(event.target).attr("id")
       var target = $(event.target).closest(".field")
@@ -36,30 +45,43 @@ block contents
     .ui.header
       h2 Baw Service 회원가입
     br
-    form.ui.form#reg(method='post')
+    .ui.form
       .field
+        .ui.checkbox
+          input.hidden#social(type='checkbox')
+          label 로그인에 Google, Kakao 등의 타 서비스 계정을 사용하겠습니다.
+    br
+    form.ui.form#reg(method='post')
+      .field.idonly
         label(for="id") 아이디
         input(type='text', id="id", name="id", placeholder='ID')
-      .field
+      .field.idonly
         label(for="pass") 비밀번호
         input(type='password', id="pass", name="pass", placeholder='비밀번호')
-      .field
+      .field.idonly
         label(for="pass2") 비밀번호 확인
         input(type='password', id="pass2", name="pass2", placeholder='비밀번호 확인')
       .field
         label(for="svname") 서버 이름
         input(type='text', id="svname", name="svname", placeholder='서버 이름 ("서버"는 자동 입력)')
-      .field
+      .field.idonly
         label(for="mail") 이메일
         input(type='email', id="mail", name="mail", placeholder='이메일')
       .field
         .ui.checkbox
           input.hidden#terms(type='checkbox')
-          label Baw Service 이용 약관에 동의합니다.
-
-      button.ui.button.primary.g-recaptcha(type='submit', data-sitekey='6LeKTiwUAAAAANOYA7r37sTyquy_R0ljzSTVS6Bp', data-callback='captchaSubmit')
-        i(class="fas fa-user-plus")
-        |  회원 가입
+          label
+            a(target="_blank" href="https://baw-service.tistory.com/29") Baw Service 이용 약관에 동의합니다.
+      .idonly(style="display: inline")
+        button.ui.button.primary.g-recaptcha(type='submit', data-sitekey='6LeKTiwUAAAAANOYA7r37sTyquy_R0ljzSTVS6Bp', data-callback='captchaSubmit')
+          i(class="fas fa-user-plus")
+          |  회원 가입
+      .socialonly(style="display: inline;")
+        button.ui.google.plus.button.icon(onclick="return signupWithSocial('google')")
+          i.google.icon
+        button.ui.button.yellow.icon(onclick="return signupWithSocial('kakao')")
+          i.comment.icon
+        
       button.ui.button(type="reset")
         i(class="fas fa-undo")
         |  재입력

@@ -24,9 +24,20 @@ function Recaptcha(req) {
 }
 
 module.exports = async (req, res) => {
+  if(req.query.social != undefined) {
+    var { svname } = req.body
+    console.log(svname)
+    if (svname == undefined || vali.isEmpty(svname)) {
+      req.session.error = "서버 이름을 입력해주세요."
+      return res.redirect('/auth/register')
+    }
+    req.session.svname = svname
+    return res.redirect('/auth/'+req.query.social)
+  }
+
   try {
     await Recaptcha(req)
-    
+
     var { id, pass, pass2, mail, svname } = req.body
     var date = new Date().toLocaleDateString()
     if (vali.isEmpty(id)) {
@@ -65,14 +76,14 @@ module.exports = async (req, res) => {
     var msg = "Baw Service에서 인증 메일을 보냈습니다. 인증 메일을 확인해주세요."
 
   } catch (err) {
-    console.log(err)
     if (err instanceof Error) {
-      var msg = "회원가입에 오류가 있습니다. 관리자에게 이 내용과 함께 오류를 알려주세요. \\n(" + err + ")"
+      console.log(err)
+      var msg = "회원가입에 오류가 있습니다. 관리자에게 이 내용과 함께 오류를 알려주세요. (" + err + ")"
     } else {
       var msg = "회원가입에 실패했습니다! (" + err + ")"
     }
   } finally {
     req.session.error = msg
-    return res.redirect('/')
+    return res.redirect('/auth/register')
   }
 }
