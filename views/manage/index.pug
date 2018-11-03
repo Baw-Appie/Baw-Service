@@ -23,8 +23,8 @@ block contents
               default
                 td 알 수 없음
             td
-              a(href="https://baws.kr/"+row.name)
-                | https://baws.kr/#{row.name}
+              a(href=`https://${hostname}/`+row.name)
+                | https://#{hostname}/#{row.name}
             td
               if(row.service != 4)
                 a.ui.button.negative(href="/manage/"+row.service+"/edit") 수정

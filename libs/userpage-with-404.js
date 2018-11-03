@@ -87,6 +87,6 @@ module.exports = async (req, res, next, path) => {
       })
     }
   } else if(service == '4') {
-    return res.render('./user_page/'+servicename+'-'+rows[0]['theme'], {pagedata: page[0], otherpage: otherpage, userdata: user[0], authdata: auth, jsonpagedata: jsonpagedata, jsonuserdata: jsonuserdata})
+    return res.render('./user_page/'+servicename+'-'+page[0]['theme'], {pagedata: page[0], otherpage: otherpage, userdata: user[0], authdata: auth, jsonpagedata: jsonpagedata, jsonuserdata: jsonuserdata})
   }
 }

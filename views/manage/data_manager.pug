@@ -194,7 +194,7 @@ block contents
           h2 #{data.name} 데이터 관리자
         br
         form(id="data_export_excel_form", action=`https://${hostname}/manage/${data.service}/data_export_excel`)
-          button.ui.button.icon.labeled.primary.g-recaptcha#data_export_excel_submit(data-sitekey='6LeKTiwUAAAAANOYA7r37sTyquy_R0ljzSTVS6Bp', data-callback='captchaSubmit2')
+          button.ui.button.icon.labeled.primary.g-recaptcha#data_export_excel_submit(data-callback='captchaSubmit2')
             i.icon.file.excel
             | Excel으로 데이터 내보내기
         p Baw Service에 저장된 #{data.name} 데이터를 Excel 형식으로 이 기기에 저장합니다.
@@ -215,7 +215,7 @@ block contents
             input.uk-input(type='text', name='status', placeholder='처리 상태')
           br
           br
-          button.ui.button.labeled.icon.primary.g-recaptcha#data_add_submit(data-sitekey='6LeKTiwUAAAAANOYA7r37sTyquy_R0ljzSTVS6Bp', data-callback='captchaSubmit')
+          button.ui.button.labeled.icon.primary.g-recaptcha#data_add_submit(data-callback='captchaSubmit')
             i.icon.plus
             | 데이터 추가
           .ui.divider
@@ -233,7 +233,7 @@ block contents
           h2 #{data.name} 데이터 관리자
         br
         form(id="data_delete_form", method="post", action=`https://${hostname}/manage/${data.service}/data_delete`)
-          button.ui.button.negative.icon.labeled.g-recaptcha#data_delete_submit(data-sitekey='6LeKTiwUAAAAANOYA7r37sTyquy_R0ljzSTVS6Bp', data-callback='captchaSubmit3')
+          button.ui.button.negative.icon.labeled.g-recaptcha#data_delete_submit(data-callback='captchaSubmit3')
             i.icon.trash
             | #{data.name} 데이터 모두 삭제
         p Baw Service에 저장된 #{data.name} 데이터를 모두 삭제합니다.
