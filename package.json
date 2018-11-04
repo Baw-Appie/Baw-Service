@@ -29,7 +29,7 @@
     "request": "^2.88.0",
     "request-promise": "^4.2.2",
     "rss-to-json": "^1.0.4",
-    "sharp": "^0.20.7",
+    "sharp": "^0.21.0",
     "snyk": "^1.93.0",
     "spdy": "^3.4.7",
     "sqlstring": "^2.3.1",
