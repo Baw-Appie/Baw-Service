@@ -9,7 +9,7 @@ module.exports = async (req, res) => {
       return res.json({ success: false, message: "사용자를 찾지 못했습니다." })
     } else {
       req.session.error = "사용자가 활성화되었습니다."
-      return res.redirect('/')
+      return res.redirect('/auth/login')
     }
   } else {
     res.json({ success: false, message: "데이터가 부족합니다."})

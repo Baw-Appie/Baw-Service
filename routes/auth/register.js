@@ -65,13 +65,28 @@ module.exports = async (req, res) => {
     var sql_Request = SqlString.format("INSERT INTO users SET id=?, mail=?, password=password(?), status=0, userdata=json_object('svname', ?, 'regdate', ?, 'ninfo', '', 'enc_mail', ?)", [id, mail, pass, svname, date, enc_mail])
     try { await sqlp(sql, sql_Request) } catch { throw ("요청에 실패했습니다. 좌측 메뉴의 버그 신고로 이 문제를 신고하세요.") }
 
-    var transporter = require('../../libs/mail-promise')
-    await transporter({
-      from: 'Baw Service <A-Mail-Sender@rpgfarm.com>',
+    var sendgrid = require('../../libs/sendgrid')
+    sendgrid.send({
+      from: 'Baw Service <services@baws.kr>',
       to: mail,
-      subject: '[Baw Service] 가입 확인 이메일입니다.',
-      html: '유저님이 Baw Service에서 요청하신 링크는 다음과 같습니다.<br><br><a href=\"https://' + req.hostname + '/auth/check-email?key=' + enc_mail + '">[인증하기]</a><br>또는 아래 링크를 직접 복사해서 접속하세요.<br><br>https://' + req.hostname + '/auth/check-email?key=' + enc_mail + '<br><br>감사합니다.'
-    })
+      templateId: server_settings.sendgrid_action_request_template,
+      dynamic_template_data: {
+        subject: ' 회원가입을 완료하려면 이메일을 인증해주세요.',
+      	header: "계정 활성화",
+      	text: "거의 모든 단계를 완료했습니다! 이제 아래 버튼만 누르면 회원가입이 완료됩니다!",
+      	c2a_link: 'https://'+req.hostname+'/auth/check-email?key='+enc_mail,
+      	c2a_button:"계정 활성화"
+      },
+    });
+
+    // var transporter = require('../../libs/mail-promise')
+    // await transporter({
+    //   from: 'Baw Service <A-Mail-Sender@rpgfarm.com>',
+    //   to: mail,
+    //   subject: '[Baw Service] 가입 확인 이메일입니다.',
+    //   html: '유저님이 Baw Service에서 요청하신 링크는 다음과 같습니다.<br><br><a href=\"https://' + req.hostname + '/auth/check-email?key=' + enc_mail + '">[인증하기]</a><br>또는 아래 링크를 직접 복사해서 접속하세요.<br><br>https://' + req.hostname + '/auth/check-email?key=' + enc_mail + '<br><br>감사합니다.'
+    // })
+
     req.sqreen.signup_track({ username: id })
     var msg = "Baw Service에서 인증 메일을 보냈습니다. 인증 메일을 확인해주세요."
 
