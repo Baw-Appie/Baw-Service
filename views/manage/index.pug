@@ -31,3 +31,13 @@ block contents
               -if(row.service == 1 || row.service == 2)
                 a.ui.button.primary(href="/manage/"+row.service+"/view") 관리
                 a.ui.button.positive.basic(href="/manage/"+row.service+"/data_manager") 데이터 관리자
+      tfoot.full-width
+        tr
+          th
+          th
+          th
+          th
+            a.ui.right.floated.small.primary.labeled.icon.button(href="/manage/create")
+              i.plus.icon
+              | 새 사이트
+              

@@ -99,6 +99,8 @@ app.get('/action/:code', require('./routes/action'))
 
 // 페이지 관리
 app.get('/manage', require('./routes/manage/index'));
+app.get('/manage/create', require('./routes/manage/create_view'))
+app.post('/manage/create', require('./routes/manage/create_complete'))
 app.get('/manage/:service/view', require('./routes/manage/view'));
 app.all('/manage/:service/complete/:id/:status', require('./routes/manage/complete'))
 app.post('/manage/:service/edit', require('./routes/manage/edit_complete'))
@@ -107,8 +109,6 @@ app.get('/manage/:service/data_export_excel', require('./routes/manage/data_expo
 app.post('/manage/:service/data_add', require('./routes/manage/data_add'))
 app.get('/manage/:service/data_manager', require('./routes/manage/data_manager'))
 app.post('/manage/:service/data_delete', require('./routes/manage/data_delete'))
-app.post('/manage/:service/create', require('./routes/manage/create_complete'))
-app.get('/manage/:service/create', require('./routes/manage/create_view'))
 app.post('/manage/:service/lookup', require('./routes/manage/lookup'))
 
 // API 관리
