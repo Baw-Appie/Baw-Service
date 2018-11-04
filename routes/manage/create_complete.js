@@ -8,11 +8,11 @@ module.exports = async (req, res) => {
     try {
       var { name, service } = req.body
       var date = new Date().toLocaleDateString()
-      if (vali.isEmpty(service)) {
-        throw ('서비스 데이터 없음')
+      if (service == undefined || vali.isEmpty(service)) {
+        throw ('서비스 종류를 선택해주세요.')
       }
-      if (vali.isEmpty(name)) {
-        throw ('ID를 입력해주세요.')
+      if (name == undefined || vali.isEmpty(name)) {
+        throw ('사이트 주소를 입력해주세요.')
       }
       if ((await sqlp(sql, SqlString.format("SELECT * FROM pages WHERE (owner=? and service=?) OR name=?", [req.user.id, service, name]))).length == 1) {
         throw ('이미 해당 서비스를 활성화했거나, 페이지 이름이 겹칩니다.')
@@ -31,7 +31,7 @@ module.exports = async (req, res) => {
           var message = "페이지 설정에서 서버의 IP와 포트를 입력할 수 있으며, SRV 레코드를 지원합니다! 일부 서버에서는 작동하지 않는 문제가 확인되고 있으니, 해당 문제가 발생하면 카카오톡 pp121324로 꼭 알려주세요!"
           break;
       }
-      try { await sqlp(sql, sql_Request) } catch { return res.json({ success: false, title: '실패했습니다.', message: "요청에 실패했습니다. 좌측 메뉴의 버그 신고로 이 문제를 신고하세요." }) }
+      try { await sqlp(sql, sql_Request) } catch { throw ("요청에 실패했습니다. 좌측 메뉴의 버그 신고로 이 문제를 신고하세요.") }
       var msg = "Baw Service를 선택해주셔서 감사합니다! 페이지가 생성되었습니다! " + message
     } catch (err) {
       console.log(err)

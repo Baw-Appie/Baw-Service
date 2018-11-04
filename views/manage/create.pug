@@ -46,7 +46,6 @@ block contents
         each data in datas
           .field
             .ui.radio.checkbox
-              -console.log(data)
               if(data.use == true)
                 input(type='radio', name='service', value=data.service disabled)
               else
