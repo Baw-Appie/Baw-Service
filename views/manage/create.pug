@@ -38,7 +38,7 @@ block contents
         i.icon.plus
         .content 새 사이트 생성
     .ui.attached.message
-      .header 일반
+      .header 사이트 정보
       p 사이트 주소를 제외한 모든 정보는 추후에 다시 변경할 수 있습니다.
     .ui.attached.fluid.segment.form
       .inline.fields
@@ -60,9 +60,9 @@ block contents
     br
       
     button#save.ui.button.primary.icon.labeled(type='submit')
-      i.icon.save
-      |  설정 적용
+      i.icon.plus
+      | 페이지 생성
     a(onclick="$.pjax.reload('#contents')")
       button.ui.button.icon.labeled(type='button')
         i.icon.undo
-        |  적용 안함
+        | 다시 선택
