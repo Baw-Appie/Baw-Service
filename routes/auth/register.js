@@ -71,7 +71,7 @@ module.exports = async (req, res) => {
       to: mail,
       templateId: server_settings.sendgrid_action_request_template,
       dynamic_template_data: {
-        subject: ' 회원가입을 완료하려면 이메일을 인증해주세요.',
+        subject: '회원가입을 완료하려면 이메일을 인증해주세요.',
       	header: "계정 활성화",
       	text: "거의 모든 단계를 완료했습니다! 이제 아래 버튼만 누르면 회원가입이 완료됩니다!",
       	c2a_link: 'https://'+req.hostname+'/auth/check-email?key='+enc_mail,
