@@ -4,7 +4,7 @@ var sqlp = require('../../libs/sql-promise');
 
 module.exports = async (req, res) => {
   if(req.user) {
-    var { svname="", ninfo="", oldpass="", pass="", pass2="" } = req.body
+    var { svname="", ninfo="", oldpass="", pass1="", pass2="" } = req.body
     await sqlp(sql, SqlString.format('UPDATE `users` SET userdata=json_set(userdata, "$.svname", ?, "$.ninfo", ?) WHERE `id` = ?', [svname, ninfo, req.user.id]))
 
     if(oldpass != "" && pass1 != "" && pass2 != "") {
