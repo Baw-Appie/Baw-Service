@@ -1,5 +1,3 @@
-module.exports = (function () {
-  return {
-   secret: 'YourSecret!'
-  }
-})();
+module.exports = {
+ secret: 'YourSecret!'
+}
