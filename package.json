@@ -20,7 +20,6 @@
     "mysql": "^2.16.0",
     "node-excel-export": "^1.4.4",
     "node-google-translate-skidz": "^1.1.2",
-    "nodemailer": "^4.6.8",
     "npm": "^6.4.1",
     "passport": "^0.4.0",
     "passport-google-oauth2": "^0.1.6",

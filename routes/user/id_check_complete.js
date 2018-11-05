@@ -66,13 +66,18 @@ module.exports = async (req, res) => {
     var jsonpagedata = JSON.parse(pagedata['pagedata'])
     // 메일 알림
     if(jsonpagedata['mail_ok'] == 1) {
-      var nodemailer = require('nodemailer');
-      var transporter = require('../../libs/mail-promise');
-      await transporter({
-        from: 'Baw Service <A-Mail-Sender@rpgfarm.com>',
+      var sendgrid = require('../../libs/sendgrid')
+      sendgrid.send({
+        from: 'Baw Service <services@baws.kr>',
         to: ownerdata['mail'],
-        subject: '[Baw Service] 새로운 정품인증 요청이 있습니다!',
-        html: "<p>Baw Service에서 새로운 정품인증 요청이 있습니다!</p><p>정품인증 관리 사이트를 확인해주세요!</p><p><a href=\"https://"+server_settings.hostname+"/manage/2/view\">[Baw Service 정품인증 관리 사이트]</a></p><p>Powered by <a href='https://baws.kr/'>Baw Service</a></p>"
+        templateId: server_settings.sendgrid_action_request_template,
+        dynamic_template_data: {
+          subject: '새로운 정품인증 요청이 있습니다!',
+        	header: "새로운 정품인증 요청",
+        	text: "Baw Service에서 정품인증 요청을 받았습니다! 지금 정품인증 관리 페이지로 접속하여 정품인증을 확인해주세요.",
+        	c2a_link: 'https://'+server_settings.hostname+'/manage/2/view',
+        	c2a_button:"정품인증 관리 페이지"
+        },
       })
     }
     if(jsonpagedata['auto_process'] == 1) {

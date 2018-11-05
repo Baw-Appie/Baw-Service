@@ -77,7 +77,7 @@ module.exports = async (req, res) => {
       	c2a_link: 'https://'+req.hostname+'/auth/check-email?key='+enc_mail,
       	c2a_button:"계정 활성화"
       },
-    });
+    })
 
     // var transporter = require('../../libs/mail-promise')
     // await transporter({
