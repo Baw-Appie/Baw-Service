@@ -1,0 +1,56 @@
+extends ../includes/layout
+block extscript
+  script.
+    loadScript('https://www.google.com/recaptcha/api.js')
+    $("#mail, #id, #submit").hide()
+    $("#type").change(() => {
+      var data = $("#type").val()
+      if(data == "pass") {
+        $("#select").hide(500)
+        $("#mail, #id, #submit").show(500)
+        iziToast.info({ title: "비밀번호 초기화를 시작합니다.", message: "계정에 대한 정보를 알려주세요." })
+      } else if(data == "social") {
+        modal("로그인 문제 해결", "같은 이메일을 가진 다른 소셜 계정으로 로그인해보세요. <br><a href='/contact'>안되는거 같아요. 고객센터에 물어볼래요.</a>")
+       $.pjax({url: "/auth/login", container: '#contents'})
+      } else if(data == "error") {
+        modal("로그인 문제 해결", "로그인 시스템의 문제를 해결하기 위해 Baw Service에 연락해주세요.")
+       $.pjax({url: "/contact", container: '#contents'})
+      } else if(data == "method") {
+        modal("로그인 문제 해결", "이 페이지에서 로그인하면 된답니다. <br><a href='/contact'>아직 잘 모르겠어요. 고객센터에 물어볼래요.</a>")
+       $.pjax({url: "/auth/login", container: '#contents'})
+      }
+    })
+    
+block contents
+  div(style='text-align: center;')
+    h2(style='font-size: 18pt')
+      | 이런! 로그인에 어떤 문제가 있었나요?
+    .ui.divider
+    form(action="/auth/recovery" method="post")
+      .ui.form(style="margin: 0 auto; width: 80%;")
+        .field#id
+          label 아이디
+          input(type="text", name="id", placeholder="아이디")
+        .field#mail
+          label 이메일
+          input(type="email", name="mail", placeholder="이메일")
+        button.ui.button.icon.labeled.primary#submit(type="submit")
+          i.icon.plane
+          | 전송
+          
+        .field#select
+          .ui.selection.dropdown
+            input#type(type='hidden')
+            i.dropdown.icon
+            .default.text 문제 선택..
+            .menu
+              .item(data-value='pass') 비밀번호를 잊었습니다.
+              .item(data-value='social') 소셜 계정에 문제가 생겨 로그인할 수 없습니다.
+              .item(data-value='error') 로그인 시스템에 문제가 있습니다.
+              .item(data-value='method') 로그인 방법을 알 수 없습니다.
+        
+    br
+    br
+    p
+      a(href="javascript:history.go(-1)")
+        | 앗, 문제가 해결된거 같아요

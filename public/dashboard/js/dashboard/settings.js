@@ -24,10 +24,7 @@ loadSemantic();
 setNav();
 
 $(document).pjax('a', '#contents');
-$(document).on('pjax:start', () => {
-  NProgress.start();
-  // $("#contents").html('<div class="ui active centered inline loader"></div>')
-});
+$(document).on('pjax:start', () => NProgress.start());
 $(document).on('pjax:end', () => {
   NProgress.done();
   loadSemantic()
@@ -60,6 +57,7 @@ $(document).on('pjax:error', function(xhr, textStatus, error, options) {
 $.pjax.defaults.timeout = 1200
 
 $('.uk-offcanvas .link').click(() => { UIkit.offcanvas('#navbar').hide(); })
+
 if(location.protocol != "https:"){
   iziToast.error({ title: "보안 경고!", message: "Baw Service 연결에 HTTPS가 사용되지 않고 있습니다. 정상적으로 Baw Service에 접근하지 않았거나 해커가 Baw Service의 접속 방법을 바꿨을 수 있습니다."})
   iziToast.error({ title: "보안 경고!", message: "HTTPS를 사용하지 않으면 Baw Service와 사용자의 통신이 암호화되지 않아 중간에 해커가 데이터를 가로챌 수 있습니다."})
@@ -78,8 +76,7 @@ if(location.protocol != "https:"){
 if(localStorage.getItem("LastVersion") == undefined){
   localStorage.setItem("LastVersion", version)
   console.log("버전 설정됨")
-}
-if(localStorage.getItem("LastVersion") != version) {
+} else if(localStorage.getItem("LastVersion") != version) {
   $('#contents').prepend(`
 <div id="updater" class="ui basic modal">
   <div class="ui icon header">
@@ -102,6 +99,24 @@ if(localStorage.getItem("LastVersion") != version) {
   $("#updater").modal('show');
   localStorage.setItem("LastVersion", version)
   console.log("버전 업데이트됨")
+}
+
+function modal(title, message) {
+  $("#contents").prepend(`
+    <div class="ui modal" id="modal">
+      <i class="close icon"></i>
+      <div class="header">`+title+`</div>
+      <div class="image content">
+        <div class="description">
+          `+message+`
+        </div>
+      </div>
+      <div class="actions">
+        <div class="ui positive right labeled button icon">닫기<i class="icon close"></i></div>
+      </div>
+    </div>
+  `)
+  $("#modal").modal('show')
 }
 
 function post(path, params, method) {
