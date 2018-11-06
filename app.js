@@ -131,7 +131,6 @@ app.post('/user/id_check', require('./routes/user/id_check_complete'))
 app.get('/favicon.ico', (req, res) => res.download('./public/img/favicon.ico'))
 
 // *인증 * //
-app.get('/auth/change', (req, res) => res.render('auth/change'))
 app.get('/auth/logout', (req, res) => {
   req.logout()
   res.redirect('/')
