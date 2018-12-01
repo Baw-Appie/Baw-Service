@@ -34,11 +34,7 @@ if(server_settings.sentry_error == true) { Raven.config(server_settings.sentry, 
 
 app.set('view engine', 'pug');
 app.set('views', './views');
-app.set('trust proxy', (ip) => {
-  if (ip === '127.0.0.1')
-  return true
-  else return false
-});
+app.set('trust proxy', (ip) => { return ip === '127.0.0.1' });
 
 // 서버 초기화
 if(server_settings.pretty_html == true) { app.locals.pretty = true }
@@ -133,54 +129,16 @@ app.post('/user/id_check', require('./routes/user/id_check_complete'))
 app.get('/favicon.ico', (req, res) => res.download('./public/img/favicon.ico'))
 
 // *인증 * //
+var LoginLimiter = new RateLimit({ windowMs: 20*60*1000, delayMs: 0, max: 10,  message: "너무 많은 로그인 시도가 감지되었습니다. 잠시 후 다시 시도하세요." });
 app.get('/auth/logout', (req, res) => {
   req.logout()
   res.redirect('/')
-});
+})
 app.get('/auth/login', (req, res) => res.render('login'))
-var LoginLimiter = new RateLimit({
-  windowMs: 20*60*1000,
-  delayMs: 0,
-  max: 10,
-  message: "너무 많은 로그인 시도가 감지되었습니다. 잠시 후 다시 시도하세요."
-});
 app.post('/auth/login', LoginLimiter, passport.authenticate('local', {failureRedirect: '/auth/login', failureFlash: false}), (req, res) => res.redirect('/'))
 app.get('/auth/recovery', (req, res) => res.render('auth/recovery'))
-app.post('/auth/recovery', LoginLimiter, async (req, res) => {
-  var { id="", mail="" } = req.body
-  if(id == "" || mail == ""){
-    req.session.error = "모든값을 입력하지 않았습니다."
-    return res.redirect('/auth/login')
-  }
-  var data = await sqlp(sql, SqlString.format("SELECT * FROM users WHERE id=? AND mail=?", [id, mail]))
-  if(data.length == 0) {
-    req.session.error = "일치하는 계정이 없습니다."
-    return res.redirect('/auth/login')
-  } else { data = data[0] }
-  sendactionmail(id, mail, "recovery", "계정 비밀번호 복구")
-  req.session.error = "비밀번호 복구 메일을 전송했습니다. 메일함을 확인하세요."
-  return res.redirect('/auth/login')
-})
-app.post('/auth/setPassword', async (req, res) => {
-  var { pass1="", pass2="", code="" } = req.body
-  if(pass1 == "" || pass2 == "" || code == ""){
-    req.session.error = "모든값을 입력하지 않았습니다."
-    return res.redirect('/auth/login')
-  }
-  if(pass1 != pass2){
-    req.session.error = "비밀번호가 서로 일치하지 않습니다."
-    return res.redirect('/auth/login')
-  }
-  var data = await sqlp(sql, SqlString.format("select * from actionmail where code=?", [code]))
-  if(data.length == 0) {
-    req.session.error = "일치하는 계정이 없습니다."
-    return res.redirect('/auth/login')
-  } else { data = data[0] }
-  await sqlp(sql, SqlString.format("UPDATE users SET password=password(?) WHERE id=?", [pass1, data['id']]))
-  await sqlp(sql, SqlString.format("DELETE FROM actionmail where code=?", [code]))
-  req.session.error = "비밀번호가 업데이트되었습니다."
-  return res.redirect('/auth/login')
-})
+app.post('/auth/recovery', LoginLimiter, require('./routes/auth/recovery'))
+app.post('/auth/setPassword', require('./routes/auth/setPassword'))
 app.get('/auth/register', (req, res) => res.render('auth/register'))
 app.post('/auth/exist/:type', require('./routes/auth/exist'))
 app.post('/auth/register', require('./routes/auth/register'))
@@ -231,16 +189,16 @@ function getSSL(domain) {
   else return {ca: fs.readFileSync('./config/ssl/ca.pem', 'utf8'), key: fs.readFileSync('./config/ssl/key.pem', 'utf8'), cert: fs.readFileSync('./config/ssl/cert.pem', 'utf8')}
 }
 var ssloptions = {
-    SNICallback: (domain, cb) => {
-      if (cb) {
-        cb(null, tls.createSecureContext(getSSL(domain)));
-      } else {
-        return tls.createSecureContext(getSSL(domain))
-      }
-    },
-   ca: fs.readFileSync('./config/ssl/ca.pem', 'utf8'),
-   key: fs.readFileSync('./config/ssl/key.pem', 'utf8'),
-   cert: fs.readFileSync('./config/ssl/cert.pem', 'utf8')
+  SNICallback: (domain, cb) => {
+    if (cb) {
+      cb(null, tls.createSecureContext(getSSL(domain)));
+    } else {
+      return tls.createSecureContext(getSSL(domain))
+    }
+  },
+ ca: fs.readFileSync('./config/ssl/ca.pem', 'utf8'),
+ key: fs.readFileSync('./config/ssl/key.pem', 'utf8'),
+ cert: fs.readFileSync('./config/ssl/cert.pem', 'utf8')
 }
 var https_server = https.createServer(ssloptions, app);
 // *서버 초기화* //
