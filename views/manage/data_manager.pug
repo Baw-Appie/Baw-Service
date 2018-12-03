@@ -224,18 +224,18 @@ block contents
       br
       br
       
-    .data_delete.form
-      .ui.message
-        .ui.header
-          h2 #{data.name} 데이터 관리자
-        br
-        form(id="data_delete_form", method="post", action=`https://${hostname}/manage/${data.service}/data_delete`)
-          button.ui.button.negative.icon.labeled.g-recaptcha#data_delete_submit(data-callback='captchaSubmit3')
-            i.icon.trash
-            | #{data.name} 데이터 모두 삭제
-        br
-        p Baw Service에 저장된 #{data.name} 데이터를 모두 삭제합니다.
-        p 작업을 실행하기 전 다음을 기억하세요.<br>이 작업은 그 누구도 되돌릴 수 없으며, 취소할 수도 없습니다.
-        p 작업을 실행하기 전 데이터를 Excel로 내보내는것을 권장합니다.
+  .data_delete.form
+    .ui.message
+      .ui.header
+        h2 #{data.name} 데이터 관리자
+      br
+      form(id="data_delete_form", method="post", action=`https://${hostname}/manage/${data.service}/data_delete`)
+        button.ui.button.negative.icon.labeled.g-recaptcha#data_delete_submit(data-callback='captchaSubmit3')
+          i.icon.trash
+          | #{data.name} 데이터 모두 삭제
+      br
+      p Baw Service에 저장된 #{data.name} 데이터를 모두 삭제합니다.
+      p 작업을 실행하기 전 다음을 기억하세요.<br>이 작업은 그 누구도 되돌릴 수 없으며, 취소할 수도 없습니다.
+      p 작업을 실행하기 전 데이터를 Excel로 내보내는것을 권장합니다.
     br
     br
