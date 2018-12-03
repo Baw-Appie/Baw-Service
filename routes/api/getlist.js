@@ -1,38 +1,34 @@
 var sql = require('../../config/dbtool');
 var SqlString = require('sqlstring');
-module.exports = function (req, res) {
+var sqlp = require('../../libs/sql-promise');
+
+module.exports = async (req, res) => {
   if(req.body.api_key && req.body.id){
-    var api_key = req.body.api_key
-    var id = req.body.id
-    sql.query(SqlString.format('SELECT * FROM api1 WHERE owner=? and api_key=?', [id, api_key]), function(err, rows){
-      if(err){ throw new Error('1번 질의 오류') }
-      sql.query(SqlString.format('SELECT * FROM api2 WHERE owner=? and api_key=?', [id, api_key]), function(err, rows2){
-        if(err){ throw new Error('2번 질의 오류') }
-        var rcount = rows.length + rows2.length
+    var { api_key, id } = req.body
+    try {
+      var donation = await sqlp(sql, SqlString.format("SELECT * FROM api1 WHERE ?", { owner: id, api_key: api_key }))
+      var id_check = await sqlp(sql, SqlString.format("SELECT * FROM api2 WHERE ?", { owner: id, api_key: api_key }))
+      await sqlp(sql, SqlString.format('delete from api1 WHERE owner=? and api_key=?', [id, api_key]))
+      await sqlp(sql, SqlString.format('delete from api2 WHERE owner=? and api_key=?', [id, api_key]))
+    } catch {
+      return res.send("ERROR")
+    }
 
-        var no = 0
-        var text = ""
-        while ( no < rows.length ) {
-          var text = text+api_key+";"+id+";"+rows[no]['cmd']
-          if(no != rcount){
-            var text = text+"'/"
-          }
-          no++
-        }
-        var no2 = 0
-        while ( no2 < rows2.length ) {
-          var text = text+api_key+";"+id+";"+rows2[no2]['cmd']
-          if(no+no2 != rcount){
-            var text = text+"'/"
-          }
-          no2++
-        }
-        res.send(text)
-        sql.query(SqlString.format('delete from api1 WHERE owner=? and api_key=?', [id, api_key]))
-        sql.query(SqlString.format('delete from api2 WHERE owner=? and api_key=?', [id, api_key]))
-
-      })
+    var text = ""
+    await donation.forEachAsync(async (value, num) => {
+      text += api_key + ";" + id + ";" + value['cmd']
+      if(value.lnegth == num){
+        text += "/"
+      }
     })
+    await id_check.forEachAsync(async (value, num) => {
+      text += api_key + ";" + id + ";" + value['cmd']
+      if(value.lnegth == num){
+        text += "/"
+      }
+    })
+    
+    res.send(text)
   } else {
     res.send("ERROR")
   }

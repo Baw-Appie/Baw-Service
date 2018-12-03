@@ -2,16 +2,14 @@ extends ../includes/layout
 
 block extscript
   script.
-    $(function() {
-        $("#name").keyup(function () {
-          var val = document.create.name.value
-          if(val != ""){
-            document.getElementById("preview").innerHTML="<p>생성될 페이지 주소: https://baws.kr/" + val + "</p>"
-          } else {
-            document.getElementById("preview").innerHTML="<p>원하는 사이트 이름을 입력하세요. 입력하면 생성되는 페이지 주소를 미리 볼 수 있습니다.</p>"
-          }
-        });
-    });
+      $("#name").keyup(function () {
+        var val = $("#name").val()
+        if(val != ""){
+          document.getElementById("preview").innerHTML="<p>생성될 페이지 주소: https://baws.kr/" + val + "</p>"
+        } else {
+          document.getElementById("preview").innerHTML="<p>원하는 사이트 이름을 입력하세요. 입력하면 생성되는 페이지 주소를 미리 볼 수 있습니다.</p>"
+        }
+      });
     $('#name').blur(function(){
       if($('#name').val() != "") {
         $.ajax({
@@ -22,39 +20,49 @@ block extscript
             },
             success : function s(a){ 
               if(a.success == true){
-                $("#name").removeClass('uk-form-danger uk-form-success');
-                $("#name").addClass('uk-form-success');
                 iziToast.info({message: a.message})
               } else {
-                $("#name").removeClass('uk-form-danger uk-form-success');
-                $("#name").addClass('uk-form-danger');
                 iziToast.warning({message: a.message})
                 document.getElementById("preview").innerHTML="<p>"+a.message+"</p>"
               }
             },
             error : function error(){ iziToast.warning({message: "Baw Service 빠른 설정 적용이 설정을 적용하는 도중 문제가 발생했습니다.", title:"이런.."}); }
         });
-      } else {
-        $("#name").removeClass('uk-form-danger uk-form-success');
       }
     });
 
 block contents
-  form(method="post", id="create", name="create")
-    fieldset.uk-fieldset
-      legend.uk-legend #{data.name} 생성
-      .uk-margin
-        label 사이트 주소 선택
-          input.uk-input(type='text', name='name', id='name', placeholder='사이트 주소 선택')
-        div.preview(id='preview')
-          p 원하는 사이트 이름을 입력하세요. 입력하면 생성되는 페이지 주소를 미리 볼 수 있습니다.
+  form#create(method='post')
+    .ui.header
+      h2
+        i.icon.plus
+        .content 새 사이트 생성
+    .ui.attached.message
+      .header 사이트 정보
+      p 사이트 주소를 제외한 모든 정보는 추후에 다시 변경할 수 있습니다.
+    .ui.attached.fluid.segment.form
+      .inline.fields
+        label(for='theme') 생성할 페이지
+        each data in datas
+          .field
+            .ui.radio.checkbox
+              if(data.use == true)
+                input(type='radio', name='service', value=data.service disabled)
+              else
+                input(type='radio', name='service', value=data.service)
+              label=data.name
+      .field
+        label 사이트 주소
+        input#name(type='text', name='name', placeholder='사이트 주소')
+      div.preview#preview
+        p 원하는 사이트 이름을 입력하세요. 입력하면 생성되는 페이지 주소를 미리 볼 수 있습니다.
       p 페이지 생성이 완료되면 페이지 수정에서 서버의 정보를 입력하여 사이트를 완성하세요!
-      br
-      button.uk-button.uk-button-primary(type="submit")
-        i(class="fas fa-plus")
-        |  페이지 생성
-      button.uk-button.uk-button-default(type="reset")
-        i(class="fas fa-undo")
-        |  재입력
-          
-          
+    br
+      
+    button#save.ui.button.primary.icon.labeled(type='submit')
+      i.icon.plus
+      | 페이지 생성
+    a(onclick="$.pjax.reload('#contents')")
+      button.ui.button.icon.labeled(type='button')
+        i.icon.undo
+        | 다시 입력

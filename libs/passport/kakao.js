@@ -1,34 +1,47 @@
-var sql = require('../../config/dbtool');
-var SqlString = require('sqlstring');
-var passport = require('passport');
-module.exports = function(request, accessToken, refreshToken, profile, done) {
-  if(request.sqreen.userIsBanned(request)){
-    request.session.error = '보안 시스템에 의하여 로그인이 거부되었습니다.';
-    return done(null, false, { message: '보안 시스템에 의하여 로그인이 거부되었습니다.' })
+var SqlString = require('sqlstring')
+var sql = require('../../config/dbtool')
+var sqlp = require('../../libs/sql-promise')
+
+module.exports = async (req, accessToken, refreshToken, profile, done) => {
+  if(req.sqreen.userIsBanned(req)){
+    req.session.error = '죄송합니다. 보안 시스템에 의하여 로그인이 거부되었습니다.'
+    return done(null, false, { message: '죄송합니다. 보안 시스템에 의하여 로그인이 거부되었습니다.' })
   }
-  process.nextTick(function () {
-    if(profile['_json']['kaccount_email_verified'] == true) {
-      var login_req = sql.query('select * from users where id=' + SqlString.escape(profile['_json']['kaccount_email']), function(err, rows){
-        if(err) { done(err) };
-        if (rows.length === 0) {
-          request.session.error = '존재하지 않는 ID거나 비밀번호를 잘못 입력하셨습니다.';
-          request.sqreen.auth_track(false, { username: profile['_json']['kaccount_email'] });
-          return done(null, false, { message: '존재하지 않는 ID거나 비밀번호를 잘못 입력하셨습니다.' })
-        } else {
-          request.session.error = rows[0].id + '로 로그인했습니다.';
-          request.sqreen.auth_track(true, { username: rows[0].id });
-          return done(null, {
-            'id': rows[0]['id'],
-            'mail': rows[0]['mail'],
-            'svname': JSON.parse(rows[0]['userdata'])['svname'],
-            'md5mail': require('md5')(rows[0]['mail'])
-          });
-        }
-      });
-    } else {
-      request.session.error = '카카오에서 이메일 인증을 먼저 완료하세요.';
-      requset.sqreen.auth_track(false, { username: profile['_json']['kaccount_email'] });
-      return done(null, false, { message: '카카오에서 이메일 인증을 먼저 완료하세요.' })
+  if(profile['_json']['kaccount_email_verified'] == false) {
+    req.session.error = '이메일이 인증되지 않은 카카오 계정입니다.'
+    req.sqreen.auth_track(false, { username: profile['_json']['kaccount_email'] })
+    return done(null, false, { message: '이메일이 인증되지 않은 카카오 계정입니다.' })
+  }
+
+  var data = await sqlp(sql, SqlString.format("SELECT * FROM users WHERE id=?", [profile['_json']['kaccount_email']]))
+  if(data.length ==  0) {
+    var mail = profile['_json']['kaccount_email']
+    var svname = req.session.svname
+    delete req.session.svname
+    if(svname != undefined) {
+      var enc_mail = require('md5')(mail + session_config.secret)
+      var date = new Date().toLocaleDateString()
+      await sqlp(sql, SqlString.format("INSERT INTO users SET id=?, mail=?, password='Social Login', status=1, userdata=json_object('svname', ?, 'regdate', ?, 'ninfo', '', 'enc_mail', ?)", [mail, mail, svname, date, enc_mail]))
+      req.session.error = 'Baw Service에 오신걸 환영합니다! '+mail+'로 회원가입되었습니다.'
+      req.sqreen.signup_track({ username: mail })
+      return done(null, {
+        'id': mail,
+        'mail': mail,
+        'svname': svname,
+        'md5mail': require('md5')(mail)
+      })
     }
-  });
+    req.session.error = '아직 회원가입되지 않은 계정입니다.'
+    req.sqreen.auth_track(false, { username: mail })
+    return done(null, false, { message: '아직 회원가입되지 않은 계정입니다.' })
+  }
+
+  req.session.error = data[0]['id'] + '로 로그인했습니다.'
+  req.sqreen.auth_track(true, { username: data[0]['id'] })
+  return done(null, {
+    'id': data[0]['id'],
+    'mail': data[0]['mail'],
+    'svname': JSON.parse(data[0]['userdata'])['svname'],
+    'md5mail': require('md5')(data[0]['mail'])
+  })
 }

@@ -1,10 +1,31 @@
-/* @import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css); */
+/* enable nanumgothic */
+@import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
+* {
+  font-family: 'Nanum Gothic';
+}
+
+/* visible */
 @media screen and (max-width: 400px) {
     div.sitedata { margin:0 auto;max-width: 95%; height: auto; }
 }
-/* * {
-  font-family: 'Nanum Gothic' !important;
-} */
+@media only screen and (max-width: 767px) {
+  .mobile.hidden {
+    display: none !important;
+  }
+}
+
+@media (min-width: 767px) {
+  .mobile.only {
+      display: none !important;
+  }
+}
+
+/* SemanticUI and iziToast error Fixer */
+.iziToast-capsule {
+  line-height: 0;
+}
+
+/* Remove Google Recaptcha badge */
 .grecaptcha-badge {
   display: none;
 }

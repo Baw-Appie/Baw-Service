@@ -1,11 +1,14 @@
 if pjax
     if session.error
-      .uk-alert-warning(uk-alert)
-        a.uk-alert-close(uk-close)
-        p= session.error
-        - delete session.error;
+      .ui.message.icon
+        i.bell.outline.icon
+        .contents
+          .header
+            | 새 알림이 있습니다.
+          p= session.error
+          - delete session.error;
     block contents
-    if(ad == true)
+    if(server_settings.ad == true)
       br
       ins.daum_ddn_area(style='display:none;width:100%;', data-ad-unit='DAN-vf3og7audbad', data-ad-media='5rL', data-ad-pubuser='3ZP', data-ad-type='A', data-ad-width='320', data-ad-height='50')
       script.
@@ -16,21 +19,28 @@ else
   head
     include ./header
   body
-    include ./nav
-    div(uk-grid)
-      div(class='uk-width-1-5@m uk-text-center uk-visible@m')
-        include ./sidebar
-      div.sitedata(class='uk-width-3-4@m')
-        #contents
-          if session.error
-            .uk-alert-warning(uk-alert)
-              a.uk-alert-close(uk-close)
-              p= session.error
-              - delete session.error;
-          block contents
-          if(ad == true)
-            ins.daum_ddn_area(style='display:none;width:100%;', data-ad-unit='DAN-vf3og7audbad', data-ad-media='5rL', data-ad-pubuser='3ZP', data-ad-type='A', data-ad-width='320', data-ad-height='50')
-            br
+    .ui.sidebar.inverted.vertical.menu#sidebar
+      include ./sidebar
+    .pusher
+      include ./nav
+      div(style="padding-top: 60px;")
+        br
+        .ui.secondary.vertical.pointing.menu.mobile.hidden(style="float: left;")
+          include ./sidebar
+        .sitedata.ui.grid(style="margin: 0 auto;")
+          #contents.sixteen.wide.column
+            if session.error
+              .ui.message.icon
+                i.bell.outline.icon
+                .contents
+                  .header
+                    | 새 알림이 있습니다.
+                  p= session.error
+                  - delete session.error
+            block contents
+            if(server_settings.ad == true)
+              ins.daum_ddn_area(style='display:none;width:100%;', data-ad-unit='DAN-vf3og7audbad', data-ad-media='5rL', data-ad-pubuser='3ZP', data-ad-type='A', data-ad-width='320', data-ad-height='50')
+              br
   include ./footer
   block extscript
   script.

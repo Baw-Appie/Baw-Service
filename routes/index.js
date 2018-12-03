@@ -1,16 +1,12 @@
-var sql = require('../config/dbtool');
 var getdata = require('../libs/getdata');
-var SqlString = require('sqlstring');
 var Feed = require('rss-to-json');
 
-module.exports = function(req, res){
-  Feed.load('https://baw-service.tistory.com/feed', function(err, rss){
+module.exports = async (req, res) => {
+  Feed.load('https://baw-service.tistory.com/feed', async (err, rss) => {
     if(req.user){
-      (async () => {
-        var text = await getdata(req)
-        var obj = Object.assign(text, rss);
-        res.render('index', text)
-      })()
+      var text = await getdata(req)
+      Object.assign(text, rss)
+      res.render('index', text)
     } else {
       res.render('index_nologin', rss)
     }
