@@ -1,6 +1,7 @@
 var SqlString = require('sqlstring')
 var sql = require('../../config/dbtool')
 var sqlp = require('../../libs/sql-promise')
+var session_config = require('../../config/session')
 
 module.exports = async (req, accessToken, refreshToken, profile, done) => {
   if(req.sqreen.userIsBanned(req)){
