@@ -98,7 +98,6 @@ module.exports = async (req, res) => {
         var pincode = pin1+'-'+pin2+'-'+pin3+'-'+pin4
         var sql_req = SqlString.format('INSERT INTO service1 values (NULL, ?, ?, ?, ?, ?, ?, ?, "없음", ?, ?, ?, 0)', [page, pagedata['owner'], nick, bal, pincode, Combo, code, Radio, ip, date]);
     }
-    console.log("후원 데이터 추가! "+sql_req)
     await sqlp(sql, sql_req)
     var jsonpagedata = JSON.parse(pagedata['pagedata'])
 
@@ -157,7 +156,6 @@ module.exports = async (req, res) => {
     }
     // 텔레그램 알림
     if(jsonpagedata['tg_ok'] == 1) {
-      console.log("Trying...")
       var tg_req = await sqlp(sql, SqlString.format('SELECT * FROM telegram WHERE id=?', [pagedata['owner']]))
       if(tg_req.length == 1) {
         var tg = tg_req[0]
@@ -175,7 +173,7 @@ module.exports = async (req, res) => {
       if(browser_req.length != 0){
         var admin = require('firebase-admin')
         browser_req.forEach(async (value) => {
-          const message = {
+          admin.messaging().send({
             webpush: {
               notification: {
                 title: '새로운 후원이 있습니다.',
@@ -185,8 +183,9 @@ module.exports = async (req, res) => {
               }
             },
             token: value.token
-          }
-          admin.messaging().send(message)
+          }).catch(() => {
+            sqlp(sql, SqlString.format('DELETE FROM `fcm` WHERE token=?', [value.token]))
+          })
         })
       }
     }

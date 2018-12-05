@@ -30,38 +30,4 @@ if(!user)
     var clientId = "#{oauth_info.googleid}"
   script(src='/public/dashboard/js/dashboard/smartlock.js')
 if(user)
-  script.
-    if(localStorage.getItem("FCMToken") == undefined){
-      messaging.requestPermission().then(function() {
-        iziToast.info({ title: "브라우저 알림 활성화됨", message: "브라우저 알림 접근이 허가되었습니다. 접근 정보를 가져오는중.." })
-        messaging.getToken().then(function(currentToken) {
-          if(currentToken) {
-            NProgress.start();
-            $.ajax({
-              type: "post",
-              url : "/api/Browser/add",
-              data : { token: currentToken },
-              success : function s(a){
-                if(a.success == true){
-                  iziToast.info({message: a.message, title: a.title})
-                  localStorage.setItem("FCMToken", currentToken)
-                } else {
-                  iziToast.warning({message: a.message, title: a.title})
-                }
-              },
-              error : function error(){ iziToast.warning({message: "Baw Service 빠른 설정 적용이 설정을 적용하는 도중 문제가 발생했습니다.", title:"이런.."}); }
-            });
-            NProgress.done();
-            
-          } else {
-            iziToast.error({ title: "브라우저 알림 사용 불가", message: "인스턴스 ID 사용 불가능" })
-          }
-        }).catch(function(err) {
-          iziToast.error({ title: "브라우저 알림 사용 불가", message: "인스턴스 ID를 가져올 수 없습니다. 콘솔을 확인하세요." })
-          console.log('An error occurred while retrieving token. ', err);
-        });
-      }).catch(function(err) {
-        iziToast.error({ title: "브라우저 알림 사용 불가", message: "브라우저 알림 접근이 거부되었거나, 오류가 있습니다. 콘솔을 확인하세요." })
-        console.log('알림 권한 사용 불가.', err);
-      });
-    }
+  script(src='/public/dashboard/js/dashboard/firebase-message.js')

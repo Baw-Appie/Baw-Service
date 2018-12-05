@@ -1,6 +1,7 @@
 var sql = require('../../config/dbtool');
 var SqlString = require('sqlstring');
 var sqlp = require('../../libs/sql-promise');
+var sendactionmail = require('../../libs/sendactionmail');
 
 module.exports = async (req, res) => {
   var { id="", mail="" } = req.body

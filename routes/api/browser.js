@@ -11,7 +11,7 @@ module.exports = (req, res) => {
       if(token){
         (async () => {
           sqlp(sql, SqlString.format("INSERT INTO fcm (id, created, token) values(?, NOW(), ?) ON DUPLICATE KEY UPDATE token=VALUES(token)", [req.user.id, token]))
-          res.json({ success: true, title: "성공했습니다!", message: "토큰을 서버에 저장했습니다." })
+          res.json({ success: true, title: "성공했습니다!", message: "이제 브라우저를 통해서 알림을 수신할 수 있습니다." })
         })()
       } else {
         res.json({ success: false, title: "권한이 없습니다.",  message: "정확한 정보가 필요합니다." });
