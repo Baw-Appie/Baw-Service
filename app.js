@@ -79,7 +79,6 @@ app.all('/firebase_init.js', (req, res) => res.type("js").send(`firebase.initial
 app.all('/firebase-messaging-sw.js', (req, res) => res.sendFile("./public/firebase-messaging-sw.js", { root: __dirname }))
 app.all('/UnsupportedBrowser', (req, res) => res.render('./UnsupportedBrowser') )
 app.all('/contact', (req, res) => res.render('./contact') )
-
 // *보안* //
 // 카카오톡 활성화 요청
 app.get('/secuity/allow_katalk', (req, res) => {
