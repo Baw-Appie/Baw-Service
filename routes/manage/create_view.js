@@ -3,7 +3,6 @@ var SqlString = require('sqlstring');
 var sqlp = require('../../libs/sql-promise');
 module.exports = async (req, res) => {
   if(req.user) {
-    var service = req.params.service
     var datas = [
       {
         name: "후원 사이트",

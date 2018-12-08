@@ -1,6 +1,6 @@
-var sql = require('../../config/dbtool');
-var sqlp = require('../../libs/sql-promise');
-var SqlString = require('sqlstring');
+var sql = require('../../config/dbtool')
+var sqlp = require('../../libs/sql-promise')
+var SqlString = require('sqlstring')
 
 module.exports = async (req, res) => {
   var { service } = req.params
@@ -14,7 +14,7 @@ module.exports = async (req, res) => {
         var { youtube="", theme="semanticui", bouns="없음" } = req.body
         var { lookup_ok=0, sms_ok=0, tg_ok=0, kakao_ok=0, browser_ok=0, disabled="" } = req.body
         disabled = disabled.toString()
-        var sql_Request = SqlString.format('UPDATE `pages` SET pagedata=json_set(pagedata, "$.mail_ok", ?, "$.bouns", ?, "$.sms_ok", ?, "$.kakao_ok", ?, "$.tg_ok", ?, "$.browser_ok", ?, "$.api_cmd", ?, "$.disabled", ?, "$.youtube", ?, "$.lookup_ok", ?), `notice`=?, `theme`=? WHERE service=1 and owner=?', [mail_ok, bouns, sms_ok, kakao_ok, tg_ok, browser_ok, api_cmd, disabled, youtube, lookup_ok, notice, theme, req.user.id])
+        var sql_Request = SqlString.format('UPDATE `pages` SET pagedata=json_set(pagedata, ?), `notice`=?, `theme`=? WHERE service=1 and owner=?', [["$.mail_ok", mail_ok, "$.bouns", bouns, "$.sms_ok", sms_ok, "$.kakao_ok", kakao_ok, "$.tg_ok", tg_ok, "$.browser_ok", browser_ok, "$.api_cmd", api_cmd, "$.disabled", disabled, "$.youtube", youtube, "$.lookup_ok", lookup_ok], notice, theme, req.user.id])
         break;
       case "2":
         var { auto_process=0 } = req.body
@@ -27,6 +27,7 @@ module.exports = async (req, res) => {
       default:
         return res.json({ success: false, title: "작업 실패", message: "지정되지 않은 작업 요청" })
     }
+    console.log(sql_Request)
     try { await sqlp(sql, sql_Request) } catch { return res.json({ success: false, title: '실패했습니다.', message: "요청에 실패했습니다. 좌측 메뉴의 버그 신고로 이 문제를 신고하세요." }) }
     return res.json({ success: true, title: "완료했습니다!",  message: "성공적으로 페이지 수정을 요청했습니다." })
   } else {
