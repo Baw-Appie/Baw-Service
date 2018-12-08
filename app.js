@@ -41,7 +41,8 @@ if(server_settings.sentry_error == true) { Raven.config(server_settings.sentry, 
 
 app.set('view engine', 'pug');
 app.set('views', './views');
-app.set('trust proxy', (ip) => { return ip === '127.0.0.1' });
+app.set('trust proxy', (ip) => { return require('ip-range-check')(ip, require('./config/allowed-proxys.json')) });
+// app.set('trust proxy', (ip) => { return ip === '127.0.0.1' });
 
 // 서버 초기화
 if(server_settings.pretty_html == true) { app.locals.pretty = true }

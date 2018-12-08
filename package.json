@@ -14,6 +14,7 @@
     "firebase-admin": "^6.0.0",
     "helmet": "^3.14.0",
     "hoek": "^5.0.4",
+    "ip-range-check": "^0.0.2",
     "md5": "^2.2.1",
     "messaging-api-telegram": "^0.7.6",
     "mineping": "^0.1.0",
