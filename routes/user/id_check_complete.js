@@ -59,10 +59,10 @@ module.exports = async (req, res) => {
       throw ("구매가 완료된 마인크래프트 계정을 찾을 수 없었습니다.")
     }
     var nick = mojang_body.selectedProfile.name
-    if((await sqlp(sql, SqlString.format("SELECT * FROM service2 WHERE page=? AND nick=?", [page, nick]))).length != 0) {
+    if((await sqlp(sql, SqlString.format("SELECT * FROM service WHERE page=? AND nick=? AND service=2", [page, nick]))).length != 0) {
       throw ("이미 정품인증되었습니다.")
     }
-    await sqlp(sql, SqlString.format('INSERT INTO service2 values (NULL, ?, ?, ?, ?, ?, 0)', [pagedata['owner'], page, nick, date, ip]))
+    await sqlp(sql, SqlString.format("INSERT INTO service values(NULL, ?, ?, 2, ?, NOW(), ?, 0, '{}')", [page, pagedata['owner'], nick, ip]))
     var jsonpagedata = JSON.parse(pagedata['pagedata'])
     // 메일 알림
     if(jsonpagedata['mail_ok'] == 1) {

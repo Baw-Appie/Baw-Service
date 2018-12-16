@@ -128,9 +128,13 @@ block contents
         h2 #{data.name} 최근 처리 완료 후원 정보 [10개]
       br
       each row, i in data1
-        .head(id=data1[i]["num"])
+        .head(id=row["num"])
+          - var jsondata = JSON.parse(row["extradata"])
           each li, ii in list
-            | #{korean[ii]}: #{data1[i][li]}
+            - if(json.indexOf(li) != -1)
+              | #{korean[ii]}: #{jsondata[li]}
+            - else 
+              | #{korean[ii]}: #{row[li]}
             br
           br
           button.ui.button.icon.labeled.negative.okay2
@@ -147,9 +151,13 @@ block contents
         h2 #{data.name} 최근 처리 거절 후원 정보 [10개]
       br
       each row, i in data2
-        .head(id=data2[i]["num"])
+        .head(id=row["num"])
+          - var jsondata = JSON.parse(row["extradata"])
           each li, ii in list
-            | #{korean[ii]}: #{data2[i][li]}
+            - if(json.indexOf(li) != -1)
+              | #{korean[ii]}: #{jsondata[li]}
+            - else 
+              | #{korean[ii]}: #{row[li]}
             br
           br
           .ui.buttons.primary
@@ -181,9 +189,13 @@ block contents
               th=li
         tbody
           each row, i in data3
+            - var jsondata = JSON.parse(row["extradata"])
             tr
               each li, ii in list
-                td=row[li]
+                - if(json.indexOf(li) != -1)
+                  td=jsondata[li]
+                - else 
+                  td=row[li]
   if(data.service == 1)
     .data_export.form
       .ui.message
@@ -216,7 +228,7 @@ block contents
             i.icon.plus
             | 데이터 추가
           .ui.divider
-          p 만약 이 기능의 사용법을 제대로 이해하지 못한다면 사용하지 마세요.
+          p 대량으로 데이터를 추가하길 원하시면 고객센터로 문의해주세요.
           p
             a(href="http://baw-service.tistory.com/20")
              | [여기]

@@ -86,21 +86,19 @@ module.exports = async (req, res) => {
     }
     var ownerdata = ownerdata_req[0]
 
-    switch (Combo) {
-      case "틴캐시":
-          var pincode = pin1+'-'+pin2+'-'+pin3
-          var sql_req = SqlString.format('INSERT INTO service1 values (NULL, ?, ?, ?, ?, ?, ?, ?, "없음", ?, ?, ?, 0)', [page, pagedata['owner'], nick, bal, pincode, Combo, code, Radio, ip, date]);
-        break;
-      case "계좌이체":
-        var sql_req = SqlString.format('INSERT INTO service1 values (NULL, ?, ?, ?, ?, "없음", ?, ?, ?, ?, ?, ?, 0)', [page, pagedata['owner'], nick, bal, Combo, code, nname, Radio, ip, date]);
-        break;
-      default:
-        var pincode = pin1+'-'+pin2+'-'+pin3+'-'+pin4
-        var sql_req = SqlString.format('INSERT INTO service1 values (NULL, ?, ?, ?, ?, ?, ?, ?, "없음", ?, ?, ?, 0)', [page, pagedata['owner'], nick, bal, pincode, Combo, code, Radio, ip, date]);
+    if(Combo == "틴캐시") {
+      var pincode = pin1+'-'+pin2+'-'+pin3
+      var nname = "없음"
+    } else if(Combo == "계좌이체") {
+      var pincode = "없음"
+    } else {
+      var pincode = pin1+'-'+pin2+'-'+pin3+'-'+pin4
+      var nname = "없음"
     }
-    await sqlp(sql, sql_req)
-    var jsonpagedata = JSON.parse(pagedata['pagedata'])
+    var a = { bal: bal, pin: pincode, method: Combo, code: code, nname: nname, bouns: Radio }
+    await sqlp(sql, SqlString.format('INSERT INTO service values (NULL, ?, ?, 1, ?, NOW(), ?, 0, ?)', [page, pagedata['owner'], nick, ip, JSON.stringify(a)]))
 
+    var jsonpagedata = JSON.parse(pagedata['pagedata'])
     // 메일 알림
     if(jsonpagedata['mail_ok'] == 1) {
       var sendgrid = require('../../libs/sendgrid')

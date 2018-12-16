@@ -35,7 +35,7 @@ function countdata(variable, option, regex){
 module.exports = function (req, res) {
     if(req.body.page && req.body.nick && req.params.service == 1) {
       captcha(req, res).then(function (text) {
-        sql.query(SqlString.format('SELECT * from service1 WHERE page=? AND status=1 AND nick=?', [req.body.page, req.body.nick]), function(err, rows){
+        sql.query(SqlString.format('SELECT * from service WHERE service=1 AND page=? AND status=1 AND nick=?', [req.body.page, req.body.nick]), function(err, rows){
           res.json({ success: true, message: countdata(rows, 'bal', /,/gi) })
         })
       }).catch(function (error) {

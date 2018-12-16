@@ -41,8 +41,12 @@ block contents
     br
     each row, i in rows
       .head(id=rows[i]["num"])
+        - var jsondata = JSON.parse(rows[i]["extradata"])
         each li, ii in list
-          | #{korean[ii]}: #{rows[i][li]}
+          - if(json.indexOf(li) != -1)
+            | #{korean[ii]}: #{jsondata[li]}
+          - else 
+            | #{korean[ii]}: #{rows[i][li]}
           br
         br
         .ui.buttons.primary

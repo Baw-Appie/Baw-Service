@@ -87,42 +87,6 @@ module.exports = function (req, res) {
               cellStyle: styles.cellPink,
               width: 80
             },
-            pin: {
-              displayName: '핀번호',
-              headerStyle: styles.headerDark,
-              cellStyle: styles.cellPink,
-              width: 220
-            },
-            bal: {
-              displayName: '금액',
-              headerStyle: styles.headerDark,
-              cellStyle: styles.cellPink,
-              width: 100
-            },
-            method: {
-              displayName: '후원 방법',
-              headerStyle: styles.headerDark,
-              cellStyle: styles.cellPink,
-              width: 100
-            },
-            code: {
-              displayName: '발행일(인증번호)',
-              headerStyle: styles.headerDark,
-              cellStyle: styles.cellPink,
-              width: 100
-            },
-            nname: {
-              displayName: '입금자명',
-              headerStyle: styles.headerDark,
-              cellStyle: styles.cellPink,
-              width: 100
-            },
-            bouns: {
-              displayName: '후원 보너스',
-              headerStyle: styles.headerDark,
-              cellStyle: styles.cellPink,
-              width: 220
-            },
             ip: {
               displayName: 'IP',
               headerStyle: styles.headerDark,
@@ -134,13 +98,19 @@ module.exports = function (req, res) {
               headerStyle: styles.headerDark,
               cellStyle: styles.cellPink,
               width: 100
+            },
+            extradata: {
+              displayName: '기타데이터',
+              headerStyle: styles.headerDark,
+              cellStyle: styles.cellPink,
+              width: 800
             }
           }
           const merges = [
-            { start: { row: 1, column: 1 }, end: { row: 1, column: 11 } }
+            { start: { row: 1, column: 1 }, end: { row: 1, column: 6 } }
           ]
 
-          var query=sql.query("select * from service1 where owner="+SqlString.escape(req.user.id), function(err,rows){
+          var query=sql.query("select * from service where service=1 AND owner="+SqlString.escape(req.user.id), function(err,rows){
             if(err){ throw new Error('1번 질의 오류') }
             const report = excel.buildExport(
               [
