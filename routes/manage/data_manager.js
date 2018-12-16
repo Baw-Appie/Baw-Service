@@ -22,20 +22,6 @@ module.exports = async (req, res) => {
       var data2 = await sqlp(sql, SqlString.format("SELECT * FROM service WHERE status=2 AND owner=? AND service=1 ORDER BY num DESC limit 5", [req.user.id]))
       var data3 = await sqlp(sql, SqlString.format("SELECT * FROM service WHERE owner=? AND service=1", [req.user.id]))
       res.render('manage/data_manager', {rows: page, data: data, data1: data1, data2: data2, data3: data3, list: list, korean: korean, json: json})
-      // sql.query('select * from pages where service=1 and owner=' + SqlString.escape(req.user.id), function(err, rows){
-      //   if (rows.length === 0) {
-      //     req.session.error = '후원 홈페이지가 존재하지 않습니다.';
-      //     res.redirect('/')
-      //   } else {
-      //     sql.query('select * from service1 where status=1 and owner=' + SqlString.escape(req.user.id) + 'ORDER BY num DESC limit 10', function(err, data1){
-      //       sql.query('select * from service1 where status=2 and owner=' + SqlString.escape(req.user.id) + 'ORDER BY num DESC limit 5', function(err, data2){
-      //         sql.query('select * from service1 where owner=' + SqlString.escape(req.user.id), function(err, data3){
-      //           res.render('manage/data_manager', {rows: rows, data: data, data1: data1, data2: data2, data3: data3, list: list, korean: korean})
-      //         })
-      //       })
-      //     })
-      //   }
-      // });
     } else if(service == 2) {
       var data = {
         "name": "정품 인증 사이트",
@@ -43,20 +29,16 @@ module.exports = async (req, res) => {
       }
       var list = ["nick", "ip", "date"]
       var korean = ["닉네임", "IP", "날짜"]
-     sql.query('select * from pages where service=2 and owner=' + SqlString.escape(req.user.id), function(err, rows){
-        if (rows.length === 0) {
-          req.session.error = '정품 인증 페이지가 존재하지 않습니다.';
-          res.redirect('/')
-        } else {
-          sql.query('select * from service2 where status=1 and owner=' + SqlString.escape(req.user.id) + 'ORDER BY num DESC limit 10', function(err, data1){
-            sql.query('select * from service2 where status=2 and owner=' + SqlString.escape(req.user.id) + 'ORDER BY num DESC limit 5', function(err, data2){
-              sql.query('select * from service2 where owner=' + SqlString.escape(req.user.id), function(err, data3){
-                res.render('manage/data_manager', {rows: rows, data: data, data1: data1, data2: data2, data3: data3, list: list, korean: korean})
-              })
-            })
-          })
-        }
-      });
+
+      var page = await sqlp(sql, SqlString.format("SELECT * FROM pages WHERE service=1 AND owner=?", [req.user.id]))
+      if(page.length == 0) {
+        req.session.error = '정품 인증 페이지가 존재하지 않습니다. 먼저 페이지를 생성해주세요!'
+        return res.redirect('/manage')
+      }
+      var data1 = await sqlp(sql, SqlString.format("SELECT * FROM service WHERE status=1 AND owner=? AND service=2 ORDER BY num DESC limit 10", [req.user.id]))
+      var data2 = await sqlp(sql, SqlString.format("SELECT * FROM service WHERE status=2 AND owner=? AND service=2 ORDER BY num DESC limit 5", [req.user.id]))
+      var data3 = await sqlp(sql, SqlString.format("SELECT * FROM service WHERE owner=? AND service=2", [req.user.id]))
+      res.render('manage/data_manager', {rows: page, data: data, data1: data1, data2: data2, data3: data3, list: list, korean: korean, json: []})
     } else {
       res.render('error/403')
     }

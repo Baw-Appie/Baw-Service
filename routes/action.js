@@ -12,17 +12,17 @@ module.exports = async (req, res) => {
   } else { data = data[0] }
 
   if(data['action'] == "delete_1"){
-   sql.query(SqlString.format('delete from service1 where owner=?', [data['id']]))
+   sql.query(SqlString.format('delete from service where service=1 AND owner=?', [data['id']]))
    req.session.error = '성공적으로 후원 사이트의 모든 데이터를 삭제했습니다.'
   }
   if(data['action'] == "delete_2"){
-   sql.query(SqlString.format('delete from service2 where owner=?', [data['id']]))
+   sql.query(SqlString.format('delete from service where service=2 AND owner=?', [data['id']]))
    req.session.error ='성공적으로 정품인증 사이트의 모든 데이터를 삭제했습니다.'
   }
   if(data['action'] == "recovery"){
    return res.render('auth/setPassword', { code: req.params.code })
   }
-  
+
   await sqlp(sql, SqlString.format("DELETE FROM actionmail where code=?", [req.params.code]))
   return res.redirect('/')
 }
