@@ -19,7 +19,7 @@ module.exports = async (req, res) => {
       }
       switch (service) {
         case "1":
-          var sql_Request = SqlString.format("INSERT INTO pages SET name=?, owner=?, service=1, status=1, theme='semanticui', notice='아래 정보를 입력해주시면 최대한 빠르게 처리해 드리겠습니다.', pagedata=json_object('regdate', ?, 'sms_ok', 0, 'mail_ok', 1, 'tg_ok', 0, 'kakao_ok', 0, 'bouns', '없음', 'api_cmd', '', 'disabled', '', 'youtube', '')", [name, req.user.id, date])
+          var sql_Request = SqlString.format("INSERT INTO pages SET name=?, owner=?, service=1, status=1, theme='semanticui', notice='아래 정보를 입력해주시면 최대한 빠르게 처리해 드리겠습니다.', pagedata=json_object('regdate', ?, 'sms_ok', 0, 'mail_ok', 1, 'tg_ok', 0, 'kakao_ok', 0, 'bouns', '없음', 'api_cmd', '', 'disabled', '', 'youtube', '', 'background', 'public/img/background.jpg')", [name, req.user.id, date])
           var message = "이제 페이지 설정에서 페이지 테마를 변경하고, 보너스를 설정한 뒤 공지사항을 추가해보세요! 그리고 후원이 도착하면 알려드릴수 있도록 이메일을 발송하도록 자동 설정되었습니다! 가끔가다 알림 서비스가 작동하지 않는 경우가 있으니 해당 문제가 발생하면 카카오톡 pp121324로 꼭 알려주세요!"
           break;
         case "2":

@@ -11,10 +11,9 @@ module.exports = async (req, res) => {
     }
     switch (service) {
       case "1":
-        var { youtube="", theme="semanticui", bouns="없음" } = req.body
-        var { lookup_ok=0, sms_ok=0, tg_ok=0, kakao_ok=0, browser_ok=0, disabled="" } = req.body
+        var { youtube="", theme="semanticui", bouns="없음", lookup_ok=0, sms_ok=0, tg_ok=0, kakao_ok=0, browser_ok=0, disabled="", background="public/img/background.jpg" } = req.body
         disabled = disabled.toString()
-        var sql_Request = SqlString.format('UPDATE `pages` SET pagedata=json_set(pagedata, ?), `notice`=?, `theme`=? WHERE service=1 and owner=?', [["$.mail_ok", mail_ok, "$.bouns", bouns, "$.sms_ok", sms_ok, "$.kakao_ok", kakao_ok, "$.tg_ok", tg_ok, "$.browser_ok", browser_ok, "$.api_cmd", api_cmd, "$.disabled", disabled, "$.youtube", youtube, "$.lookup_ok", lookup_ok], notice, theme, req.user.id])
+        var sql_Request = SqlString.format('UPDATE `pages` SET pagedata=json_set(pagedata, ?), `notice`=?, `theme`=? WHERE service=1 and owner=?', [["$.mail_ok", mail_ok, "$.bouns", bouns, "$.sms_ok", sms_ok, "$.kakao_ok", kakao_ok, "$.tg_ok", tg_ok, "$.browser_ok", browser_ok, "$.api_cmd", api_cmd, "$.disabled", disabled, "$.youtube", youtube, "$.lookup_ok", lookup_ok, "$.background", background], notice, theme, req.user.id])
         break;
       case "2":
         var { auto_process=0 } = req.body

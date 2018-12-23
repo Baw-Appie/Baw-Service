@@ -15,7 +15,8 @@ module.exports = (req, res) => {
             select: [{ name: "lookup_ok", korean: "후원 기록 조회 허용" }],
             text: [
               { name: "bouns", korean: "후원 보너스"},
-              { name: "youtube", korean: "Youtube Video ID"}
+              { name: "youtube", korean: "Youtube Video ID"},
+              { name: "background", korean: "백그라운드 이미지 URL"}
             ],
             textarea: [{ name: "notice", korean: "공지사항" }],
             custom_select: [{ name: "theme", korean: "테마 (베타)", option_data: ["semanticui", "bootstrap3", "uikit", "bootstrap4", "material"], option_korean: ["Semantic UI", "Bootstrap3", "UIKit", "Bootstrap4", "Material (Beta)"] }],
@@ -34,7 +35,7 @@ module.exports = (req, res) => {
             text: [{ name: "api_cmd", korean: "API 플러그인 명령어" }]
           }
         },
-        "savetojson": ["mail_ok", "sms_ok", "kakao_ok", "tg_ok", "browser_ok", "lookup_ok", "bouns","api_cmd","youtube", "disabled"]
+        "savetojson": ["mail_ok", "sms_ok", "kakao_ok", "tg_ok", "browser_ok", "lookup_ok", "bouns","api_cmd","youtube", "disabled", "background"]
       }
       var help = `<p>후원 보너스 설정의 다음줄은 || 으로 구분합니다.</p>
 		<p>후원 보너스 설정 예제: 캐시||칭호||Baw Service 최고</p>
