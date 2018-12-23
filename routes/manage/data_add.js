@@ -65,7 +65,7 @@ module.exports = async (req, res) => {
 
     var a = { bal: bal, pin: pin, method: method, code: code, nname: nname, bouns: bouns }
     var sql_Request = SqlString.format('INSERT INTO service values (NULL, ?, ?, 1, ?, ?, ?, ?, ?)', [pagedata.name, req.user.id, nick, date, ip, status, JSON.stringify(a)])
-    try { await sqlp(sql, sql_Request) } catch { return res.json({ success: false, title: '실패했습니다.', message: "요청에 실패했습니다." }) }
+    try { await sqlp(sql, sql_Request) } catch(e) { return res.json({ success: false, title: '실패했습니다.', message: "요청에 실패했습니다." }) }
     res.json({ success: true, title: "완료했습니다!", message: "등록되었습니다."});
   }
 }

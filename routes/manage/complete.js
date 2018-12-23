@@ -47,7 +47,7 @@ module.exports = async (req, res) => {
           }
         }
 
-        try { await sqlp(sql, SqlString.format('UPDATE `service` SET status=? WHERE num=?', [req.params.status, req.params.id])) } catch { return res.json({ success: false, title: '실패했습니다.', message: "요청에 실패했습니다. 좌측 메뉴의 버그 신고로 이 문제를 신고하세요." }) }
+        try { await sqlp(sql, SqlString.format('UPDATE `service` SET status=? WHERE num=?', [req.params.status, req.params.id])) } catch(e) { return res.json({ success: false, title: '실패했습니다.', message: "요청에 실패했습니다. 좌측 메뉴의 버그 신고로 이 문제를 신고하세요." }) }
         return res.json({ success: true, title: "완료했습니다!", message: "ID "+id+" 의 처리 상태 변경이 완료되었습니다." });
       }
     } catch(e) {

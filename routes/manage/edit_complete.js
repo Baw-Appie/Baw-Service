@@ -27,7 +27,7 @@ module.exports = async (req, res) => {
         return res.json({ success: false, title: "작업 실패", message: "지정되지 않은 작업 요청" })
     }
     console.log(sql_Request)
-    try { await sqlp(sql, sql_Request) } catch { return res.json({ success: false, title: '실패했습니다.', message: "요청에 실패했습니다. 좌측 메뉴의 버그 신고로 이 문제를 신고하세요." }) }
+    try { await sqlp(sql, sql_Request) } catch(e) { return res.json({ success: false, title: '실패했습니다.', message: "요청에 실패했습니다. 좌측 메뉴의 버그 신고로 이 문제를 신고하세요." }) }
     return res.json({ success: true, title: "완료했습니다!",  message: "성공적으로 페이지 수정을 요청했습니다." })
   } else {
     res.json({ success: false, title: "권한이 없습니다.",  message: "로그인하지 않았거나, 서비스 접근 권한이 없습니다." });

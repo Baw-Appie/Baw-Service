@@ -21,7 +21,7 @@ module.exports = async (req, res) => {
         var sql_Request = SqlString.format('SELECT * FROM pages WHERE name=?', [data])
         break
     }
-    try { var data = await sqlp(sql, sql_Request) } catch { return res.json({ success: false, title: '실패했습니다.', message: "요청에 실패했습니다. 좌측 메뉴의 버그 신고로 이 문제를 신고하세요." }) }
+    try { var data = await sqlp(sql, sql_Request) } catch(e) { return res.json({ success: false, title: '실패했습니다.', message: "요청에 실패했습니다. 좌측 메뉴의 버그 신고로 이 문제를 신고하세요." }) }
     if(data.length == 0) {
       return res.json({ success: true, message: "사용 가능합니다." })
     } else {

@@ -25,7 +25,7 @@ module.exports = async (req, res) => {
         throw ('인증번호가 일치하지 않습니다. 인증번호를 다시 확인하세요.')
       }
       var sql_Request = SqlString.format("INSERT INTO katalk values (?, ?, 0)", [req.user.id, phone, 0])
-      try { await sqlp(sql, sql_Request) } catch { return res.json({ success: false, title: '실패했습니다.', message: "요청에 실패했습니다. 좌측 메뉴의 버그 신고로 이 문제를 신고하세요." }) }
+      try { await sqlp(sql, sql_Request) } catch(e) { return res.json({ success: false, title: '실패했습니다.', message: "요청에 실패했습니다. 좌측 메뉴의 버그 신고로 이 문제를 신고하세요." }) }
       var msg = "카카오톡 알림톡 서비스 가입에 성공했습니다!"
     } catch (err) {
       console.log(err)

@@ -63,7 +63,7 @@ module.exports = async (req, res) => {
     }
     var enc_mail = require('md5')(mail + session_config.secret)
     var sql_Request = SqlString.format("INSERT INTO users SET id=?, mail=?, password=password(?), status=0, userdata=json_object('svname', ?, 'regdate', ?, 'ninfo', '', 'enc_mail', ?)", [id, mail, pass, svname, date, enc_mail])
-    try { await sqlp(sql, sql_Request) } catch { throw ("요청에 실패했습니다. 좌측 메뉴의 버그 신고로 이 문제를 신고하세요.") }
+    try { await sqlp(sql, sql_Request) } catch(e) { throw ("요청에 실패했습니다. 좌측 메뉴의 버그 신고로 이 문제를 신고하세요.") }
 
     var sendgrid = require('../../libs/sendgrid')
     sendgrid.send({

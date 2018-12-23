@@ -31,7 +31,7 @@ module.exports = async (req, res) => {
           var message = "페이지 설정에서 서버의 IP와 포트를 입력할 수 있으며, SRV 레코드를 지원합니다! 일부 서버에서는 작동하지 않는 문제가 확인되고 있으니, 해당 문제가 발생하면 카카오톡 pp121324로 꼭 알려주세요!"
           break;
       }
-      try { await sqlp(sql, sql_Request) } catch { throw ("요청에 실패했습니다. 좌측 메뉴의 버그 신고로 이 문제를 신고하세요.") }
+      try { await sqlp(sql, sql_Request) } catch(e) { throw ("요청에 실패했습니다. 좌측 메뉴의 버그 신고로 이 문제를 신고하세요.") }
       var msg = "Baw Service를 선택해주셔서 감사합니다! 페이지가 생성되었습니다! " + message
     } catch (err) {
       console.log(err)

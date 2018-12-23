@@ -10,7 +10,7 @@ module.exports = async (req, res) => {
       var id_check = await sqlp(sql, SqlString.format("SELECT * FROM api2 WHERE ?", { owner: id, api_key: api_key }))
       await sqlp(sql, SqlString.format('delete from api1 WHERE owner=? and api_key=?', [id, api_key]))
       await sqlp(sql, SqlString.format('delete from api2 WHERE owner=? and api_key=?', [id, api_key]))
-    } catch {
+    } catch(e) {
       return res.send("ERROR")
     }
 
@@ -27,7 +27,7 @@ module.exports = async (req, res) => {
         text += "/"
       }
     })
-    
+
     res.send(text)
   } else {
     res.send("ERROR")
