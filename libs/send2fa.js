@@ -33,7 +33,7 @@ module.exports = function(id, phone, ip){
             sql.query(SqlString.format('update `2fa` set try=try+1, code=? where phone=? OR ip=? OR id=?', [code, phone, ip, id]))
           }
         })
-        // request.post({url: 'http://'+server_settings.katalk_server+'/API/alimtalk_api', form: formdata}, function(e,r,b){ });
+        request.post({url: 'http://'+server_settings.katalk_server+'/API/alimtalk_api', form: formdata}, function(e,r,b){ });
         return resolve({ success: true, title: "인증번호 발송 요청됨",  message: "인증번호 발송 요청을 카카오톡으로 전송했습니다." })
       }
     })
