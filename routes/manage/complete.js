@@ -28,7 +28,11 @@ module.exports = async (req, res) => {
                 var json = JSON.parse(data.extradata)
                 api_cmd = api_cmd.replace("<player>", data['nick']).replace("<money>", json['bal']).replace("<package>", json['bouns']).replace("원", "").replace(",", "")
                 if(api['api_type'] == "socket") {
-                  socket_api(api['api_port'], api['api_ip'], api['api_key'] + ';' + owner['id'] + ';' + api_cmd)
+                  try {
+                    socket_api(api['api_port'], api['api_ip'], api['api_key'] + ';' + owner['id'] + ';' + api_cmd)
+                  } catch(e) {
+                    res.json({ success: false, title: '실패했습니다.', message: "Socket API 요청에 실패했습니다. 작업이 완료되지 않았습니다. 기타 서비스 설정 -> API 플러그인 설정이 정확한지 확인하세요." })
+                  }
                 } else if(api['api_type'] == "HTTP") {
                   await sqlp(sql, SqlString.format('insert into api1 values (?, ?, ?, ?, ?, ?, ?)', [req.user.id, api['api_key'], data['page'], data['nick'], json['bal'], json['pin'], api_cmd]))
                 }
@@ -36,7 +40,11 @@ module.exports = async (req, res) => {
               case "2":
                 api_cmd = api_cmd.replace("<player>", data['nick']);
                 if(api['api_type'] == "socket") {
-                  socket_api(api['api_port'], api['api_ip'], api['api_key'] + ';' + owner['id'] + ';' + api_cmd)
+                  try {
+                    socket_api(api['api_port'], api['api_ip'], api['api_key'] + ';' + owner['id'] + ';' + api_cmd)
+                  } catch(e) {
+                    res.json({ success: false, title: '실패했습니다.', message: "Socket API 요청에 실패했습니다. 작업이 완료되지 않았습니다. 기타 서비스 설정 -> API 플러그인 설정이 정확한지 확인하세요." })
+                  }
                 } else if(api['api_type'] == "HTTP") {
                   await sqlp(sql, SqlString.format('insert into api2 values (?, ?, ?, ?, ?)', [req.user.id, api['api_key'], data['page'], data['nick'], api_cmd]))
                 }
@@ -46,11 +54,11 @@ module.exports = async (req, res) => {
             }
           }
         }
-
         try { await sqlp(sql, SqlString.format('UPDATE `service` SET status=? WHERE num=?', [req.params.status, req.params.id])) } catch(e) { return res.json({ success: false, title: '실패했습니다.', message: "요청에 실패했습니다. 좌측 메뉴의 버그 신고로 이 문제를 신고하세요." }) }
         return res.json({ success: true, title: "완료했습니다!", message: "ID "+id+" 의 처리 상태 변경이 완료되었습니다." });
       }
     } catch(e) {
+      console.log(e)
       res.json({ success: false, title: '실패했습니다.', message: "서비스 처리에 실패했습니다. 좌측 메뉴의 버그 신고로 이 문제를 신고하세요." })
     }
   } else {
