@@ -31,7 +31,7 @@ module.exports = async (req, res) => {
                   try {
                     socket_api(api['api_port'], api['api_ip'], api['api_key'] + ';' + owner['id'] + ';' + api_cmd)
                   } catch(e) {
-                    res.json({ success: false, title: '실패했습니다.', message: "Socket API 요청에 실패했습니다. 작업이 완료되지 않았습니다. 기타 서비스 설정 -> API 플러그인 설정이 정확한지 확인하세요." })
+                    return res.json({ success: false, title: '실패했습니다.', message: "Socket API 요청에 실패했습니다. 작업이 완료되지 않았습니다. 기타 서비스 설정 -> API 플러그인 설정이 정확한지 확인하세요." })
                   }
                 } else if(api['api_type'] == "HTTP") {
                   await sqlp(sql, SqlString.format('insert into api1 values (?, ?, ?, ?, ?, ?, ?)', [req.user.id, api['api_key'], data['page'], data['nick'], json['bal'], json['pin'], api_cmd]))
@@ -43,7 +43,7 @@ module.exports = async (req, res) => {
                   try {
                     socket_api(api['api_port'], api['api_ip'], api['api_key'] + ';' + owner['id'] + ';' + api_cmd)
                   } catch(e) {
-                    res.json({ success: false, title: '실패했습니다.', message: "Socket API 요청에 실패했습니다. 작업이 완료되지 않았습니다. 기타 서비스 설정 -> API 플러그인 설정이 정확한지 확인하세요." })
+                    return res.json({ success: false, title: '실패했습니다.', message: "Socket API 요청에 실패했습니다. 작업이 완료되지 않았습니다. 기타 서비스 설정 -> API 플러그인 설정이 정확한지 확인하세요." })
                   }
                 } else if(api['api_type'] == "HTTP") {
                   await sqlp(sql, SqlString.format('insert into api2 values (?, ?, ?, ?, ?)', [req.user.id, api['api_key'], data['page'], data['nick'], api_cmd]))
