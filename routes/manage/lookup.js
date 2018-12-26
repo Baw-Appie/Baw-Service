@@ -19,11 +19,16 @@ function captcha(req){
     })
   })
 }
-function countdata(variable, option, regex){
+
+function countdata(variable, option, regex, json){
   var i = 0
   var data = 0
   while ( i < variable.length ) {
-    temp = Number(variable[i][option].replace(regex, ""))
+    if(json) {
+      temp = Number(JSON.parse(variable[i]['extradata'])[option].replace(regex, ""))
+    } else {
+      temp = Number(variable[i][option].replace(regex, ""))
+    }
     if(!isNaN(temp)){
       data += temp
     }
@@ -36,7 +41,7 @@ module.exports = function (req, res) {
     if(req.body.page && req.body.nick && req.params.service == 1) {
       captcha(req, res).then(function (text) {
         sql.query(SqlString.format('SELECT * from service WHERE service=1 AND page=? AND status=1 AND nick=?', [req.body.page, req.body.nick]), function(err, rows){
-          res.json({ success: true, message: countdata(rows, 'bal', /,/gi) })
+          res.json({ success: true, message: countdata(rows, 'bal', /,/gi, true) })
         })
       }).catch(function (error) {
         res.json({ success: false, message: error })
