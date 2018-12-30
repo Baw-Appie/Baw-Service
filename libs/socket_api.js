@@ -1,11 +1,10 @@
-module.exports = function connectsocket(port,ip,text,callback) {
-  var net = require('net');
+var net = require('net');
+module.exports = (port,ip,text,callback) => {
   var client = new net.Socket();
-  client.connect(port, ip, function() {
-  	client.write(text);
-    client.end();
-  });
-
-  client.on('data', callback);
-  client.on('error', function(){});
+  client.connect(port, ip, () => {
+    client.write(text)
+    client.end()
+  })
+  client.on('data', callback)
+  client.on('error',() => console.log("Error.."))
 }
