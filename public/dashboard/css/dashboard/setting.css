@@ -29,16 +29,3 @@
 .grecaptcha-badge {
   display: none;
 }
-
-.ui.button {
-  font-family: 'Nanum Gothic';
-  font-weight: normal;
-}
-img.img {
-	max-width: 100%;
-	height: auto;
-}
-i.icon {
-  font-family: 'Font Awesome 5 Pro';
-  font-weight: normal;
-}
