@@ -1,7 +1,7 @@
 /* enable nanumgothic */
-@import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
+@import url(//cdn.rawgit.com/hiun/NanumSquare/master/nanumsquare.css);
 * {
-  font-family: 'Nanum Gothic';
+  font-family: 'Nanum Square';
 }
 
 /* visible */
