@@ -71,6 +71,7 @@ app.use(require('./libs/custom_domains'))
 app.use(bodyParser.urlencoded({extended: false}))
 app.use('/public', express.static('public'))
 app.use('/.well-known', express.static('.well-known'))
+app.use('/public/fontawesomepro', express.static('node_modules/@fortawesome/fontawesome-pro'))
 
 // *페이지 라우터* //
 // 메인

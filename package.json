@@ -41,7 +41,9 @@
     "useragent": "^2.3.0",
     "validator": "^10.7.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@fortawesome/fontawesome-pro": "^5.6.3"
+  },
   "scripts": {
     "test": "echo 테스트기능은 지원하지 않습니다.",
     "start": "node app",
