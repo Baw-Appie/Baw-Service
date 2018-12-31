@@ -29,9 +29,8 @@ block contents
   form(method="post", id="edit")
     .ui.header
       h2
-        i.icon.wrench
-        .content
-          | #{data.name} 설정
+        i.icon.far.fa-wrench
+        | #{data.name} 설정
     each group in options.groups
       .ui.attached.message
         .header
@@ -128,15 +127,15 @@ block contents
     br
     if(!options.do_not_save)
       button.ui.button.primary.icon.labeled#save(type="submit")
-        i.icon.save
+        i.icon.fas.fa-save
         |  설정 적용
       a(onclick="$.pjax.reload('#contents')")
         button.ui.button.icon.labeled(type="button")
-          i.icon.undo
+          i.icon.far.fa-undo
           |  적용 안함
     if(help)
       button.ui.icon.button.icon.labeled(type="button" onclick="$('#help-modal').modal('show')")
-        i.icon.question
+        i.icon.fas.fa-question
         | 도움말
   br
   br

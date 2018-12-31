@@ -74,14 +74,14 @@ block contents
             a(target="_blank" href="https://baw-service.tistory.com/29") Baw Service 이용 약관에 동의합니다.
       .idonly(style="display: inline")
         button.ui.button.primary.g-recaptcha(type='submit', data-sitekey='6LeKTiwUAAAAANOYA7r37sTyquy_R0ljzSTVS6Bp', data-callback='captchaSubmit')
-          i(class="fas fa-user-plus")
+          i.fas.fa-user-plus
           |  회원 가입
       .socialonly(style="display: inline;")
         button.ui.google.plus.button.icon(onclick="return signupWithSocial('google')")
-          i.google.icon
+          i.fab.fa-google
         button.ui.button.yellow.icon(onclick="return signupWithSocial('kakao')")
-          i.comment.icon
+          i.fas.fa-comment
         
       button.ui.button(type="reset")
-        i(class="fas fa-undo")
+        i.fas.fa-undo
         |  재입력

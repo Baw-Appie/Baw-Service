@@ -5,7 +5,7 @@
     .item.mobile.hidden
       .ui.icon.input
         input(type='text', placeholder='원하는것을 찾으세요...')
-        i.search.link.icon
+        i.fal.fa-search.icon
     if(!user)
       .item.mobile.hidden
         a.ui.primary.button(href="/auth/register") Sign Up
@@ -14,7 +14,7 @@
     else
       .item
         .circular.ui.icon.button.dropdown
-          i.icon.settings
+          i.fal.fa-cogs.icon
           .menu
             .header #{user.svname}서버로 로그인중
             .divider
@@ -24,4 +24,4 @@
             a.item(onclick="location.href='/auth/logout'") 로그아웃
     .item.mobile.only
       a.circular.ui.icon.button(onclick="$('.ui.sidebar#sidebar').sidebar('toggle')")
-        i.list.icon
+        i.far.fa-list-ul.icon

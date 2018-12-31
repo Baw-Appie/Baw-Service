@@ -35,9 +35,8 @@ block contents
   .ui.message
     .ui.header
       h2
-        i.icon.tv
-        .content
-          | 처리 대기 #{data.name} 데이터 목록
+        i.icon.far.fa-tv
+        |  처리 대기 #{data.name} 데이터 목록
     br
     each row, i in rows
       .head(id=rows[i]["num"])
@@ -51,7 +50,7 @@ block contents
         br
         .ui.buttons.primary
           .ui.button.icon.labeled.okay1
-            i.icon.check
+            i.icon.far.fa-check
             | 처리 완료
           .ui.floating.dropdown.icon.button
             i.dropdown.icon
@@ -59,7 +58,7 @@ block contents
               .item.okay1noapi
                 | API 요청 없이 처리 완료
         button.ui.button.icon.labeled.negative.okay2
-          i.icon.times
+          i.icon.far.fa-times
           | 처리 거절
         .ui.divider
       
@@ -70,13 +69,12 @@ block contents
   .ui.message
     .ui.header
       h2
-        i.icon.wrench
-        .content
-          | #{data.name} 데이터 관리자
+        i.icon.far.fa-wrench
+        |  #{data.name} 데이터 관리자
     br
     a(href=`https://${hostname}/manage/${data.service}/data_manager`)
       button.ui.button.primary.icon.labeled(type='button')
-        i.icon.database
+        i.icon.fal.fa-database
         |  데이터 관리자 접근
     p Baw Service에 저장된 #{data.name} 데이터를 관리합니다.
   br

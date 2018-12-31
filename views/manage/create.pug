@@ -35,7 +35,7 @@ block contents
   form#create(method='post')
     .ui.header
       h2
-        i.icon.plus
+        i.icon.fal.fa-plus
         .content 새 사이트 생성
     .ui.attached.message
       .header 사이트 정보
@@ -60,9 +60,9 @@ block contents
     br
       
     button#save.ui.button.primary.icon.labeled(type='submit')
-      i.icon.plus
+      i.icon.far.fa-plus
       | 페이지 생성
     a(onclick="$.pjax.reload('#contents')")
       button.ui.button.icon.labeled(type='button')
-        i.icon.undo
+        i.icon.far.fa-undo
         | 다시 입력

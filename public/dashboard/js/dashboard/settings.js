@@ -80,7 +80,7 @@ if(localStorage.getItem("LastVersion") == undefined){
   $('#contents').prepend(`
 <div id="updater" class="ui basic modal">
   <div class="ui icon header">
-    <i class="archive icon"></i>
+    <i class="fal fa-archive icon"></i>
     Baw Service Updater
   </div>
   <div class="content">
@@ -90,7 +90,7 @@ if(localStorage.getItem("LastVersion") == undefined){
   </div>
   <div class="actions">
     <div class="ui green ok inverted button">
-      <i class="checkmark icon"></i>
+      <i class="far fa-check icon"></i>
       계속
     </div>
   </div>
@@ -112,7 +112,7 @@ function modal(title, message) {
         </div>
       </div>
       <div class="actions">
-        <div class="ui positive right labeled button icon">닫기<i class="icon close"></i></div>
+        <div class="ui positive right labeled button icon">닫기<i class="fal fa-times icon"></i></div>
       </div>
     </div>
   `)
