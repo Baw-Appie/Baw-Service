@@ -13,7 +13,6 @@
     "express-rate-limit": "^3.0.0",
     "firebase-admin": "^6.0.0",
     "helmet": "^3.14.0",
-    "hoek": "^5.0.4",
     "ip-range-check": "^0.0.2",
     "md5": "^2.2.1",
     "messaging-api-telegram": "^0.7.6",
@@ -53,5 +52,8 @@
   },
   "author": "Baw_Appie",
   "license": "MPL-2.0",
-  "snyk": true
+  "snyk": true,
+  "engines": {
+    "node": "10.15.0"
+  }
 }
