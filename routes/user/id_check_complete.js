@@ -5,7 +5,7 @@ var SqlString = require('sqlstring');
 var request = require('request');
 var rp = require('request-promise');
 var vali = require('validator');
-var socket_api = require('../../libs/socket_api')
+var dataWorker = require('../../libs/dataWorker')
 
 function Recaptcha(req){
   return new Promise(function (resolve, reject) {
@@ -62,7 +62,8 @@ module.exports = async (req, res) => {
     if((await sqlp(sql, SqlString.format("SELECT * FROM service WHERE page=? AND nick=? AND service=2", [page, nick]))).length != 0) {
       throw ("이미 정품인증되었습니다.")
     }
-    await sqlp(sql, SqlString.format("INSERT INTO service values(NULL, ?, ?, 2, ?, NOW(), ?, 0, '{}')", [page, pagedata['owner'], nick, ip]))
+    var insert = await sqlp(sql, SqlString.format("INSERT INTO service values(NULL, ?, ?, 2, ?, NOW(), ?, 0, '{}')", [page, pagedata['owner'], nick, ip]))
+    console.log(insert)
     var jsonpagedata = JSON.parse(pagedata['pagedata'])
     // 메일 알림
     if(jsonpagedata['mail_ok'] == 1) {
@@ -81,18 +82,7 @@ module.exports = async (req, res) => {
       })
     }
     if(jsonpagedata['auto_process'] == 1) {
-      var api_req = await sqlp(sql, SqlString.format('select * from `api` WHERE id=?', [pagedata['owner']]))
-      if(api_req.length == 1) {
-        var api = api_req[0]
-        var api_cmd = jsonpagedata['api_cmd'];
-        api_cmd = api_cmd.replace("<player>", nick);
-        if(api['api_type'] == "socket"){
-          socket_api(api['api_port'], api['api_ip'], api['api_key']+';'+pagedata['owner']+';'+api_cmd);
-        }
-        if(api['api_type'] == "HTTP") {
-          await sqlp(sql, (SqlString.format('insert into api2 values (?, ?, ?, ?, ?)', [ownerdata['id'], api['api_key'], page, nick, api_cmd])))
-        }
-      }
+      await dataWorker(pagedata['owner'], insert.insertId, 2, 1, undefined)
     }
     var msg = "정품인증에 성공했습니다!"
   } catch(err) {
