@@ -1,7 +1,13 @@
 extends ../includes/layout
 block extscript
+  script(src="https://cdn.ckeditor.com/4.9.2/standard/ckeditor.js")
   script.
     $(function(){
+      loadScriptwithCallback("https://cdn.ckeditor.com/4.9.2/standard/ckeditor.js", () => {
+        $(".ckeditor").each((i, v) => {
+          CKEDITOR.replace($(v).attr("name"))
+        })
+      })
       $("#edit").submit(function(){
         NProgress.start();
         $("#save").addClass("loading")
@@ -116,10 +122,9 @@ block contents
               - } else {
                 - var vdata = pagedata[textarea.name]
               - }
-                if vdata != ""
-                  textarea(name=textarea.name, placeholder=textarea.korean, rows=5) !{vdata}
-                else
-                  textarea(name=textarea.name, placeholder=textarea.korean, rows=5)
+                textarea.ckeditor(name=textarea.name, placeholder=textarea.korean, rows=5)
+                  if vdata != ""
+                    | !{vdata}
               
       br
     if options.text
