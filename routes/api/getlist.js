@@ -17,13 +17,14 @@ module.exports = async (req, res) => {
     var text = ""
     await donation.forEachAsync(async (value, num) => {
       text += api_key + ";" + id + ";" + value['cmd']
-      if(value.lnegth == num){
+      // 후원 처리 마지막꺼 아니거나 정품인증 있으면
+      if(donation.length != num || id_check.length != 0){
         text += "/"
       }
     })
     await id_check.forEachAsync(async (value, num) => {
       text += api_key + ";" + id + ";" + value['cmd']
-      if(value.lnegth == num){
+      if(id_check.length != num){
         text += "/"
       }
     })
