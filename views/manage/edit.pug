@@ -139,24 +139,25 @@ block contents
           i.icon.far.fa-undo
           |  적용 안함
     if(help)
-      button.ui.icon.button.icon.labeled(type="button" onclick="$('#help-modal').modal('show')")
-        i.icon.fas.fa-question
-        | 도움말
-  br
-  br
-  br
-  br
-  br
-  if(help)
-    .ui.modal#help-modal
-      i.close.icon
-      .header
-        | 도움말
-      .image.content
-        .description
-          .ui.header 도움말
-          | !{help}
-      .actions
-        .ui.positive.right.labeled.button.icon
-          | 닫기
-          i.icon.close
+      -if(help.indexOf("openlink:") == -1)
+        button.ui.icon.button.icon.labeled(type="button" onclick="$('#help-modal').modal('show')")
+          i.icon.fas.fa-question
+          | 도움말
+        .ui.modal#help-modal
+          .header
+            | 도움말
+          .image.content
+            .description
+              .ui.header 도움말
+              | !{help}
+          .actions
+            .ui.positive.right.labeled.button.icon
+              | 닫기
+              i.icon.far.fa-times
+      -else
+        -help = help.replace("openlink:", "")
+        a(href=help target="_blank")
+          button.ui.icon.button.icon.labeled(type="button")
+            i.icon.fas.fa-question
+            | 도움말
+        
