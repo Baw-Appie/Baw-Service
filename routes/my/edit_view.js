@@ -1,7 +1,9 @@
-var sql = require('../../config/dbtool');
-var SqlString = require('sqlstring');
-module.exports = function (req, res) {
-  if(req.user) {
+var sql = require('../../config/dbtool')
+var sqlp = require('../../libs/sql-promise')
+var SqlString = require('sqlstring')
+
+module.exports = async (req, res) => {
+  if (req.user) {
     var data = {
       "name": "나의 정보 수정"
     }
@@ -30,10 +32,9 @@ module.exports = function (req, res) {
       "savetojson": ["svname", "ninfo"]
     }
 
-    sql.query('select * from users where id=' + SqlString.escape(req.user.id), function(err, rows){
-      var pagedata = JSON.parse(rows[0]['userdata'])
-      res.render('manage/edit', { data: data, rows: rows, pagedata: pagedata, options: options })
-    });
+    var rows = await sqlp(sql, SqlString.format("SELECT * FROM users WHERE id=?", [req.user.id]))
+    var pagedata = JSON.parse(rows[0]['userdata'])
+    res.render('manage/edit', { data, rows, pagedata, options })
   } else {
     res.redirect('/auth/login')
   }
