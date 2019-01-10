@@ -54,6 +54,6 @@
   "license": "MPL-2.0",
   "snyk": true,
   "engines": {
-    "node": "10.15.0"
+    "node": ">=10.15.0"
   }
 }
