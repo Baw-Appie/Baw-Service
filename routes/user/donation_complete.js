@@ -30,7 +30,7 @@ module.exports = async (req, res) => {
     await Recaptcha(req)
 
     // 페이지 데이터 가져옴
-    var { nick, bal, nname, Combo, Radio, page, code } = req.body
+    var { nick, bal, nname, Combo, Radio, page, code, email } = req.body
     if (Combo != "틴캐시") {
       var [ pin1, pin2, pin3, pin4 ] = [req.body.pin1[0], req.body.pin2[0], req.body.pin3[0], req.body.pin4]
     } else {
@@ -95,13 +95,30 @@ module.exports = async (req, res) => {
       var pincode = pin1+'-'+pin2+'-'+pin3+'-'+pin4
       var nname = "없음"
     }
-    var a = { bal: bal, pin: pincode, method: Combo, code: code, nname: nname, bouns: Radio }
+    var a = { bal, pin: pincode, method: Combo, code, nname, bouns: Radio }
+    if(typeof email != "undefined") {
+      a.email = email
+    }
     await sqlp(sql, SqlString.format('INSERT INTO service values (NULL, ?, ?, 1, ?, NOW(), ?, 0, ?)', [page, pagedata['owner'], nick, ip, JSON.stringify(a)]))
 
     var jsonpagedata = JSON.parse(pagedata['pagedata'])
     // 메일 알림
+    var sendgrid = require('../../libs/sendgrid')
+    if(typeof email != "undefined") {
+      sendgrid.send({
+        from: 'Baw Service <services@baws.kr>',
+        to: email,
+        templateId: server_settings.sendgrid_request_complete_template,
+        dynamic_template_data: {
+          header: "후원이 성공적으로 신청되었습니다.",
+          nickname: nick,
+        	svname: JSON.parse(ownerdata['userdata'])['svname']+"서버",
+        	action: "후원"
+        },
+      })
+    }
+
     if(jsonpagedata['mail_ok'] == 1) {
-      var sendgrid = require('../../libs/sendgrid')
       sendgrid.send({
         from: 'Baw Service <services@baws.kr>',
         to: ownerdata['mail'],
