@@ -38,7 +38,7 @@ img.img {
 	max-width: 100%;
 	height: auto;
 }
-i.icon {
-  /* font-family: 'Font Awesome 5 Pro'; */
-  /* font-weight: normal; */
+
+input[type="password"] {
+  font-family: Arial !important;
 }
