@@ -61,7 +61,7 @@ module.exports = async (req, res) => {
       if(rows.length == 0) {
         return res.send('<script>$.pjax({url: "/secuity/allow_katalk", container: "#contents"})</script>')
       }
-      res.render('manage/edit', { data, row, options })
+      res.render('manage/edit', { data, rows, options })
 
     } else if(service == "Telegram") {
       var data = {"name": "Telegram 알림"}
@@ -76,7 +76,7 @@ module.exports = async (req, res) => {
         await sqlp(sql, SqlString.format('INSERT INTO telegram values (?, "")', [req.user.id]))
         var rows = await sqlp(sql, SqlString.format("SELECT * FROM telegram WHERE id=?", [req.user.id]))
       }
-      res.render('manage/edit', { data, row, options })
+      res.render('manage/edit', { data, rows, options })
 
     } else if(service == "Custom") {
       var data = { "name": "커스텀 도메인" }
