@@ -2,20 +2,16 @@
 var Sqreen = require('sqreen');
 var express = require('express')
 var http = require('http');
-var https = require('https');
+var https = require('spdy');
 var tls = require('tls');
 var fs = require('fs');
 var server_settings = require('./config/server_settings');
-var sql = require('./config/dbtool');
-var sqlp = require('./libs/sql-promise');
-var sendactionmail = require('./libs/sendactionmail');
 var bodyParser = require('body-parser');
 var app = express();
 var cookieSession = require('cookie-session')
 var session_config = require('./config/session');
 var oauth_info = require('./config/oauth_info');
 var allow_ips = require('./config/allow_ips');
-var SqlString = require('sqlstring');
 var compression = require('compression')
 var RateLimit = require('express-rate-limit');
 var passport = require('passport');
@@ -76,7 +72,25 @@ app.use('/public/fontawesomepro', express.static('node_modules/@fortawesome/font
 // *페이지 라우터* //
 // 메인
 app.all('/', require('./routes/index'));
-app.all('/manifest.json', (req, res) => res.json({"short_name": "Baw Service", "name": "Baw Service", "icons": [{ "src": "/public/img/favicon.jpg", "type": "image/jpg", "sizes": "64x64" }], "start_url": "/", "gcm_sender_id": "103953800507"}))
+app.all('/manifest.json', (req, res) => res.json({
+  short_name: "Baw Service",
+  name: "Baw Service Console",
+  icons: [{
+    src: "/public/img/favicon.jpg",
+    type: "image/jpg",
+    sizes: "64x64"
+  },
+  {
+    src: "/public/img/icon.png",
+    type: "image/png",
+    sizes: "512x512"
+  }],
+  start_url: "/",
+  gcm_sender_id: "103953800507",
+  display: "standalone",
+  theme_color: "#c4daff",
+  background_color: "#ffffff"
+}))
 app.all('/firebase_init.js', (req, res) => res.type("js").send(`firebase.initializeApp({'messagingSenderId': '`+server_settings.firebase_SenderID+`'});`))
 app.all('/firebase-messaging-sw.js', (req, res) => res.sendFile("./public/firebase-messaging-sw.js", { root: __dirname }))
 app.all('/UnsupportedBrowser', (req, res) => res.render('./UnsupportedBrowser') )
