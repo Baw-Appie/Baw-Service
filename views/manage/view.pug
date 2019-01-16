@@ -43,10 +43,12 @@ block contents
         - var jsondata = JSON.parse(rows[i]["extradata"])
         each li, ii in list
           - if(json.indexOf(li) != -1)
-            | #{korean[ii]}: #{jsondata[li]}
+            - var value = jsondata[li]
           - else 
-            | #{korean[ii]}: #{rows[i][li]}
-          br
+            - var value = rows[i][li]
+          if(typeof value != "undefined" && value != "없음" && value != "")
+            | #{korean[ii]}: #{value}
+            br
         br
         .ui.buttons.primary
           .ui.button.icon.labeled.okay1
