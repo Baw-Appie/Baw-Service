@@ -13,9 +13,9 @@ module.exports = async (req, res) => {
           korean: "일반",
           description: "계정 일반 설정",
           text: [
-            { name: "id", korean: "아이디", disabled: true },
+            { name: "id", korean: "아이디", help: "고객센터에서 수정이 가능합니다.", disabled: true },
             { name: "svname", korean: "서버 이름" },
-            { name: "mail", korean: "메일", disabled: true },
+            { name: "mail", korean: "메일", help: "고객센터에서 수정이 가능합니다.", disabled: true },
             { name: "ninfo", korean: "계좌 정보" }
           ]
         },

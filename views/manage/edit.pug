@@ -103,10 +103,9 @@ block contents
               - } else {
                 - var vdata = pagedata[text.name]
               - }
-              if text.disabled == true
-                input(type='text', name=text.name, placeholder=text.korean, value!=vdata, disabled)
-              else
-                input(type='text', name=text.name, placeholder=text.korean, value!=vdata)
+              input(type='text', name=text.name, placeholder=text.korean, value!=vdata, disabled=text.disabled == true)
+              if typeof text.help != "undefined"
+                small=text.help
         if group.password
           each password, i in group.password
             .field
