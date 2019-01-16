@@ -9,15 +9,14 @@ function setNav() {
   $("a.sidebar_link").removeClass('active');
   if(path == "/"){
     $(".home_button").addClass('active');
-  }
-  if(path.indexOf("manage") != -1){
+  } else if(path.indexOf("manage") != -1){
     $(".manage_button").addClass('active');
-  }
-  if(path.indexOf("API") != -1){
+  } else if(path.indexOf("API") != -1){
     $(".api_button").addClass('active');
-  }
-  if(path.indexOf("contact") != -1){
+  } else if(path.indexOf("contact") != -1){
     $(".contact_button").addClass('active');
+  } else if(path.indexOf("Tools") != -1){
+    $(".tools_button").addClass('active');
   }
 }
 loadSemantic();

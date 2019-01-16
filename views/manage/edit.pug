@@ -120,7 +120,7 @@ block contents
               - } else {
                 - var vdata = pagedata[textarea.name]
               - }
-                textarea.ckeditor(name=textarea.name, placeholder=textarea.korean, rows=5)
+                textarea(name=textarea.name, placeholder=textarea.korean, rows=5, class=typeof textarea.editor != "undefined" ? "ckeditor" : undefined)
                   if vdata != ""
                     | !{vdata}
               

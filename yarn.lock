@@ -418,6 +418,10 @@ ascli@~1:
     colour "~0.7.1"
     optjs "~3.2.2"
 
+asn1@0.2.3:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/asn1/-/asn1-0.2.3.tgz#dac8787713c9966849fc8180777ebe9c1ddf3b86"
+
 asn1@~0.2.3:
   version "0.2.4"
   resolved "https://registry.yarnpkg.com/asn1/-/asn1-0.2.4.tgz#8d2475dfab553bb33e77b54e59e880bb8ce23136"
@@ -2635,6 +2639,10 @@ lodash.without@~4.4.0:
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/lodash.without/-/lodash.without-4.4.0.tgz#3cd4574a00b67bae373a94b748772640507b7aac"
 
+lodash@3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-3.3.0.tgz#011ce52d01b14e60eaeea76acb9b8ba42c70581b"
+
 lodash@4.17.10:
   version "4.17.10"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.10.tgz#1b7793cf7259ea38fb3661d4d38b3260af8ae4e7"
@@ -3014,6 +3022,13 @@ node-pre-gyp@^0.12.0:
     rimraf "^2.6.1"
     semver "^5.3.0"
     tar "^4"
+
+node-rsa@^0.2.23:
+  version "0.2.30"
+  resolved "https://registry.yarnpkg.com/node-rsa/-/node-rsa-0.2.30.tgz#8912e2c3b1b64cce6ca783cab1af282b300adee6"
+  dependencies:
+    asn1 "0.2.3"
+    lodash "3.3.0"
 
 noop-logger@^0.1.1:
   version "0.1.1"
@@ -5093,6 +5108,12 @@ url-parse-lax@^1.0.0:
   dependencies:
     prepend-http "^1.0.1"
 
+ursa-purejs@0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/ursa-purejs/-/ursa-purejs-0.0.3.tgz#8d25949858f343b83984ac695698b2d91fc7fa4c"
+  dependencies:
+    node-rsa "^0.2.23"
+
 useragent@^2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/useragent/-/useragent-2.3.0.tgz#217f943ad540cb2128658ab23fc960f6a88c9972"
@@ -5162,6 +5183,12 @@ voc@:
 void-elements@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/void-elements/-/void-elements-2.0.1.tgz#c066afb582bb1cb4128d60ea92392e94d5e9dbec"
+
+votifier-send@^0.1.7:
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/votifier-send/-/votifier-send-0.1.7.tgz#c5330824c5e1283fc715a81bc1dfc921625539ef"
+  dependencies:
+    ursa-purejs "0.0.3"
 
 vscode-languageserver-types@^3.5.0:
   version "3.14.0"

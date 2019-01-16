@@ -1,0 +1,16 @@
+extends ../includes/layout
+block contents
+  .ui.container
+    table.ui.celled.table
+      thead
+        th(width="15%") 종류
+        th(width="3%") 사용
+      tbody
+        tr
+          td Votifier 테스트
+          td
+            a.ui.button.olive(href="/Tools/Votifier") 사용
+        tr
+          td 서버 상태 확인
+          td
+            a.ui.button.olive(href="/Tools/Status") 사용

@@ -131,6 +131,11 @@ app.get('/manage/:service/data_manager', require('./routes/manage/data_manager')
 app.post('/manage/:service/data_delete', require('./routes/manage/data_delete'))
 app.post('/manage/:service/lookup', require('./routes/manage/lookup'))
 
+// Tools
+app.all('/tools', (req, res) => res.render('tools/index'))
+app.get('/tools/:tool', require('./routes/tools/use'))
+app.post('/tools/:tool', require('./routes/tools/use_complete'))
+
 // API 관리
 app.all('/api', require('./routes/api/index'))
 app.post('/api/:service/edit', require('./routes/api/edit_complete'))
