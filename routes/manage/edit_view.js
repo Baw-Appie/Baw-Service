@@ -13,7 +13,7 @@ module.exports = async (req, res) => {
           "general": {
             korean: "일반",
             description: "사이트 일반 설정",
-            select: [{ name: "lookup_ok", korean: "후원 기록 조회 허용" }],
+            select: [{ name: "lookup_ok", korean: "후원 기록 조회 허용" }, { name: "email_reg", korean: "사용자 메일 알림 허용" }],
             text: [
               { name: "bouns", korean: "후원 보너스" },
               { name: "youtube", korean: "Youtube Video ID" },
@@ -36,7 +36,7 @@ module.exports = async (req, res) => {
             text: [{ name: "api_cmd", korean: "API 플러그인 명령어" }]
           }
         },
-        "savetojson": ["mail_ok", "sms_ok", "kakao_ok", "tg_ok", "browser_ok", "lookup_ok", "bouns", "api_cmd", "youtube", "disabled", "background"]
+        "savetojson": ["mail_ok", "sms_ok", "kakao_ok", "tg_ok", "browser_ok", "lookup_ok", "email_reg", "bouns", "api_cmd", "youtube", "disabled", "background"]
       }
       var help = "openlink:https://baw-service.tistory.com/40"
       var rows = await sqlp(sql, SqlString.format("SELECT * FROM pages WHERE service=1 AND owner=?", [req.user.id]))
