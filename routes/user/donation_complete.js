@@ -154,7 +154,8 @@ module.exports = async (req, res) => {
           var formdata = {
             api_key: server_settings.katalk_api_key,
             template_code: server_settings.katalk_donation_template,
-            variable: JSON.parse(ownerdata['userdata'])['svname']+"서버|"+Radio+"|"+Radio+"|"+nick+"|"+date+"|"+bal+"|"+date,
+            variable: JSON.parse(ownerdata['userdata'])['svname']+"서버|"+Radio+"|"+Radio+"|"+nick+"|"+date+"|"+bal+"|https://baws.kr/contact",
+            // variable: JSON.parse(ownerdata['userdata'])['svname']+"서버|"+Radio+"|"+Radio+"|"+nick+"|"+date+"|"+bal+"|"+date,
             callback: server_settings.katalk_caller,
             dstaddr: katalk['phone'],
             next_type: 0,

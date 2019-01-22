@@ -17,7 +17,8 @@ module.exports = function(id, phone, ip){
         var formdata = {
           api_key: server_settings.katalk_api_key,
           template_code: server_settings.katalk_2fa_template,
-          variable: code+"|"+ip+"|알 수 없음|사용자 인증|Baw Service",
+          variable: "고객|부가 서비스 가입|"+code+"|Baw Service",
+          // variable: code+"|"+ip+"|알 수 없음|사용자 인증|Baw Service",
           callback: server_settings.katalk_caller,
           dstaddr: phone,
           next_type: 0,
