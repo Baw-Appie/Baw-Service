@@ -38,6 +38,9 @@ module.exports = async (req, res) => {
         },
         "savetojson": ["mail_ok", "sms_ok", "kakao_ok", "tg_ok", "browser_ok", "lookup_ok", "email_reg", "bouns", "api_cmd", "youtube", "disabled", "background"]
       }
+      if((await sqlp(sql, SqlString.format("SELECT * FROM service WHERE service=1 AND owner=?", [req.user.id]))).length == 0) {
+        options.delete = "페이지 삭제;/manage/1/data_delete?page=true"
+      }
       var help = "openlink:https://baw-service.tistory.com/40"
       var rows = await sqlp(sql, SqlString.format("SELECT * FROM pages WHERE service=1 AND owner=?", [req.user.id]))
       if (rows.length == 0) {
@@ -71,6 +74,9 @@ module.exports = async (req, res) => {
         },
         "savetojson": ["mail_ok", "auto_process", "api_cmd"]
       }
+      if((await sqlp(sql, SqlString.format("SELECT * FROM service WHERE service=2 AND owner=?", [req.user.id]))).length == 0) {
+        options.delete = "페이지 삭제;/manage/2/data_delete?page=true"
+      }
       var help = "openlink:https://baw-service.tistory.com/41"
       var rows = await sqlp(sql, SqlString.format("SELECT * FROM pages WHERE service=2 AND owner=?", [req.user.id]))
       if (rows.length == 0) {
@@ -95,7 +101,8 @@ module.exports = async (req, res) => {
             textarea: [{ name: "notice", korean: "공지사항", editor: true }]
           }
         },
-        "savetojson": ["sv_ip", "sv_port"]
+        "savetojson": ["sv_ip", "sv_port"],
+        delete: "페이지 삭제;/manage/3/data_delete?page=true"
       }
       var rows = await sqlp(sql, SqlString.format("SELECT * FROM pages WHERE service=3 AND owner=?", [req.user.id]))
       if (rows.length == 0) {

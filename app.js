@@ -129,7 +129,7 @@ app.get('/manage/:service/data_export_excel', require('./routes/manage/data_expo
 app.post('/manage/:service/data_add', require('./routes/manage/data_add'))
 app.get('/manage/:service/data_manager', require('./routes/manage/data_manager'))
 var DeleteLimiter = new RateLimit({ windowMs: 20*60*1000, delayMs: 0, max: 10,  message: "너무 많은 삭제 요청이 감지되었습니다. 잠시 후에 다시 시도하세요." });
-app.post('/manage/:service/data_delete', DeleteLimiter, require('./routes/manage/data_delete'))
+app.all('/manage/:service/data_delete', DeleteLimiter, require('./routes/manage/data_delete'))
 app.post('/manage/:service/lookup', require('./routes/manage/lookup'))
 
 // Tools

@@ -158,4 +158,9 @@ block contents
           button.ui.icon.button.icon.labeled(type="button")
             i.icon.fas.fa-question
             | 도움말
+    if(options.delete)
+      -var msg = options.delete.split(";")
+      button.ui.icon.button.negative.icon.labeled(type="button" onclick=`location.href='${msg[1]}'`)
+        i.icon.far.fa-trash-alt
+        | #{msg[0]}
         
