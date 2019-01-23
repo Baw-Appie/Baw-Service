@@ -16,9 +16,6 @@ block extscript
           });
       });
     }
-    function captchaSubmit3() {
-      $("#data_delete_form").submit();
-    }
     $(".recent_process").hide();
     $(".data_list").hide();
     $(".data_delete").hide();
@@ -242,7 +239,7 @@ block contents
         h2 #{data.name} 데이터 관리자
       br
       form(id="data_delete_form", method="post", action=`https://${hostname}/manage/${data.service}/data_delete`)
-        button.ui.button.negative.icon.labeled.g-recaptcha#data_delete_submit(data-callback='captchaSubmit3')
+        button.ui.button.negative.icon.labeled#data_delete_submit
           i.icon.far.fa-trash
           | #{data.name} 데이터 모두 삭제
       br
