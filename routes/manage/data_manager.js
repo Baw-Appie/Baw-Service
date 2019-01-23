@@ -30,7 +30,7 @@ module.exports = async (req, res) => {
       var list = ["nick", "ip", "date"]
       var korean = ["닉네임", "IP", "날짜"]
 
-      var page = await sqlp(sql, SqlString.format("SELECT * FROM pages WHERE service=1 AND owner=?", [req.user.id]))
+      var page = await sqlp(sql, SqlString.format("SELECT * FROM pages WHERE service=2 AND owner=?", [req.user.id]))
       if(page.length == 0) {
         req.session.error = '정품 인증 페이지가 존재하지 않습니다. 먼저 페이지를 생성해주세요!'
         return res.redirect('/manage')
