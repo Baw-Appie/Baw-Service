@@ -20,7 +20,7 @@ module.exports = async (req, res) => {
               { name: "background", korean: "백그라운드 이미지 URL" }
             ],
             textarea: [{ name: "notice", korean: "공지사항", editor: true }],
-            custom_select: [{ name: "theme", korean: "테마 (베타)", option_data: ["semanticui", "bootstrap3", "uikit", "bootstrap4", "material"], option_korean: ["Semantic UI", "Bootstrap3", "UIKit", "Bootstrap4", "Material (Beta)"] }],
+            custom_select: [{ name: "theme", korean: "테마 (베타)", option_data: ["semanticui", "bootstrap3", "uikit"], option_korean: ["Semantic UI", "Bootstrap3", "UIKit"] }],
             custom_checkbox: [{ name: "disabled", korean: "사용하지 않을 후원 방법", option_data: ["문화상품권1", "도서문화상품권", "해피머니", "틴캐시", "계좌이체"], option_korean: ["문화상품권", "도서 문화상품권", "해피머니", "틴캐시", "계좌이체"] }]
           },
           "integration": {
