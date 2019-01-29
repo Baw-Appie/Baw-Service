@@ -1,11 +1,7 @@
 .ui.large.menu.fixed
   a.item(href="/")
-    img(src='/public/img/favicon.jpg', alt="Logo")
+    img(src='/public/img/icon.png', alt="Logo")
   .right.menu
-    .item.mobile.hidden
-      .ui.icon.input
-        input(type='text', placeholder='원하는것을 찾으세요...')
-        i.fal.fa-search.icon
     if(!user)
       .item.mobile.hidden
         a.ui.primary.button(href="/auth/register") Sign Up
