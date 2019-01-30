@@ -24,7 +24,7 @@ block contents
       .ui.message
         h3 후원 차트
         p
-          canvas#chart(height="100px")
+          canvas#chart(height="120px")
     .eight.wide.column
       .ui.message.column
         h3 Baw Service Blog 최신글
@@ -54,34 +54,39 @@ block contents
 
 block extscript
   script.
-    new Chart(
-      document.getElementById("chart"),
-      {
-        "type":"line",
-        "data":
-        {
-          "labels":
-          [
-            "2개월 전",
-            "1개월 전",
-            "이번달"
-          ],
-          "datasets":
-          [
-            {
-              "label":"후원 금액",
-              "data":
-              [
-                #{c3},
-                #{c2},
-                #{c1}
-              ],
-              "fill":false,
-              "borderColor":"rgb(75, 192, 192)",
-              "lineTension":0.1
-            }
-          ]
-        },
-        "options": {}
-      }
-    );
+    var data = {
+      "type":"line",
+      "data": {
+        "labels": [],
+        "datasets": [
+          {
+            "label":"후원 금액",
+            "data": [],
+            "fill":false,
+            "borderColor":"rgb(75, 192, 192)",
+            "lineTension":0.1
+          }
+        ]
+      },
+      "options": {}
+    }
+   var i = 30
+   var r = []
+   while(i >= 0) {
+    r.push(0)
+    data.data.labels.push(moment().subtract(i, 'days').format("M월 D일"))
+    i--
+   }
+   var c = JSON.parse(`!{c1}`)
+   console.log(c)
+   var m = c.length-1
+   var i = 0
+   const sortedArray  = c.sort((a,b) => new Moment(a.date).format('YYYYMMDD') - new Moment(b.date).format('YYYYMMDD'))
+   console.log(sortedArray)
+   while(i <= m) {
+    r[30+moment(sortedArray[i].date).diff(moment(), 'days')-1] += Number(sortedArray[i].extradata.bal.replace(/,/gi, "")) 
+    i++
+   }
+   data.data.datasets[0].data = r
+   
+   new Chart(document.getElementById("chart"), data);
