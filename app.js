@@ -158,12 +158,6 @@ app.get('/favicon.ico', (req, res) => res.download('./public/img/favicon.ico'))
 
 // *인증 * //
 var LoginLimiter = new RateLimit({ windowMs: 20*60*1000, delayMs: 0, max: 10,  message: "너무 많은 로그인 시도가 감지되었습니다. 잠시 후 다시 시도하세요." });
-app.get('/auth/logout', (req, res) => {
-  req.logout()
-  res.redirect('/')
-})
-app.get('/auth/login', (req, res) => res.render('login'))
-app.post('/auth/login', LoginLimiter, passport.authenticate('local', {failureRedirect: '/auth/login', failureFlash: false}), (req, res) => res.redirect('/'))
 app.get('/auth/recovery', (req, res) => res.render('auth/recovery'))
 app.post('/auth/recovery', LoginLimiter, require('./routes/auth/recovery'))
 app.post('/auth/setPassword', require('./routes/auth/setPassword'))
@@ -171,10 +165,30 @@ app.get('/auth/register', (req, res) => res.render('auth/register'))
 app.post('/auth/exist/:type', require('./routes/auth/exist'))
 app.post('/auth/register', require('./routes/auth/register'))
 app.get('/auth/check-email', require('./routes/auth/check-email'))
-app.all('/auth/google', passport.authenticate('google', { scope: [ 'email' ] }))
-app.all( '/auth/google/callback', passport.authenticate( 'google', { successRedirect: '/', failureRedirect: '/auth/login'}))
-app.all('/auth/kakao', passport.authenticate('kakao',{ failureRedirect: '/auth/login' }))
-app.all( '/auth/kakao/callback', passport.authenticate( 'kakao', { successRedirect: '/', failureRedirect: '/auth/login' }))
+
+app.get('/auth/logout', (req, res) => {
+  req.logout()
+  res.redirect('/')
+})
+app.get('/auth/login', (req, res) => res.render('login'))
+app.get('/auth/kakao', passport.authenticate('kakao',{ failureRedirect: '/auth/login' }))
+app.get('/auth/google', passport.authenticate('google', { scope: [ 'email' ] }))
+app.all('/auth/:type/callback', (req, res, next) => {
+  var {type} = req.params
+  if(type == "login") type = "local"
+  if(type == "local" || type == "kakao" || type == "google") {
+    passport.authenticate(type, (err, user, info) => {
+      if(err) return res.redirect('/auth/login')
+      req.logIn(user, (err) => {
+        if(err) return res.redirect('/auth/login')
+        if(req.session.redirect.indexOf(server_settings.hostname) != -1) { delete req.session.redirect; return res.redirect(req.session.redirect) }
+        return res.redirect('/');
+      })
+    })(req, res, next)
+  } else {
+    res.redirect('/auth/login')
+  }
+})
 // *인증 * //
 // *페이지 라우터* //
 

@@ -2,7 +2,7 @@ extends ./includes/layout
 block contents
   h3 로그인
   p Baw Service에 로그인하려면 아래 정보를 입력해주세요.
-  form(action="/auth/login" method="post")
+  form(action="/auth/login/callback" method="post")
     .ui.form.error
       .field
         label ID
