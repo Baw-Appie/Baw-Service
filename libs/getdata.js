@@ -34,7 +34,7 @@ module.exports = async (req) => {
     var a1_data = 0
     var a2_data = 0
     var a3_data = 0
-    var c1_data = 0
+    var c1_data = '[]'
   }
   if((await sqlp(sql, SqlString.format('SELECT * from pages WHERE service=2 AND owner=?', [req.user.id]))).length == 1){
     var a4_data = (await sqlp(sql, SqlString.format('SELECT * from service WHERE service=2 AND owner=? AND status=1', [req.user.id]))).length
