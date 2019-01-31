@@ -1,0 +1,11 @@
+extends ../includes/layout
+block contents
+  h3 #{data['name']}(이)가 내 계정에 접근하는것을 허용할까요?
+  p #{data['name']}(은)는 다음과 같은 권한을 얻게됩니다. 
+  .ui.inverted.divider
+  h4
+    i.far.fa-user.icon
+    |          내 계정 정보에 엑세스
+  div(style="float: right; display: inline")
+    a.ui.red.button(href=redirect+"?success=false") 거부
+    a.ui.teal.button(onclick=`location.href='/auth/oauth?client_id=${client_id}&redirect=${redirect}&approved=true'`) 승인

@@ -157,7 +157,8 @@ app.post('/user/id_check', require('./routes/user/id_check_complete'))
 app.get('/favicon.ico', (req, res) => res.download('./public/img/favicon.ico'))
 
 // *인증 * //
-var LoginLimiter = new RateLimit({ windowMs: 20*60*1000, delayMs: 0, max: 10,  message: "너무 많은 로그인 시도가 감지되었습니다. 잠시 후 다시 시도하세요." });
+var LoginLimiter = new RateLimit({ windowMs: 20*60*1000, delayMs: 0, max: 25,  message: "너무 많은 로그인 시도가 감지되었습니다. 잠시 후 다시 시도하세요." });
+var APILimiter = new RateLimit({ windowMs: 10*60*1000, delayMs: 0, max: 1000,  message: "너무 많은 시도가 감지되었습니다. 잠시 후 다시 시도하세요." });
 app.get('/auth/recovery', (req, res) => res.render('auth/recovery'))
 app.post('/auth/recovery', LoginLimiter, require('./routes/auth/recovery'))
 app.post('/auth/setPassword', require('./routes/auth/setPassword'))
@@ -165,6 +166,8 @@ app.get('/auth/register', (req, res) => res.render('auth/register'))
 app.post('/auth/exist/:type', require('./routes/auth/exist'))
 app.post('/auth/register', require('./routes/auth/register'))
 app.get('/auth/check-email', require('./routes/auth/check-email'))
+app.get('/auth/oauth', LoginLimiter, require('./routes/auth/oauth'))
+app.post('/auth/oauth/verify', APILimiter, require('./routes/auth/oauth_verify'))
 
 app.get('/auth/logout', (req, res) => {
   req.logout()
@@ -181,7 +184,7 @@ app.all('/auth/:type/callback', (req, res, next) => {
       if(err) return res.redirect('/auth/login')
       req.logIn(user, (err) => {
         if(err) return res.redirect('/auth/login')
-        if(req.session.redirect.indexOf(server_settings.hostname) != -1) { delete req.session.redirect; return res.redirect(req.session.redirect) }
+        if(req.session.redirect) { res.redirect(req.session.redirect); return delete req.session.redirect; }
         return res.redirect('/');
       })
     })(req, res, next)

@@ -1,0 +1,23 @@
+extends ../includes/layout
+block contents
+  h3 Baw Service 계정으로 #{data['name']}에 로그인하세요.
+  p #{data['name']}(은)는 Baw Service 비밀번호에 접근하지 못합니다.
+  form(action="/auth/login/callback" method="post")
+    .ui.form.error
+      .field
+        label ID
+        input(type='text', placeholder='Your ID', name="id")
+      .field
+        label Password
+        input(type='password', placeholder='Your Password', name="pass")
+      .ui.buttons(style="float: right")
+        a.ui.button(href="/auth/register") Register
+        .or
+        button(type="submit").ui.button.primary Sign In
+  button.ui.circular.google.plus.icon.button(onclick="location.href=('/auth/google')")
+    i.fab.fa-google
+  button.ui.circular.button.icon.yellow(onclick="location.href=('/auth/kakao')")
+    i.fas.fa-comment
+  br
+  br
+  a(href="/auth/recovery") 로그인에 문제가 있나요?
