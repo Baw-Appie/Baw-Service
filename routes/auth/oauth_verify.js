@@ -15,6 +15,8 @@ module.exports = async (req, res) => {
   if(data.length != 1) {
     return res.json({ success: false, message: "토큰이 잘못되었습니다." })
   }
+  var finaldata = (await sqlp(sql, SqlString.format("SELECT id, mail, status FROM users WHERE id=?", [data[0].id])))[0]
+  finaldata['svname'] = JSON.parse((await sqlp(sql, SqlString.format("SELECT userdata FROM users WHERE id=?", [data[0].id])))[0]['userdata'])['svname']
 
-  return res.json({ success: true, data: (await sqlp(sql, SqlString.format("SELECT id, mail, status FROM users WHERE id=?", [data[0].id])))[0] })
+  return res.json({ success: true, data: finaldata })
 }
