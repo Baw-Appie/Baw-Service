@@ -81,7 +81,7 @@ block extscript
    console.log(c)
    var m = c.length-1
    var i = 0
-   const sortedArray  = c.sort((a,b) => new Moment(a.date).format('YYYYMMDD') - new Moment(b.date).format('YYYYMMDD'))
+   var sortedArray  = c.sort((a,b) => new Moment(a.date).format('YYYYMMDD') - new Moment(b.date).format('YYYYMMDD'))
    console.log(sortedArray)
    while(i <= m) {
     r[30+moment(sortedArray[i].date).diff(moment(), 'days')-1] += Number(sortedArray[i].extradata.bal.replace(/,/gi, "")) 
