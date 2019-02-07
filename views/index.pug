@@ -1,5 +1,16 @@
 extends ./includes/layout
 block contents
+  if(n1 == true)
+    .ui.info.message#AutoCharge(style="display: none")
+      i.close.icon
+      .header Baw Service Auto Charge를 사용할 수 있습니다.
+      div(style="float: right; display: inline")
+        a.ui.button(onclick="localStorage.setItem('AutoChargeHide', true); $('#AutoCharge').hide()") 표시 안함
+        a.ui.button(href="/contact") 문의하기
+      p(style="display: inline")
+        | Baw Service Auto Charge를 설정하여 문화상품권 자동 충전을 설정할 수 있습니다.
+        br
+        | 아직 비공개 테스트중이며, 활성화려면 고객센터에 문의해야 합니다.
   .ui.grid.four.column
     .row.doubling.four.column 
       .column
@@ -53,6 +64,11 @@ block contents
   br
 
 block extscript
+  if(n1 == true)
+    script.
+      if(localStorage.getItem("AutoChargeHide") == null) {
+        $("#AutoCharge").show()
+      }
   script.
     var data = {
       "type":"line",
