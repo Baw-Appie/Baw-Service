@@ -184,7 +184,7 @@ app.all('/auth/:type/callback', (req, res, next) => {
       if(err) return res.redirect('/auth/login')
       req.logIn(user, (err) => {
         if(err) return res.redirect('/auth/login')
-        if(req.session.redirect) { res.redirect(req.session.redirect); return delete req.session.redirect; }
+        if(req.session.redirect) { res.redirect(req.session.redirect); delete req.session.redirect; return; }
         return res.redirect('/');
       })
     })(req, res, next)
