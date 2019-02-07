@@ -6,6 +6,7 @@ var request = require('request');
 var rp = require('request-promise');
 var vali = require('validator');
 var crypto = require('crypto');
+var dataWorker = require('../../libs/dataWorker')
 
 function Recaptcha(req){
   return new Promise(function (resolve, reject) {
@@ -99,9 +100,22 @@ module.exports = async (req, res) => {
     if(typeof email != "undefined") {
       a.email = email
     }
-    await sqlp(sql, SqlString.format('INSERT INTO service values (NULL, ?, ?, 1, ?, NOW(), ?, 0, ?)', [page, pagedata['owner'], nick, ip, JSON.stringify(a)]))
-
+    
+    var insert = await sqlp(sql, SqlString.format('INSERT INTO service values (NULL, ?, ?, 1, ?, NOW(), ?, 0, ?)', [page, pagedata['owner'], nick, ip, JSON.stringify(a)]))
     var jsonpagedata = JSON.parse(pagedata['pagedata'])
+    // 자동 충전
+    if(Combo == "문화상품권") {
+      var cland_req = await sqlp(sql, SqlString.format("SELECT * FROM AutoCharge WHERE id=?", [pagedata['owner']]))
+      if(cland_req.length == 1) {
+        var cland = cland_req
+        var charge = await rp.post({ url: server_settings.autocharge_server, form: { p1: pin1, p2: pin2, p3: pin3, p4: pin4, id: cland['cland_id'], pw: cland['cland_pass'], c: server_settings.autocharge_key }})
+        if(JSON.parse(charge).success == true) {
+          await dataWorker(pagedata['owner'], insert.insertId, 1, 1, undefined)
+        }
+      }
+    }
+
+
     // 메일 알림
     var sendgrid = require('../../libs/sendgrid')
     if(typeof email != "undefined") {
