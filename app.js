@@ -60,7 +60,7 @@ app.use((req,res,next) => {
   res.locals.browser = require('useragent').lookup(req.headers['user-agent']).family
   next()
 })
-app.use(require('helmet')({ frameguard: false }))
+app.use(require('helmet')({ frameguard: false, nosniff: false }))
 app.use(require('./libs/logging'))
 app.use(require('./libs/hostname'))
 app.use(require('./libs/custom_domains'))
