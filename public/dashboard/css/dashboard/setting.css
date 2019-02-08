@@ -1,7 +1,7 @@
 /* enable nanumgothic */
-@import url(//cdn.jsdelivr.net/gh/hiun/NanumSquare@master/nanumsquare.css);
+@import url(//cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css);
 * {
-  font-family: 'Nanum Square';
+  font-family: 'NanumSquare';
 }
 
 /* visible */
@@ -31,7 +31,7 @@
 }
 
 .ui.button {
-  font-family: 'Nanum Square';
+  font-family: 'NanumSquare';
   /* font-weight: normal; */
 }
 img.img {
