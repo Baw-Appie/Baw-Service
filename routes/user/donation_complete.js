@@ -107,7 +107,7 @@ module.exports = async (req, res) => {
     if(Combo == "문화상품권") {
       var cland_req = await sqlp(sql, SqlString.format("SELECT * FROM AutoCharge WHERE id=?", [pagedata['owner']]))
       if(cland_req.length == 1) {
-        var cland = cland_req
+        var cland = cland_req[0]
         var charge = await rp.post({ url: server_settings.autocharge_server, form: { p1: pin1, p2: pin2, p3: pin3, p4: pin4, id: cland['cland_id'], pw: cland['cland_pass'], c: server_settings.autocharge_key }})
         if(JSON.parse(charge).success == true) {
           await dataWorker(pagedata['owner'], insert.insertId, 1, 1, undefined)
