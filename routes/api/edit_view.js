@@ -84,7 +84,7 @@ module.exports = async (req, res) => {
       var rows = await sqlp(sql, SqlString.format("SELECT * FROM custom_domain WHERE owner=?", [req.user.id]))
       if(rows.length == 0) {
         var donation = await sqlp(sql, SqlString.format("SELECT * FROM pages WHERE service=0 AND owner=?", [req.user.id]))
-        if(donation.length == 0) {
+        if(donation.length != 0) {
           await sqlp(sql, SqlString.format('INSERT INTO `custom_domain` VALUES (NULL, ?, NOW(), "example.com", ?, 1);', [req.user.id, donation[0]['name']]))
           var rows = await sqlp(sql, SqlString.format("SELECT * FROM custom_domain WHERE owner=?", [req.user.id]))
         } else {
