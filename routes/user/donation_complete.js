@@ -111,7 +111,7 @@ module.exports = async (req, res) => {
         var charge = await rp.post({ url: server_settings.autocharge_server, form: { p1: pin1, p2: pin2, p3: pin3, p4: pin4, id: cland['cland_id'], pw: cland['cland_pass'], c: server_settings.autocharge_key }})
         var charge = JSON.parse(charge)
         if(charge.success == true) {
-          await sqlp(sql, SqlString.format("UPDATE service SET extradata=json_set(extradata, '$.bal', ?) WHERE num=?", [charge.chargeamount.replace(/\B(?=(\d{3})+(?!\d))/g, ','), insert.insertId]))
+          await sqlp(sql, SqlString.format("UPDATE service SET extradata=json_set(extradata, '$.bal', ?) WHERE num=?", [charge.chargeamount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','), insert.insertId]))
           await dataWorker(pagedata['owner'], insert.insertId, 1, 1, undefined)
         }
       }
