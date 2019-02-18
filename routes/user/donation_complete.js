@@ -100,7 +100,7 @@ module.exports = async (req, res) => {
     if(typeof email != "undefined") {
       a.email = email
     }
-    
+
     var insert = await sqlp(sql, SqlString.format('INSERT INTO service values (NULL, ?, ?, 1, ?, NOW(), ?, 0, ?)', [page, pagedata['owner'], nick, ip, JSON.stringify(a)]))
     var jsonpagedata = JSON.parse(pagedata['pagedata'])
     // 자동 충전
@@ -109,7 +109,9 @@ module.exports = async (req, res) => {
       if(cland_req.length == 1) {
         var cland = cland_req[0]
         var charge = await rp.post({ url: server_settings.autocharge_server, form: { p1: pin1, p2: pin2, p3: pin3, p4: pin4, id: cland['cland_id'], pw: cland['cland_pass'], c: server_settings.autocharge_key }})
-        if(JSON.parse(charge).success == true) {
+        var charge = JSON.parse(charge)
+        if(charge.success == true) {
+          await sqlp(sql, SqlString.format("UPDATE service SET extradata=json_set(extradata, '$.bal', ?) WHERE num=?", [charge.chargeamount.replace(/\B(?=(\d{3})+(?!\d))/g, ','), insert.insertId]))
           await dataWorker(pagedata['owner'], insert.insertId, 1, 1, undefined)
         }
       }
