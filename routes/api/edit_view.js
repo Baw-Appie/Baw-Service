@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
         savetojson: [],
         text: `<script>function randomString(){for(var n="0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz",t="",r=0;r<15;r++){var e=Math.floor(Math.random()*n.length);t+=n.substring(e,e+1)}return t}function input_Text(){document.getElementsByName("api_key")[0].value=randomString()}</script>
         <button class="ui button icon labeled negative" type="button" onclick="input_Text()"><i class="icon far fa-redo"></i> API 키  재설정</button>
-        <div class="ui buttons"><a target="_blank" href="https://links.rpgfarm.com/c"><button type="button" class="ui button">Socket형 API 플러그인 다운로드 (v1.0)</button></a><div class="or"></div><a target="_blank" href="https://links.rpgfarm.com/f"><button type="button" class="ui button">HTTP형 API 플러그인 다운로드 (v1.0)</button></a></div><br>`
+        <div class="ui buttons"><a target="_blank" href="https://links.rpgfarm.com/c"><button type="button" class="ui button">Socket형 API 플러그인 다운로드 (v1.0)</button></a><div class="or"></div><a target="_blank" href="https://links.rpgfarm.com/f"><button type="button" class="ui button">HTTP형 API 플러그인 다운로드 (v1.0.1)</button></a></div><br>`
       }
       var help = "openlink:https://baw-service.tistory.com/43"
 
