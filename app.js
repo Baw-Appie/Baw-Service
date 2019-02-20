@@ -145,7 +145,7 @@ app.post('/api/Browser/:type', require('./routes/api/Browser'))
 // API 요청 처리
 app.all(['/api/serveripcheck.php', '/API/GetServerIP'], (req,res) => res.send(server_settings.server_ip))
 app.all(['/api/versionchecker.php', '/API/GetAPIVersion'], (req,res) => res.send("1.0"))
-app.all(['/api/versioncheckerHTTP.php', '/API/GetHTTPAPIVersion'], (req,res) => res.send("1.0"))
+app.all(['/api/versioncheckerHTTP.php', '/API/GetHTTPAPIVersion'], (req,res) => res.send("1.0.1"))
 app.all(['/api/getlist.php', '/API/GetList'], require('./routes/api/getlist'))
 
 // 유저 활동 처리
