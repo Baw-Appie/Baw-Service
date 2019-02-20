@@ -21,17 +21,13 @@ function countdata(variable, option, regex, json){
 }
 
 module.exports = async (req) => {
-  var userdata = await sqlp(sql, SqlString.format("SELECT * FROM users WHERE id=?", [req.user.id]))
   if((await sqlp(sql, SqlString.format('SELECT * from pages WHERE service=1 AND owner=?', [req.user.id]))).length == 1){
     var a1_data = countdata(await sqlp(sql, SqlString.format('SELECT * from service WHERE service=1 AND owner=? AND status=1', [req.user.id])), 'bal', /,/gi, true)
     var a2_data = countdata(await sqlp(sql, SqlString.format('SELECT * from service WHERE service=1 AND owner=? AND status=1 AND date > DATE_ADD(now(), INTERVAL -1 month)', [req.user.id])), 'bal', /,/gi, true)
     var a3_data = (await sqlp(sql, SqlString.format('SELECT * from service WHERE service=1 AND owner=? AND status=2', [req.user.id]))).length
     var n1_req = await sqlp(sql, SqlString.format('SELECT * FROM AutoCharge WHERE id=?', [req.user.id]))
     if(n1_req.length == 0) {
-      var userdata = JSON.parse(userdata[0]['userdata'])
-      if(moment(userdata.regdate).isBefore(moment("2018-12-31"))) {
-        var n1_data = true
-      } else var n1_data = false
+      var n1_data = true
     } else var n1_data = false
     var c1_req = await sqlp(sql, SqlString.format('SELECT date, extradata from service WHERE service=1 AND owner=? AND status=1 AND `date` BETWEEN DATE_SUB(CURRENT_DATE, INTERVAL 30 DAY) AND CURDATE();', [req.user.id]))
     var c1_data = []
