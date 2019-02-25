@@ -87,7 +87,7 @@ block contents
                 - }
                 .field
                   .ui.checkbox
-                    if vdata.toLowerCase() == checkbox['option_data'][oo].toLowerCase()
+                    if vdata.toLowerCase().indexOf(checkbox['option_data'][oo].toLowerCase()) != -1
                       input(type='checkbox', name=checkbox.name, value=checkbox["option_data"][oo], checked)
                     else
                       input(type='checkbox', name=checkbox.name, value=checkbox["option_data"][oo])
