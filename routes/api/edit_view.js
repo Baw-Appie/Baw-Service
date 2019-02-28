@@ -83,7 +83,7 @@ module.exports = async (req, res) => {
 
       var rows = await sqlp(sql, SqlString.format("SELECT * FROM custom_domain WHERE owner=?", [req.user.id]))
       if(rows.length == 0) {
-        var donation = await sqlp(sql, SqlString.format("SELECT * FROM pages WHERE service=0 AND owner=?", [req.user.id]))
+        var donation = await sqlp(sql, SqlString.format("SELECT * FROM pages WHERE service=1 AND owner=?", [req.user.id]))
         if(donation.length != 0) {
           await sqlp(sql, SqlString.format('INSERT INTO `custom_domain` VALUES (NULL, ?, NOW(), "example.com", ?, 1);', [req.user.id, donation[0]['name']]))
           var rows = await sqlp(sql, SqlString.format("SELECT * FROM custom_domain WHERE owner=?", [req.user.id]))
@@ -95,7 +95,7 @@ module.exports = async (req, res) => {
       var options = {
         groups: { general: { korean: "일반", description: "외부서비스 통합 설정", text: [{ name: "domain", korean: "연결할 도메인" }] } },
         savetojson: [],
-        text: "연결 후 해당 도메인을 CNAME 레코드로 dev.rpgfarm.com에 연결하세요.<br>현재 연결 대상 사이트: https://baws.kr/" + rows[0]['go']
+        text: "연결 후 해당 도메인을 CNAME 레코드로 sv.baws.kr에 연결하세요.<br>현재 연결 대상 사이트: https://baws.kr/" + rows[0]['go']
       }
       res.render('manage/edit', { data, rows, options })
 
