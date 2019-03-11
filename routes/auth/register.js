@@ -5,6 +5,7 @@ var SqlString = require('sqlstring');
 var request = require('request');
 var vali = require('validator');
 var sqlp = require('../../libs/sql-promise');
+var bcrypt = require('bcrypt');
 
 function Recaptcha(req) {
   return new Promise(function (resolve, reject) {
@@ -62,7 +63,8 @@ module.exports = async (req, res) => {
       throw '이미 존재하는 아이디 또는 이메일입니다.'
     }
     var enc_mail = require('md5')(mail + session_config.secret)
-    var sql_Request = SqlString.format("INSERT INTO users SET id=?, mail=?, password=password(?), status=0, userdata=json_object('svname', ?, 'regdate', ?, 'ninfo', '', 'enc_mail', ?)", [id, mail, pass, svname, date, enc_mail])
+    var hash = await bcrypt.hash(pass, 10)
+    var sql_Request = SqlString.format("INSERT INTO users SET id=?, mail=?, password=?, status=0, userdata=json_object('svname', ?, 'regdate', ?, 'ninfo', '', 'enc_mail', ?)", [id, mail, hash, svname, date, enc_mail])
     try { await sqlp(sql, sql_Request) } catch(e) { throw ("요청에 실패했습니다. 좌측 메뉴의 버그 신고로 이 문제를 신고하세요.") }
 
     var sendgrid = require('../../libs/sendgrid')
