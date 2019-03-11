@@ -1,6 +1,7 @@
 var sql = require('../../config/dbtool');
 var SqlString = require('sqlstring');
 var sqlp = require('../../libs/sql-promise');
+var bcrypt = require('bcrypt')
 
 module.exports = async (req, res) => {
   var { pass1="", pass2="", code="" } = req.body
@@ -17,7 +18,8 @@ module.exports = async (req, res) => {
     req.session.error = "일치하는 계정이 없습니다."
     return res.redirect('/auth/login')
   } else { data = data[0] }
-  await sqlp(sql, SqlString.format("UPDATE users SET password=password(?) WHERE id=?", [pass1, data['id']]))
+  var hash = await bcrypt.hash(pass1, 10)
+  await sqlp(sql, SqlString.format("UPDATE users SET password=? WHERE id=?", [hash, data['id']]))
   await sqlp(sql, SqlString.format("DELETE FROM actionmail where code=?", [code]))
   req.session.error = "비밀번호가 업데이트되었습니다."
   return res.redirect('/auth/login')
