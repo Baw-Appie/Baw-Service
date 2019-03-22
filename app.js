@@ -32,8 +32,7 @@ Array.prototype.forEachAsync = async function(cb){
 }
 var version = require('child_process').execSync('git rev-parse HEAD').toString().trim()
 console.log("[Baw Service Server] Baw Service "+version+" Starting..")
-
-if(server_settings.sentry_error == true) { Raven.config(server_settings.sentry, { release: version }).install() }
+if(server_settings.sentry_error == true) { Raven.config(server_settings.sentry, { release: version, captureUnhandledRejections: true }).install() }
 
 app.set('view engine', 'pug');
 app.set('views', './views');
