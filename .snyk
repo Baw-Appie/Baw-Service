@@ -1,5 +1,5 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
-version: v1.12.0
+version: v1.13.3
 ignore: {}
 # patches apply the minimum changes required to fix a vulnerability
 patch:
@@ -52,3 +52,22 @@ patch:
         patched: '2018-08-01T16:12:15.069Z'
     - npm > node-gyp > request > hawk > cryptiles > boom > hoek:
         patched: '2018-08-01T16:12:15.069Z'
+  SNYK-JS-AXIOS-174505:
+    - messaging-api-telegram > axios:
+        patched: '2019-05-06T02:11:53.530Z'
+    - firebase-admin > @google-cloud/firestore > google-gax > google-auth-library > axios:
+        patched: '2019-05-06T02:11:53.530Z'
+    - firebase-admin > @google-cloud/firestore > google-gax > google-auth-library > gcp-metadata > axios:
+        patched: '2019-05-06T02:11:53.530Z'
+    - firebase-admin > @google-cloud/storage > @google-cloud/common > google-auto-auth > gcp-metadata > axios:
+        patched: '2019-05-06T02:11:53.530Z'
+    - firebase-admin > @google-cloud/storage > gcs-resumable-upload > google-auto-auth > gcp-metadata > axios:
+        patched: '2019-05-06T02:11:53.530Z'
+    - firebase-admin > @google-cloud/storage > @google-cloud/common > google-auto-auth > google-auth-library > axios:
+        patched: '2019-05-06T02:11:53.530Z'
+    - firebase-admin > @google-cloud/storage > gcs-resumable-upload > google-auto-auth > google-auth-library > axios:
+        patched: '2019-05-06T02:11:53.530Z'
+    - firebase-admin > @google-cloud/storage > @google-cloud/common > google-auto-auth > google-auth-library > gcp-metadata > axios:
+        patched: '2019-05-06T02:11:53.530Z'
+    - firebase-admin > @google-cloud/storage > gcs-resumable-upload > google-auto-auth > google-auth-library > gcp-metadata > axios:
+        patched: '2019-05-06T02:11:53.530Z'

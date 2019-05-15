@@ -33,7 +33,7 @@
     "request-promise": "^4.2.2",
     "rss-to-json": "^1.0.4",
     "sharp": "^0.21.0",
-    "snyk": "^1.124.1",
+    "snyk": "^1.161.1",
     "spdy": "^4.0.0",
     "sqlstring": "^2.3.1",
     "sqreen": "^1.23.0",
@@ -48,7 +48,8 @@
     "start": "node app",
     "dev:start": "nodemon app",
     "snyk-protect": "snyk protect",
-    "prepare": "npm run snyk-protect"
+    "prepare": "npm run snyk-protect",
+    "prepublish": "npm run snyk-protect"
   },
   "author": "Baw_Appie",
   "license": "MPL-2.0",
