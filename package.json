@@ -33,7 +33,7 @@
     "request-promise": "^4.2.2",
     "rss-to-json": "^1.0.4",
     "sharp": "^0.21.0",
-    "snyk": "^1.161.1",
+    "snyk": "^1.165.0",
     "spdy": "^4.0.0",
     "sqlstring": "^2.3.1",
     "sqreen": "^1.23.0",
