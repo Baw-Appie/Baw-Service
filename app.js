@@ -139,7 +139,7 @@ app.post('/tools/:tool', require('./routes/tools/use_complete'))
 app.all('/api', require('./routes/api/index'))
 app.post('/api/:service/edit', require('./routes/api/edit_complete'))
 app.get('/api/:service/edit', require('./routes/api/edit_view'))
-app.post('/api/Browser/:type', require('./routes/api/Browser'))
+app.post('/api/Browser/:type', require('./routes/api/browser'))
 
 // API 요청 처리
 app.all(['/api/serveripcheck.php', '/API/GetServerIP'], (req,res) => res.send(server_settings.server_ip))
