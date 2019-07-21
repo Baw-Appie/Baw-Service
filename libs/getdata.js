@@ -25,7 +25,7 @@ module.exports = async (req) => {
     var a1_data = countdata(await sqlp(sql, SqlString.format('SELECT * from service WHERE service=1 AND owner=? AND status=1', [req.user.id])), 'bal', /,/gi, true)
     var a2_data = countdata(await sqlp(sql, SqlString.format('SELECT * from service WHERE service=1 AND owner=? AND status=1 AND date > DATE_ADD(now(), INTERVAL -1 month)', [req.user.id])), 'bal', /,/gi, true)
     var a3_data = (await sqlp(sql, SqlString.format('SELECT * from service WHERE service=1 AND owner=? AND status=2', [req.user.id]))).length
-    var n1_req = await sqlp(sql, SqlString.format('SELECT * FROM AutoCharge WHERE id=?', [req.user.id]))
+    var n1_req = await sqlp(sql, SqlString.format('SELECT * FROM autocharge WHERE id=?', [req.user.id]))
     if(n1_req.length == 0) {
       var n1_data = true
     } else var n1_data = false
