@@ -1,5 +1,5 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
-version: v1.13.3
+version: v1.14.1
 ignore: {}
 # patches apply the minimum changes required to fix a vulnerability
 patch:
@@ -71,3 +71,48 @@ patch:
         patched: '2019-05-15T22:15:56.789Z'
     - firebase-admin > @google-cloud/storage > gcs-resumable-upload > google-auto-auth > google-auth-library > gcp-metadata > axios:
         patched: '2019-05-15T22:15:56.789Z'
+  SNYK-JS-LODASH-567746:
+    - node-google-translate-skidz > lodash:
+        patched: '2020-05-01T02:14:17.544Z'
+    - snyk > lodash:
+        patched: '2020-05-01T02:14:17.544Z'
+    - request-promise > request-promise-core > lodash:
+        patched: '2020-05-01T02:14:17.544Z'
+    - snyk > @snyk/dep-graph > lodash:
+        patched: '2020-05-01T02:14:17.544Z'
+    - snyk > inquirer > lodash:
+        patched: '2020-05-01T02:14:17.544Z'
+    - snyk > snyk-config > lodash:
+        patched: '2020-05-01T02:14:17.544Z'
+    - snyk > snyk-mvn-plugin > lodash:
+        patched: '2020-05-01T02:14:17.544Z'
+    - snyk > snyk-nodejs-lockfile-parser > lodash:
+        patched: '2020-05-01T02:14:17.544Z'
+    - snyk > snyk-nuget-plugin > lodash:
+        patched: '2020-05-01T02:14:17.544Z'
+    - firebase-admin > @google-cloud/storage > async > lodash:
+        patched: '2020-05-01T02:14:17.544Z'
+    - node-google-translate-skidz > request-promise > request-promise-core > lodash:
+        patched: '2020-05-01T02:14:17.544Z'
+    - snyk > @snyk/dep-graph > graphlib > lodash:
+        patched: '2020-05-01T02:14:17.544Z'
+    - snyk > snyk-go-plugin > graphlib > lodash:
+        patched: '2020-05-01T02:14:17.544Z'
+    - snyk > snyk-nodejs-lockfile-parser > graphlib > lodash:
+        patched: '2020-05-01T02:14:17.544Z'
+    - snyk > snyk-php-plugin > @snyk/composer-lockfile-parser > lodash:
+        patched: '2020-05-01T02:14:17.544Z'
+    - firebase-admin > @google-cloud/firestore > google-gax > @grpc/proto-loader > lodash:
+        patched: '2020-05-01T02:14:17.544Z'
+    - pug > pug-code-gen > constantinople > babel-types > lodash:
+        patched: '2020-05-01T02:14:17.544Z'
+    - pug > pug-filters > constantinople > babel-types > lodash:
+        patched: '2020-05-01T02:14:17.544Z'
+    - firebase-admin > @google-cloud/storage > @google-cloud/common > google-auto-auth > async > lodash:
+        patched: '2020-05-01T02:14:17.544Z'
+    - firebase-admin > @google-cloud/storage > gcs-resumable-upload > google-auto-auth > async > lodash:
+        patched: '2020-05-01T02:14:17.544Z'
+    - firebase-admin > @google-cloud/storage > @google-cloud/common > split-array-stream > async > lodash:
+        patched: '2020-05-01T02:14:17.544Z'
+    - pug > pug-code-gen > pug-attrs > constantinople > babel-types > lodash:
+        patched: '2020-05-01T02:14:17.544Z'
