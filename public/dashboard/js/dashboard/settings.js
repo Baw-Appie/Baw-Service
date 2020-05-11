@@ -53,7 +53,7 @@ $(document).on('pjax:error', function(xhr, textStatus, error, options) {
   }
   return false;
 });
-$.pjax.defaults.timeout = 1200
+$.pjax.defaults.timeout = 12000
 
 $('.uk-offcanvas .link').click(() => { UIkit.offcanvas('#navbar').hide(); })
 
