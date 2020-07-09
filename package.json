@@ -22,7 +22,7 @@
     "mysql": "^2.16.0",
     "node-excel-export": "^1.4.4",
     "node-google-translate-skidz": "^1.1.2",
-    "npm": "^6.6.0",
+    "npm": "^6.14.6",
     "passport": "^0.4.0",
     "passport-google-oauth2": "^0.1.6",
     "passport-kakao": "0.0.5",
